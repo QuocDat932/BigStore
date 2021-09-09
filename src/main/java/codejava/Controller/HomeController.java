@@ -42,4 +42,9 @@ public class HomeController {
 		return "home/index";
 	}
 	
+	@GetMapping("/home/codes")
+	public String doGetCodes() {
+		return "home/codes";
+	}
+	
 }
