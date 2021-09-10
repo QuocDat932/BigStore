@@ -46,5 +46,53 @@ public class HomeController {
 	public String doGetCodes() {
 		return "home/codes";
 	}
+	@GetMapping("/home/register")
+	public String doGetRegister() {
+		return "home/register";
+	}
 	
+	@GetMapping("/home/about")
+	public String doGetAbout() {
+		return "home/about";
+	}
+	@GetMapping("/home/shipping")
+	public String doGetShipping() {
+		return "home/shipping";
+	}
+	@GetMapping("/home/kitchen")
+	public String doGetKitchen() {
+		return "home/kitchen";
+	}
+	@GetMapping("/home/care")
+	public String doGetCare() {
+		return "home/care";
+	}
+	@GetMapping("/home/hold")
+	public String doGetHold() {
+		return "home/hold";
+	}
+	@GetMapping("/home/contact")
+	public String doGetContact() {
+		return "home/contact";
+	}
+	@GetMapping("/home/single")
+	public String doGetSingle() {
+		return "home/single";
+	}
+	@GetMapping("/home/terms")
+	public String doGetTerms() {
+		return "home/terms";
+	}
+	@GetMapping("/home/faqs")
+	public String doGetFaqs() {
+		return "home/faqs";
+	}
+	@GetMapping("/home/offer")
+	public String doGetOffer() {
+		return "home/offer";
+	}
+	@GetMapping("/home/wishlist")
+	public String doGetWishlist() {
+		return "home/wishlist";
+	}
 }
