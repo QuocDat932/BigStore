@@ -3,7 +3,11 @@ package codejava.Controller;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.servlet.ServletContext;
+
 import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.security.authentication.AuthenticationManager;
+//import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,13 +15,33 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import codejava.Entity.Users;
+//import codejava.jwt.JwtTokenProvider;
+import codejava.Services.CartService;
+import codejava.Services.ProductsServices;
+import codejava.Services.RolesServices;
+import codejava.Services.UsersService;
+
 import codejava.Entity.userObj;
 import codejava.Services.UserServices;
 
 @Controller
 public class HomeController {
 	@Autowired
-	private UserServices repo;
+	ServletContext app;
+	@Autowired
+	private UsersService userservices;
+
+	@Autowired
+	private CartService cartServices;
+	@Autowired
+	private RolesServices rolesservices;
+
+//	@Autowired
+//	private AuthenticationManager  authenManager;
+//	@Autowired
+//    private JwtTokenProvider tokenProvider;
+	
 	
 	@GetMapping({"/home","/"})
 	public String doGetController(Model model) {
@@ -47,7 +71,8 @@ public class HomeController {
 		return "home/codes";
 	}
 	@GetMapping("/home/register")
-	public String doGetRegister() {
+	public String doGetRegister(Model model) {
+		model.addAttribute("newUser", new Users());
 		return "home/register";
 	}
 	
