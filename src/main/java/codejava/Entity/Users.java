@@ -24,12 +24,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Entity
-@Table(name ="users")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Entity
+@Table(name ="users")
 public class Users implements Serializable {
 	/**
 	 * 
@@ -47,26 +47,30 @@ public class Users implements Serializable {
 	@Column(name ="username")
 	private String username;
 	
-	@Column(name="hashPassword")
-	private String hashPassword;
+	@Column(name="hashpassword")
+	private String hashpassword;
 	
 	@Column(name="email")
 	private String email;
 	
-	@Column(name="createDate")
+	@Column(name="createdate")
 	@CreationTimestamp
 	//private Timestamp createDate;
-	private Timestamp createDate;
-	@Column(name="imgUrl")
-	private String imgUrl;
+	private Timestamp createdate;
+	@Column(name="imgurl")
+	private String imgurl;
 	
-	@Column(name="isDeleted")
-	private Boolean isDeleted;
+	@Column(name="isdeleted")
+	private Boolean isdeleted;
 	
 	// Khoa Ngoai
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
 	@JoinColumn(name = "roleId", referencedColumnName = "id")
 	@JsonIgnoreProperties(value = {"applications", "hibernateLazyInitializer"})
 	private roles role;
+	
+	
+	
+	
 }
 

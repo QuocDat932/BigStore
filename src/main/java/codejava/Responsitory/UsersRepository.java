@@ -12,7 +12,7 @@ import codejava.Entity.*;
 public interface UsersRepository extends JpaRepository<Users, Long>{
 	Users findByfullname(String fullname);
 	
-	Users findByUsernameAndHashPassword(String username, String hashpassword);
+	Users findByUsernameAndHashpassword(String username, String hashpassword);
 	
 	Users findByEmail(String email);
 	

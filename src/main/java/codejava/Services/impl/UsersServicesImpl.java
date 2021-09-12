@@ -34,7 +34,7 @@ public class UsersServicesImpl implements UsersService{
 	@Override
 	public Users findByUsernameAndHashPassword(String username, String hashpassword) {
 		// TODO Auto-generated method stub
-		return repo.findByUsernameAndHashPassword(username, hashpassword);
+		return repo.findByUsernameAndHashpassword(username, hashpassword);
 	}
 	@Override
 	public Users findByEmail(String email) {
