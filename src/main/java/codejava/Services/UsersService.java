@@ -13,7 +13,9 @@ public interface UsersService {
 	
 	Users findByEmail(String email);
 	
-	void addUser(Users user);
+
+	
+	Users addUser(Users user);
 	
 	List<Users> UserHaveRoles(List<roles> roles);
 	

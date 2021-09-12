@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name="unit_types")
+@Table(schema = "System",name="unit_types")
 @Getter
 @Setter
 @NoArgsConstructor

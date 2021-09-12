@@ -18,7 +18,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 @Entity
-@Table(name="order_details")
+@Table(schema = "System", name="order_details")
 @Getter
 @Setter
 @NoArgsConstructor

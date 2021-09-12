@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name ="types_of_product")
+@Table(schema = "System",name ="types_of_product")
 @Getter
 @Setter
 @NoArgsConstructor

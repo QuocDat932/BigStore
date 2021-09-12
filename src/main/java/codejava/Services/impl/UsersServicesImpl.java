@@ -43,13 +43,8 @@ public class UsersServicesImpl implements UsersService{
 	}
 	
 	@Override
-	public void addUser(Users user) {
-		repo.saveAndFlush(user);
-		/*for(Users s : users) {
-			System.out.println("Name: "+ s.getFullname());
-			System.out.println("Email: "+ s.getEmail());
-		}*/
-		
+	public Users addUser(Users user) {
+		return repo.save(user);
 	}
 	
 	@Override		   
@@ -72,4 +67,6 @@ public class UsersServicesImpl implements UsersService{
 		repo.delete(user);
 		System.out.println("Delete Thành Công!");
 	}
+
+	
 }

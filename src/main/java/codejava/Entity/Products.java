@@ -23,7 +23,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "products")
+@Table(schema = "System",name = "products")
 public class Products implements Serializable{
 	private static final long serialVersionUID = 1L;
 	

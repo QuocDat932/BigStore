@@ -13,6 +13,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -29,7 +30,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name ="users")
+@Table(schema = "System" , name ="users")
 public class Users implements Serializable {
 	/**
 	 * 
@@ -37,8 +38,9 @@ public class Users implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name ="id")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "identity_users")
+    @SequenceGenerator(sequenceName = "identity_users", allocationSize = 1, name = "identity_users")
 	private Long id;
 	
 	@Column(name = "fullname")
@@ -53,10 +55,10 @@ public class Users implements Serializable {
 	@Column(name="email")
 	private String email;
 	
-	@Column(name="createdate")
-	@CreationTimestamp
+//	@Column(name="createdate")
+//	@CreationTimestamp
 	//private Timestamp createDate;
-	private Timestamp createdate;
+//	private Timestamp createdate;
 	@Column(name="imgurl")
 	private String imgurl;
 	
@@ -65,7 +67,7 @@ public class Users implements Serializable {
 	
 	// Khoa Ngoai
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
-	@JoinColumn(name = "roleId", referencedColumnName = "id")
+	@JoinColumn(name = "roleid", referencedColumnName = "id")
 	@JsonIgnoreProperties(value = {"applications", "hibernateLazyInitializer"})
 	private roles role;
 	
