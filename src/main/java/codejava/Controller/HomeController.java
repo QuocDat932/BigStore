@@ -17,13 +17,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import codejava.Entity.Users;
 //import codejava.jwt.JwtTokenProvider;
-import codejava.Services.CartService;
-import codejava.Services.ProductsServices;
-import codejava.Services.RolesServices;
+//import codejava.Services.CartService;
+//import codejava.Services.ProductsServices;
+//import codejava.Services.RolesServices;
 import codejava.Services.UsersService;
 
 import codejava.Entity.userObj;
-import codejava.Services.UserServices;
+import codejava.Services.UsersService;
 
 @Controller
 public class HomeController {
@@ -32,10 +32,10 @@ public class HomeController {
 	@Autowired
 	private UsersService userservices;
 
-	@Autowired
-	private CartService cartServices;
-	@Autowired
-	private RolesServices rolesservices;
+//	@Autowired
+//	private CartService cartServices;
+//	@Autowired
+//	private RolesServices rolesservices;
 
 //	@Autowired
 //	private AuthenticationManager  authenManager;
