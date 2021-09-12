@@ -205,6 +205,7 @@
       $cartTable.empty();
 
       var products = ProductManager.getAllProducts();
+      console.log(products);
       $.each(products, function(){
         var total = this.quantity * this.price;
         $cartTable.append(
