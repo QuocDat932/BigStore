@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -12,27 +14,25 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+@Entity
+@Table(schema = "SYSTEM",name="unit_types")
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
-@Entity
-@Table(schema = "SYSTEM", name = "SYS_USERS")
-public class userObj implements Serializable{
-	 /**
+@AllArgsConstructor
+public class UnitType implements Serializable{
+	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	 @Id
-	 @Column(name = "userid")
-	 private int userid ;
-	 
-	 @Column(name = "username")
-	 private String username;
-	 
-	 @Column(name = "password")
-	 private String password;
-	 
-	 @Column(name = "active")
-	 private int active;
+
+	@Id
+	@Column(name="id")
+	private int id;
+	
+	@Column(name="description")
+	private String description;
+	
+	@Column(name="isdeleted")
+	private boolean isDeleted;
 }
