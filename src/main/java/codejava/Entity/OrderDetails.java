@@ -18,7 +18,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 @Entity
+<<<<<<< HEAD
 @Table(schema = "System", name="order_details")
+=======
+@Table(schema = "SYSTEM",name="order_details")
+>>>>>>> d621f6800c23e23386ea6d0c49b36e0400ec41fb
 @Getter
 @Setter
 @NoArgsConstructor
@@ -29,9 +33,14 @@ public class OrderDetails implements Serializable{/**
 	private static final long serialVersionUID = 1L;
 	
 	@Id
+<<<<<<< HEAD
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="id")
 	private Long id;
+=======
+	@Column(name="id")
+	private int id;
+>>>>>>> d621f6800c23e23386ea6d0c49b36e0400ec41fb
 	
 	
 	@Column(name="price")
@@ -41,11 +50,19 @@ public class OrderDetails implements Serializable{/**
 	private Integer quantity;
 	
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+<<<<<<< HEAD
 	@JoinColumn(name = "orderId", referencedColumnName = "id")
 	private Orders order;
 	
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
 	@JoinColumn(name="productId", referencedColumnName = "id")
+=======
+	@JoinColumn(name = "orderid", referencedColumnName = "id")
+	private Orders order;
+	
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+	@JoinColumn(name="productid", referencedColumnName = "id")
+>>>>>>> d621f6800c23e23386ea6d0c49b36e0400ec41fb
 	private Products product;
 	
 }

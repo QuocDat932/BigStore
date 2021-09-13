@@ -3,8 +3,12 @@ package codejava.Controller;
 import java.util.Iterator;
 import java.util.List;
 
+<<<<<<< HEAD
 import javax.servlet.ServletContext;
 
+=======
+import org.apache.tomcat.jni.User;
+>>>>>>> d621f6800c23e23386ea6d0c49b36e0400ec41fb
 import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.security.authentication.AuthenticationManager;
 //import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -16,6 +20,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import codejava.Entity.Users;
+<<<<<<< HEAD
 //import codejava.jwt.JwtTokenProvider;
 //import codejava.Services.CartService;
 //import codejava.Services.ProductsServices;
@@ -24,6 +29,9 @@ import codejava.Services.UsersService;
 
 import codejava.Entity.userObj;
 import codejava.Services.UsersService;
+=======
+import codejava.Services.UserServices;
+>>>>>>> d621f6800c23e23386ea6d0c49b36e0400ec41fb
 
 @Controller
 public class HomeController {
@@ -45,18 +53,27 @@ public class HomeController {
 	
 	@GetMapping({"/home","/"})
 	public String doGetController(Model model) {
+		try {
+		List<Users> list = repo.findAll();
+		list.forEach(us ->{
+			System.out.println(""+us.getUsername());
+			System.out.println(""+us.getRole());
+		} );}catch(Exception e) {
+			System.out.println( e);
+		}
 		
 		return "home/index";
 	};
 	@GetMapping("/home/login")
 	public String doGetLogin(Model model) {
-		model.addAttribute("user", new userObj(0,"username","PassWord",0));
+//		model.addAttribute("user", new User(0,"username","PassWord",0));
 		return "home/login";
 	};
 	@PostMapping("/home/login")
-	public String doPostLogin(Model model, @ModelAttribute("user") userObj user) {
-		System.out.println("UserName : "+user.getUsername());
-		System.out.println("Password : "+user.getPassword());
+	public String doPostLogin(Model model, @ModelAttribute("user") Users user) {
+//		System.out.println("UserName : "+user.getUsername());
+//		System.out.println("Password : "+user.getHashPassword());
+//		
 		return "redirect:/home";
 	}
 	@GetMapping("/remove")

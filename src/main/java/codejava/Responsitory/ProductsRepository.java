@@ -10,7 +10,11 @@ import org.springframework.stereotype.Repository;
 import codejava.Entity.*;
 
 @Repository								
+<<<<<<< HEAD
 public interface ProductsRepository extends JpaRepository<Products, Long>{
+=======
+public interface ProductsRepository extends JpaRepository<Products, Integer>{
+>>>>>>> d621f6800c23e23386ea6d0c49b36e0400ec41fb
 	//List<Products> findByTypeId(Integer TypeId);
 	@Query(value = " SELECT * FROM products Where isDeleted = 0", nativeQuery = true)
 	List<Products> findAllAvailable();
@@ -24,7 +28,11 @@ public interface ProductsRepository extends JpaRepository<Products, Long>{
 	
 	@Modifying(clearAutomatically = true)
 	@Query(value=" UPDATE products SET quantity = ?1 Where id = ?2", nativeQuery = true)
+<<<<<<< HEAD
 	void updateQuantity(Integer quantity, Long ID);
+=======
+	void updateQuantity(Integer quantity, Integer ID);
+>>>>>>> d621f6800c23e23386ea6d0c49b36e0400ec41fb
 	
 /*
  * ----------------------------------->1

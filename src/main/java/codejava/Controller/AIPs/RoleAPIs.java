@@ -15,7 +15,6 @@ import codejava.Constains.CRUD;
 @RestController
 public class RoleAPIs {
 	
-
 	@Autowired
 	private RolesRepository RS;
 	

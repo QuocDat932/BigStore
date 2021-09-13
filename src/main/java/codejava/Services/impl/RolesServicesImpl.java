@@ -7,7 +7,10 @@ import org.springframework.stereotype.Service;
 
 import codejava.Entity.roles;
 import codejava.Responsitory.RolesRepository;
+<<<<<<< HEAD
 import codejava.Responsitory.UsersRepository;
+=======
+>>>>>>> d621f6800c23e23386ea6d0c49b36e0400ec41fb
 import codejava.Services.RolesServices;
 @Service
 public class RolesServicesImpl implements RolesServices {
@@ -23,9 +26,12 @@ public class RolesServicesImpl implements RolesServices {
 		// TODO Auto-generated method stub
 		return rolesRepo.findById(Roles_ID);
 	}
+<<<<<<< HEAD
 	@Override
 	public roles add(roles r) {
 		
 		return null;
 	}
+=======
+>>>>>>> d621f6800c23e23386ea6d0c49b36e0400ec41fb
 }

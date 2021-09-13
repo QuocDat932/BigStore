@@ -16,8 +16,13 @@ public class cartDetailDto implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+<<<<<<< HEAD
 	private Long idOrder;
 	private Long idProduct;
+=======
+	private int idOrder;
+	private int idProduct;
+>>>>>>> d621f6800c23e23386ea6d0c49b36e0400ec41fb
 	private String name;
 	private String slug;
 	private Double price;

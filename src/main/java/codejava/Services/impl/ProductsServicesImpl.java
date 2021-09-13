@@ -17,6 +17,7 @@ import codejava.Services.ProductsServices;
 public class ProductsServicesImpl implements ProductsServices{
 	@Autowired
 	private ProductsRepository repo;
+<<<<<<< HEAD
 
 	@Override
 	public List<Products> findAllAvailable() {
@@ -64,5 +65,56 @@ public class ProductsServicesImpl implements ProductsServices{
 	}
 	
 	
+=======
+	
+	@Override
+	public List<Products> findAllAvailable() {
+		// TODO Auto-generated method stub
+		return repo.findAllAvailable();
+	}
+	
+	@Override
+	public Products product(int typeID) {
+		// TODO Auto-generated method stub
+		Optional<Products> product = repo.findById(typeID);
+		return product.isPresent() ? product.get() : null ;
+	}
+	
+	@Override
+	public List<Products> findByTypeId(Integer typeID) {
+		// TODO Auto-generated method stub
+		return repo.findByTypeId(typeID);
+	}
+	@Override
+	public List<Products> findByTypeOfID_id(Integer id) {
+		// TODO Auto-generated method stub
+		return repo.findByTypeOfProduct_Id(id);
+	}
+	@Override
+	public Products findByProductsSlug(String slug) {
+		// TODO Auto-generated method stub
+		Optional<Products> result = repo.findBySlug(slug);
+		return result.isPresent() ? result.get() : null;
+	}
+
+	@Override
+	public Products findById(int ID) {
+		// TODO Auto-generated method stub
+		Optional<Products> result = repo.findById(ID);
+		return result.isPresent() ? result.get() : null;
+	}
+	@Override
+	public void SaveAndUpdate(Products product) {
+		// TODO Auto-generated method stub
+		repo.saveAndFlush(product);
+	}
+	
+	@Override
+	@Transactional
+	public void updateQuantity(Integer quantity, Integer id) {
+		// TODO Auto-generated method stub
+		repo.updateQuantity(quantity, id);
+	}
+>>>>>>> d621f6800c23e23386ea6d0c49b36e0400ec41fb
 	
 }
