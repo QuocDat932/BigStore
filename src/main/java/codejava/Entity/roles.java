@@ -31,7 +31,7 @@ public class roles implements Serializable{
 	
 	@Id
 	@Column(name ="id")
-	private Integer id; // primary key
+	private int id; // primary key
 	
 	@Column(name ="description")
 	private String description;

@@ -25,11 +25,13 @@ public class RoleAPIs {
 	}
 	@GetMapping("/apis/role/create")
 	public  ResponseEntity<?> getAdd(){
-		roles r = new roles();
-		r.setDescription("hi");
+	
 		try {
+			roles r = new roles();
+			r.setDescription("hi");
 			RS.save(r);
-			return ResponseEntity.ok(r);
+			System.out.println(CRUD.CREATE_ACTION);
+			return ResponseEntity.ok(RS.findById(r.getId()));
 		} catch (Exception e) {
 			System.out.println("ERROR : "+e);
 			return ResponseEntity.ok(CRUD.ERROR_ACTION);
@@ -43,6 +45,7 @@ public class RoleAPIs {
 			System.out.println(CRUD.DELETE_ACTION);
 			return ResponseEntity.ok(RS.findById(id));
 		}{	
+			System.out.println(CRUD.ERROR_ID);
 			return ResponseEntity.ok(CRUD.ERROR_ACTION);
 		}
 	}
@@ -52,8 +55,9 @@ public class RoleAPIs {
 		if(!Objects.isNull(r)) {
 			RS.delete(r);
 			System.out.println(CRUD.DELETE_ACTION);
-			return ResponseEntity.ok(RS.findById(id));
+			return ResponseEntity.ok(RS.findAll());
 		}{	
+			System.out.println(CRUD.ERROR_ID);
 			return ResponseEntity.ok(CRUD.ERROR_ACTION);
 		}
 		
