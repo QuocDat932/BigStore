@@ -7,13 +7,21 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import codejava.Entity.userObj;
+import codejava.Entity.Users;
+import codejava.Entity.roles;
+
+import codejava.Entity.Users;
 @Repository
-public interface Userrepository extends JpaRepository<userObj, Integer>{
-	List<userObj> findAll();
+public interface Userrepository extends JpaRepository<Users, Integer>{
+Users findByfullname(String fullname);
 	
-	@Query(value = "SELECT * FROM SYSTEM.SYS_USERS WHERE 1=?1", nativeQuery = true)
-	List<userObj> all(int required1);
+	Users findByUsernameAndHashPassword(String username, String hashpassword);
 	
-	Optional<userObj> findById(int id);
+	Users findByEmail(String email);
+	
+	List<Users> findByRoleIn(List<roles> roles);
+	
+	/*@Query(value = "SELECT hashPassword FROM users WHERE username = ?1", nativeQuery = true)
+	Optional<Users> findby(String hashPassword);*/
+	Optional<Users> findByUsername(String username);
 }
