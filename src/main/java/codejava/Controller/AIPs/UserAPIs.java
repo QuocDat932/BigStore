@@ -49,7 +49,7 @@ public class UserAPIs {
 		
 		Users u = US.findByid(id);
 		if(!Objects.isNull(u)){
-			return ResponseEntity.ok(US.findByid(id));
+			return ResponseEntity.ok(US.findAll());
 		}{
 			return ResponseEntity.ok(CRUD.ERROR_ACTION);
 		}
