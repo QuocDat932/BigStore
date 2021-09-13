@@ -29,9 +29,9 @@ public class RoleAPIs {
 		try {
 			roles r = new roles();
 			r.setDescription("hi");
-			RS.save(r);
+			r = RS.save(r);
 			System.out.println(CRUD.CREATE_ACTION);
-			return ResponseEntity.ok(RS.findById(r.getId()));
+			return ResponseEntity.ok(r);
 		} catch (Exception e) {
 			System.out.println("ERROR : "+e);
 			return ResponseEntity.ok(CRUD.ERROR_ACTION);

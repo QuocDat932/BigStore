@@ -35,10 +35,10 @@ public class UserAPIs {
 			u.setHashpassword("123");
 			u.setRole(RS.findById(1));
 			u.setIsdeleted(false);
-			US.addUser(u);
+			u = US.addUser(u);
 			
 			System.out.println(CRUD.CREATE_ACTION);
-			return ResponseEntity.ok(US.findByid(u.getId()));
+			return ResponseEntity.ok(u);
 		} catch (Exception e) {
 			System.out.println("ERROR : "+e);
 			return ResponseEntity.ok(CRUD.ERROR_ACTION);
