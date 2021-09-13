@@ -36,8 +36,9 @@ public class UserAPIs {
 			u.setRole(RS.findById(1));
 			u.setIsdeleted(false);
 			US.addUser(u);
+			
 			System.out.println(CRUD.CREATE_ACTION);
-			return ResponseEntity.ok(u);
+			return ResponseEntity.ok(US.findByid(u.getId()));
 		} catch (Exception e) {
 			System.out.println("ERROR : "+e);
 			return ResponseEntity.ok(CRUD.ERROR_ACTION);
@@ -49,7 +50,7 @@ public class UserAPIs {
 		
 		Users u = US.findByid(id);
 		if(!Objects.isNull(u)){
-			return ResponseEntity.ok(US.findAll());
+			return ResponseEntity.ok(u);
 		}{
 			return ResponseEntity.ok(CRUD.ERROR_ACTION);
 		}
@@ -73,9 +74,8 @@ public class UserAPIs {
 		
 		Users u = US.findByUsernameAndHashpassword(U, P);
 		if(!Objects.isNull(u)){
-			US.delete(u);
 			System.out.println(CRUD.SELECT_ACTION);
-			return ResponseEntity.ok(US.findAll());
+			return ResponseEntity.ok(u);
 		}{
 			System.out.println("Error! Could not  Find This User ID !".toUpperCase());
 			return ResponseEntity.ok(CRUD.ERROR_ACTION);
