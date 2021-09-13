@@ -27,7 +27,6 @@ public class UserAPIs {
 	
 	@GetMapping("/apis/user/create")
 	public  ResponseEntity<?> getCreateUser(){
-		
 		try {
 			Users u = new Users();
 			u.setUsername("T3");
@@ -44,6 +43,7 @@ public class UserAPIs {
 			return ResponseEntity.ok(CRUD.ERROR_ACTION);
 		}
 	}
+	
 	@GetMapping("/apis/user/{id}")
 	public  ResponseEntity<?> getById(@PathVariable long id){
 		
@@ -54,6 +54,7 @@ public class UserAPIs {
 			return ResponseEntity.ok(CRUD.ERROR_ACTION);
 		}
 	}
+	
 	@GetMapping("/apis/user/{id}/delete")
 	public  ResponseEntity<?> getDelete(@PathVariable long id){
 		
@@ -61,6 +62,19 @@ public class UserAPIs {
 		if(!Objects.isNull(u)){
 			US.delete(u);
 			System.out.println("Deleted!");
+			return ResponseEntity.ok(US.findAll());
+		}{
+			System.out.println("Error! Could not  Find This User ID !".toUpperCase());
+			return ResponseEntity.ok(CRUD.ERROR_ACTION);
+		}
+	}
+	@GetMapping("/apis/user/UvsP/{U}/{P}")
+	public  ResponseEntity<?> getUvsP(@PathVariable String U,@PathVariable String P){
+		
+		Users u = US.findByUsernameAndHashpassword(U, P);
+		if(!Objects.isNull(u)){
+			US.delete(u);
+			System.out.println(CRUD.SELECT_ACTION);
 			return ResponseEntity.ok(US.findAll());
 		}{
 			System.out.println("Error! Could not  Find This User ID !".toUpperCase());

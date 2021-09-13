@@ -9,7 +9,7 @@ public interface UsersService {
 	
 	Users findByid(Long id);
 	
-	Users findByUsernameAndHashPassword(String username, String hashpassword);
+	Users findByUsernameAndHashpassword(String username, String hashpassword);
 	
 	Users findByEmail(String email);
 	

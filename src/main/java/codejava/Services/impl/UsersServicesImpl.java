@@ -32,7 +32,7 @@ public class UsersServicesImpl implements UsersService{
 		return result.isPresent() ? result.get() : null;
 	}
 	@Override
-	public Users findByUsernameAndHashPassword(String username, String hashpassword) {
+	public Users findByUsernameAndHashpassword(String username, String hashpassword) {
 		// TODO Auto-generated method stub
 		return repo.findByUsernameAndHashpassword(username, hashpassword);
 	}
