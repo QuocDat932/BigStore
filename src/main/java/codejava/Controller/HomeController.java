@@ -3,14 +3,30 @@ package codejava.Controller;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpSession;
+
 import org.apache.tomcat.jni.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import codejava.Constant.SessionConst;
+import codejava.Entity.roles;
+import codejava.Jwt.CustomUser;
+import codejava.Jwt.JwtTokenProvider;
+import codejava.Services.CartService;
+import codejava.Services.ProductsServices;
+import codejava.Services.RolesServices;
 
 import codejava.Entity.Users;
 import codejava.Services.UserServices;
@@ -18,32 +34,68 @@ import codejava.Services.UserServices;
 @Controller
 public class HomeController {
 	@Autowired
-	private UserServices repo;
+	ServletContext app;
+	@Autowired
+	private UserServices userservices;
+	@Autowired
+	private ProductsServices productsservices;
+	BCryptPasswordEncoder bcrypt = new BCryptPasswordEncoder();
+	@Autowired
+	private CartService cartServices;
+	@Autowired
+	private RolesServices rolesservices;
+
+	@Autowired
+	private AuthenticationManager  authenManager;
+	@Autowired
+    private JwtTokenProvider tokenProvider;
 	
 	@GetMapping({"/home","/"})
 	public String doGetController(Model model) {
-		try {
-		List<Users> list = repo.findAll();
-		list.forEach(us ->{
-			System.out.println(""+us.getUsername());
-			System.out.println(""+us.getRole());
-		} );}catch(Exception e) {
-			System.out.println( e);
-		}
+	
+		
 		
 		return "home/index";
 	};
 	@GetMapping("/home/login")
 	public String doGetLogin(Model model) {
-//		model.addAttribute("user", new User(0,"username","PassWord",0));
+		model.addAttribute("user", new Users());
 		return "home/login";
 	};
 	@PostMapping("/home/login")
-	public String doPostLogin(Model model, @ModelAttribute("user") Users user) {
-//		System.out.println("UserName : "+user.getUsername());
-//		System.out.println("Password : "+user.getHashPassword());
-//		
-		return "redirect:/home";
+	public String doPostLogin(Model model, @ModelAttribute("user") @Validated Users userlogin,
+			HttpSession session) {
+		try {
+		UsernamePasswordAuthenticationToken authenInfo = new UsernamePasswordAuthenticationToken(
+				userlogin.getUsername(),userlogin.getHashPassword());
+		Authentication authentication = authenManager.authenticate(authenInfo);
+		//Authentication authentication = authenManager.authenticate(authenInfo);
+		CustomUser customUser = (CustomUser) authentication.getPrincipal();
+		Users userResponse = userservices.findByUserName(userlogin.getUsername());
+		System.out.println(userResponse.getFullname());
+		boolean loginStatus = bcrypt.matches(userlogin.getHashPassword(), userResponse.getHashPassword());
+		System.out.println(loginStatus);
+		if (userResponse != null && loginStatus) {
+			roles RoleUserResponse = userResponse.getRole();
+			// tạo Sesstion tại Server
+			session.setAttribute(SessionConst.CURRENT_USER, userResponse);
+			session.setAttribute(SessionConst.CURRENT_ROLE, RoleUserResponse);
+			System.out.println(RoleUserResponse.getDescription());
+			//model.addAttribute("role",RoleUserResponse);
+			//return "home/index3";
+			session.setAttribute(SessionConst.JWT, tokenProvider.generateToken(customUser));
+			session.setAttribute(SessionConst.CURRENT_USER, userResponse);
+			return "redirect:/home";
+		} else {
+			String message = "Login Failed, please try again!";
+			model.addAttribute("message", message);
+			System.out.println(message);
+			return "redirect:/home/login";
+		}}catch(Exception e ) {
+			e.printStackTrace();
+			return "redirect:/home/login";}
+		
+		
 	}
 	@GetMapping("/remove")
 	public String doGetRemove(Model model, @RequestParam("id") int userid) {

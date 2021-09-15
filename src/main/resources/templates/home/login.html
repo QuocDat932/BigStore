@@ -96,7 +96,7 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 						</div>
 						<div class="key">
 							<i class="fa fa-lock" aria-hidden="true"></i>
-							<input height="15" th:field="*{password}" placeholder="Password" type="Password"
+							<input height="15" th:field="*{hashPassword}" placeholder="Password" type="Password"
 								value="Password" name="Password" onfocus="this.value = '';"
 								onblur="if (this.value == '') {this.value = 'Password';}" required="">
 							<div class="clearfix"></div>
