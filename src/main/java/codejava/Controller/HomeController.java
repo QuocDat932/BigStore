@@ -79,18 +79,10 @@ public class HomeController {
 		//Authentication authentication = authenManager.authenticate(authenInfo);
 		CustomUser customUser = (CustomUser) authentication.getPrincipal();
 		Users userResponse = userservices.findByUserName(userlogin.getUsername());
-<<<<<<< HEAD
-		System.out.println(userResponse.getFullname());
-		boolean loginStatus = bcrypt.matches(userlogin.getHashPassword(), userResponse.getHashPassword());
-		System.out.println(loginStatus);
-		
-		if (userResponse != null && loginStatus) {
-=======
 //		System.out.println(userResponse.getFullname());
 //		boolean loginStatus = bcrypt.matches(userlogin.getHashPassword(), userResponse.getHashPassword());
 //		System.out.println(loginStatus);
 //		if (userResponse != null && loginStatus) {
->>>>>>> User1_1
 			roles RoleUserResponse = userResponse.getRole();
 			// tạo Sesstion tại Server
 			session.setAttribute(SessionConst.CURRENT_USER, userResponse);
@@ -134,13 +126,13 @@ public class HomeController {
 		return "home/register";
 	}
 	
-	@PostMapping("register")
+	@PostMapping("register")s
 	public String doPostRegistration(Model model, @ModelAttribute("newUser") @Validated Users newUser) {
 		try {
 			boolean check = false;
 			if(userservices.findByUserName(newUser.getUsername())!= null) {
 				check = true;
-				model.addAttribute("check", check);
+				model.addAttribute("check", checsk);
 				return "home/register";
 			}
 			System.out.println("1");
