@@ -86,10 +86,11 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 			<div class="main-agileits">
 				<div class="form-w3agile">
 					<h3>Login</h3>
+					<h6 th:text="${message}"></h6>
 					<form th:action="@{/home/login}" method="POST" th:object="${user}">
 						<div class="key">
 							<i class="fa fa-user-secret" aria-hidden="true"></i>
-							<input height="15" th:field="*{username}" placeholder="User" type="text" value="username"
+							<input height="15" th:field="*{username}"hashPassword placeholder="User" type="text" value="username"
 								name="username" onfocus="this.value = '';"
 								onblur="if (this.value == '') {this.value = 'username';}" required="">
 							<div class="clearfix"></div>
@@ -97,8 +98,8 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 						<div class="key">
 							<i class="fa fa-lock" aria-hidden="true"></i>
 							<input height="15" th:field="*{hashPassword}" placeholder="Password" type="Password"
-								value="Password" name="Password" onfocus="this.value = '';"
-								onblur="if (this.value == '') {this.value = 'Password';}" required="">
+								value="hashPassword" name="hashPassword" onfocus="this.value = '';"
+								onblur="if (this.value == '') {this.value = 'hashPassword';}" required="">
 							<div class="clearfix"></div>
 						</div>
 						<input type="submit" value="Login">
