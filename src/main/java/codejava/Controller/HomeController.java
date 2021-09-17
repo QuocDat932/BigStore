@@ -1,8 +1,5 @@
 package codejava.Controller;
 
-import java.util.Iterator;
-import java.util.List;
-
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
 
@@ -66,16 +63,18 @@ public class HomeController {
 	public String doPostLogin(Model model, @ModelAttribute("user") @Validated Users userlogin,
 			HttpSession session) {
 		try {
+			
 		UsernamePasswordAuthenticationToken authenInfo = new UsernamePasswordAuthenticationToken(
 				userlogin.getUsername(),userlogin.getHashPassword());
+		
 		Authentication authentication = authenManager.authenticate(authenInfo);
 		//Authentication authentication = authenManager.authenticate(authenInfo);
 		CustomUser customUser = (CustomUser) authentication.getPrincipal();
 		Users userResponse = userservices.findByUserName(userlogin.getUsername());
-		System.out.println(userResponse.getFullname());
-		boolean loginStatus = bcrypt.matches(userlogin.getHashPassword(), userResponse.getHashPassword());
-		System.out.println(loginStatus);
-		if (userResponse != null && loginStatus) {
+//		System.out.println(userResponse.getFullname());
+//		boolean loginStatus = bcrypt.matches(userlogin.getHashPassword(), userResponse.getHashPassword());
+//		System.out.println(loginStatus);
+//		if (userResponse != null && loginStatus) {
 			roles RoleUserResponse = userResponse.getRole();
 			// tạo Sesstion tại Server
 			session.setAttribute(SessionConst.CURRENT_USER, userResponse);
@@ -86,14 +85,19 @@ public class HomeController {
 			session.setAttribute(SessionConst.JWT, tokenProvider.generateToken(customUser));
 			session.setAttribute(SessionConst.CURRENT_USER, userResponse);
 			return "redirect:/home";
-		} else {
-			String message = "Login Failed, please try again!";
+//		} else {
+//			String message = "Sai mật khẩu !";
+//			model.addAttribute("message", message);
+//			System.out.println(message);
+//			return "/home/login";
+//		}
+			}catch(Exception e ) {
+			e.printStackTrace();
+			String message = "Error! Missing fail";
 			model.addAttribute("message", message);
 			System.out.println(message);
-			return "redirect:/home/login";
-		}}catch(Exception e ) {
-			e.printStackTrace();
-			return "redirect:/home/login";}
+			return "/home/login";
+			}
 		
 		
 	}
