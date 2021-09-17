@@ -66,5 +66,11 @@ public class ProductsServicesImpl implements ProductsServices{
 		// TODO Auto-generated method stub
 		repo.updateQuantity(quantity, id);
 	}
+
+	@Override
+	public List<Products> findAll() {
+		// TODO Auto-generated method stub
+		return repo.findAll();
+	}
 	
 }

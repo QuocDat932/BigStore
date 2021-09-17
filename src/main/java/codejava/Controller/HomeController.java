@@ -20,6 +20,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import codejava.Dto.cartDto;
+import codejava.Entity.Products;
+
 import codejava.Constant.SessionConst;
 import codejava.Entity.roles;
 import codejava.Jwt.CustomUser;
@@ -51,12 +54,17 @@ public class HomeController {
     private JwtTokenProvider tokenProvider;
 	
 	@GetMapping({"/home","/"})
-	public String doGetController(Model model) {
-	
-		
-		
+	public String doGetController(Model model,HttpSession session) {
+		cartDto currentCart = (cartDto) session.getAttribute("currentCart");
+		if(currentCart == null) {
+			session.setAttribute("currentCart", new cartDto());
+		}
+		List<Products> sp = productsservices.findAll();
+		model.addAttribute("listProduct", sp);
+		System.out.println(productsservices.findAll().size());
 		return "home/index";
 	};
+	
 	@GetMapping("/home/login")
 	public String doGetLogin(Model model) {
 		model.addAttribute("user", new Users());
@@ -75,6 +83,7 @@ public class HomeController {
 		System.out.println(userResponse.getFullname());
 		boolean loginStatus = bcrypt.matches(userlogin.getHashPassword(), userResponse.getHashPassword());
 		System.out.println(loginStatus);
+		
 		if (userResponse != null && loginStatus) {
 			roles RoleUserResponse = userResponse.getRole();
 			// tạo Sesstion tại Server
@@ -109,10 +118,35 @@ public class HomeController {
 		return "home/codes";
 	}
 	@GetMapping("/home/register")
-	public String doGetRegister() {
+	public String doGetRegister(Model model) {
+		model.addAttribute("newUser", new Users());
 		return "home/register";
 	}
 	
+	@PostMapping("register")
+	public String doPostRegistration(Model model, @ModelAttribute("newUser") @Validated Users newUser) {
+		try {
+			boolean check = false;
+			if(userservices.findByUserName(newUser.getUsername())!= null) {
+				check = true;
+				model.addAttribute("check", check);
+				return "home/register";
+			}
+			System.out.println("1");
+			newUser.setIsDeleted(true);
+			newUser.setImgUrl("");
+			newUser.setHashPassword(bcrypt.encode(newUser.getHashPassword()));
+			roles role = rolesservices.findByUserID(2);
+			newUser.setRole(role);			
+			userservices.addUser(newUser);
+			System.out.println("Lưu Thành Công !");
+			return "redirect:/home";
+		} catch (Exception e) {	
+			e.printStackTrace();
+			return "redirect:/home/register";
+		}
+		
+	}			  
 	@GetMapping("/home/about")
 	public String doGetAbout() {
 		return "home/about";
