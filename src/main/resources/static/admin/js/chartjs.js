@@ -135,7 +135,7 @@ $(function () {
   };
   var doughnutPieData = {
     datasets: [{
-      data: [30, 40, 30],
+      data: [75, 25],
       backgroundColor: [
         'rgba(255, 66, 15, 0.8)',
         'rgba(0, 187, 221, 0.8)',

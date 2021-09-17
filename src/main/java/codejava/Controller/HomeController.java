@@ -22,14 +22,6 @@ public class HomeController {
 	
 	@GetMapping({"/home","/"})
 	public String doGetController(Model model) {
-		try {
-		List<Users> list = repo.findAll();
-		list.forEach(us ->{
-			System.out.println(""+us.getUsername());
-			System.out.println(""+us.getRole());
-		} );}catch(Exception e) {
-			System.out.println( e);
-		}
 		
 		return "home/index";
 	};
