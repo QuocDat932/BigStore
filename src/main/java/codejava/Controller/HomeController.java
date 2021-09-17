@@ -131,6 +131,7 @@ public class HomeController {
 	
 	@PostMapping("register")
 	public String doPostRegistration(Model model, @ModelAttribute("newUser") @Validated Users newUser) {
+		
 		try {
 			newUser.setImgUrl("");
 			newUser.setIsDeleted(true);
