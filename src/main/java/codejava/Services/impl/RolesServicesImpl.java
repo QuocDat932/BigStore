@@ -20,7 +20,7 @@ public class RolesServicesImpl implements RolesServices {
 	@Override
 	public roles findByID(Integer Roles_ID) {
 		// TODO Auto-generated method stub
-		return rolesRepo.findById(Roles_ID).isPresent()?null:rolesRepo.findById(Roles_ID).get();
+		return rolesRepo.findById(Roles_ID).isEmpty()?null:rolesRepo.findById(Roles_ID).get();
 	}
 	@Override
 	public List<roles> findByDescription(String D) {

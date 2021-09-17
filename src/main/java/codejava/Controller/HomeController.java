@@ -131,15 +131,13 @@ public class HomeController {
 	
 	@PostMapping("register")
 	public String doPostRegistration(Model model, @ModelAttribute("newUser") @Validated Users newUser) {
-		
 		try {
-			
-		
-			newUser.setIsDeleted(true);
 			newUser.setImgUrl("");
+			newUser.setIsDeleted(true);
 			newUser.setHashPassword(bcrypt.encode(newUser.getHashPassword()));
 			roles role = rolesservices.findByID(2);
-			newUser.setRole(role);			
+			newUser.setRole(role);
+			System.out.println(newUser.getHashPassword());
 			userservices.addUser(newUser);
 			System.out.println("Lưu Thành Công !");
 			return "redirect:/home";
