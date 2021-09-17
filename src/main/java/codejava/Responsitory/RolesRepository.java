@@ -10,4 +10,5 @@ import codejava.Entity.*;
 @Repository
 public interface RolesRepository extends JpaRepository<roles, Integer> {
 	Optional<roles> findById(Integer id);
+	List<roles> findByDescription(String D);
 }

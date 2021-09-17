@@ -3,6 +3,6 @@ import java.util.*;
 import codejava.Entity.*;
 public interface RolesServices  {
 	List<roles> findAll();
-	
-	roles findByUserID(Integer roles);
+	List<roles> findByDescription(String D);
+	roles findByID(Integer roles);
 }

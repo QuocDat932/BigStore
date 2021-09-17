@@ -1,5 +1,7 @@
 package codejava.Controller;
 
+import java.util.List;
+
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
 
@@ -27,7 +29,7 @@ import codejava.Jwt.JwtTokenProvider;
 import codejava.Services.CartService;
 import codejava.Services.ProductsServices;
 import codejava.Services.RolesServices;
-
+import codejava.Constant.RoleConst;
 import codejava.Entity.Users;
 import codejava.Services.UserServices;
 
@@ -79,6 +81,7 @@ public class HomeController {
 		//Authentication authentication = authenManager.authenticate(authenInfo);
 		CustomUser customUser = (CustomUser) authentication.getPrincipal();
 		Users userResponse = userservices.findByUserName(userlogin.getUsername());
+		System.out.println(userlogin.getUsername());
 //		System.out.println(userResponse.getFullname());
 //		boolean loginStatus = bcrypt.matches(userlogin.getHashPassword(), userResponse.getHashPassword());
 //		System.out.println(loginStatus);
@@ -126,20 +129,16 @@ public class HomeController {
 		return "home/register";
 	}
 	
-	@PostMapping("register")s
+	@PostMapping("register")
 	public String doPostRegistration(Model model, @ModelAttribute("newUser") @Validated Users newUser) {
+		
 		try {
-			boolean check = false;
-			if(userservices.findByUserName(newUser.getUsername())!= null) {
-				check = true;
-				model.addAttribute("check", checsk);
-				return "home/register";
-			}
-			System.out.println("1");
+			
+		
 			newUser.setIsDeleted(true);
 			newUser.setImgUrl("");
 			newUser.setHashPassword(bcrypt.encode(newUser.getHashPassword()));
-			roles role = rolesservices.findByUserID(2);
+			roles role = rolesservices.findByID(2);
 			newUser.setRole(role);			
 			userservices.addUser(newUser);
 			System.out.println("Lưu Thành Công !");
