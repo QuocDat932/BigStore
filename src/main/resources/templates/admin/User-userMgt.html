@@ -28,6 +28,123 @@
                   User Management
                 </div>
               </div>
+             <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-6-desktop">
+	              <div class="mdc-card">
+	                <h6 class="card-title">User Account</h6>
+	                <canvas id="totalUser"></canvas>
+	              </div>
+	              </br>
+	              <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-6-desktop">
+	                <div class="mdc-card p-0">
+	                  <h6 class="card-title card-padding pb-0">User Table</h6>
+	                  <div class="table-responsive">
+	                    <table class="table table-hoverable">
+	                      <thead>
+	                        <tr>
+	                          <th class="text-left">No.</th>
+	                          <th>Name</th>
+	                          <th>Roles</th>
+	                          <th>Using</th>
+	                        </tr>
+	                      </thead>
+	                      <tbody>
+	                        <tr th:each="user, state : ${users}" th:attr="onclick='UsersDb(\''+${user.id}+'\')'">
+	                          <td th:text="${state.index + 1}"></td>
+	                          <td th:text="${user.fullname}"></td>
+	                          <td th:text="${user.role.description}"></td>
+	                          <td th:text="${user.isDeleted}"></td>
+	                        </tr>
+	                      </tbody>
+	                    </table>
+	                  </div>
+	                </div>
+                  </div>  
+             </div>
+            <!--User Detail-->
+            <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-6-desktop">
+	            <div class="mdc-card">
+	            <h1 class="card-title">User Detail</h1>
+			        <div class="mdc-layout-grid__cell--span-12">
+			            <div class="mdc-layout-grid__inner">
+			            <!--Infor-->
+				              <div class="mdc-layout-grid__cell--span-7">
+				                <div class="mdc-card">
+				                  <!--<h6 class="card-title">Detail Information</h6>-->
+				                  <div class="template-demo">
+				                    <div class="">
+				                      <div class="mdc-layout-grid__cell--span-6-desktop">
+				                        <div class="mdc-text-field ">
+				                          <input class="mdc-text-field__input" style="" id="txtuserName">
+				                          <div class="mdc-line-ripple"></div>
+				                          <label for="text-field-hero-input" class="mdc-floating-label">Full Name</label>
+				                        </div>
+				                      </div>
+				                      <div class="mdc-layout-grid__cell--span-6-desktop">
+				                        <div class="mdc-text-field ">
+				                          <input class="mdc-text-field__input" style="" id="txtuserRole">
+				                          <div class="mdc-line-ripple"></div>
+				                          <label for="text-field-hero-input" class="mdc-floating-label">Role</label>
+				                        </div>
+				                      </div>
+				                      <div class="mdc-layout-grid__cell--span-6-desktop">
+				                        <div class="mdc-text-field ">
+				                          <input class="mdc-text-field__input" id="txtEmail">
+				                          <div class="mdc-line-ripple"></div>
+				                          <label for="text-field-hero-input" class="mdc-floating-label">Email</label>
+				                        </div>
+				                      </div>
+				                      <div class="mdc-layout-grid__cell--span-6-desktop">
+				                        <div class="mdc-text-field mdc-text-field--outlined mdc-text-field--with-trailing-icon">
+				                          <i class="material-icons mdc-text-field__icon">visibility</i>
+				                          <input class="mdc-text-field__input" id="txtHashPassWord">
+				                          <div class="mdc-notched-outline">
+				                            <div class="mdc-notched-outline__leading"></div>
+				                            <div class="mdc-notched-outline__notch">
+				                              <label for="text-field-hero-input" class="mdc-floating-label">PassWord</label>
+				                            </div>
+				                            <div class="mdc-notched-outline__trailing"></div>
+				                          </div>
+				                        </div>
+				                      </div>
+				                      <br>
+				                      Using 
+				                      <div th:if="1 == 1" class="mdc-switch mdc-switch--info" data-mdc-auto-init="MDCSwitch">
+					                     <div class="mdc-switch__track"></div>
+					                     <div class="mdc-switch__thumb-underlay">
+					                       <div class="mdc-switch__thumb">
+					                          <!--<input th:attr="onclick='UseUser(\''+Uncheck+'\',\''+Checked+'\')'" type="checkbox" id="chkUsing" class="mdc-switch__native-control" role="switch">
+					                       		-->
+					                       		<input type="checkbox" id="chkUsing" class="mdc-switch__native-control" role="switch">
+					                       </div>
+					                     </div>
+				                      </div>
+				                    </div>
+				                  </div>
+				                </div>
+				              </div>
+				        <!--Img
+				        	  <div class="mdc-layout-grid__cell--span-5">
+				               		<div class="mdc-card" style="width: 200px; height: 300px;"><!--th:src="@{/admin/images/faces/face1.jpg}"
+				               			<img id="userImg"  alt="user" class="user">
+				               		</div>
+				              </div>   -->
+				              <div class="mdc-layout-grid__cell--span-5">
+				                <div class="mdc-card" style="width: 80%;cursor: pointer">
+				                  <!--<h6 class="card-title">Detail Information</h6>-->
+				                  <div class="template-demo">
+				                    <div class=""  >
+				                      <img style="width: 80%;" id="userImg"  alt="user" class="user">
+				                    </div>
+				                  </div>
+				                </div>
+				              </div>
+			            </div>
+			        </div>
+		          <!--</div>-->
+	         </div>
+	        </div>
+              
+              
             </div>
 </div>
 <!-- plugins:js -->

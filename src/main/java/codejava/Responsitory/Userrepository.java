@@ -1,6 +1,8 @@
 package codejava.Responsitory;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -24,4 +26,6 @@ Users findByfullname(String fullname);
 	/*@Query(value = "SELECT hashPassword FROM users WHERE username = ?1", nativeQuery = true)
 	Optional<Users> findby(String hashPassword);*/
 	Optional<Users> findByUsername(String username);
+	
+	
 }
