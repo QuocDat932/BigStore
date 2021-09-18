@@ -6,7 +6,7 @@ import codejava.Entity.Products;
 
 public interface ProductsServices {
 	List<Products> findAllAvailable();
-	
+	List<Products> findAll();
 	Products findById(int ID);
 	//List<Products> findByTypeId(Integer typeID);
 	Products product(int typeID);

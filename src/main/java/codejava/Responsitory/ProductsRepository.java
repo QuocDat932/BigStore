@@ -12,7 +12,7 @@ import codejava.Entity.*;
 @Repository								
 public interface ProductsRepository extends JpaRepository<Products, Integer>{
 	//List<Products> findByTypeId(Integer TypeId);
-	@Query(value = " SELECT * FROM products Where isDeleted = 0", nativeQuery = true)
+	@Query(value = " SELECT * FROM products Where isdeleted = 0", nativeQuery = true)
 	List<Products> findAllAvailable();
 	
 	@Query(value="SELECT * FROM products WHERE typeId = ?1", nativeQuery = true)

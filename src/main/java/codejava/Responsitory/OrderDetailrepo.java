@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import codejava.Dto.cartDetailDto;
 import codejava.Entity.OrderDetails;
 @Repository
-public interface OrderDetailrepo extends JpaRepository<OrderDetails, Long> {
+public interface OrderDetailrepo extends JpaRepository<OrderDetails, Integer> {
 	@Modifying(clearAutomatically = true)
 	@Query(value = "INSERT INTO order_details(orderId, productId, price, quantity) "
 				 + "VALUES (:#{#dto.idOrder}, :#{#dto.idProduct}, :#{#dto.price}, :#{#dto.quantity})",
