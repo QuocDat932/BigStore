@@ -108,37 +108,36 @@
 				                      </div>
 				                      <br>
 				                      Using 
-				                      <div th:if="1 == 1" class="mdc-switch mdc-switch--info" data-mdc-auto-init="MDCSwitch">
-					                     <div class="mdc-switch__track"></div>
-					                     <div class="mdc-switch__thumb-underlay">
-					                       <div class="mdc-switch__thumb">
-					                          <!--<input th:attr="onclick='UseUser(\''+Uncheck+'\',\''+Checked+'\')'" type="checkbox" id="chkUsing" class="mdc-switch__native-control" role="switch">
-					                       		-->
-					                       		<input type="checkbox" id="chkUsing" class="mdc-switch__native-control" role="switch">
-					                       </div>
-					                     </div>
-				                      </div>
+				                      <div class="mdc-switch mdc-switch--checked" data-mdc-auto-init="MDCSwitch">
+										<div class="mdc-switch__track"></div>
+										<div class="mdc-switch__thumb-underlay">
+										  <div class="mdc-switch__thumb">
+											  <input aria-hidden="true" id="chkUsing" type="checkbox" class="mdc-switch__native-control" role="switch">
+										  </div>
+										</div>
+									  </div>
 				                    </div>
 				                  </div>
 				                </div>
 				              </div>
-				        <!--Img
-				        	  <div class="mdc-layout-grid__cell--span-5">
-				               		<div class="mdc-card" style="width: 200px; height: 300px;"><!--th:src="@{/admin/images/faces/face1.jpg}"
-				               			<img id="userImg"  alt="user" class="user">
-				               		</div>
-				              </div>   -->
+				        <!--Img -->
 				              <div class="mdc-layout-grid__cell--span-5">
-				                <div class="mdc-card" style="width: 80%;cursor: pointer">
+				                <div class="mdc-card" style="width: 100%;cursor: pointer">
 				                  <!--<h6 class="card-title">Detail Information</h6>-->
 				                  <div class="template-demo">
-				                    <div class=""  >
-				                      <img style="width: 80%;" id="userImg"  alt="user" class="user">
+				                    <div class="">
+				                      <img style="width: 100%;" id="userImg"  alt="user" class="user">
 				                    </div>
 				                  </div>
 				                </div>
 				              </div>
 			            </div>
+						<div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-6-desktop">
+							<div class="mdc-card">
+							<h6 class="card-title">Order statistics</h6>
+							<canvas id="OrderStatistics"></canvas>
+							</div>
+						</div>
 			        </div>
 		          <!--</div>-->
 	         </div>
