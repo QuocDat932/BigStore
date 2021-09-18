@@ -90,7 +90,7 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 					<form th:action="@{/home/login}" method="POST" th:object="${user}">
 						<div class="key">
 							<i class="fa fa-user-secret" aria-hidden="true"></i>
-							<input height="15" th:field="*{username}"hashPassword placeholder="User" type="text" value="username"
+							<input height="15" th:field="*{username}" placeholder="User" type="text" value="username"
 								name="username" onfocus="this.value = '';"
 								onblur="if (this.value == '') {this.value = 'username';}" required="">
 							<div class="clearfix"></div>
