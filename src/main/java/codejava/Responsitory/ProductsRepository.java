@@ -20,6 +20,8 @@ public interface ProductsRepository extends JpaRepository<Products, Integer>{
 	
 	List<Products> findByTypeOfProduct_Id(Integer id);
 	
+	Optional<Products> findTop4BySlug(String slug);
+	
 	Optional<Products> findBySlug(String slug);
 	
 	@Modifying(clearAutomatically = true)
