@@ -59,6 +59,10 @@ public class HomeController {
 			session.setAttribute("currentCart", new cartDto());
 		}
 		List<Products> sp = productsservices.findAll();
+		sp.forEach(spx ->{
+			System.out.println("Id : "+ spx.getId() +" Name >> "+spx.getName());
+		});
+		
 		model.addAttribute("listProduct", sp);
 		System.out.println(productsservices.findAll().size());
 		return "home/index";
