@@ -9,9 +9,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import codejava.Constant.publicConst;
 import codejava.Entity.Users;
 import codejava.Services.StatsServices;
 import codejava.Services.UserServices;
+import codejava.Constant.publicConst;
+
 @RequestMapping("/admin")
 @Controller(value = "AdminController")
 public class AdminController {
@@ -63,6 +66,7 @@ public class AdminController {
 		List<Users> users = userSrvs.findAll();
 		model.addAttribute("dataUs", dataUs);
 		model.addAttribute("users", users);
+		System.out.println(">> NEW : "+ publicConst.Orderprocess.APPROVE);
 		return "admin/User-userMgt";
 	};
 	@GetMapping("/user/user-userVipMgt")
