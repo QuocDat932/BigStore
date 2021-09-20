@@ -86,11 +86,13 @@ public class HomeController {
 		CustomUser customUser = (CustomUser) authentication.getPrincipal();
 		Users userResponse = userservices.findByUserName(userlogin.getUsername());
 		System.out.println(userlogin.getUsername());
+		
 //		System.out.println(userResponse.getFullname());
 //		boolean loginStatus = bcrypt.matches(userlogin.getHashPassword(), userResponse.getHashPassword());
 //		System.out.println(loginStatus);
 //		if (userResponse != null && loginStatus) {
 			roles RoleUserResponse = userResponse.getRole();
+			System.out.println("Home Role >>"+ RoleUserResponse.getDescription());
 			// tạo Sesstion tại Server
 			session.setAttribute(SessionConst.CURRENT_USER, userResponse);
 			session.setAttribute(SessionConst.CURRENT_ROLE, RoleUserResponse);

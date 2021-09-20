@@ -26,17 +26,11 @@ public class apiAdm {
 	@GetMapping("/totalUser")
 	public ResponseEntity<?> doGetTotalUser(){
 		String[][] dataUs = adminSrvs.getcountUs();
-		System.out.println(dataUs[0]);
 		return ResponseEntity.ok(dataUs);
 	};
 	@GetMapping("totalPricebyId")
 	public ResponseEntity<?> doGetTotalPricebyId(@RequestParam("userId") int userId){
 		String[][] dataPrice = adminSrvs.getTotalPriceByUser(userId);
-		for(int i=0; i< 6;i++) {
-			System.out.println("userId: "+ userId);
-			System.out.println("Title : "+ dataPrice[0][5-i]);
-			System.out.println("Value : "+ dataPrice[1][5-i]);
-		}
 		return ResponseEntity.ok(dataPrice);
 	}
 }

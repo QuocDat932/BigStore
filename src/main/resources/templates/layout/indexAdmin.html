@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" >
+<html lang="en" xmlns:th="http://www.thymeleaf.org" 
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" >
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -145,7 +146,7 @@
                     </a>
                   </div>
                   <div class="mdc-list-item mdc-drawer-item">
-                    <a class="mdc-drawer-link" href="pages/samples/login.html">
+                    <a class="mdc-drawer-link" th:href="@{/admin/login}">
                       Login
                     </a>
                   </div>
@@ -214,9 +215,9 @@
 	              <button class="mdc-button mdc-menu-button">
 	                <span class="d-flex align-items-center">
 	                  <span class="figure">
-	                    <img th:src="@{/admin/images/faces/face1.jpg}" alt="user" class="user">
+	                    <img th:src="@{'/admin/images/faces/'+${session.currentUser.imgUrl}}" alt="user" class="user">
 	                  </span>
-	                  <span class="user-name">Clyde Miles</span>
+	                  <span class="user-name"  th:text="${session.currentUser.fullname}">Clyde Miles</span>
 	                </span>
 	              </button>
 	              <div class="mdc-menu mdc-menu-surface" tabindex="-1">
@@ -234,7 +235,9 @@
 	                      <i class="mdi mdi-settings-outline text-primary"></i>                      
 	                    </div>
 	                    <div class="item-content d-flex align-items-start flex-column justify-content-center">
-	                      <h6 class="item-subject font-weight-normal">Logout</h6>
+	                      <h6 class="item-subject font-weight-normal">
+	                      <a th:href="@{/admin/logout}">Logout</a>
+	                      </h6>
 	                    </div>
 	                  </li>
 	                </ul>
@@ -423,9 +426,9 @@
   <!-- endinject -->
   <!-- Custom js for this page-->
   <script th:src="@{/admin/js/dashboard.js}"></script>
-  <!-- End custom js for this page
-  <script th:src="@{/admin/js/material.js}"></script>-->
- 
+  <!-- End custom js for this page-->
+  <script th:src="@{/admin/js/material.js}"></script>
+  <script th:src="@{/admin/js/chartjs.js}"></script>
  <!--Chart-->
  <script th:inline="javascript">
  	//ChartUser = (dataUsarray) =>{
@@ -558,8 +561,6 @@
 			}
 		})
 	}
-	
-	
 </script>
 </body>
 </html> 
