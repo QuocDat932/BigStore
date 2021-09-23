@@ -595,38 +595,10 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 					<b class="line"></b>
 				</div>
 			</div>
-				<div class=" con-w3l"  >
-							<div class="col-md-3 pro-1" th:each="product, state : ${listProduct}">
-								<div class="col-m"><!-- #myModal17 -->
-								<a href="#" data-toggle="modal" th:data-target="${'#'+product.id}" class="offer-img">
-										<img th:src="@{'/home/images/' + ${product.imgUrl}}" class="img-responsive" alt="">
-								</a>
-									<div class="mid-1">
-										<div class="women">
-											<h6><a th:href="@{/home/single} "th:text="${product.name}"></a></h6>							
-										</div>
-										<div class="mid-2">
-											<p ><label>$7.00</label><em class="item_price" th:text="${product.price}">VND</em></p>
-											  <div class="block">
-												<div class="starbox small ghosting"> </div>
-											</div>
-											<div class="clearfix"></div>
-										</div>
-											<div class="add add-2">
-										   <button class="btn btn-danger my-cart-btn my-cart-b" th:data-id="${product.id}" th:data-name="${product.name}"
-										    data-summary="summary 1" th:data-price="${product.price}" th:data-quantity="${1}" th:data-image="@{'images/' + ${product.imgUrl}}">Add to Cart</button>
-										</div>
-									</div>
-								</div>
-							</div>
-							
-							
-							
-							
-							
-							
-							<div class="clearfix"></div>
-						 </div>
+		<div id="products"></div>
+		<a id="testBack">back</a>
+		<a id="testCuttent">current</a>
+		<a id="testNext">NEXT</a>
 		</div>
 	</div>
 <!--footer-->
@@ -695,7 +667,7 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
   
   <!-- product -->
 			<!-- <div class="modal fade" id="19" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"> -->
-			<div class="modal fade" th:id="${product.id}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" th:each="product, state : ${listProduct}" >
+			<div class="modal fade" th:id="${product.slug}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" th:each="product, state : ${listProduct}" >
 				<div class="modal-dialog" role="document">
 					<div class="modal-content modal-info">
 						<div class="modal-header">

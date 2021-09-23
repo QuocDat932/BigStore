@@ -7,6 +7,8 @@ import javax.naming.spi.DirStateFactory.Result;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import codejava.Entity.Products;
@@ -71,6 +73,11 @@ public class ProductsServicesImpl implements ProductsServices{
 	public List<Products> findAll() {
 		// TODO Auto-generated method stub
 		return repo.findAll();
+	}
+
+	@Override
+	public Page<Products> findAll(Pageable page) {
+		return repo.findAll(page);
 	}
 	
 }

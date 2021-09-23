@@ -1,4 +1,5 @@
 package codejava.Services.impl;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,5 +21,11 @@ public class TypeOfProductImpl implements TypeOfProductServices{
 	public TypeOfProduct findBySlug(String flug) {
 		Optional<TypeOfProduct> result = repo.findBySlug(flug);
 		return result.isPresent() ? result.get() : null;
+	}
+
+	@Override
+	public List<TypeOfProduct> findAll() {
+		// TODO Auto-generated method stub
+		return repo.findAll();
 	}
 }

@@ -1,12 +1,15 @@
 package codejava.Controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
 
-import org.apache.tomcat.jni.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -53,18 +56,15 @@ public class HomeController {
     private JwtTokenProvider tokenProvider;
 	
 	@GetMapping({"/home","/"})
-	public String doGetController(Model model,HttpSession session) {
+	public String doGetController(Model model,HttpSession session,@RequestParam("p") Optional<Integer> p) {
 		cartDto currentCart = (cartDto) session.getAttribute("currentCart");
 		if(currentCart == null) {
 			session.setAttribute("currentCart", new cartDto());
 		}
 		List<Products> sp = productsservices.findAll();
-		sp.forEach(spx ->{
-			System.out.println("Id : "+ spx.getId() +" Name >> "+spx.getName());
-		});
-		
-		model.addAttribute("listProduct", sp);
-		System.out.println(productsservices.findAll().size());
+		Pageable page = PageRequest.of(p.orElse(0), 12);
+		Page<Products> z = productsservices.findAll(page);
+		model.addAttribute("listProduct",z );
 		return "home/index";
 	};
 	
