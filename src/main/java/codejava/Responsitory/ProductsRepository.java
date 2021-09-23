@@ -26,6 +26,9 @@ public interface ProductsRepository extends JpaRepository<Products, Integer>{
 	@Query(value=" UPDATE products SET quantity = ?1 Where id = ?2", nativeQuery = true)
 	void updateQuantity(Integer quantity, Integer ID);
 	
+	@Query(value="SELECT pro.* FROM SYSTEM.products pro LEFT JOIN SYSTEM.types_of_product types ON pro.TYPEID = types.ID\r\n"
+			+ "WHERE pro.isdeleted = 1 and types.isdeleted = 1 and types.slug = ?1 and rownum < 5 order by pro.id desc", nativeQuery = true)
+	List<Products> findtop4Bytype(String type);
 /*
  * ----------------------------------->1
  @Query(value = " SELECT * FROM product Where isDeleted = 0 ?1 and price = ?2", nativeQuery = true)

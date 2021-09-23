@@ -20,4 +20,5 @@ public interface ProductsServices {
 	void SaveAndUpdate(Products product);
 	
 	void updateQuantity(Integer quantity, Integer id);
+	List<Products> findtop4Bytype(String type);
 }
