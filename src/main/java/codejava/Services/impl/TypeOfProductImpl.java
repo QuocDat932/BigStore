@@ -22,6 +22,12 @@ public class TypeOfProductImpl implements TypeOfProductServices{
 		Optional<TypeOfProduct> result = repo.findBySlug(flug);
 		return result.isPresent() ? result.get() : null;
 	}
+
+	@Override
+	public List<TypeOfProduct> findAll() {
+		// TODO Auto-generated method stub
+		return repo.findAll();
+	}
 	@Override
 	public List<TypeOfProduct> getListTypeOfProduct(){
 		return repo.getListTypeOfProduct();

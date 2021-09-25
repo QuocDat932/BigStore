@@ -3,6 +3,8 @@ package codejava.Responsitory;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -20,12 +22,15 @@ public interface ProductsRepository extends JpaRepository<Products, Integer>{
 	
 	List<Products> findByTypeOfProduct_Id(Integer id);
 	
+	Optional<List<Products>> findTop4BySlug(String slug);
+	
 	Optional<Products> findBySlug(String slug);
 	
 	@Modifying(clearAutomatically = true)
 	@Query(value=" UPDATE products SET quantity = ?1 Where id = ?2", nativeQuery = true)
 	void updateQuantity(Integer quantity, Integer ID);
 	
+	Page<Products> findAll(Pageable page);
 	@Query(value="SELECT pro.* FROM SYSTEM.products pro LEFT JOIN SYSTEM.types_of_product types ON pro.TYPEID = types.ID\r\n"
 			+ "WHERE pro.isdeleted = 1 and types.isdeleted = 1 and types.slug = ?1 and rownum < 5 order by pro.id desc", nativeQuery = true)
 	List<Products> findtop4Bytype(String type);

@@ -1,12 +1,15 @@
 package codejava.Controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
 
-import org.apache.tomcat.jni.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -58,7 +61,7 @@ public class HomeController {
     private JwtTokenProvider tokenProvider;
 	
 	@GetMapping({"/home","/"})
-	public String doGetController(Model model,HttpSession session) {
+	public String doGetController(Model model,HttpSession session,@RequestParam("p") Optional<Integer> p) {
 		cartDto currentCart = (cartDto) session.getAttribute("currentCart");
 		ListproductDto Top4Prod = (ListproductDto) session.getAttribute("Top4Prod");
 		if(currentCart == null) {
@@ -193,8 +196,6 @@ public class HomeController {
 	public String doGetOffer() {
 		return "home/offer";
 	}
-	@GetMapping("/home/wishlist")
-	public String doGetWishlist() {
-		return "home/wishlist";
-	}
+	
+	
 }

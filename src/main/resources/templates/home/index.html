@@ -118,7 +118,7 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 										</a>
 										<div class="mid-1">
 											<div class="women">
-												<h6><a th:href="@{/home/single}" th:text="${prod.name}"></h6>							
+												<h6><a th:href="@{/home/single}" th:text="${prod.name}"> </a></h6>							
 											</div>
 											<div class="mid-2">
 												<p ><label>$4.00</label><em class="item_price" th:text="${prod.price}"></em></p>
@@ -625,32 +625,14 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 					<b class="line"></b>
 				</div>
 			</div>
-				<div class=" con-w3l"  >
-							<div class="col-md-3 pro-1" th:each="product, state : ${listProduct}">
-								<div class="col-m"><!-- #myModal17 -->
-								<a href="#" data-toggle="modal" th:data-target="${'#'+product.id}" class="offer-img">
-										<img th:src="@{'/home/images/' + ${product.imgUrl}}" class="img-responsive" alt="">
-								</a>
-									<div class="mid-1">
-										<div class="women">
-											<h6><a th:href="@{/home/single}"th:text="${product.name}"></a></h6>							
-										</div>
-										<div class="mid-2">
-											<p ><label>$7.00</label><em class="item_price" th:text="${product.price}">VND</em></p>
-											  <div class="block">
-												<div class="starbox small ghosting"> </div>
-											</div>
-											<div class="clearfix"></div>
-										</div>
-											<div class="add add-2">
-										   <button class="btn btn-danger my-cart-btn my-cart-b" th:data-id="${product.id}" th:data-name="${product.name}"
-										    data-summary="summary 1" th:data-price="${product.price}" th:data-quantity="${1}" th:data-image="@{'images/' + ${product.imgUrl}}">Add to Cart</button>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="clearfix"></div>
-						 </div>
+		<div id="products"></div>
+		 <ul class="pagination" style="margin: 14px "  >
+					<li><a  aria-label="Previous" id="testBack"><span>«</span></a></li>
+					<li ><a id="testCurrent"></a></li>
+					<li><a aria-label="Next" id="testNext"><span>»</span></a></li>
+				  </ul>
+	
+		
 		</div>
 	</div>
 <!--footer-->
@@ -673,7 +655,6 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 	$(document).ready(function() {
 		top4prod('RAU');
 	});
-
 	top4prod = (param) =>{
 		let url = "/api/user/controller/top4product?param="+param;
 		$.get(url).done(function(lsProduct){
@@ -692,6 +673,7 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 		});
 
 	}
+
 </script>  
 <script type="text/javascript">
 	$(function () {
@@ -734,11 +716,11 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 </script>
   <!-- product -->
 			<!-- <div class="modal fade" id="19" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"> -->
-			<div class="modal fade" th:id="${product.id}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" th:each="product, state : ${listProduct}" >
+			<div class="modal fade" th:id="${product.slug}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" th:each="product, state : ${listProduct}" >
 				<div class="modal-dialog" role="document">
 					<div class="modal-content modal-info">
 						<div class="modal-header">
-							<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>						
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 						</div>
 						<div class="modal-body modal-spa">
 								<div class="col-md-5 span-2">
