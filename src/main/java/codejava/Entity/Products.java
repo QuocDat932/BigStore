@@ -54,12 +54,12 @@ public class Products implements Serializable{
 	@Column(name ="slug")
 	private String slug;
 	
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+	@ManyToOne()
 	@JoinColumn(name="typeid", referencedColumnName = "id")
 	@JsonIgnoreProperties(value = {"applications", "hibernateLazyInitializer"})
 	private TypeOfProduct typeOfProduct;
 	
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+	@ManyToOne()
 	@JoinColumn(name="unitid", referencedColumnName = "id")
 	@JsonIgnoreProperties(value = {"applications", "hibernateLazyInitializer"})
 	private UnitType unitType;
