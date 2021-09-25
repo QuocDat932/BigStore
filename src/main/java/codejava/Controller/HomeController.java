@@ -19,20 +19,23 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import codejava.Dto.ListproductDto;
 import codejava.Dto.cartDto;
 import codejava.Entity.Products;
-
+import codejava.Entity.TypeOfProduct;
 import codejava.Constant.SessionConst;
+import codejava.Constant.publicConst;
 import codejava.Entity.roles;
 import codejava.Jwt.CustomUser;
 import codejava.Jwt.JwtTokenProvider;
 import codejava.Services.CartService;
 import codejava.Services.ProductsServices;
 import codejava.Services.RolesServices;
+import codejava.Services.TypeOfProductServices;
 import codejava.Constant.RoleConst;
 import codejava.Entity.Users;
 import codejava.Services.UserServices;
-
+import codejava.Dto.ListproductDto;
 @Controller
 public class HomeController {
 	@Autowired
@@ -46,6 +49,8 @@ public class HomeController {
 	private CartService cartServices;
 	@Autowired
 	private RolesServices rolesservices;
+	@Autowired
+	private TypeOfProductServices typrOfProductSrvcs;
 
 	@Autowired
 	private AuthenticationManager  authenManager;
@@ -55,16 +60,17 @@ public class HomeController {
 	@GetMapping({"/home","/"})
 	public String doGetController(Model model,HttpSession session) {
 		cartDto currentCart = (cartDto) session.getAttribute("currentCart");
+		ListproductDto Top4Prod = (ListproductDto) session.getAttribute("Top4Prod");
 		if(currentCart == null) {
 			session.setAttribute("currentCart", new cartDto());
 		}
+		if(Top4Prod == null) {
+			session.setAttribute("Top4Prod", new ListproductDto());
+		}
 		List<Products> sp = productsservices.findAll();
-		sp.forEach(spx ->{
-			System.out.println("Id : "+ spx.getId() +" Name >> "+spx.getName());
-		});
-		
+		List<TypeOfProduct> listType = typrOfProductSrvcs.getListTypeOfProduct();
+		model.addAttribute("listType", listType);
 		model.addAttribute("listProduct", sp);
-		System.out.println(productsservices.findAll().size());
 		return "home/index";
 	};
 	
@@ -85,18 +91,15 @@ public class HomeController {
 		//Authentication authentication = authenManager.authenticate(authenInfo);
 		CustomUser customUser = (CustomUser) authentication.getPrincipal();
 		Users userResponse = userservices.findByUserName(userlogin.getUsername());
-		System.out.println(userlogin.getUsername());
 		
 //		System.out.println(userResponse.getFullname());
 //		boolean loginStatus = bcrypt.matches(userlogin.getHashPassword(), userResponse.getHashPassword());
 //		System.out.println(loginStatus);
 //		if (userResponse != null && loginStatus) {
 			roles RoleUserResponse = userResponse.getRole();
-			System.out.println("Home Role >>"+ RoleUserResponse.getDescription());
 			// tạo Sesstion tại Server
 			session.setAttribute(SessionConst.CURRENT_USER, userResponse);
 			session.setAttribute(SessionConst.CURRENT_ROLE, RoleUserResponse);
-			System.out.println(RoleUserResponse.getDescription());
 			//model.addAttribute("role",RoleUserResponse);
 			//return "home/index3";
 			session.setAttribute(SessionConst.JWT, tokenProvider.generateToken(customUser));
@@ -112,7 +115,6 @@ public class HomeController {
 			e.printStackTrace();
 			String message = "Error! Missing fail";
 			model.addAttribute("message", message);
-			System.out.println(message);
 			return "/home/login";
 			}
 		
@@ -121,7 +123,6 @@ public class HomeController {
 	@GetMapping("/remove")
 	public String doGetRemove(Model model, @RequestParam("id") int userid) {
 	//public String doGetRemove(Model model, @PathVariable("id") int userid) {
-		System.out.println(userid);
 		return "home/index";
 	}
 	
@@ -144,9 +145,7 @@ public class HomeController {
 			newUser.setHashPassword(bcrypt.encode(newUser.getHashPassword()));
 			roles role = rolesservices.findByID(2);
 			newUser.setRole(role);
-			System.out.println(newUser.getHashPassword());
 			userservices.addUser(newUser);
-			System.out.println("Lưu Thành Công !");
 			return "redirect:/home";
 		} catch (Exception e) {	
 			e.printStackTrace();

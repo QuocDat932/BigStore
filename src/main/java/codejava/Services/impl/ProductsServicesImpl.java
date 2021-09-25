@@ -72,5 +72,9 @@ public class ProductsServicesImpl implements ProductsServices{
 		// TODO Auto-generated method stub
 		return repo.findAll();
 	}
+	@Override
+	public List<Products> findtop4Bytype(String type){
+		return repo.findtop4Bytype(type);
+	};
 	
 }
