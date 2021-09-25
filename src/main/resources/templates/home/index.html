@@ -118,7 +118,7 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 										</a>
 										<div class="mid-1">
 											<div class="women">
-												<h6><a th:href="@{/home/single}" th:text="${prod.name}"></h6>							
+												<h6><a th:href="@{/home/single}" th:text="${prod.name}"> </a></h6>							
 											</div>
 											<div class="mid-2">
 												<p ><label>$4.00</label><em class="item_price" th:text="${prod.price}"></em></p>
@@ -655,7 +655,6 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 	$(document).ready(function() {
 		top4prod('RAU');
 	});
-
 	top4prod = (param) =>{
 		let url = "/api/user/controller/top4product?param="+param;
 		$.get(url).done(function(lsProduct){
@@ -674,6 +673,7 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 		});
 
 	}
+
 </script>  
 <script type="text/javascript">
 	$(function () {
