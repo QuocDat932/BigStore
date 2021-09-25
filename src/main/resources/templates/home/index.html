@@ -102,13 +102,42 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 				<div class="tab-head ">
 					<nav class="nav-sidebar">
 						<ul class="nav tabs ">
-							<li class="active"><a th:href="@{#tab1}" data-toggle="tab">Staples</a></li>
-					  <li class=""><a th:href="@{#tab2}" data-toggle="tab">Snacks</a></li> 
-					  <li class=""><a th:href="@{#tab3}" data-toggle="tab">Fruits & Vegetables</a></li>  
-					  <li class=""><a th:href="@{#tab4}" data-toggle="tab">Breakfast & Cereal</a></li>
-					</ul>
-				</nav>
-				<div class=" tab-content tab-content-t ">
+								<li th:each="type, state : ${listType}" class="" th:attr="onclick='top4prod(\''+${type.slug}+'\')'">
+									<a th:href="@{'#tab'+ ${state.index + 1}}" data-toggle="tab" th:text="${type.description}"></a>
+								</li>
+						</ul>
+					</nav>
+					<div class=" tab-content tab-content-t ">
+						<div class="tab-pane active text-style" id="tab1">
+							<div id="viewTop4prod" class=" con-w3l">
+								<div th:each="prod, state : ${session.Top4Prod.listTop4}" class="col-md-3 m-wthree">
+									<div class="col-m">
+										<a href="#" data-toggle="modal" data-target="#myModal4" class="offer-img">
+											<img th:src="@{'/home/images/' + ${prod.imgUrl}}" class="img-responsive" alt="">
+											<div class="offer"><p><span>Offer</span></p></div>
+										</a>
+										<div class="mid-1">
+											<div class="women">
+												<h6><a th:href="@{/home/single}" th:text="${prod.name}"></h6>							
+											</div>
+											<div class="mid-2">
+												<p ><label>$4.00</label><em class="item_price" th:text="${prod.price}"></em></p>
+												  <div class="block">
+													<div class="starbox small ghosting"> </div>
+												</div>
+												<div class="clearfix"></div>
+											</div>
+											<div class="add">
+											   <button class="btn btn-danger my-cart-btn my-cart-b" data-id="4" data-name="Soya Chunks" data-summary="summary 4" data-price="3.50" data-quantity="1" data-image="images/of3.png">Add to Cart</button>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="clearfix"></div>
+							</div>
+						</div>
+					</div>
+				<!--<div class=" tab-content tab-content-t ">
 					<div class="tab-pane active text-style" id="tab1">
 						<div class=" con-w3l">
 							<div class="col-md-3 m-wthree">
@@ -499,6 +528,7 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 						 </div>
 					</div>
 				</div>
+			-->
 			</div>
 		
 	</div>
@@ -610,26 +640,42 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 <!-- //footer-->
 
 <!-- smooth scrolling -->
-	<script type="text/javascript">
+<script type="text/javascript">
 		$(document).ready(function () {
-			/*
-				var defaults = {
-				containerID: 'toTop', // fading element id
-				containerHoverID: 'toTopHover', // fading element hover id
-				scrollSpeed: 1200,
-				easingType: 'linear' 
-				};
-			*/
 			$().UItoTop({easingType: 'easeOutQuart'});
 		});
-	</script>
-	<a href="#" id="toTop" style="display: block;"> <span id="toTopHover" style="opacity: 1;"> </span></a>
+</script>
+<a href="#" id="toTop" style="display: block;"> <span id="toTopHover" style="opacity: 1;"> </span></a>
 <!-- //smooth scrolling -->
 <!-- for bootstrap working -->
 		<script th:src="@{/home/js/bootstrap.js}"></script>
 <!-- //for bootstrap working -->
 <script type='text/javascript' th:src="@{/home/js/jquery.mycart.js}"></script>
-  <script type="text/javascript">
+<script type="text/javascript">
+	$(document).ready(function() {
+		top4prod('RAU');
+	});
+
+	top4prod = (param) =>{
+		let url = "/api/user/controller/top4product?param="+param;
+		$.get(url).done(function(lsProduct){
+			$("#viewTop4prod").replaceWith(lsProduct);
+	/*		var html_to_append = '';			
+				$.each(lsProduct, function(i, item) {
+					html_to_append +=
+						'<div class="col-md-3 m-wthree"><div class="col-m"><a href="#" data-toggle="modal" data-target="#myModal4" class="offer-img"> <img src="/home/images/'+
+							item.imgUrl+
+							'" class="img-responsive" alt=""><div class="offer"><p><span>Offer</span></p></div> </a> <div class="mid-1"> <div class="women"> <h6>'+
+							item.name+
+							'</h6> </div> <div class="mid-2"> <p ><label>$4.00</label><em class="item_price">$3.50</em></p> <div class="block"> <div class="starbox small ghosting"> </div> </div> <div class="clearfix"></div> </div> <div class="add"> <button class="btn btn-danger my-cart-btn my-cart-b" data-id="4" data-name="Soya Chunks" data-summary="summary 4" data-price="3.50" data-quantity="1" data-image="images/of3.png">Add to Cart</button> </div> </div> </div> </div>';
+				});
+				$("#viewTop4prod").html(html_to_append);
+	*/	
+		});
+
+	}
+</script>  
+<script type="text/javascript">
 	$(function () {
 
 		var goToCartIcon = function ($addTocartBtn) {
@@ -668,7 +714,6 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 
 	});
 </script>
-  
   <!-- product -->
 			<!-- <div class="modal fade" id="19" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"> -->
 			<div class="modal fade" th:id="${product.slug}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" th:each="product, state : ${listProduct}" >
@@ -693,10 +738,10 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 									</div>
 									<h4 class="quick">Quick Overview:</h4>
 									<p class="quick_desc" th:text="${product.description}"> </p>
-									 <div class="add-to">
+									<div class="add-to">
 										   <button class="btn btn-danger my-cart-btn my-cart-b" th:data-id="${product.id}" th:data-name="${product.name}"
 										    data-summary="summary 1" th:data-price="${product.price}" th:data-quantity="${1}" th:data-image="@{'images/' + ${product.imgUrl}}">Add to Cart</button>
-										</div>
+									</div>
 								</div>
 								<div class="clearfix"> </div>
 							</div>

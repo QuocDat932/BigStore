@@ -79,5 +79,9 @@ public class ProductsServicesImpl implements ProductsServices{
 	public Page<Products> findAll(Pageable page) {
 		return repo.findAll(page);
 	}
+	@Override
+	public List<Products> findtop4Bytype(String type){
+		return repo.findtop4Bytype(type);
+	};
 	
 }

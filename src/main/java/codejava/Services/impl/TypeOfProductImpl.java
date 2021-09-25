@@ -28,4 +28,8 @@ public class TypeOfProductImpl implements TypeOfProductServices{
 		// TODO Auto-generated method stub
 		return repo.findAll();
 	}
+	@Override
+	public List<TypeOfProduct> getListTypeOfProduct(){
+		return repo.getListTypeOfProduct();
+	};
 }

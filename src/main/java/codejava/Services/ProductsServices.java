@@ -27,4 +27,5 @@ public interface ProductsServices {
 	void updateQuantity(Integer quantity, Integer id);
 	
 	Page<Products> findAll(Pageable page);
+	List<Products> findtop4Bytype(String type);
 }

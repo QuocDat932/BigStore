@@ -11,6 +11,7 @@ public class publicConst {
 		private String code;
 		Orderprocess(String newCode) { this.code = newCode;}
 		public String getCode() {return this.code;}
-		
-	}
+	};
+	
+	public final static String Top4Prod = "Top4Prod";
 }
