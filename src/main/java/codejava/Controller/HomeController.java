@@ -192,8 +192,6 @@ public class HomeController {
 	public String doGetOffer() {
 		return "home/offer";
 	}
-	@GetMapping("/home/wishlist")
-	public String doGetWishlist() {
-		return "home/wishlist";
-	}
+	
+	
 }

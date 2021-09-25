@@ -55,7 +55,7 @@ private ProductsServices ServP;
 		int max = l.size()-numP;
 		int page = p.orElse(0) <= 0 ? 0 : p.get(); 
 		int page1 = page*numP;
-		while(page1>=max) {
+		while(page1 > max) {
 			 page1 -=numP;
 			 page-=1;
 		}
@@ -66,7 +66,7 @@ private ProductsServices ServP;
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("current", page);
 		map.put("back", page-1<0?page:page-1);
-		map.put("next", page+numP>=max?page:page+1);
+		map.put("next", page+numP >=max?page:page+1);
 		map.put("products", l1);
 		return ResponseEntity.ok(map);
 	};
