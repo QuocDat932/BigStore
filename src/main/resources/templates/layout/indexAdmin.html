@@ -471,7 +471,9 @@
 	     }); 
    // }
     ChartOrderstatistics = (data) =>{
+		jQuery.removeData("#OrderStatistics");
 	    var OrderStatistics = $("#OrderStatistics").get(0).getContext("2d");
+		//OrderStatistics.removeData();
 		var OrderStatistics = new Chart(OrderStatistics, {
 		      type: 'line',
 		      data: {
@@ -537,6 +539,8 @@
 			success: (userindex) =>{
 				//this.ChartUser();
 				//this.UserAccount();
+				$("tableUsers").unbind();
+				$("OrderStatistics").unbind();
 				this.ChartOrderstatisticsById(userindex.id);
 				this.setValueToForm(userindex);
 			},
