@@ -21,14 +21,122 @@
 </head>
 <body>
 <div layout:fragment="contentAdmin">
-            <div class="mdc-layout-grid__inner">
-              <div class="mdc-layout-grid__cell--span-12">
-                <div class="mdc-card">
-                  <h6 class="card-title">Title</h6>
-                  Products Management
+  <div class="mdc-layout-grid__inner">
+    <div class="mdc-layout-grid__cell--span-12">
+      <div class="mdc-card">
+        <h6 class="card-title">Title</h6>
+        Products Management
+      </div>
+    </div>
+    <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-6-desktop">
+      <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-6-desktop">
+        <div class="mdc-card p-0">
+          <h6 class="card-title card-padding pb-0">Products Table</h6>
+          <div class="table-responsive">
+            <table class="table table-hoverable" id="prodTable">
+              <thead>
+              <tr class="text-center">
+                <th >Id</th>
+                <th >Name</th>
+                <th >Type</th>
+                <th >Quantity</th>
+                <th >Price</th>
+                <th >Unit</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr th:each="prod , state: ${prod}" th:attr="onclick='Item(\''+${prod.id}+'\')'" class="text-center">
+                <td th:text="${state.index + 1} "></td>
+                <td th:text="${prod.name}"></td>
+                <td th:text="${prod.typeOfProduct.description}"></td>
+                <td th:text="${prod.quantity}"></td>
+                <td th:text="${prod.price}"></td>
+                <td th:text="${prod.unitType.description}"></td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="mdc-card">
+        <h6 class="card-title">Products</h6>
+        <canvas id="totalUser"></canvas>
+      </div>
+    </div>
+    <!--User Detail-->
+    <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-6-desktop">
+      <div class="mdc-card">
+        <h1 class="card-title">Product Detail</h1>
+        <div class="mdc-layout-grid__cell--span-12">
+          <div class="mdc-layout-grid__inner">
+            <!--Infor-->
+            <div class="mdc-layout-grid__cell--span-7">
+              <div class="mdc-card">
+                <!--<h6 class="card-title">Detail Information</h6>-->
+                <div class="template-demo">
+                  <div class="">
+                    <div class="mdc-layout-grid__cell--span-6-desktop">
+                      <div class="mdc-text-field ">
+                        <input class="mdc-text-field__input" style="" id="txtProdName">
+                        <div class="mdc-line-ripple"></div>
+                        <label for="text-field-hero-input" class="mdc-floating-label">Name</label>
+                      </div>
+                    </div>
+                    <div class="mdc-layout-grid__cell--span-6-desktop">
+                      <div class="mdc-text-field ">
+                        <input class="mdc-text-field__input" style="" id="txtTypeProd">
+                        <div class="mdc-line-ripple"></div>
+                        <label for="text-field-hero-input" class="mdc-floating-label">Type</label>
+                      </div>
+                    </div>
+                    <div class="mdc-layout-grid__cell--span-6-desktop">
+                      <div class="mdc-text-field ">
+                        <input class="mdc-text-field__input" style="" id="txtQuantity">
+                        <div class="mdc-line-ripple"></div>
+                        <label for="text-field-hero-input" class="mdc-floating-label">Quantity</label>
+                      </div>
+                    </div>
+                    <div class="mdc-layout-grid__cell--span-6-desktop">
+                      <div class="mdc-text-field ">
+                        <input class="mdc-text-field__input" style="" id="txtPrice">
+                        <div class="mdc-line-ripple"></div>
+                        <label for="text-field-hero-input" class="mdc-floating-label">Price</label>
+                      </div>
+                    </div>
+                    <div class="mdc-layout-grid__cell--span-6-desktop">
+                      <div class="mdc-text-field ">
+                        <input class="mdc-text-field__input" style="" id="txtUnit">
+                        <div class="mdc-line-ripple"></div>
+                        <label for="text-field-hero-input" class="mdc-floating-label">Unit</label>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
+            <!--Img -->
+            <div class="mdc-layout-grid__cell--span-5">
+              <div class="mdc-card" style="width: 100%;cursor: pointer">
+                <!--<h6 class="card-title">Detail Information</h6>-->
+                <div class="template-demo">
+                  <div class="">
+                    <img style="width: 100%;" id="prodImg"  alt="product" class="product">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-6-desktop">
+            <div class="mdc-card">
+              <h6 class="card-title">Order statistics</h6>
+              <canvas id="OrderStatistics"></canvas>
+            </div>
+          </div>
+        </div>
+        <!--</div>-->
+      </div>
+    </div>
+  </div>
 </div>
 <!-- plugins:js -->
   <script th:src="@{/admin/vendors/js/vendor.bundle.base.js}"></script>

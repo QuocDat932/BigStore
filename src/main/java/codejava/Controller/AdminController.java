@@ -6,6 +6,8 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 import javax.websocket.Session;
 
+import codejava.Entity.Products;
+import codejava.Services.ProductsServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -39,11 +41,13 @@ public class AdminController {
 	private AuthenticationManager  authenManager;
 	@Autowired
 	private UserServices userservices;
+	@Autowired
+	private ProductsServices prodServices;
 	@GetMapping("/login")
 	public String doGetLogin(Model model, HttpSession session) {
 		System.out.println("Admin Login");
 		model.addAttribute("user", new Users());
-		model.addAttribute("message","login to continue");
+		model.addAttribute("message","Login to continue");
 		return "admin/login";
 	}
 	@PostMapping("/login")
@@ -61,7 +65,7 @@ public class AdminController {
 			{
 				session.setAttribute(SessionConst.CURRENT_USER, userResponse);
 				session.setAttribute(SessionConst.CURRENT_ROLE, RoleUserResponse);
-				return "layout/indexAdmin";
+				return "redirect:/admin/dashboard";
 			}
 			else {
 				model.addAttribute("message", "You are not allow");
@@ -106,9 +110,8 @@ public class AdminController {
 	};
 	@GetMapping("/product/productMgt")
 	public String doGetProduct(Model model) {
-		//** Code Here
-		//...
-		
+		List<Products> prod = prodServices.findAll();
+		model.addAttribute("prod", prod);
 		return "admin/Product-productMgt";
 	};
 	@GetMapping("/product/categotyMgt")
