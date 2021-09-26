@@ -429,6 +429,7 @@
   <!-- End custom js for this page-->
   <script th:src="@{/admin/js/material.js}"></script>
   <script th:src="@{/admin/js/chartjs.js}"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
  <!--Chart-->
  <script th:inline="javascript">
  	//ChartUser = (dataUsarray) =>{
@@ -509,7 +510,7 @@
 					    }
 					  }
 		    });
-	}
+	};
 	setValueToForm = (data) =>{
 				$('#txtuserName').val(data.fullname);
 				$('#txtuserRole').val(data.role.description);
@@ -523,7 +524,19 @@
 				$('#txtHashPassWord').focus();
 				$('#txtuserRole').focus();
 				$('#txtuserName').focus();
-	}
+	};
+
+	// products
+    setValueToProdForm = (data) =>{
+        $('#txtProdName').val(data.name);
+        $('#txtTypeProd').val(data.typeOfProduct.description);
+        $('#txtQuantity').val(data.quantity)
+        $('#txtPrice').val(data.price);
+        $('#txtUnit').val(data.unitType.description);
+        const path = "/home/images/"+data.imgUrl;
+        $('#prodImg').attr("src",path);
+        $('#txtProdName').focus();
+    };
 </script>
  <!--Event - Data -->
  <script th:inline="javascript">
@@ -541,15 +554,15 @@
 				//this.UserAccount();
 				$("tableUsers").unbind();
 				$("OrderStatistics").unbind();
-				this.ChartOrderstatisticsById(userindex.id);
-				this.setValueToForm(userindex);
+				ChartOrderstatisticsById(userindex.id);
+				setValueToForm(userindex);
 			},
 			error:(e) =>{
 				alert(e)
 			}
 		});
 	};
-	
+
 	ChartOrderstatisticsById = (userId) =>{
 		let url = "/api/admin/totalPricebyId?userId="+userId;
 		$.ajax({
@@ -558,13 +571,40 @@
 			url: url,
 			async: false,
 			success:(Data)=>{
-				this.ChartOrderstatistics(Data);
+				ChartOrderstatistics(Data);
 			},
 			error:(e) =>{
 				alert(e);
 			}
 		})
-	}
+	};
+
+	Item = (item) =>{
+        let response = '/api/admin/indexProd?index='+item;
+        $.ajax({
+            type: "GET",
+            contentType: "application/json",
+            url: response,
+            async: false,
+            success : (prod) =>{
+                $('#txtProdName').val(prod.name);
+                $('#txtTypeProd').val(prod.typeOfProduct.description);
+                $('#txtQuantity').val(prod.quantity)
+                $('#txtPrice').val(prod.price);
+                $('#txtUnit').val(prod.unitType.description);
+                const path = "/home/images/"+prod.imgUrl;
+                $('#prodImg').attr("src",path);
+                $('#txtUnit').focus();
+                $('#txtPrice').focus();
+                $('#txtQuantity').focus();
+                $('#txtTypeProd').focus();
+                $('#txtProdName').focus();
+            },
+            error: (e) =>{
+                alert('bug')
+            }
+        });
+    };
 </script>
 </body>
 </html> 
