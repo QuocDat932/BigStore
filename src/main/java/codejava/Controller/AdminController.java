@@ -158,40 +158,23 @@ public class AdminController {
 	public String insertProd(@RequestBody productDto newProd){
 		try {
 			Products prod = new Products();
+			if(newProd.getId() != 0){
+				prod.setId(newProd.getId());
+			}
             prod.setName(newProd.getName());
             prod.setPrice(newProd.getPrice());
             prod.setQuantity(newProd.getQuantity());
             prod.setTypeOfProduct(typeServices.findById(newProd.getTypeof()));
             prod.setUnitType(unitServices.findById(newProd.getUnitof()));
-            prod.setImgUrl("");
-			prod.setDescription("");
+            prod.setImgUrl(newProd.getImgUrl());
+			prod.setDescription(newProd.getDescription());
 			prod.setIsDeleted(1.0);
 			prod.setSlug("Please update slug");
             prodServices.SaveOrUpdate(prod);
-			return "ok";
 		} catch (Exception e) {
 			e.printStackTrace();
-			return "bug";
+			return "bug: "+e;
 		}
-	}
-	@PostMapping("/product/productMgt/update")
-	public String updateProd(@RequestBody productDto newProd){
-		try {
-			Products prod = new Products();
-			prod.setName(newProd.getName());
-			prod.setPrice(newProd.getPrice());
-			prod.setQuantity(newProd.getQuantity());
-			prod.setTypeOfProduct(typeServices.findById(newProd.getTypeof()));
-			prod.setUnitType(unitServices.findById(newProd.getUnitof()));
-			prod.setImgUrl("");
-			prod.setDescription("");
-			prod.setIsDeleted(1.0);
-			prod.setSlug("SLUG");
-			prodServices.SaveOrUpdate(prod);
-			return "ok";
-		} catch (Exception e) {
-			e.printStackTrace();
-			return "bug";
-		}
+		return "ok";
 	}
 }
