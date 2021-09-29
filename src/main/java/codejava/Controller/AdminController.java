@@ -6,8 +6,9 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 import javax.websocket.Session;
 
-import codejava.Entity.Products;
-import codejava.Services.ProductsServices;
+import codejava.Dto.productDto;
+import codejava.Entity.*;
+import codejava.Services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -15,19 +16,12 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import codejava.Constant.RoleConst;
 import codejava.Constant.SessionConst;
 import codejava.Constant.publicConst;
-import codejava.Entity.Users;
-import codejava.Entity.roles;
 import codejava.Jwt.CustomUser;
-import codejava.Services.StatsServices;
-import codejava.Services.UserServices;
 import codejava.Constant.publicConst;
 
 @RequestMapping("/admin")
@@ -43,6 +37,11 @@ public class AdminController {
 	private UserServices userservices;
 	@Autowired
 	private ProductsServices prodServices;
+	@Autowired
+	private TypeOfProductServices typeServices;
+	@Autowired
+	private UnitTypeServices unitServices;
+
 	@GetMapping("/login")
 	public String doGetLogin(Model model, HttpSession session) {
 		System.out.println("Admin Login");
@@ -111,7 +110,11 @@ public class AdminController {
 	@GetMapping("/product/productMgt")
 	public String doGetProduct(Model model) {
 		List<Products> prod = prodServices.findAll();
+		List<TypeOfProduct> type = typeServices.findAll();
+		List<UnitType> unit = unitServices.findAll();
 		model.addAttribute("prod", prod);
+		model.addAttribute("type", type);
+		model.addAttribute("unit", unit);
 		return "admin/Product-productMgt";
 	};
 	@GetMapping("/product/categotyMgt")
@@ -151,5 +154,23 @@ public class AdminController {
 						
 		return "admin/ListOrder";
 	}
-	
+	@PostMapping("/product/productMgt/insert")
+	public String insertProd(@RequestBody productDto newProd){
+		try {
+			Products prod = new Products();
+//            prod.setName(newProd.getName());
+//            newProd.setImgUrl("");
+//            newProd.setDescription("");
+//            newProd.setIsDeleted(1.0);
+//            newProd.setSlug("");
+//            System.out.println(newProd.getName());
+//            System.out.println(newProd.getTypeof());
+//            System.out.println(newProd.getUnitof());
+//            prodServices.addProducts(newProd);
+			return "ok";
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "bug";
+		}
+	}
 }

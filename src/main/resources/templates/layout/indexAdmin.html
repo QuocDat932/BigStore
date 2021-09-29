@@ -17,6 +17,7 @@
   <!-- End plugin css for this page -->
   <!-- Layout styles -->
   <link rel="stylesheet" th:href="@{/admin/css/demo/style.css}">
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <!-- End layout styles -->
   <link rel="shortcut icon" th:href="@{/admin/images/favicon.png}" />
 </head>
@@ -526,17 +527,7 @@
 				$('#txtuserName').focus();
 	};
 
-	// products
-    setValueToProdForm = (data) =>{
-        $('#txtProdName').val(data.name);
-        $('#txtTypeProd').val(data.typeOfProduct.description);
-        $('#txtQuantity').val(data.quantity)
-        $('#txtPrice').val(data.price);
-        $('#txtUnit').val(data.unitType.description);
-        const path = "/home/images/"+data.imgUrl;
-        $('#prodImg').attr("src",path);
-        $('#txtProdName').focus();
-    };
+
 </script>
  <!--Event - Data -->
  <script th:inline="javascript">
@@ -579,32 +570,82 @@
 		})
 	};
 
-	Item = (item) =>{
-        let response = '/api/admin/indexProd?index='+item;
-        $.ajax({
-            type: "GET",
-            contentType: "application/json",
-            url: response,
-            async: false,
-            success : (prod) =>{
-                $('#txtProdName').val(prod.name);
-                $('#txtTypeProd').val(prod.typeOfProduct.description);
-                $('#txtQuantity').val(prod.quantity)
-                $('#txtPrice').val(prod.price);
-                $('#txtUnit').val(prod.unitType.description);
-                const path = "/home/images/"+prod.imgUrl;
-                $('#prodImg').attr("src",path);
-                $('#txtUnit').focus();
-                $('#txtPrice').focus();
-                $('#txtQuantity').focus();
-                $('#txtTypeProd').focus();
-                $('#txtProdName').focus();
-            },
-            error: (e) =>{
-                alert('bug')
-            }
+    $(document).ready(function (){
+        $("#btnClear").click( function (){
+            $('#txtProdName').val("");
+            $('#cboType').val("1");
+            $('#txtQuantity').val("")
+            $('#txtPrice').val("");
+            $('#cboUnit').val("1");
+            const img ="exampleProducts.png";
+            const path = "/home/images/"+img;
+            $('#prodImg').attr("src",path);
         });
-    };
+
+        // products
+        setValueToProdForm = (data) =>{
+            $('#txtProdName').val(data.name);
+            $('#cboType').val(data.typeOfProduct.id);
+            $('#txtQuantity').val(data.quantity)
+            $('#txtPrice').val(data.price);
+            $('#cboUnit').val(data.unitType.id);
+            const path = "/home/images/"+data.imgUrl;
+            $('#prodImg').attr("src",path);
+            $('#txtUnit').focus();
+            $('#txtPrice').focus();
+            $('#txtQuantity').focus();
+            $('#txtTypeProd').focus();
+            $('#txtProdName').focus();
+        };
+
+        Item = (item) =>{
+            let response = '/api/admin/indexProd?index='+item;
+            $.ajax({
+                type: "GET",
+                contentType: "application/json",
+                url: response,
+                async: false,
+                success : (prod) =>{
+                    setValueToProdForm(prod);
+                },
+                error: (e) =>{
+                    alert('bug')
+                }
+            });
+        };
+        $("#btnCreate").click(function (){
+            addProducts();
+        })
+    });
+    function addProducts(){
+        let response = '/admin/product/productMgt/insert';
+        const prodName = $("#txtProdName").val();
+        const typeProd = $("#cboType").val();
+        const quantityProd = $("#txtQuantity").val();
+        const priceProd = $("#txtPrice").val();
+        const unitProd = $("#cboUnit").val();
+        let jsonData = {name : prodName,
+            quantity : quantityProd,
+            price : priceProd,
+            typeof : typeProd,
+            unitof : unitProd
+        };
+        console.log(jsonData)
+        $.ajax({
+            type: "POST",
+            url : response,
+            data: JSON.stringify(jsonData),
+            contentType:"application/json"
+        }).done(function (){
+            console.log(jsonData);
+            $("#prodTable").load("#prodTable");
+        }).fail(function (){
+            Swal.fire({
+                icon: 'error',
+                text: 'Bug !',
+            })
+        });
+    }
 </script>
 </body>
 </html> 
