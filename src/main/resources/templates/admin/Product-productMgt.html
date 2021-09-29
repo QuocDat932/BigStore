@@ -84,9 +84,14 @@
                     </div>
                     <div class="mdc-layout-grid__cell--span-6-desktop">
                       <div class="mdc-text-field ">
-                        <input class="mdc-text-field__input" style="" id="txtTypeProd">
+                        <input type="hidden" class="mdc-text-field__input" >
+                        <i class="mdc-select__dropdown-icon"></i>
+                        <select class="mdc-select__selected-text" id="cboType">
+                          <option th:each="type : ${type}"
+                                  th:value="${type.id}"
+                                  th:utext="${type.description}"/>
+                        </select>
                         <div class="mdc-line-ripple"></div>
-                        <label for="text-field-hero-input" class="mdc-floating-label">Type</label>
                       </div>
                     </div>
                     <div class="mdc-layout-grid__cell--span-6-desktop">
@@ -105,9 +110,30 @@
                     </div>
                     <div class="mdc-layout-grid__cell--span-6-desktop">
                       <div class="mdc-text-field ">
-                        <input class="mdc-text-field__input" style="" id="txtUnit">
+                        <input type="hidden" class="mdc-text-field__input" >
+                        <i class="mdc-select__dropdown-icon"></i>
+                        <select class="mdc-select__selected-text" id="cboUnit">
+                          <option th:each="unit : ${unit}"
+                                  th:value="${unit.id}"
+                                  th:utext="${unit.description}"/>
+                        </select>
                         <div class="mdc-line-ripple"></div>
-                        <label for="text-field-hero-input" class="mdc-floating-label">Unit</label>
+                      </div>
+                    </div>
+                    <div class="mdc-card__supporting-text">
+                      <div class ="template-demo">
+                        <button id="btnCreate" class="mdc-button mdc-button--unelevated mdc-ripple-upgraded" style="--mdc-ripple-fg-size:57px; --mdc-ripple-fg-scale:1.96776; --mdc-ripple-fg-translate-start:42.5px, -7.5px; --mdc-ripple-fg-translate-end:19.3047px, -10.5px;">
+                          Create
+                        </button>
+                        <button class="mdc-button mdc-button--unelevated mdc-ripple-upgraded" style="--mdc-ripple-fg-size:57px; --mdc-ripple-fg-scale:1.96776; --mdc-ripple-fg-translate-start:42.5px, -7.5px; --mdc-ripple-fg-translate-end:19.3047px, -10.5px;">
+                          Update
+                        </button>
+                        <button class="mdc-button mdc-button--unelevated mdc-ripple-upgraded" style="--mdc-ripple-fg-size:57px; --mdc-ripple-fg-scale:1.96776; --mdc-ripple-fg-translate-start:42.5px, -7.5px; --mdc-ripple-fg-translate-end:19.3047px, -10.5px;">
+                          Delete
+                        </button>
+                        <button id="btnClear" class="mdc-button mdc-button--unelevated mdc-ripple-upgraded" style="--mdc-ripple-fg-size:57px; --mdc-ripple-fg-scale:1.96776; --mdc-ripple-fg-translate-start:42.5px, -7.5px; --mdc-ripple-fg-translate-end:19.3047px, -10.5px;">
+                          Clear
+                        </button>
                       </div>
                     </div>
                   </div>
