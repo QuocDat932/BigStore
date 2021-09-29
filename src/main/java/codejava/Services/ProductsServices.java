@@ -23,10 +23,10 @@ public interface ProductsServices {
 	
 	Products findByProductsSlug(String slug);
 	
-	void SaveAndUpdate(Products product);
+	void SaveOrUpdate(Products product);
 	
 	void updateQuantity(Integer quantity, Integer id);
-	
+
 	Page<Products> findAll(Pageable page);
 	List<Products> findtop4Bytype(String type);
 	

@@ -577,7 +577,8 @@
             $('#txtQuantity').val("")
             $('#txtPrice').val("");
             $('#cboUnit').val("1");
-            const img ="exampleProducts.png";
+            $('#txtDescription').val("");
+            const img ="ab1.jpg";
             const path = "/home/images/"+img;
             $('#prodImg').attr("src",path);
         });
@@ -589,6 +590,7 @@
             $('#txtQuantity').val(data.quantity)
             $('#txtPrice').val(data.price);
             $('#cboUnit').val(data.unitType.id);
+            $('#txtDescription').val(data.description);
             const path = "/home/images/"+data.imgUrl;
             $('#prodImg').attr("src",path);
             $('#txtUnit').focus();
@@ -596,6 +598,7 @@
             $('#txtQuantity').focus();
             $('#txtTypeProd').focus();
             $('#txtProdName').focus();
+            $('#txtDescription').focus();
         };
 
         Item = (item) =>{
@@ -638,7 +641,10 @@
             contentType:"application/json"
         }).done(function (){
             console.log(jsonData);
-            $("#prodTable").load("#prodTable");
+            Swal.fire({
+                icon: 'success',
+                text: 'Create product sucessfully !'
+            });
         }).fail(function (){
             Swal.fire({
                 icon: 'error',
