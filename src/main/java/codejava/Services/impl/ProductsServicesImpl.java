@@ -57,7 +57,7 @@ public class ProductsServicesImpl implements ProductsServices{
 		return result.isPresent() ? result.get() : null;
 	}
 	@Override
-	public void SaveAndUpdate(Products product) {
+	public void SaveOrUpdate(Products product) {
 		// TODO Auto-generated method stub
 		repo.saveAndFlush(product);
 	}
@@ -83,5 +83,5 @@ public class ProductsServicesImpl implements ProductsServices{
 	public List<Products> findtop4Bytype(String type){
 		return repo.findtop4Bytype(type);
 	};
-	
+
 }

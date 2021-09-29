@@ -8,4 +8,5 @@ public interface UnitTypeServices {
 
     List<UnitType> findAll();
 
+    UnitType findById(Integer id);
 }
