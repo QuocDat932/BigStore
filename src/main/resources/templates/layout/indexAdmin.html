@@ -572,6 +572,7 @@
 
     $(document).ready(function (){
         $("#btnClear").click( function (){
+            $('#txtProdId').val("");
             $('#txtProdName').val("");
             $('#cboType').val("1");
             $('#txtQuantity').val("")
@@ -581,10 +582,12 @@
             const img ="ab1.jpg";
             const path = "/home/images/"+img;
             $('#prodImg').attr("src",path);
+            $('#btnCreate').text('Create');
         });
 
         // products
         setValueToProdForm = (data) =>{
+            $('#txtProdId').val(data.id);
             $('#txtProdName').val(data.name);
             $('#cboType').val(data.typeOfProduct.id);
             $('#txtQuantity').val(data.quantity)
@@ -593,12 +596,14 @@
             $('#txtDescription').val(data.description);
             const path = "/home/images/"+data.imgUrl;
             $('#prodImg').attr("src",path);
+            $('#btnCreate').text('Update');
+            $('#txtDescription').focus();
             $('#txtUnit').focus();
             $('#txtPrice').focus();
             $('#txtQuantity').focus();
             $('#txtTypeProd').focus();
             $('#txtProdName').focus();
-            $('#txtDescription').focus();
+            $('#txtProdId').focus();
         };
 
         Item = (item) =>{
@@ -622,16 +627,24 @@
     });
     function addProducts(){
         let response = '/admin/product/productMgt/insert';
+        let image = $('#prodImg').attr("src");
+        const idProd = $("#txtProdId").val();
         const prodName = $("#txtProdName").val();
         const typeProd = $("#cboType").val();
         const quantityProd = $("#txtQuantity").val();
         const priceProd = $("#txtPrice").val();
         const unitProd = $("#cboUnit").val();
-        let jsonData = {name : prodName,
+        const descriptionProd = $('#txtDescription').val();
+        const imageProd = image.split("/").pop();
+        let jsonData = {
+            id : idProd,
+            name : prodName,
             quantity : quantityProd,
             price : priceProd,
             typeof : typeProd,
-            unitof : unitProd
+            unitof : unitProd,
+            description : descriptionProd,
+            imgUrl : imageProd,
         };
         console.log(jsonData)
         $.ajax({
@@ -640,7 +653,6 @@
             data: JSON.stringify(jsonData),
             contentType:"application/json"
         }).done(function (){
-            console.log(jsonData);
             Swal.fire({
                 icon: 'success',
                 text: 'Create product sucessfully !'
