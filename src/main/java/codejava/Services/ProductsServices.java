@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import codejava.Entity.Products;
+import codejava.Entity.TypeOfProduct;
 
 public interface ProductsServices {
 	List<Products> findAllAvailable();
@@ -28,4 +29,6 @@ public interface ProductsServices {
 	
 	Page<Products> findAll(Pageable page);
 	List<Products> findtop4Bytype(String type);
+	
+	List<Products> findByTypeOfProduct(TypeOfProduct type);
 }

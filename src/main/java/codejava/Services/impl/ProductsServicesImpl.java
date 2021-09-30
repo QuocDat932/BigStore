@@ -12,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import codejava.Entity.Products;
+import codejava.Entity.TypeOfProduct;
 import codejava.Responsitory.ProductsRepository;
 import codejava.Services.ProductsServices;
 
@@ -82,6 +83,12 @@ public class ProductsServicesImpl implements ProductsServices{
 	@Override
 	public List<Products> findtop4Bytype(String type){
 		return repo.findtop4Bytype(type);
+	}
+
+	@Override
+	public List<Products> findByTypeOfProduct(TypeOfProduct type) {
+		return repo.findByTypeOfProduct(type).get();
+		
 	};
 	
 }
