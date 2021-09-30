@@ -45,8 +45,8 @@
               </tr>
               </thead>
               <tbody>
-              <tr th:each="prod , state: ${prod}" th:attr="onclick='Item(\''+${prod.id}+'\')'" class="text-center">
-                <td th:text="${state.index + 1} "></td>
+              <tr th:each="prod : ${prod}" th:attr="onclick='Item(\''+${prod.id}+'\')'" class="text-center">
+                <td th:text="${prod.id} "></td>
                 <td th:text="${prod.name}"></td>
                 <td th:text="${prod.typeOfProduct.description}"></td>
                 <td th:text="${prod.quantity}"></td>
@@ -57,10 +57,6 @@
             </table>
           </div>
         </div>
-      </div>
-      <div class="mdc-card">
-        <h6 class="card-title">Products</h6>
-        <canvas id="totalUser"></canvas>
       </div>
     </div>
     <!--User Detail-->
@@ -133,7 +129,7 @@
                         <button id="btnCreate" class="mdc-button mdc-button--unelevated mdc-ripple-upgraded" style="--mdc-ripple-fg-size:57px; --mdc-ripple-fg-scale:1.96776; --mdc-ripple-fg-translate-start:42.5px, -7.5px; --mdc-ripple-fg-translate-end:19.3047px, -10.5px;">
                           Create
                         </button>
-                        <button class="mdc-button mdc-button--unelevated mdc-ripple-upgraded" style="--mdc-ripple-fg-size:57px; --mdc-ripple-fg-scale:1.96776; --mdc-ripple-fg-translate-start:42.5px, -7.5px; --mdc-ripple-fg-translate-end:19.3047px, -10.5px;">
+                        <button id="btnDelete" class="mdc-button mdc-button--unelevated mdc-ripple-upgraded" style="--mdc-ripple-fg-size:57px; --mdc-ripple-fg-scale:1.96776; --mdc-ripple-fg-translate-start:42.5px, -7.5px; --mdc-ripple-fg-translate-end:19.3047px, -10.5px;" disabled>
                           Delete
                         </button>
                         <button id="btnClear" class="mdc-button mdc-button--unelevated mdc-ripple-upgraded" style="--mdc-ripple-fg-size:57px; --mdc-ripple-fg-scale:1.96776; --mdc-ripple-fg-translate-start:42.5px, -7.5px; --mdc-ripple-fg-translate-end:19.3047px, -10.5px;">
@@ -151,7 +147,7 @@
                 <!--<h6 class="card-title">Detail Information</h6>-->
                 <div class="template-demo">
                   <div class="">
-                    <img style="width: 100%;" id="prodImg"  alt="product" class="product" >
+                    <img style="width: 100%;" id="prodImg"  alt="product" class="product" src="https://i.imgur.com/3ncGVzn.jpeg">
                   </div>
                 </div>
               </div>

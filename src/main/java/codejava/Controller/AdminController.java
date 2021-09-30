@@ -177,4 +177,13 @@ public class AdminController {
 		}
 		return "ok";
 	}
+	@DeleteMapping("/product/productMgt/delete/{id}")
+	public void delete(@PathVariable("id") Integer id) {
+		try {
+			prodServices.delete(id);
+			System.out.println("Delete ok");
+		} catch (Exception e){
+			e.printStackTrace();
+		}
+	}
 }
