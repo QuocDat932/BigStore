@@ -169,7 +169,11 @@ public class AdminController {
             prod.setImgUrl(newProd.getImgUrl());
 			prod.setDescription(newProd.getDescription());
 			prod.setIsDeleted(1.0);
-			prod.setSlug("Please update slug");
+			if(newProd.getSlug() != ""){
+				prod.setSlug(newProd.getSlug());
+			} else {
+				prod.setSlug("Please update slug");
+			}
             prodServices.SaveOrUpdate(prod);
 		} catch (Exception e) {
 			e.printStackTrace();

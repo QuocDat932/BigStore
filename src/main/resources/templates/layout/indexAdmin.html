@@ -7,6 +7,7 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Dashboard Big Store</title>
   <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+    <script src="//cdn.datatables.net/1.10.10/js/jquery.dataTables.min.js"></script>
   <!-- plugins:css -->
   <link rel="stylesheet" th:href="@{/admin/vendors/mdi/css/materialdesignicons.min.css}">
   <link rel="stylesheet" th:href="@{/admin/vendors/css/vendor.bundle.base.css}">
@@ -571,6 +572,7 @@
 	};
 
     $(document).ready(function (){
+
         $("#btnDelete").prop('disabled',true);
         $("#btnClear").click( function (){
             clearDataForm();
@@ -578,6 +580,7 @@
 
         clearDataForm = () =>{
             $('#txtProdId').val("");
+            $('#txtSlugProd').val("");
             $('#txtProdName').val("");
             $('#cboType').val("1");
             $('#txtQuantity').val("")
@@ -593,6 +596,7 @@
         // products
         setValueToProdForm = (data) =>{
             $('#txtProdId').val(data.id);
+            $('#txtSlugProd').val(data.slug);
             $('#txtProdName').val(data.name);
             $('#cboType').val(data.typeOfProduct.id);
             $('#txtQuantity').val(data.quantity)
@@ -639,6 +643,7 @@
         let response = '/admin/product/productMgt/insert';
         let image = $('#prodImg').attr("src");
         const idProd = $("#txtProdId").val();
+        const slugProd = $('#txtSlugProd').val();
         const prodName = $("#txtProdName").val();
         const typeProd = $("#cboType").val();
         const quantityProd = $("#txtQuantity").val();
@@ -648,6 +653,7 @@
         const imageProd = image.split("/").pop();
         let jsonData = {
             id : idProd,
+            slug : slugProd,
             name : prodName,
             quantity : quantityProd,
             price : priceProd,
@@ -656,12 +662,14 @@
             description : descriptionProd,
             imgUrl : imageProd,
         };
+        console.log(jsonData);
         $.ajax({
             type: "POST",
             url : response,
             data: JSON.stringify(jsonData),
             contentType:"application/json",
             success: function (data){
+                $('#btnCreate').text('Update');
                 Swal.fire({
                     icon: 'success',
                     text: 'Sucessfully !!!'
