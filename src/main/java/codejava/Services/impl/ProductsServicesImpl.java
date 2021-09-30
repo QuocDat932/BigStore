@@ -29,14 +29,12 @@ public class ProductsServicesImpl implements ProductsServices{
 	
 	@Override
 	public Products product(int typeID) {
-		// TODO Auto-generated method stub
 		Optional<Products> product = repo.findById(typeID);
 		return product.isPresent() ? product.get() : null ;
 	}
 	
 	@Override
 	public List<Products> findByTypeId(Integer typeID) {
-		// TODO Auto-generated method stub
 		return repo.findByTypeId(typeID);
 	}
 	@Override
@@ -53,26 +51,22 @@ public class ProductsServicesImpl implements ProductsServices{
 
 	@Override
 	public Products findById(int ID) {
-		// TODO Auto-generated method stub
 		Optional<Products> result = repo.findById(ID);
 		return result.isPresent() ? result.get() : null;
 	}
 	@Override
 	public void SaveAndUpdate(Products product) {
-		// TODO Auto-generated method stub
 		repo.saveAndFlush(product);
 	}
 	
 	@Override
 	@Transactional
 	public void updateQuantity(Integer quantity, Integer id) {
-		// TODO Auto-generated method stub
 		repo.updateQuantity(quantity, id);
 	}
 
 	@Override
 	public List<Products> findAll() {
-		// TODO Auto-generated method stub
 		return repo.findAll();
 	}
 

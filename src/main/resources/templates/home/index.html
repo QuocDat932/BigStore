@@ -108,36 +108,42 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 				<div class="tab-head ">
 					<nav class="nav-sidebar">
 						<ul class="nav tabs ">
-								<li th:each="type, state : ${listType}" class="" th:attr="onclick='top4prod(\''+${type.slug}+'\')'">
-									<a th:href="@{'#tab'+ ${state.index + 1}}" data-toggle="tab" th:text="${type.description}"></a>
-								</li>
+							<li th:each="type, state : ${listType}" class=""
+								th:attr="onclick='top4prod(\''+${type.slug}+'\')'">
+								<a class="tabProd" th:href="@{'#tab'+ ${state.index + 1}}" data-toggle="tab"
+									th:text="${type.description}"></a>
+							</li>
 						</ul>
 					</nav>
+					
 					<div class=" tab-content tab-content-t ">
 						<div class="tab-pane active text-style" id="tab1">
 							<div id="viewTop4prod" class=" con-w3l">
 								<div th:each="prod, state : ${session.Top4Prod.listTop4}" class="col-md-3 m-wthree">
 									<div class="col-m">
-										<a href="#" data-toggle="modal" th:data-target="@{'#'+ ${prod.slug}}" class="offer-img">
-											<img th:src="@{'/home/images/' + ${prod.imgUrl}}" class="img-responsive" alt="">
-											<div class="offer"><p><span>Offer</span></p></div>
+										<a href="#" data-toggle="modal" th:data-target="@{'#' + ${prod.slug}}" class="offer-img">
+											<img th:src="@{'/home/images/' + ${prod.imgUrl}}" class="img-responsive"
+												alt="">
+											<div class="offer">
+												<p><span>Offer</span></p>
+											</div>
 										</a>
 										<div class="mid-1">
 											<div class="women">
-												<h6><a th:href="@{/home/single}" th:text="${prod.name}"> </a></h6>							
+												<h6><a th:href="@{/home/single}" th:text="${prod.name}"> </a></h6>
 											</div>
 											<div class="mid-2">
-												<p ><label>$4.00</label><em class="item_price" th:text="${prod.price}"></em></p>
-												  <div class="block">
+												<p><label>$4.00</label><em class="item_price"
+														th:text="${prod.price}"></em></p>
+												<div class="block">
 													<div class="starbox small ghosting"> </div>
 												</div>
 												<div class="clearfix"></div>
 											</div>
 											<div class="add">
-											   <!--<button class="btn btn-danger my-cart-btn my-cart-b" data-id="4" data-name="Soya Chunks" data-summary="summary 4" data-price="3.50" data-quantity="1" data-image="images/of3.png">Add to Cart</button>
-											   -->
-											   <button class="btn btn-danger my-cart-btn my-cart-b" th:data-id="${prod.id}" th:data-name="${prod.name}"
-										    data-summary="summary 1" th:data-price="${prod.price}" th:data-quantity="${1}" th:data-image="@{'images/' + ${prod.imgUrl}}">Add to Cart</button>
+												<button class="btn btn-danger my-cart-btn my-cart-b" data-id="4"
+													data-name="Soya Chunks" data-summary="summary 4" data-price="3.50"
+													data-quantity="1" data-image="images/of3.png">Add to Cart</button>
 											</div>
 										</div>
 									</div>
@@ -169,243 +175,224 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 				</a>
 			</div>
 		</div>
-		<div class="col-md-4 m-w3ls1">
-			<div class="col-md ">
-				<a th:href="@{/home/hold}">
-					<img th:src="@{/home/images/co.jpg}" class="img-responsive img" alt="">
-					<div class="big-sale">
-						<div class="big-sale1">
-							<h3>Big <span>Sale</span></h3>
-							<p>It is a long established fact that a reader </p>
-						</div>
-					</div>
-				</a>
-			</div>
-		</div>
-		<div class="col-md-4 m-w3ls">
-			<div class="col-md2 ">
-				<a th:href="@{/home/kitchen}">
-					<img th:src="@{/home/images/co2.jpg}" class="img-responsive img1" alt="">
-					<div class="big-sale2">
-						<h3>Cooking <span>Oil</span></h3>
-						<p>It is a long established fact that a reader </p>		
-					</div>
-				</a>
-			</div>
-			<div class="col-md3 ">
-				<a th:href="@{/home/hold}">
-					<img th:src="@{/home/images/co3.jpg}" class="img-responsive img1" alt="">
-					<div class="big-sale3">
-						<h3>Vegeta<span>bles</span></h3>
-						<p>It is a long established fact that a reader </p>
-					</div>
-				</a>
-			</div>
-		</div>
-		<div class="clearfix"></div>
-	</div>
-</div>
-<!--content-->
-  <!-- Carousel
+		<!--content-->
+		<!-- Carousel
     ================================================== -->
-    <div id="myCarousel" class="carousel slide" data-ride="carousel">
-      <!-- Indicators -->
-      <ol class="carousel-indicators">
-        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-        <li data-target="#myCarousel" data-slide-to="1"></li>
-        <li data-target="#myCarousel" data-slide-to="2"></li>
-      </ol>
-      <div class="carousel-inner" role="listbox">
-        <div class="item active">
-         <a th:href="@{/home/kitchen}"> <img class="first-slide" th:src="@{/home/images/ba.jpg}" alt="First slide"></a>
-       
-        </div>
-        <div class="item">
-         <a th:href="@{/home/care}"> <img class="second-slide "  th:src="@{/home/images/ba1.jpg}" alt="Second slide"></a>
-         
-        </div>
-        <div class="item">
-          <a th:href="@{/home/hold}"><img class="third-slide "   th:src="@{/home/images/ba2.jpg}" alt="Third slide"></a>
-          
-        </div>
-      </div>
-    
-    </div><!-- /.carousel -->
+		<div id="myCarousel" class="carousel slide" data-ride="carousel">
+			<!-- Indicators -->
+			<ol class="carousel-indicators">
+				<li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+				<li data-target="#myCarousel" data-slide-to="1"></li>
+				<li data-target="#myCarousel" data-slide-to="2"></li>
+			</ol>
+			<div class="carousel-inner" role="listbox">
+				<div class="item active">
+					<a th:href="@{/home/kitchen}"> <img class="first-slide" th:src="@{/home/images/ba.jpg}"
+							alt="First slide"></a>
 
-<!--content-->
-	<div class="product">
-		<div class="container">
-			<div class="spec ">
-				<h3>Special Offers</h3>
-				<div class="ser-t">
-					<b></b>
-					<span><i></i></span>
-					<b class="line"></b>
+				</div>
+				<div class="item">
+					<a th:href="@{/home/care}"> <img class="second-slide " th:src="@{/home/images/ba1.jpg}"
+							alt="Second slide"></a>
+
+				</div>
+				<div class="item">
+					<a th:href="@{/home/hold}"><img class="third-slide " th:src="@{/home/images/ba2.jpg}"
+							alt="Third slide"></a>
+
 				</div>
 			</div>
-		<div id="products"></div>
-		 <ul class="pagination" style="margin: 14px "  >
-					<li><a  aria-label="Previous" id="testBack"><span>«</span></a></li>
-					<li ><a id="testCurrent"></a></li>
+
+		</div><!-- /.carousel -->
+
+		<!--content-->
+		<div class="product">
+			<div class="container">
+				<div class="spec ">
+					<h3>Special Offers</h3>
+					<div class="ser-t">
+						<b></b>
+						<span><i></i></span>
+						<b class="line"></b>
+					</div>
+				</div>
+				<div id="products"></div>
+				<ul class="pagination" style="margin: 14px ">
+					<li><a aria-label="Previous" id="testBack"><span>«</span></a></li>
+					<li><a id="testCurrent"></a></li>
 					<li><a aria-label="Next" id="testNext"><span>»</span></a></li>
-				  </ul>
-	
-		
+					<li><a aria-label="Next" id="tesstlocal"><span>local</span></a></li>
+				</ul>
+
+
+			</div>
 		</div>
-	</div>
-<!--footer-->
+		<!--footer-->
 
-<!-- //footer-->
+		<!-- //footer-->
 
-<!-- smooth scrolling -->
-<script type="text/javascript">
-		$(document).ready(function () {
-			$().UItoTop({easingType: 'easeOutQuart'});
-		});
-</script>
-<a href="#" id="toTop" style="display: block;"> <span id="toTopHover" style="opacity: 1;"> </span></a>
-<!-- //smooth scrolling -->
-<!-- for bootstrap working -->
+		<!-- smooth scrolling -->
+		<script type="text/javascript">
+			$(document).ready(function () {
+				$().UItoTop({easingType: 'easeOutQuart'});
+			});
+		</script>
+		<a href="#" id="toTop" style="display: block;"> <span id="toTopHover" style="opacity: 1;"> </span></a>
+		<!-- //smooth scrolling -->
+		<!-- for bootstrap working -->
 		<script th:src="@{/home/js/bootstrap.js}"></script>
-<!-- //for bootstrap working -->
-<script type='text/javascript' th:src="@{/home/js/jquery.mycart.js}"></script>
-<script type="text/javascript">
-	loadFunction = () =>{
-		var goToCartIcon = function ($addTocartBtn) {
-			var $cartIcon = $(".my-cart-icon");
-			var $image = $('<img width="30px" height="30px" src="/home/' + $addTocartBtn.data("image") + '"/>').css({"position": "fixed", "z-index": "999"});
-			$addTocartBtn.prepend($image);
-			var position = $cartIcon.position();
-			$image.animate({
-				top: position.top,
-				left: position.left
-			}, 500, "linear", function () {
-				$image.remove();
+		<!-- //for bootstrap working -->
+		<script type='text/javascript' th:src="@{/home/js/jquery.mycart.js}"></script>
+		<script type="text/javascript">
+			$(document).ready(function () {
+				top4prod('RAU');
 			});
-		}
+			top4prod = (param) => {
+				let url = "/api/user/controller/top4product?param=" + param;
+				$.get(url).done(function (lsProduct) {
+					$("#viewTop4prod").replaceWith(lsProduct);
+					/*		var html_to_append = '';			
+								$.each(lsProduct, function(i, item) {
+									html_to_append +=
+										'<div class="col-md-3 m-wthree"><div class="col-m"><a href="#" data-toggle="modal" data-target="#myModal4" class="offer-img"> <img src="/home/images/'+
+											item.imgUrl+
+											'" class="img-responsive" alt=""><div class="offer"><p><span>Offer</span></p></div> </a> <div class="mid-1"> <div class="women"> <h6>'+
+											item.name+
+											'</h6> </div> <div class="mid-2"> <p ><label>$4.00</label><em class="item_price">$3.50</em></p> <div class="block"> <div class="starbox small ghosting"> </div> </div> <div class="clearfix"></div> </div> <div class="add"> <button class="btn btn-danger my-cart-btn my-cart-b" data-id="4" data-name="Soya Chunks" data-summary="summary 4" data-price="3.50" data-quantity="1" data-image="images/of3.png">Add to Cart</button> </div> </div> </div> </div>';
+								});
+								$("#viewTop4prod").html(html_to_append);
+					*/
+				});
 
-		$('.my-cart-btn').myCart({
-			classCartIcon: 'my-cart-icon',
-			classCartBadge: 'my-cart-badge',
-			affixCartIcon: true,
-			checkoutCart: function (products) {
-				$.each(products, function () {
-					console.log(this);
-				});
-			},
-			clickOnAddToCart: function ($addTocart) {
-				goToCartIcon($addTocart);
-			},
-			getDiscountPrice: function (products) {
-				var total = 0;
-				$.each(products, function () {
-					total += this.quantity * this.price;
-				});
-				return total * 1;
 			}
-		});
 
-	}
-	$(document).ready(function() {
-		top4prod('RAU');
-		loadFunction();
-	});
-	top4prod = (param) =>{
-		let url = "/api/user/controller/top4product?param="+param;
-		$.get(url).done(function(lsProduct){
-			$("#viewTop4prod").replaceWith(lsProduct);
-			loadFunction();
-	/*		var html_to_append = '';			
-				$.each(lsProduct, function(i, item) {
-					html_to_append +=
-						'<div class="col-md-3 m-wthree"><div class="col-m"><a href="#" data-toggle="modal" data-target="#myModal4" class="offer-img"> <img src="/home/images/'+
-							item.imgUrl+
-							'" class="img-responsive" alt=""><div class="offer"><p><span>Offer</span></p></div> </a> <div class="mid-1"> <div class="women"> <h6>'+
-							item.name+
-							'</h6> </div> <div class="mid-2"> <p ><label>$4.00</label><em class="item_price">$3.50</em></p> <div class="block"> <div class="starbox small ghosting"> </div> </div> <div class="clearfix"></div> </div> <div class="add"> <button class="btn btn-danger my-cart-btn my-cart-b" data-id="4" data-name="Soya Chunks" data-summary="summary 4" data-price="3.50" data-quantity="1" data-image="images/of3.png">Add to Cart</button> </div> </div> </div> </div>';
+		</script>
+		<script type="text/javascript">
+			function rel(){
+				$(function () {
+
+				var goToCartIcon = function ($addTocartBtn) {
+					var $cartIcon = $(".my-cart-icon");
+					var $image = $('<img width="30px" height="30px" src="/home/' + $addTocartBtn.data("image") + '"/>').css({"position": "fixed", "z-index": "999"});
+					$addTocartBtn.prepend($image);
+					var position = $cartIcon.position();
+					$image.animate({
+						top: position.top,
+						left: position.left
+					}, 500, "linear", function () {
+						$image.remove();
+					});
+				}
+
+				$('.my-cart-btn').myCart({
+					classCartIcon: 'my-cart-icon',
+					classCartBadge: 'my-cart-badge',
+					affixCartIcon: true,
+					checkoutCart: function (products) {
+						$.each(products, function () {
+							console.log(this);
+						});
+					},
+					clickOnAddToCart: function ($addTocart) {
+						goToCartIcon($addTocart);
+					},
+					getDiscountPrice: function (products) {
+						var total = 0;
+						$.each(products, function () {
+							total += this.quantity * this.price;
+						});
+						return total * 1;
+					}
 				});
-				$("#viewTop4prod").html(html_to_append);
-	*/	
-		});
 
-	}
-
-</script>  
-<script type="text/javascript">
-	$(function () {
-
-		var goToCartIcon = function ($addTocartBtn) {
-			var $cartIcon = $(".my-cart-icon");
-			var $image = $('<img width="30px" height="30px" src="/home/' + $addTocartBtn.data("image") + '"/>').css({"position": "fixed", "z-index": "999"});
-			$addTocartBtn.prepend($image);
-			var position = $cartIcon.position();
-			$image.animate({
-				top: position.top,
-				left: position.left
-			}, 500, "linear", function () {
-				$image.remove();
 			});
-		}
-
-		$('.my-cart-btn').myCart({
-			classCartIcon: 'my-cart-icon',
-			classCartBadge: 'my-cart-badge',
-			affixCartIcon: true,
-			checkoutCart: function (products) {
-				$.each(products, function () {
-					console.log(this);
-				});
-			},
-			clickOnAddToCart: function ($addTocart) {
-				goToCartIcon($addTocart);
-			},
-			getDiscountPrice: function (products) {
-				var total = 0;
-				$.each(products, function () {
-					total += this.quantity * this.price;
-				});
-				return total * 1;
 			}
-		});
-
-	});
-</script>
-  <!-- product -->
-			<!-- <div class="modal fade" id="19" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"> -->
-			<div class="modal fade" th:id="${product.slug}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" th:each="product, state : ${listProduct}" >
-				<div class="modal-dialog" role="document">
-					<div class="modal-content modal-info">
-						<div class="modal-header">
-							<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-						</div>
-						<div class="modal-body modal-spa">
-								<div class="col-md-5 span-2">
-											<div class="item">
-												<img th:src="@{'/home/images/' + ${product.imgUrl}}" class="img-responsive" alt="">
-											</div>
-								</div>
-								<div class="col-md-7 span-1 ">
-									<h3 th:text="${product.name}"></h3>
-									<p class="in-para" th:text="${product.description}"> </p>
-									<div class="price_single">
-									  <span class="reducedfrom " th:text="${product.price}"><del>$2.00</del>$1.50</span>
-									
-									 <div class="clearfix"></div>
-									</div>
-									<h4 class="quick">Quick Overview:</h4>
-									<p class="quick_desc" th:text="${product.description}"> </p>
-									<div class="add-to">
-										   <button class="btn btn-danger my-cart-btn my-cart-b" th:data-id="${product.id}" th:data-name="${product.name}"
-										    data-summary="summary 1" th:data-price="${product.price}" th:data-quantity="${1}" th:data-image="@{'images/' + ${product.imgUrl}}">Add to Cart</button>
-									</div>
-								</div>
-								<div class="clearfix"> </div>
+			rel();
+		</script>
+		<!-- product -->
+		<!-- <div class="modal fade" id="19" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"> -->
+		<div class="modal fade" th:id="${product.slug}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+			th:each="product, state : ${listProduct}">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content modal-info">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+								aria-hidden="true">&times;</span></button>
+					</div>
+					<div class="modal-body modal-spa">
+						<div class="col-md-5 span-2">
+							<div class="item">
+								<img th:src="@{'/home/images/' + ${product.imgUrl}}" class="img-responsive" alt="">
 							</div>
 						</div>
+						<div class="col-md-7 span-1 ">
+							<h3 th:text="${product.name}"></h3>
+							<p class="in-para" th:text="${product.description}"> </p>
+							<div class="price_single">
+								<span class="reducedfrom " th:text="${product.price}">$1.50</span>
+								<div class="clearfix"></div>
+							</div>
+							<h4 class="quick">Quick Overview:</h4>
+							<p class="quick_desc" th:text="${product.description}"> </p>
+							<div class="add-to">
+								<button class="btn btn-danger my-cart-btn my-cart-b" th:data-id="${product.id}"
+									th:data-name="${product.name}" data-summary="summary 1"
+									th:data-price="${product.price}" th:data-quantity="${1}"
+									th:data-image="@{'images/' + ${product.imgUrl}}">Add to Cart</button>
+							</div>
+						</div>
+						<div class="clearfix"> </div>
 					</div>
 				</div>
-				<!-- product -->
-</div>
-</div>
+			</div>
+		</div>
+
+		<!-- product -->
+		<script>
+			reloadFunctions = function () {
+					var goToCartIcon = function ($addTocartBtn) {
+						var $cartIcon = $(".my-cart-icon");
+						var $image = $('<img width="30px" height="30px" src="/home/' + $addTocartBtn.data("image") + '"/>').css({"position": "fixed", "z-index": "999"});
+						$addTocartBtn.prepend($image);
+						var position = $cartIcon.position();
+						$image.animate({
+							top: position.top,
+							left: position.left
+						}, 500, "linear", function () {
+							$image.remove();
+						});
+					}
+
+					$('.my-cart-btn').myCart({
+						classCartIcon: 'my-cart-icon',
+						classCartBadge: 'my-cart-badge',
+						affixCartIcon: true,
+						checkoutCart: function (products) {
+							$.each(products, function () {
+								console.log(this);
+							});
+						},
+						clickOnAddToCart: function ($addTocart) {
+							goToCartIcon($addTocart);
+						},
+						getDiscountPrice: function (products) {
+							var total = 0;
+							$.each(products, function () {
+								total += this.quantity * this.price;
+							});
+							return total * 1;
+						}
+					});
+				}
+				$(document).ready(function () {
+					$(".tabProd").click(function () {
+						reloadFunctions();
+					}); 
+					console.log("ready!"); reloadFunctions(); ProductPage(0);
+				});
+		</script>
+	</div>
+	</div>
 </body>
+
 </html>

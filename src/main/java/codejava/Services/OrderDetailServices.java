@@ -1,7 +1,9 @@
 package codejava.Services;
 
 import codejava.Dto.cartDetailDto;
+import codejava.Entity.OrderDetails;
+import codejava.Entity.Products;
 
 public interface OrderDetailServices {
-	void insert(cartDetailDto cartDetailDto) throws Exception;
+	void save(cartDetailDto od) throws Exception;
 }

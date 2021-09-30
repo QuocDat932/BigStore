@@ -13,6 +13,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import codejava.Dto.productDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -32,7 +35,6 @@ public class OrderDetails implements Serializable{/**
 	@Column(name="id")
 	private int id;
 	
-	
 	@Column(name="price")
 	private Double price;
 	
@@ -41,12 +43,22 @@ public class OrderDetails implements Serializable{/**
 	
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
 	@JoinColumn(name = "orderid", referencedColumnName = "id")
+	@JsonIgnoreProperties(value = {"applications", "hibernateLazyInitializer"})
 	private Orders order;
 	
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
 	@JoinColumn(name="productid", referencedColumnName = "id")
+	@JsonIgnoreProperties(value = {"applications", "hibernateLazyInitializer"})
 	private Products product;
 	
+	
+	public OrderDetails(Double price, int quanity, Orders o,Products p) {
+		this.product = p;
+		this.order = o;
+		this.price = price;
+		this.quantity = quanity;
+		
+	}
 }
 
 

@@ -1,0 +1,236 @@
+<!--
+Author: W3layouts
+Author URL: http://w3layouts.com
+License: Creative Commons Attribution 3.0 Unported
+License URL: http://creativecommons.org/licenses/by/3.0/
+-->
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/index.html}">
+
+<head>
+	<title>Big store a Ecommerce Online Shopping Category Flat Bootstrap Responsive Website Template| Home :: w3layouts
+	</title>
+	<!-- for-mobile-apps -->
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta property="og:title" content="Vide" />
+	<meta name="keywords" content="Big store Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template, 
+Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
+	<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false);
+function hideURLbar(){ window.scrollTo(0,1); } </script>
+	<!-- //for-mobile-apps -->
+	<link th:href='@{/home/css/bootstrap.css}' rel='stylesheet' type='text/css' />
+	<!-- Custom Theme files -->
+	<link th:href='@{/home/css/style.css}' rel='stylesheet' type='text/css' />
+	<!-- js -->
+	<script th:src='@{/home/js/jquery-1.11.1.min.js}'></script>
+	<!-- //js -->
+	<!-- start-smoth-scrolling -->
+	<script type="text/javascript" th:src="@{/home/js/move-top.js}"></script>
+	<script type="text/javascript" th:src="@{/home/js/easing.js}"></script>
+	<script type="text/javascript">
+		jQuery(document).ready(function ($) {
+			$(".scroll").click(function (event) {
+				event.preventDefault();
+				$('html,body').animate({scrollTop: $(this.hash).offset().top}, 1000);
+			});
+		});
+	</script>
+	<!-- start-smoth-scrolling -->
+	<link th:href='@{/home/css/font-awesome.css}' rel='stylesheet'>
+	<link th:href='@{http://fonts.googleapis.com/css?family=Montserrat:400,700}' rel='stylesheet' type='text/css'>
+	<link th:href='@{http://fonts.googleapis.com/css?family=Noto+Sans:400,700}' rel='stylesheet' type='text/css'>
+	<!--- start-rate-->
+	<script th:src="@{/home/js/jstarbox.js}"></script>
+	<link rel="stylesheet" th:href="@{/home/css/jstarbox.css}" type="text/css" media="screen" charset="utf-8" />
+	
+	<!---//End-rate-->
+</head>
+
+<body>
+
+	<div layout:fragment="content">
+
+		<script>window.jQuery || document.write('<script th:src="@{js/vendor/jquery-1.11.1.min.js}"><\/script>')</script>
+		<script th:src="@{/home/js/jquery.vide.min.js}"></script>
+
+
+
+
+		<!--banner-->
+		<div class="banner-top">
+			<div class="container">
+				<h3>Wishlist</h3>
+				<h4><a href="index.html">Home</a><label>/</label>CART</h4>
+				<div class="clearfix"> </div>
+			</div>
+		</div>
+
+		<!-- contact -->
+		<div class="check-out">
+			<div class="container">
+				<div class="spec ">
+					<h3>CART</h3>
+					<div class="ser-t">
+						<b></b>
+						<span><i></i></span>
+						<b class="line"></b>
+					</div>
+				</div>
+
+				<table id="crosss" class="table ">
+
+	
+				</table>
+			</div>
+			<form action="/home/cart/save" method="post">
+									<button>mua</button>
+									'</form>
+			
+		</div>
+		<script>
+			var bodyProduct = `<table class="table ">` +
+				` <tr>` +
+				` <th class="t-head head-it ">Products</th>` +
+				` <th class="t-head">Price</th>` +
+				` <th class="t-head">Quantity</th>` +
+				
+				` </tr>`;
+			showProduct = (data) => {
+				
+				for (var i = 0; i < data.length; i++) {
+					bodyProduct += ` <tr class="cross` + i + `">` +
+						` <td class="ring-in t-data">` +
+						` <a href="single.html" class="at-in">` +
+						` <img src="/home/${data[i].image}" class="img-responsive defImage" alt="" style="max-height: 100px;">` +
+						` </a>` +
+						` <div class="sed">` +
+						` <h5>${data[i].name}</h5>` +
+						` </div>` +
+						` <div class="clearfix"> </div>` +
+						` <div class="close1"> <i class="fa fa-times" aria-hidden="true"></i></div>` +
+						` </td>` +
+						` <td class="t-data">$10.00</td>` +
+						` <td class="t-data">` +
+						` <div class="quantity">` +
+						` 	<div class="quantity-select">` +
+						` <div class="entry value-minus">&nbsp;</div>` +
+						` <div class="entry value"><span class="span-1">${data[i].quantity}</span></div>` +
+						` <div class="entry value-plus active">&nbsp;</div>` +
+						` </div>` +
+						` </div>` +
+						` </td>` +
+						
+						` </tr>`;
+
+
+				};
+				bodyProduct += `</table>`;
+				return bodyProduct;
+			};
+
+			getProducts = () => {
+				let urlCurrent = '/api/getCart';
+				var x = "";
+				$.ajax({
+					type: "GET",
+					contentType: "application/json",
+					url: urlCurrent,
+					async: false,
+					success: (data) => {
+						$("#crosss").html(showProduct(data));
+						for(var i = 0; i<data.length;i++){
+							$(x).click('click', function () {
+							x = ".close" + i;
+							console.log("x = " + x);
+						});
+						}
+					},
+					error: (e) => {
+						alert(e)
+					}
+				});
+
+			};
+			getProducts();
+		</script>
+		<!--quantity-->
+		<script>
+			$('.value-plus').on('click', function () {
+				var divUpd = $(this).parent().find('.value'), newVal = parseInt(divUpd.text(), 10) + 1;
+				divUpd.text(newVal);
+			});
+
+			$('.value-minus').on('click', function () {
+				var divUpd = $(this).parent().find('.value'), newVal = parseInt(divUpd.text(), 10) - 1;
+				if (newVal >= 1) divUpd.text(newVal);
+			});
+		</script>
+		<!--quantity-->
+
+
+	</div>
+	<!-- smooth scrolling -->
+	<script type="text/javascript">
+		$(document).ready(function () {
+			/*
+				var defaults = {
+				containerID: 'toTop', // fading element id
+				containerHoverID: 'toTopHover', // fading element hover id
+				scrollSpeed: 1200,
+				easingType: 'linear' 
+				};
+			*/
+			$().UItoTop({easingType: 'easeOutQuart'});
+		});
+	</script>
+	<a href="#" id="toTop" style="display: block;"> <span id="toTopHover" style="opacity: 1;"> </span></a>
+	<!-- //smooth scrolling -->
+	<!-- for bootstrap working -->
+	<script th:src="@{js/bootstrap.js}"></script>
+	<!-- //for bootstrap working -->
+	<script type='text/javascript' th:src="@{js/jquery.mycart.js}"></script>
+	<script type="text/javascript">
+		$(function () {
+
+			var goToCartIcon = function ($addTocartBtn) {
+				var $cartIcon = $(".my-cart-icon");
+				var $image = $('<img width="30px" height="30px" src="' + $addTocartBtn.data("image") + '"/>').css({"position": "fixed", "z-index": "999"});
+				$addTocartBtn.prepend($image);
+				var position = $cartIcon.position();
+				$image.animate({
+					top: position.top,
+					left: position.left
+				}, 500, "linear", function () {
+					$image.remove();
+				});
+			}
+
+			$('.my-cart-btn').myCart({
+				classCartIcon: 'my-cart-icon',
+				classCartBadge: 'my-cart-badge',
+				affixCartIcon: true,
+				checkoutCart: function (products) {
+					$.each(products, function () {
+						console.log(this);
+					});
+				},
+				clickOnAddToCart: function ($addTocart) {
+					goToCartIcon($addTocart);
+				},
+				getDiscountPrice: function (products) {
+					var total = 0;
+					$.each(products, function () {
+						total += this.quantity * this.price;
+					});
+					return total * 1;
+				}
+			});
+
+		});
+
+	</script>
+
+</body>
+
+</html>

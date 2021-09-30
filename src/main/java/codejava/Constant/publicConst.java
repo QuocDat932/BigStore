@@ -14,4 +14,5 @@ public class publicConst {
 	};
 	
 	public final static String Top4Prod = "Top4Prod";
+	public final static String ListCart = "listCart";
 }

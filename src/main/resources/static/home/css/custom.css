@@ -1,0 +1,12 @@
+/*--
+Author: Thiencute
+Author URL: fb.com/shinsukik
+License: custom css
+--*/
+.haha{
+	color: red;
+}
+
+.thumbnail > img, .thumbnail a > img, .carousel-inner > .item > img, .carousel-inner > .item > a > img{
+	max-height: 1em;
+}
