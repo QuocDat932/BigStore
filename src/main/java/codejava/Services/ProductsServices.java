@@ -28,4 +28,6 @@ public interface ProductsServices {
 
 	Page<Products> findAll(Pageable page);
 	List<Products> findtop4Bytype(String type);
+
+	void delete(Integer id);
 }

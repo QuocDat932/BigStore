@@ -83,5 +83,8 @@ public class ProductsServicesImpl implements ProductsServices{
 	public List<Products> findtop4Bytype(String type){
 		return repo.findtop4Bytype(type);
 	};
-
+	@Override
+	public void delete(Integer id) {
+		repo.deleteById(id);
+	}
 }

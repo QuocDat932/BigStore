@@ -571,7 +571,12 @@
 	};
 
     $(document).ready(function (){
+        $("#btnDelete").prop('disabled',true);
         $("#btnClear").click( function (){
+            clearDataForm();
+        });
+
+        clearDataForm = () =>{
             $('#txtProdId').val("");
             $('#txtProdName').val("");
             $('#cboType').val("1");
@@ -579,12 +584,12 @@
             $('#txtPrice').val("");
             $('#cboUnit').val("1");
             $('#txtDescription').val("");
-            const img ="ab1.jpg";
+            $("#btnDelete").prop('disabled',true);
+            const img ="3ncGVzn.jpeg";
             const path = "/home/images/"+img;
             $('#prodImg').attr("src",path);
             $('#btnCreate').text('Create');
-        });
-
+        }
         // products
         setValueToProdForm = (data) =>{
             $('#txtProdId').val(data.id);
@@ -596,6 +601,7 @@
             $('#txtDescription').val(data.description);
             const path = "/home/images/"+data.imgUrl;
             $('#prodImg').attr("src",path);
+            $("#btnDelete").prop('disabled',false);
             $('#btnCreate').text('Update');
             $('#txtDescription').focus();
             $('#txtUnit').focus();
@@ -622,10 +628,14 @@
             });
         };
         $("#btnCreate").click(function (){
-            addProducts();
+            addProduct();
+        });
+        $('#btnDelete').click(function (){
+            deleteProduct();
+            clearDataForm();
         })
     });
-    function addProducts(){
+    function addProduct(){
         let response = '/admin/product/productMgt/insert';
         let image = $('#prodImg').attr("src");
         const idProd = $("#txtProdId").val();
@@ -646,23 +656,44 @@
             description : descriptionProd,
             imgUrl : imageProd,
         };
-        console.log(jsonData)
         $.ajax({
             type: "POST",
             url : response,
             data: JSON.stringify(jsonData),
-            contentType:"application/json"
-        }).done(function (){
-            Swal.fire({
-                icon: 'success',
-                text: 'Create product sucessfully !'
-            });
-        }).fail(function (){
-            Swal.fire({
-                icon: 'error',
-                text: 'Bug !',
-            })
+            contentType:"application/json",
+            success: function (data){
+                Swal.fire({
+                    icon: 'success',
+                    text: 'Sucessfully !!!'
+                })
+            },
+            error: function (e){
+                Swal.fire({
+                    icon: 'error',
+                    text: 'Failure !!!'
+                })
+            }
         });
+    }
+    function deleteProduct(){
+        let prodId = $("#txtProdId").val();
+        let response = '/admin/product/productMgt/delete/';
+        $.ajax({
+            type: "DELETE",
+            url : response + prodId,
+            success: function (data){
+                Swal.fire({
+                    icon: 'success',
+                    text: 'Deleted Sucessfully !!!'
+                })
+            },
+            error: function (e){
+                Swal.fire({
+                    icon: 'error',
+                    text: 'Failure !!!'
+                })
+            }
+        })
     }
 </script>
 </body>
