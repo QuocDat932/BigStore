@@ -76,7 +76,7 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 <body>
 	<div layout:fragment="content">
 		<a href="#"><img th:src="@{/home/images/download.png}" class="img-head" alt=""></a>
-		<div data-vide-bg="/home/video/video">
+		<div th:data-vide-bg="@{/home/video/video.gif}">
 			<div class="container">
 				<div class="banner-info">
 					<h3>It is a long established fact that a reader will be distracted by
@@ -91,7 +91,7 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 			</div>
 		</div>
 
-		<script>window.jQuery || document.write('<script th:src="@{js/vendor/jquery-1.11.1.min.js}"><\/script>')</script>
+		<script>window.jQuery || document.write('<script th:src="@{/home/js/jquery-1.11.1.min.js}"><\/script>')</script>
 		<script th:src="@{/home/js/jquery.vide.min.js}"></script>
 
 		<!--content-->
@@ -118,7 +118,7 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 							<div id="viewTop4prod" class=" con-w3l">
 								<div th:each="prod, state : ${session.Top4Prod.listTop4}" class="col-md-3 m-wthree">
 									<div class="col-m">
-										<a href="#" data-toggle="modal" data-target="#myModal4" class="offer-img">
+										<a href="#" data-toggle="modal" th:data-target="@{'#'+ ${prod.slug}}" class="offer-img">
 											<img th:src="@{'/home/images/' + ${prod.imgUrl}}" class="img-responsive" alt="">
 											<div class="offer"><p><span>Offer</span></p></div>
 										</a>
@@ -134,7 +134,10 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 												<div class="clearfix"></div>
 											</div>
 											<div class="add">
-											   <button class="btn btn-danger my-cart-btn my-cart-b" data-id="4" data-name="Soya Chunks" data-summary="summary 4" data-price="3.50" data-quantity="1" data-image="images/of3.png">Add to Cart</button>
+											   <!--<button class="btn btn-danger my-cart-btn my-cart-b" data-id="4" data-name="Soya Chunks" data-summary="summary 4" data-price="3.50" data-quantity="1" data-image="images/of3.png">Add to Cart</button>
+											   -->
+											   <button class="btn btn-danger my-cart-btn my-cart-b" th:data-id="${prod.id}" th:data-name="${prod.name}"
+										    data-summary="summary 1" th:data-price="${prod.price}" th:data-quantity="${1}" th:data-image="@{'images/' + ${prod.imgUrl}}">Add to Cart</button>
 											</div>
 										</div>
 									</div>
@@ -267,13 +270,51 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 <!-- //for bootstrap working -->
 <script type='text/javascript' th:src="@{/home/js/jquery.mycart.js}"></script>
 <script type="text/javascript">
+	loadFunction = () =>{
+		var goToCartIcon = function ($addTocartBtn) {
+			var $cartIcon = $(".my-cart-icon");
+			var $image = $('<img width="30px" height="30px" src="/home/' + $addTocartBtn.data("image") + '"/>').css({"position": "fixed", "z-index": "999"});
+			$addTocartBtn.prepend($image);
+			var position = $cartIcon.position();
+			$image.animate({
+				top: position.top,
+				left: position.left
+			}, 500, "linear", function () {
+				$image.remove();
+			});
+		}
+
+		$('.my-cart-btn').myCart({
+			classCartIcon: 'my-cart-icon',
+			classCartBadge: 'my-cart-badge',
+			affixCartIcon: true,
+			checkoutCart: function (products) {
+				$.each(products, function () {
+					console.log(this);
+				});
+			},
+			clickOnAddToCart: function ($addTocart) {
+				goToCartIcon($addTocart);
+			},
+			getDiscountPrice: function (products) {
+				var total = 0;
+				$.each(products, function () {
+					total += this.quantity * this.price;
+				});
+				return total * 1;
+			}
+		});
+
+	}
 	$(document).ready(function() {
 		top4prod('RAU');
+		loadFunction();
 	});
 	top4prod = (param) =>{
 		let url = "/api/user/controller/top4product?param="+param;
 		$.get(url).done(function(lsProduct){
 			$("#viewTop4prod").replaceWith(lsProduct);
+			loadFunction();
 	/*		var html_to_append = '';			
 				$.each(lsProduct, function(i, item) {
 					html_to_append +=

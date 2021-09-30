@@ -12,7 +12,7 @@ var change =  {
 
 <body>
 	<header>
-		<a th:href="@{/home/offer}"><img src="images/download.png" class="img-head" alt=""></a>
+		<a th:href="@{/home/offer}"><img th:src="@{/home/images/download.png}" class="img-head" alt=""></a>
 		<div class="header">
 
 			<div class="container">
@@ -119,7 +119,7 @@ var change =  {
 												</ul>
 											</div>
 											<div class="col-sm-3 w3l">
-												<a th:href="@{/home/kitchen}"><img th:src="@{images/me.png}"
+												<a th:href="@{/home/kitchen}"><img th:src="@{/home/images/me.png}"
 														class="img-responsive" alt=""></a>
 											</div>
 											<div class="clearfix"></div>
@@ -176,7 +176,7 @@ var change =  {
 												</ul>
 											</div>
 											<div class="col-sm-3 w3l">
-												<a th:href="@{/home/care}"><img src="images/me1.png"
+												<a th:href="@{/home/care}"><img th:src="@{/home/images/me1.png}"
 														class="img-responsive" alt=""></a>
 											</div>
 											<div class="clearfix"></div>
@@ -283,6 +283,41 @@ var change =  {
 			function numberWithCommas(x) {
 			    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 			}
+				reloadFunctions = function(){
+					var goToCartIcon = function ($addTocartBtn) {
+						var $cartIcon = $(".my-cart-icon");
+						var $image = $('<img width="30px" height="30px" src="/home/' + $addTocartBtn.data("image") + '"/>').css({"position": "fixed", "z-index": "999"});
+						$addTocartBtn.prepend($image);
+						var position = $cartIcon.position();
+						$image.animate({
+							top: position.top,
+							left: position.left
+						}, 500, "linear", function () {
+							$image.remove();
+						});
+					}
+
+					$('.my-cart-btn').myCart({
+						classCartIcon: 'my-cart-icon',
+						classCartBadge: 'my-cart-badge',
+						affixCartIcon: true,
+						checkoutCart: function (products) {
+							$.each(products, function () {
+								console.log(this);
+							});
+						},
+						clickOnAddToCart: function ($addTocart) {
+							goToCartIcon($addTocart);
+						},
+						getDiscountPrice: function (products) {
+							var total = 0;
+							$.each(products, function () {
+								total += this.quantity * this.price;
+							});
+							return total * 1;
+						}
+					});
+				}
 			
 				getProduct = (data) => {
 					var body = "";
