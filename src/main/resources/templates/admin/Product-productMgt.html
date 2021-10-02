@@ -45,7 +45,7 @@
               </tr>
               </thead>
               <tbody>
-              <tr th:each="prod : ${prod}" th:attr="onclick='Item(\''+${prod.id}+'\')'" class="text-center">
+              <tr th:each="prod : ${prod}" th:attr="onclick='prodItem(\''+${prod.id}+'\')'" class="text-center">
                 <td th:text="${prod.id} "></td>
                 <td th:text="${prod.name}"></td>
                 <td th:text="${prod.typeOfProduct.description}"></td>

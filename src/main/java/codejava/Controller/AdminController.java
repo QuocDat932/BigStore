@@ -1,15 +1,18 @@
 package codejava.Controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
 import javax.websocket.Session;
 
+import codejava.Dto.Message;
 import codejava.Dto.productDto;
 import codejava.Entity.*;
 import codejava.Services.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -155,7 +158,8 @@ public class AdminController {
 		return "admin/ListOrder";
 	}
 	@PostMapping("/product/productMgt/insert")
-	public String insertProd(@RequestBody productDto newProd){
+	public ResponseEntity<?> insertProd(@RequestBody productDto newProd){
+		Message msg = new Message();
 		try {
 			Products prod = new Products();
 			if(newProd.getId() != 0){
@@ -171,23 +175,39 @@ public class AdminController {
 			prod.setIsDeleted(1.0);
 			if(newProd.getSlug() != ""){
 				prod.setSlug(newProd.getSlug());
+				msg.setStatus("Update successfully !!!");
 			} else {
 				prod.setSlug("Please update slug");
+				msg.setStatus("Insert successfully !!!");
 			}
             prodServices.SaveOrUpdate(prod);
 		} catch (Exception e) {
 			e.printStackTrace();
-			return "bug: "+e;
+			msg.setStatus("Failure !!!");
 		}
-		return "ok";
+		return ResponseEntity.ok(msg);
 	}
-	@DeleteMapping("/product/productMgt/delete/{id}")
-	public void delete(@PathVariable("id") Integer id) {
+	@PostMapping("/product/productMgt/delete")
+	public ResponseEntity<?> delete(@RequestBody productDto deleteProd) {
+		Message msg = new Message();
 		try {
-			prodServices.delete(id);
-			System.out.println("Delete ok");
+			Products prod = new Products();
+			prod.setId(deleteProd.getId());
+			prod.setName(deleteProd.getName());
+			prod.setPrice(deleteProd.getPrice());
+			prod.setQuantity(deleteProd.getQuantity());
+			prod.setTypeOfProduct(typeServices.findById(deleteProd.getTypeof()));
+			prod.setUnitType(unitServices.findById(deleteProd.getUnitof()));
+			prod.setImgUrl(deleteProd.getImgUrl());
+			prod.setDescription(deleteProd.getDescription());
+			prod.setIsDeleted(0.0);
+			prod.setSlug(deleteProd.getSlug());
+			prodServices.SaveOrUpdate(prod);
+			msg.setStatus("Delete successfully !!!");
 		} catch (Exception e){
 			e.printStackTrace();
+			msg.setStatus("Failure !!!");
 		}
+		return ResponseEntity.ok(msg);
 	}
 }

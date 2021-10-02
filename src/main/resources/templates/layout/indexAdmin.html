@@ -7,7 +7,6 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Dashboard Big Store</title>
   <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
-    <script src="//cdn.datatables.net/1.10.10/js/jquery.dataTables.min.js"></script>
   <!-- plugins:css -->
   <link rel="stylesheet" th:href="@{/admin/vendors/mdi/css/materialdesignicons.min.css}">
   <link rel="stylesheet" th:href="@{/admin/vendors/css/vendor.bundle.base.css}">
@@ -21,6 +20,8 @@
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <!-- End layout styles -->
   <link rel="shortcut icon" th:href="@{/admin/images/favicon.png}" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.21/js/jquery.dataTables.min.js" integrity="sha512-BkpSL20WETFylMrcirBahHfSnY++H2O1W+UnEEO4yNIl+jI2+zowyoGJpbtk6bx97fBXf++WJHSSK2MV4ghPcg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
 <body>
 <script th:src="@{/admin/js/preloader.js}"></script>
@@ -572,7 +573,6 @@
 	};
 
     $(document).ready(function (){
-
         $("#btnDelete").prop('disabled',true);
         $("#btnClear").click( function (){
             clearDataForm();
@@ -616,7 +616,7 @@
             $('#txtProdId').focus();
         };
 
-        Item = (item) =>{
+        prodItem = (item) =>{
             let response = '/api/admin/indexProd?index='+item;
             $.ajax({
                 type: "GET",
@@ -662,7 +662,6 @@
             description : descriptionProd,
             imgUrl : imageProd,
         };
-        console.log(jsonData);
         $.ajax({
             type: "POST",
             url : response,
@@ -672,33 +671,55 @@
                 $('#btnCreate').text('Update');
                 Swal.fire({
                     icon: 'success',
-                    text: 'Sucessfully !!!'
+                    text: data.status,
                 })
             },
             error: function (e){
                 Swal.fire({
                     icon: 'error',
-                    text: 'Failure !!!'
+                    text: data.status,
                 })
             }
         });
     }
     function deleteProduct(){
-        let prodId = $("#txtProdId").val();
-        let response = '/admin/product/productMgt/delete/';
+        let image = $('#prodImg').attr("src");
+        const idProd = $("#txtProdId").val();
+        const slugProd = $('#txtSlugProd').val();
+        const prodName = $("#txtProdName").val();
+        const typeProd = $("#cboType").val();
+        const quantityProd = $("#txtQuantity").val();
+        const priceProd = $("#txtPrice").val();
+        const unitProd = $("#cboUnit").val();
+        const descriptionProd = $('#txtDescription').val();
+        const imageProd = image.split("/").pop();
+        let jsonData = {
+            id : idProd,
+            slug : slugProd,
+            name : prodName,
+            quantity : quantityProd,
+            price : priceProd,
+            typeof : typeProd,
+            unitof : unitProd,
+            description : descriptionProd,
+            imgUrl : imageProd,
+        };
+        let response = '/admin/product/productMgt/delete';
         $.ajax({
-            type: "DELETE",
-            url : response + prodId,
+            type: "POST",
+            url : response,
+            data: JSON.stringify(jsonData),
+            contentType:"application/json",
             success: function (data){
                 Swal.fire({
                     icon: 'success',
-                    text: 'Deleted Sucessfully !!!'
+                    text: data.status,
                 })
             },
             error: function (e){
                 Swal.fire({
                     icon: 'error',
-                    text: 'Failure !!!'
+                    text: data.status,
                 })
             }
         })
