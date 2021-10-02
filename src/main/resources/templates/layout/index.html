@@ -564,17 +564,18 @@ var change =  {
 						url: urlCurrent,
 						async: false,
 						success: (data) => {
+							
 							$("#Back").unbind();
 							$("#Next").unbind();
 
 							$("#Back").click(function () {
-								getProductType(data.back, Type);
+								ProductPageType(data.back, Type);
 							});
 							$("#Next").click(function () {
-								getProductType(data.next, Type);
+								ProductPageType(data.next, Type);
 							});
-							getProductType(data.products);
-							$("#Current").html(`${data.current}`);		
+							ProductPageType(data.products);
+							$("#Current").html(data.current);		
 							reloadFunctions();	
 						},
 						error: (e) => {
