@@ -73,7 +73,7 @@ public class testProduct {
 		
 		
 		List<Products> l = ServP.findByTypeOfProduct(ServC.findBySlug(slug.orElse("RAU")));
-		int numP = 4;
+		int numP = 3;
 		int max = l.size()-numP;
 		int page = p.orElse(0) <= 0 ? 0 : p.get(); 
 		int page1 = page*numP;
