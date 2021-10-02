@@ -11,7 +11,6 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class cartDetailDto implements Serializable{
-
 	/**
 	 * 
 	 */
@@ -23,5 +22,10 @@ public class cartDetailDto implements Serializable{
 	private Double price;
 	private Integer quantity;
 	private String imgUrl;
-
+	public cartDetailDto(Double price, int quantity, int ordId, int prodId) {
+		this.idOrder = ordId;
+		this.idProduct = prodId;
+		this.quantity = quantity;
+		this.price = price;
+	}
 }

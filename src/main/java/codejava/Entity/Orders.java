@@ -13,6 +13,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -45,14 +46,18 @@ public class Orders implements Serializable{
 	@Column(name ="phone")
 	private String phone;
 	
-	@Column(name ="createddate")
-	@CreationTimestamp
-	private Timestamp createDate;
+//	@Column(name ="createddate")
+//	@CreationTimestamp
+//	private Timestamp createDate;
 	
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
 	@JoinColumn( name="userid" ,referencedColumnName = "id")
 	@JsonIgnoreProperties(value = {"applications", "hibernateLazyInitializer"})
 	private Users user;
 	
+	@OneToOne()
+	@JoinColumn(name="processid", referencedColumnName = "id")
+	@JsonIgnoreProperties(value = {"applications", "hibernateLazyInitializer"})
+	private Process process;
 }
 

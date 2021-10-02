@@ -1,5 +1,14 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<script type="text/javascript">
+
+var reloadFunctions = function () {
+	
+}
+var change =  {
+	
+}
+</script>
 
 <body>
 	<header>
@@ -50,16 +59,17 @@
 								<span class="icon-bar"></span>
 								<span class="icon-bar"></span>
 							</button>
-
-
 						</div>
 						<div class="collapse navbar-collapse" id="bs-megadropdown-tabs">
 							<ul class="nav navbar-nav ">
 								<li><a th:href="@{/home}" class="hyper "><span>Home</span></a></li>
 
-								<li class="dropdown">
-									<a href="#" class="dropdown-toggle  hyper" data-toggle="dropdown"><span>Kitchen<b
-												class="caret"></b></span></a>
+				<!-- th:onclick="@{'change(\'' + ${type.slug} + '\')'}" -->
+								<li  class="dropdown" th:each="type, state : ${listType}" >
+									<a th:href="@{'/type/'+${type.slug}}" class="dropdown-toggle  hyper" 
+									><span th:text="${type.description}"><b class="caret"></b></span></a>
+								</li>			
+												
 									<ul class="dropdown-menu multi">
 										<div class="row">
 											<div class="col-sm-3">
@@ -116,7 +126,7 @@
 										</div>
 									</ul>
 								</li>
-								<li class="dropdown">
+							<!--<li class="dropdown">
 
 									<a href="#" class="dropdown-toggle hyper" data-toggle="dropdown"><span> Personal
 											Care <b class="caret"></b></span></a>
@@ -172,63 +182,8 @@
 											<div class="clearfix"></div>
 										</div>
 									</ul>
-								</li>
-								<li class="dropdown">
-									<a href="#" class="dropdown-toggle hyper" data-toggle="dropdown"><span>Household<b
-												class="caret"></b></span></a>
-									<ul class="dropdown-menu multi multi2">
-										<div class="row">
-											<div class="col-sm-3">
-												<ul class="multi-column-dropdown">
-													<li><a th:href="@{/home/hold}"><i class="fa fa-angle-right"
-																aria-hidden="true"></i>Cleaning Accessories</a></li>
-													<li><a th:href="@{/home/hold}"><i class="fa fa-angle-right"
-																aria-hidden="true"></i>CookWear</a></li>
-													<li><a th:href="@{/home/hold}"><i class="fa fa-angle-right"
-																aria-hidden="true"></i>Detergents</a></li>
-													<li><a th:href="@{/home/hold}"><i class="fa fa-angle-right"
-																aria-hidden="true"></i>Gardening Needs</a></li>
-
-												</ul>
-
-											</div>
-											<div class="col-sm-3">
-
-												<ul class="multi-column-dropdown">
-													<li><a th:href="@{/home/hold}"><i class="fa fa-angle-right"
-																aria-hidden="true"></i>Kitchen & Dining</a></li>
-													<li><a th:href="@{/home/hold}"><i class="fa fa-angle-right"
-																aria-hidden="true"></i>KitchenWear</a></li>
-													<li><a th:href="@{/home/hold}"><i class="fa fa-angle-right"
-																aria-hidden="true"></i>Pet Care</a></li>
-													<li><a th:href="@{/home/hold}"><i class="fa fa-angle-right"
-																aria-hidden="true"></i>Plastic Wear</a></li>
-
-												</ul>
-
-											</div>
-											<div class="col-sm-3">
-
-												<ul class="multi-column-dropdown">
-													<li><a th:href="@{/home/hold}"><i class="fa fa-angle-right"
-																aria-hidden="true"></i>Pooja Needs</a></li>
-													<li><a th:href="@{/home/hold}"><i class="fa fa-angle-right"
-																aria-hidden="true"></i>Serveware</a></li>
-													<li><a th:href="@{/home/hold}"><i class="fa fa-angle-right"
-																aria-hidden="true"></i>Safety Accessories</a></li>
-													<li><a th:href="@{/home/hold}"><i class="fa fa-angle-right"
-																aria-hidden="true"></i>Festive Decoratives </a></li>
-
-												</ul>
-											</div>
-											<div class="col-sm-3 w3l">
-												<a th:href="@{/home/hold}"><img th:src="@{/home/images/me2.png}"
-														class="img-responsive" alt=""></a>
-											</div>
-											<div class="clearfix"></div>
-										</div>
-									</ul>
-								</li>
+								</li> -->
+							
 
 								<li><a th:href="@{/home/codes}" class="hyper"> <span>Codes</span></a></li>
 								<li><a th:href="@{/home/contact}" class="hyper"><span>Contact Us</span></a></li>
@@ -251,7 +206,7 @@
 	</div>
 
 	<footer>
-	
+
 		<div class="footer">
 			<div class="container">
 				<div class="col-md-3 footer-grid">
@@ -325,6 +280,9 @@
 			</div>
 
 			<script>
+			function numberWithCommas(x) {
+			    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+			}
 				reloadFunctions = function(){
 					var goToCartIcon = function ($addTocartBtn) {
 						var $cartIcon = $(".my-cart-icon");
@@ -363,8 +321,9 @@
 			
 				getProduct = (data) => {
 					var body = "";
+					
 					for(var i = 0; i < data.length;i++){
-						
+						data[i].price = numberWithCommas(data[i].price);
 						body+=`  <div class=" con-w3l">   `+
 				`  	<div class="col-md-3 pro-1"">  `+
 					`  	<div class="col-m">  `+
@@ -377,7 +336,7 @@
 								`  	<h6><a href="/home/single/${data[i].slug} ">${data[i].name}</a></h6>  `+
 								`  </div>  `+
 								`  <div class="mid-2">  `+
-								`  	<p><label>$7.00</label><em class="item_price" text="${data[i].price}">VND</em></p>  `+
+								`  	<p><label>$7.00</label><em class="item_price" >${data[i].price} VND</em></p>  `+
 								`  	<div class="block">  `+
 										`  <div class="starbox small ghosting"> </div>  `+
 									`  </div>  `+
@@ -393,8 +352,8 @@
 					`  </div>  `  ;
 					
 					}
-				
-					
+
+
 					$("#products").html(body);
 				}
 				ProductPage = (pageNum) => {
@@ -416,8 +375,12 @@
 								ProductPage(data.next);
 							});
 							getProduct(data.products);
-							$("#testCurrent").html(`${data.current}`);		
-							reloadFunctions();	
+							$("#testCurrent").html(`${data.current}`);
+							$("#tesstlocal").click(function () {
+								CallApiProduct(localStorage.products);
+							});
+
+							reloadFunctions();
 						},
 						error: (e) => {
 							alert(e)
@@ -427,11 +390,211 @@
 				};
 
 				ProductPage(0);
-				
-				
+
 			</script>
+
+
+
+			<script>
+				CallApiProduct = (data) => {
+					console.log(data);
+					let url = '/api/saveCart';
+
+					$.ajax({
+						url: url,
+						type: "POST",
+						contentType: "application/json",
+						dataType: "json",
+						data: data,
+						success: function (data) {
+							alert(data);
+						},
+						error: function (response) {
+							if (response.responseText == "DONE") {
+								var form = $('<form action="/home/cart/saveLocal" method="post">' +
+									'<input  value="${data}" />' +
+									'</form>');
+								$('body').append(form);
+								form.submit();
+							} else {
+
+							}
+						}
+					});
+				}
+
+
+
+
+
+
+				/*
+				
+				reloadFunctions = function () {
+					var goToCartIcon = function ($addTocartBtn) {
+						var $cartIcon = $(".my-cart-icon");
+						var $image = $('<img width="30px" height="30px" src="/home/' + $addTocartBtn.data("image") + '"/>').css({"position": "fixed", "z-index": "999"});
+						$addTocartBtn.prepend($image);
+						var position = $cartIcon.position();
+						$image.animate({
+							top: position.top,
+							left: position.left
+						}, 500, "linear", function () {
+							$image.remove();
+						});
+					}
+
+					$('.my-cart-btn').myCart({
+						classCartIcon: 'my-cart-icon',
+						classCartBadge: 'my-cart-badge',
+						affixCartIcon: true,
+						checkoutCart: function (products) {
+							$.each(products, function () {
+								console.log(this);
+							});
+						},
+						clickOnAddToCart: function ($addTocart) {
+							goToCartIcon($addTocart);
+						},
+						getDiscountPrice: function (products) {
+							var total = 0;
+							$.each(products, function () {
+								total += this.quantity * this.price;
+							});
+							return total * 1;
+						}
+					});
+				}
+				$(document).ready(function () {
+					$(".tabProd").click(function () {
+						reloadFunctions();
+					}); 
+					console.log("ready!"); reloadFunctions(); ProductPage(0);
+				});
+				
+				*/</script>
 			<script >
+				
+					reloadFunctions = function(){
+					var goToCartIcon = function ($addTocartBtn) {
+						var $cartIcon = $(".my-cart-icon");
+						var $image = $('<img width="30px" height="30px" src="/home/' + $addTocartBtn.data("image") + '"/>').css({"position": "fixed", "z-index": "999"});
+						$addTocartBtn.prepend($image);
+						var position = $cartIcon.position();
+						$image.animate({
+							top: position.top,
+							left: position.left
+						}, 500, "linear", function () {
+							$image.remove();
+						});
+					}
+
+					$('.my-cart-btn').myCart({
+						classCartIcon: 'my-cart-icon',
+						classCartBadge: 'my-cart-badge',
+						affixCartIcon: true,
+						checkoutCart: function (products) {
+							$.each(products, function () {
+								console.log(this);
+							});
+						},
+						clickOnAddToCart: function ($addTocart) {
+							goToCartIcon($addTocart);
+						},
+						getDiscountPrice: function (products) {
+							var total = 0;
+							$.each(products, function () {
+								total += this.quantity * this.price;
+							});
+							return total * 1;
+						}
+					});
+				}
+					
 					
 			</script>
+			
+			<script>
+				
+					function numberWithCommas(x) {
+					    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+					}
+			
+				getProductType = (data) => {
+					var body = "";
+					for(var i = 0; i < data.length;i++){
+						data[i].price = numberWithCommas(data[i].price);
+						body+=`  <div class=" con-w3l">   `+
+				`  	<div class="col-md-3 pro-1"">  `+
+					`  	<div class="col-m">  `+
+							`  <!-- #myModal17 -->  `+
+							`  <a href="#" data-toggle="modal" data-target="#${data[i].slug}" class="offer-img">  `+
+								`  <img src="/home/images/${data[i].imgUrl}" class="img-responsive" alt="">  `+
+							`  </a>  `+
+							`  <div class="mid-1">  `+
+								`  <div class="women">  `+
+								`  	<h6><a href="/home/single/${data[i].slug} ">${data[i].name}</a></h6>  `+
+								`  </div>  `+
+								`  <div class="mid-2">  `+
+								`  	<p><label>$7.00</label><em class="item_price" >${data[i].price} VND</em></p>  `+
+								`  	<div class="block">  `+
+										`  <div class="starbox small ghosting"> </div>  `+
+									`  </div>  `+
+									`  <div class="clearfix"></div>  `+
+								`  </div>  `+
+								`  <div class="add add-2">  `+
+								`  	<button class="btn btn-danger my-cart-btn my-cart-b" data-id="${data[i].id}"  `+
+										`  data-name="${data[i].name}" data-summary="summary 1" data-price="${data[i].price}"  `+
+										`  data-quantity="${1}" data-image="images/${data[i].imgUrl}">Add to Cart</button>  `+
+								`  </div>  `+
+							`  </div>  `+
+						`  </div>  `+
+					`  </div>  `  ;
+					
+					}
+				
+					
+					$("#products1").html(body);
+				}
+				ProductPageType = (pageNum, Type) => {
+					let urlCurrent = '/api/type?p=' + pageNum + '&slug='+Type;
+					$.ajax({
+						type: "GET",
+						contentType: "application/json",
+						url: urlCurrent,
+						async: false,
+						success: (data) => {
+							$("#Back").unbind();
+							$("#Next").unbind();
+
+							$("#Back").click(function () {
+								getProductType(data.back, Type);
+							});
+							$("#Next").click(function () {
+								getProductType(data.next, Type);
+							});
+							getProductType(data.products);
+							$("#Current").html(`${data.current}`);		
+							reloadFunctions();	
+						},
+						error: (e) => {
+							alert(e)
+						}
+					});
+
+				};
+
+				if(typeof change == "function"){
+					change()
+				} 
+					
+
+				
+			
+
+			</script>
+
+
+
 		</div>
 	</footer>

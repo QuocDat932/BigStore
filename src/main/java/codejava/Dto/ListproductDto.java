@@ -14,4 +14,5 @@ import lombok.Setter;
 public class ListproductDto {
 	private static final long serialVersionUID = 1L;
 	public List<Products> listTop4;
+	public List<productDto> listCart;
 }
