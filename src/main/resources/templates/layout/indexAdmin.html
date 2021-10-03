@@ -7,8 +7,9 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Dashboard Big Store</title>
   <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
-    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.js"></script>
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script type="text/javascript" src="http://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+    <link rel="stylesheet"href="http://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
   <!-- plugins:css -->
   <link rel="stylesheet" th:href="@{/admin/vendors/mdi/css/materialdesignicons.min.css}">
   <link rel="stylesheet" th:href="@{/admin/vendors/css/vendor.bundle.base.css}">
@@ -22,8 +23,6 @@
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <!-- End layout styles -->
   <link rel="shortcut icon" th:href="@{/admin/images/favicon.png}" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.21/js/jquery.dataTables.min.js" integrity="sha512-BkpSL20WETFylMrcirBahHfSnY++H2O1W+UnEEO4yNIl+jI2+zowyoGJpbtk6bx97fBXf++WJHSSK2MV4ghPcg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
 <body>
 <script th:src="@{/admin/js/preloader.js}"></script>
@@ -575,6 +574,7 @@
 	};
 
     $(document).ready(function (){
+        loadDataProd();
         $("#btnDelete").prop('disabled',true);
         $("#btnClear").click( function (){
             clearDataForm();
@@ -676,7 +676,7 @@
                     text: data.status,
                     timer: 5000,
                 }).then(function () {
-                    location.reload(true);
+                    loadDataProd();
                 })
             },
             error: function (e){
@@ -720,8 +720,8 @@
                     icon: 'success',
                     text: data.status,
                 }).then(function () {
-                        location.reload(true);
-                    })
+                    loadDataProd();
+                })
             },
             error: function (e){
                 Swal.fire({
@@ -731,7 +731,37 @@
             }
         })
     }
-
+    function loadDataProd(){
+        let response = '/api/admin/allProd'
+        $.ajax({
+            type: "GET",
+            url : response,
+            contentType:"application/json",
+            success: function (data){
+                reloadTable(data);
+            },
+            error: function (e){
+                Swal.fire({
+                    icon: 'error',
+                    text: "Can't load data !!!",
+                })
+            }
+        })
+    }
+    function reloadTable(newProd){
+        let body = ''
+        for (let i = 0; i < newProd.length; i++){
+            body += `<tr onclick='prodItem(${newProd[i].id})' class="text-center">` +
+                `<td>${newProd[i].id}</td>` +
+                `<td >${newProd[i].name}</td>\n` +
+                `<td >${newProd[i].typeOfProduct.description}</td>` +
+                `<td >${newProd[i].quantity}</td>` +
+                `<td >${newProd[i].price}</td>` +
+                `<td >${newProd[i].unitType.description}</td>` +
+                `</tr>`
+        }
+        $('#bodyProd').html(body);
+    }
 </script>
 </body>
 </html> 
