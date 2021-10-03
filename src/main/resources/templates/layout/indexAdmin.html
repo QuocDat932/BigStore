@@ -7,6 +7,8 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Dashboard Big Store</title>
   <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.css">
   <!-- plugins:css -->
   <link rel="stylesheet" th:href="@{/admin/vendors/mdi/css/materialdesignicons.min.css}">
   <link rel="stylesheet" th:href="@{/admin/vendors/css/vendor.bundle.base.css}">
@@ -672,6 +674,9 @@
                 Swal.fire({
                     icon: 'success',
                     text: data.status,
+                    timer: 5000,
+                }).then(function () {
+                    location.reload(true);
                 })
             },
             error: function (e){
@@ -714,7 +719,9 @@
                 Swal.fire({
                     icon: 'success',
                     text: data.status,
-                })
+                }).then(function () {
+                        location.reload(true);
+                    })
             },
             error: function (e){
                 Swal.fire({
@@ -724,6 +731,7 @@
             }
         })
     }
+
 </script>
 </body>
 </html> 
