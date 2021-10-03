@@ -42,4 +42,8 @@ public class apiAdm {
 		Products prod = prodServices.findById(index);
 		return ResponseEntity.ok(prod);
 	}
+	@GetMapping("/allProd")
+	public ResponseEntity<?> getAllProd(){
+		return ResponseEntity.ok(prodServices.findAll());
+	}
 }

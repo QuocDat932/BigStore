@@ -44,15 +44,7 @@
                 <th >Unit</th>
               </tr>
               </thead>
-              <tbody>
-              <tr th:each="prod : ${prod}" th:attr="onclick='prodItem(\''+${prod.id}+'\')'" class="text-center">
-                <td th:text="${prod.id} "></td>
-                <td th:text="${prod.name}"></td>
-                <td th:text="${prod.typeOfProduct.description}"></td>
-                <td th:text="${prod.quantity}"></td>
-                <td th:text="${prod.price}"></td>
-                <td th:text="${prod.unitType.description}"></td>
-              </tr>
+              <tbody id="bodyProd">
               </tbody>
             </table>
           </div>
@@ -149,6 +141,12 @@
                 <div class="template-demo">
                   <div class="">
                     <img style="width: 100%;" id="prodImg"  alt="product" class="product" src="https://i.imgur.com/3ncGVzn.jpeg">
+                    <div class ="ajax-file-upload" style="position: relative; overflow: hidden; cursor: default;">
+                      Upload
+                      <form method="POST" action="YOUR_FILE_UPLOAD_URL" enctype="multipart/form-data" style="margin: 0px; padding: 0px;">
+                        <input type="file" id="ajax-upload-id-1633275684198" accept="*" name="myfile[]" multiple style ="position: absolute; cursor: pointer; top: 0px; width: 100%; height: 100%; left: 0px; z-index: 100; opacity: 0;">
+                      </form>
+                    </div>
                   </div>
                 </div>
               </div>
