@@ -26,8 +26,6 @@ public class productDto {
 	private String slug;
 	private TypeOfProduct typeOfProduct;
 	private UnitType unitType;
-	private int typeof;
-	private int unitof;
 	private String image;//
 	private String summary;//
 }

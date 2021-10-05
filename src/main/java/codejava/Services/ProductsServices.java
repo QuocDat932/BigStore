@@ -31,5 +31,4 @@ public interface ProductsServices {
 	List<Products> findtop4Bytype(String type);
 
 	List<Products> findByTypeOfProduct(TypeOfProduct type);
-	void delete(Integer id);
 }
