@@ -57,7 +57,7 @@ public class ProductsServicesImpl implements ProductsServices{
 		return result.isPresent() ? result.get() : null;
 	}
 	@Override
-	public void SaveOrUpdate(Products product) {
+	public void SaveAndUpdate(Products product) {
 		// TODO Auto-generated method stub
 		repo.saveAndFlush(product);
 	}
