@@ -83,5 +83,12 @@ public class ProductsServicesImpl implements ProductsServices{
 	public List<Products> findByTypeOfProduct(TypeOfProduct type) {
 		return repo.findByTypeOfProduct(type).get();
 		
+	}
+
+	@Override
+	public void SaveOrUpdate(Products product) {
+		// TODO Auto-generated method stub
+		repo.saveAndFlush(product);
+		
 	};
 }
