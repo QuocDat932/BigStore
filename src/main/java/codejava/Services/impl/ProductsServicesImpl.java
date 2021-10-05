@@ -84,8 +84,4 @@ public class ProductsServicesImpl implements ProductsServices{
 		return repo.findByTypeOfProduct(type).get();
 		
 	};
-	@Override
-	public void delete(Integer id) {
-		repo.deleteById(id);
-	}
 }

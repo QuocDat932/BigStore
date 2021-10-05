@@ -29,4 +29,6 @@ public class productDto {
 	
 	private String image;//
 	private String summary;//
+	private int typeof;
+	private int unitof;
 }
