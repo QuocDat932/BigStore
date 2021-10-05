@@ -26,6 +26,8 @@ public interface ProductsRepository extends JpaRepository<Products, Integer>{
 	
 	Optional<Products> findBySlug(String slug);
 	
+	Optional<List<Products>> findByTypeOfProduct(TypeOfProduct slug);
+	
 	@Modifying(clearAutomatically = true)
 	@Query(value=" UPDATE products SET quantity = ?1 Where id = ?2", nativeQuery = true)
 	void updateQuantity(Integer quantity, Integer ID);

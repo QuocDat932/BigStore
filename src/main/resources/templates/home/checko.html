@@ -1,9 +1,3 @@
-<!--
-Author: W3layouts
-Author URL: http://w3layouts.com
-License: Creative Commons Attribution 3.0 Unported
-License URL: http://creativecommons.org/licenses/by/3.0/
--->
 <!DOCTYPE html>
 <html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/index.html}">
 
@@ -28,12 +22,6 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 	<!-- start-smoth-scrolling -->
 	<script type="text/javascript" th:src="@{/home/js/move-top.js}"></script>
 	<script type="text/javascript" th:src="@{/home/js/easing.js}"></script>
-	<!-- React -->
-    <script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
-    <!-- ReactDOM -->
-    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
-    <!-- babel -->
-    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
 	<script type="text/javascript">
 		jQuery(document).ready(function ($) {
 			$(".scroll").click(function (event) {
@@ -72,101 +60,104 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 	</script>
 	<!---//End-rate-->
 </head>
-
 <body>
-	<div layout:fragment="content">
-	
+<div layout:fragment="content">
+    <div class="container" style="padding: 20px;">
+        <div class="row">
+            <p style="padding-left: 380px;"> ĐC: 123 Tân Phú, HCM</p>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h3><b>HÓA ĐƠN THANH TOÁN</b></h3>
+                        <hr>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-8">
+                            HD2021-1212
+                        </div>
+                        <div class="col-sm-4">
+                            18/08/2021 19:30:21
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <!-- table -->
+                        <table class="table">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th scope="col">STT</th>
+                                    <th scope="col">Thực đơn</th>
+                                    <th scope="col">Đơn vị tính</th>
+                                    <th scope="col">Đơn giá</th>
+                                    <th scope="col">SL</th>
+                                    <th scope="col">Thành tiền</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th scope="row">1</th>
+                                    <td>Bạc xỉu</td>
+                                    <td>1 cốc</td>
+                                    <td>20.000</td>
+                                    <td>1</td>
+                                    <td>20.000</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">2</th>
+                                    <td>Dưa leo</td>
+                                    <td>kg</td>
+                                    <td>15.000</td>
+                                    <td>3</td>
+                                    <td>45.000</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">3</th>
+                                    <td>xúc xích</td>
+                                    <td>gói</td>
+                                    <td>12</td>
+                                    <td>3</td>
+                                    <td>26.000</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="card-footer">
+                        <div class="row">
+                            <div class="col-sm-9">
+                                <p><b>Tiền hàng</b></p>
+                            </div>
+                            <div class="col-sm-3">
+                                <p>300.000đ</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-9">
+                                <p><b>Giảm giá</b></p>
+                            </div>
+                            <div class="col-sm-3">
+                                <p>3%</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-9">
+                                <p><b>Tổng tiền thanh toán:</b></p>
+                            </div>
+                            <div class="col-sm-3">
+                                <p>297.000 đ</p>
+                            </div>
+                        </div>
 
-		<script>window.jQuery || document.write('<script th:src="@{js/vendor/jquery-1.11.1.min.js}"><\/script>')</script>
-		<script th:src="@{/home/js/jquery.vide.min.js}"></script>
-  		<div id="myCarousel" class="carousel slide" data-ride="carousel">
-      <!-- Indicators -->
-      <ol class="carousel-indicators">
-        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-        <li data-target="#myCarousel" data-slide-to="1"></li>
-        <li data-target="#myCarousel" data-slide-to="2"></li>
-      </ol>
-      <div class="carousel-inner" role="listbox">
-        <div class="item active">
-           <a th:href="@{/type/Do-an-nhanh}"><img class="first-slide" th:src="@{/home/images/ba.jpg}" alt="First slide"></a>
-       
+                    </div>
+                </div>
+                <p style="text-align: center;"><b>Xin chân thành cảm ơn quý khách!Hẹn gặp lại</b></p>
+
+            </div>
+
         </div>
-        <div class="item">
-          <a th:href="@{/type/RAU}"> <img class="second-slide " th:src="@{/home/images/ba1.jpg}" alt="Second slide"></a>
-         
-        </div>
-        <div class="item">
-           <a th:href="@{/type/Gia-dung}"><img class="third-slide " th:src="@{/home/images/ba2.jpg}" alt="Third slide"></a>
-          
-        </div>
-      </div>
-    
     </div>
-
-	
-
-<!--content-->
-<div class="kic-top ">
-	<div class="container ">
-	<div class="kic ">
-			<h3>Popular Categories</h3>
-			
-		</div>
-		<div class="col-md-4 kic-top1">
-			<a th:href="@{/home/single}">
-				<img th:src="@{/home/images/ki.jpg}"  class="img-responsive" alt="">
-			</a>
-			<h6>Dal</h6>
-			<p>Nam libero tempore</p>
-		</div>
-		<div class="col-md-4 kic-top1">
-			<a th:href="@{/home/single}">
-				<img th:src="@{/home/images/ki1.jpg}" class="img-responsive" alt="">
-			</a>
-			<h6>Snacks</h6>
-			<p>Nam libero tempore</p>
-		</div>
-		<div class="col-md-4 kic-top1">
-			<a th:href="@{/home/single}">
-				<img th:src="@{/home/images/ki2.jpg}" class="img-responsive" alt="">
-			</a>
-			<h6>Spice</h6>
-			<p>Nam libero tempore</p>
-		</div>
-	</div>
-</div>
-<!--content-->
-  <!-- Carousel
-    ================================================== -->
-
-
-<!--content-->
-	<div class="product">
-		<div class="container">
-			<div class="spec ">
-				<h3>Special Offers</h3>
-				<div class="ser-t">
-					<b></b>
-					<span><i></i></span>
-					<b class="line"></b>
-				</div>
-			</div>
-		<div id="products1"></div>
-		 <ul class="pagination" style="margin: 14px "  >
-					<li><a  aria-label="Previous" id="Back"><span>«</span></a></li>
-					<li ><a id="Current"></a></li>
-					<li><a aria-label="Next" id="Next"><span>»</span></a></li>
-				  </ul>
-	
-		
-		</div>
-	</div>
-<!--footer-->
-
-<!-- //footer-->
-
-<!-- smooth scrolling -->
-<script type="text/javascript">
+    </div>
+    <script type="text/javascript">
 		$(document).ready(function () {
 			$().UItoTop({easingType: 'easeOutQuart'});
 		});
@@ -239,51 +230,7 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 		});
 
 	});
-	var change= () =>{
-	
-	Type =window.location.pathname.slice(6);
-		ProductPageType(0, Type);
-	}
 </script>
-  <!-- product -->
-			<!-- <div class="modal fade" id="19" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"> -->
-			<div class="modal fade" th:id="${product.slug}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" th:each="product, state : ${listProduct}" >
-				<div class="modal-dialog" role="document">
-					<div class="modal-content modal-info">
-						<div class="modal-header">
-							<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-						</div>
-						<div class="modal-body modal-spa">
-								<div class="col-md-5 span-2">
-											<div class="item">
-												<img th:src="@{'/home/images/' + ${product.imgUrl}}" class="img-responsive" alt="">
-											</div>
-								</div>
-								<div class="col-md-7 span-1 ">
-									<h3 th:text="${product.name}"></h3>
-									<p class="in-para" th:text="${product.description}"> </p>
-									<div class="price_single">
-									  <span class="reducedfrom " th:text="${product.price}"><del>$2.00</del>$1.50</span>
-									
-									 <div class="clearfix"></div>
-									</div>
-									<h4 class="quick">Quick Overview:</h4>
-									<p class="quick_desc" th:text="${product.description}"> </p>
-									<div class="add-to">
-										   <button class="btn btn-danger my-cart-btn my-cart-b" th:data-id="${product.id}" th:data-name="${product.name}"
-										    data-summary="summary 1" th:data-price="${product.price}" th:data-quantity="${1}" th:data-image="@{'images/' + ${product.imgUrl}}">Add to Cart</button>
-									</div>
-								</div>
-								<div class="clearfix"> </div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<!-- product -->
-					
-			
-</div>
-</div>
 </body>
 
 </html>

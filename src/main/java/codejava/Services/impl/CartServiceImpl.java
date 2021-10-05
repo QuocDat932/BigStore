@@ -103,7 +103,7 @@ public class CartServiceImpl implements CartService {
 			if(!ObjectUtils.isEmpty(orderReturn)) {
 				for(cartDetailDto cartDetailDto : cart.getListDetail().values()) {
 					cartDetailDto.setIdOrder(orderReturn.getId());
-					orderdetailServices.insert(cartDetailDto);
+					orderdetailServices.save(cartDetailDto);
 					Products product = productService.findById(cartDetailDto.getIdProduct());
 					Integer  newQuantity = product.getQuantity() - cartDetailDto.getQuantity();
 					productService.updateQuantity(newQuantity, cartDetailDto.getIdProduct());

@@ -19,6 +19,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -135,6 +136,7 @@ public class HomeController {
 	}
 	@GetMapping("/home/register")
 	public String doGetRegister(Model model) {
+		//Users user = new Users(0,"Fullname","Username","hashPassword","email","ImgUrl",null,null);
 		model.addAttribute("newUser", new Users());
 		return "home/register";
 	}
@@ -152,7 +154,8 @@ public class HomeController {
 			return "redirect:/home";
 		} catch (Exception e) {	
 			e.printStackTrace();
-			return "redirect:/home/register";
+			//return "redirect:/home/register";
+			return "12344";
 		}
 		
 	}			  
@@ -164,17 +167,28 @@ public class HomeController {
 	public String doGetShipping() {
 		return "home/shipping";
 	}
-	@GetMapping("/home/kitchen")
-	public String doGetKitchen() {
+	@GetMapping({"/type","/type/{slug}"})
+	public String doGetKitchen(Model model,HttpSession session) {
+		cartDto currentCart = (cartDto) session.getAttribute("currentCart");
+		ListproductDto Top4Prod = (ListproductDto) session.getAttribute("Top4Prod");
+		if(currentCart == null) {
+			session.setAttribute("currentCart", new cartDto());
+		}
+		if(Top4Prod == null) {
+			session.setAttribute("Top4Prod", new ListproductDto());
+		}
+
+		List<TypeOfProduct> listType = typrOfProductSrvcs.getListTypeOfProduct();
+		model.addAttribute("listType", listType);
+		
+		
+		
+		
 		return "home/kitchen";
 	}
 	@GetMapping("/home/care")
-	public String doGetCare() {
+	public String doCare() {
 		return "home/care";
-	}
-	@GetMapping("/home/hold")
-	public String doGetHold() {
-		return "home/hold";
 	}
 	@GetMapping("/home/contact")
 	public String doGetContact() {
