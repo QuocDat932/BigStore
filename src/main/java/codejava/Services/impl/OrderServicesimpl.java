@@ -27,19 +27,15 @@ public class OrderServicesimpl implements Orderservices{
 		}
 	}
 	@Override
-	public Orders findNewOrder(Users idUser) throws Exception {
-//		return repo.findNewOrder(idUser).size()==0?null:repo.findNewOrder(idUser).get(0);
-		
-		if(repo.findNewOrder(idUser)==null) {
-			return null;
-		}
-		
-		int id = repo.findNewOrder(idUser);
-		
-		return  repo.findById(id).isEmpty()?null:repo.findById(id).get();
+	public int findNewOrder(Users idUser) {
+		return  repo.findNewOrder(idUser);
 	}
 	@Override
 	public Orders findById(int id) {
 		return repo.findById(id).isPresent()?repo.findById(id).get():null;
+	}
+	@Override
+	public List<Orders> findAll() {
+		return repo.findAll();
 	}
 }

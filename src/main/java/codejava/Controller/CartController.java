@@ -21,9 +21,11 @@ import codejava.Dto.cartDto;
 import codejava.Dto.productDto;
 import codejava.Entity.OrderDetails;
 import codejava.Entity.Orders;
+import codejava.Entity.OrdersProcess;
 import codejava.Entity.Products;
 import codejava.Entity.Users;
 import codejava.Services.OrderDetailServices;
+import codejava.Services.OrderProcessServices;
 import codejava.Services.Orderservices;
 import codejava.Services.ProcessService;
 import codejava.Services.ProductsServices;
@@ -40,8 +42,9 @@ public class CartController {
 	private ProductsServices ProductS;
 	@Autowired
 	private ProcessService ProcessS;
-	
-	
+	@Autowired
+	private OrderProcessServices OrderProcessS;
+
 	@GetMapping("/wishlist")
 	public String doGetWishlistHttp(HttpSession session) {
 ////		List<cartDto> cart = (List<cartDto>) session.getAttribute(SessionConst.CURRENT_CART);
@@ -60,39 +63,37 @@ public class CartController {
 	}
 
 	@PostMapping(value = "/cart/save")
-	public String doPostSaveCart(Model model, HttpSession sess) {
+	public String doPostSaveCart(Model model, HttpSession sess) throws Exception {
+		// check cart
 		if (Objects.isNull(publicVariable.ListCart) || publicVariable.ListCart.size() == 0) {
 			return "redirect:/home";
 		}
+		// check login
 		if (Objects.isNull(sess.getAttribute(SessionConst.CURRENT_USER))
 				|| sess.getAttribute(SessionConst.CURRENT_USER) == "") {
 			return "redirect:/home/login";
 		}
+
 		Users u = (Users) sess.getAttribute(SessionConst.CURRENT_USER);
+		// Start Insert Order
 		Orders o = new Orders();
 		o.setUser(u);
 		o.setPhone("0982769574");
 		o.setAddress("DongNai");
 		o.setProcess(ProcessS.findBySlug(publicConst.Orderprocess.CANCEL));
-		try {
-			OrderS.insert(o); // Insert Order
-			o = OrderS.findNewOrder(u);
-			System.out.println("Create Order Done : ID : "+o.getId());
-			if (Objects.isNull(o)) {
-				System.out.println("Error CartController");
-				return "redirect:/home";
-			}else {
-				
-			}
-		} catch (Exception e) {
-			System.out.println("#1 -" + e);
-			return "redirect:/home";
-		}
-		final int idO = o.getId();
-		int z = 0;
-//		for (productDto c : publicVariable.ListCart) {
-//			
-//		}
+		OrderS.insert(o);
+		// End Insert Order
+		
+		// find id new order
+		final int idO = OrderS.findNewOrder(u);
+		o = OrderS.findById(idO);
+		
+		// Start Create Order Process
+		OrdersProcess op = new OrdersProcess(u, o, publicConst.Orderprocess.NEW);
+		OrderProcessS.insert(op);
+		// End Create Order Process
+
+		// Start Insert Orders Detail
 		publicVariable.ListCart.forEach(c -> {
 			try {
 				int quantity = c.getQuantity();
@@ -100,16 +101,18 @@ public class CartController {
 				Double price = product.getPrice();
 				cartDetailDto OrdDtl = new cartDetailDto(price, c.getQuantity(), idO, c.getId());
 				System.out.println("-----------------");
-				System.out.println("idProd   >> "+c.getId());
-				System.out.println("IdOrd    >> "+OrdDtl.getIdOrder());
-				System.out.println("Quantity >> "+OrdDtl.getQuantity());
-				System.out.println("Price    >> "+OrdDtl.getPrice());
+				System.out.println("idProd   >> " + c.getId());
+				System.out.println("IdOrd    >> " + OrdDtl.getIdOrder());
+				System.out.println("Quantity >> " + OrdDtl.getQuantity());
+				System.out.println("Price    >> " + OrdDtl.getPrice());
 				OrderDlS.save(OrdDtl);
 				System.out.println("ORDER DETAIL SAVE DONE !");
 
 			} catch (Exception e) {
 				System.out.println("ERROR insert cart detail - " + e);
 			}
+			// End Insert Orders Detail
+
 		});
 		return "home/cart";
 	}
