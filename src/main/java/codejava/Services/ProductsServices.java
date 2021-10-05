@@ -23,7 +23,7 @@ public interface ProductsServices {
 
 	Products findByProductsSlug(String slug);
 
-	void SaveOrUpdate(Products product);
+	void SaveAndUpdate(Products product);
 
 	void updateQuantity(Integer quantity, Integer id);
 
