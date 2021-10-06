@@ -32,4 +32,10 @@ public class TypeOfProductImpl implements TypeOfProductServices{
 	public List<TypeOfProduct> getListTypeOfProduct(){
 		return repo.getListTypeOfProduct();
 	};
+
+	@Override
+	public TypeOfProduct findById(Integer id){
+		Optional<TypeOfProduct> result = repo.findById(id);
+		return result.isPresent() ? result.get() : null;
+	}
 }
