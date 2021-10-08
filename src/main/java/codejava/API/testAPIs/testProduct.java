@@ -48,7 +48,8 @@ public class testProduct {
 	@GetMapping("/page")
 	public ResponseEntity<?> getExchangePage(@RequestParam Optional<Integer> p) {
 		List<Products> l = ServP.findAll();
-		int numP = 8;
+		int numP = 4;
+		
 		int max = l.size() - numP;
 		int page = p.orElse(0) <= 0 ? 0 : p.get();
 		int page1 = page * numP;

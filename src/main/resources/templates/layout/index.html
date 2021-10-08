@@ -411,7 +411,7 @@ var change =  {
 						},
 						error: function (response) {
 							if (response.responseText == "DONE") {
-								var form = $('<form action="/home/cart/saveLocal" method="post">' +
+								var form = $('<form action="/home/cart/saveLocal" >' +
 									'<input  value="${data}" />' +
 									'</form>');
 								$('body').append(form);

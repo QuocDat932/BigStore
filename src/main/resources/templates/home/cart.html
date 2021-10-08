@@ -86,15 +86,21 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 			<form action="/home/cart/save" method="post">
 									<button>mua</button>
 									'</form>
+							<input type="submit" value="Submit" >	
+							<h5><a href="#"><span class="label label-default">Default</span></a>	</h5>	
+									
 			
 		</div>
 		<script>
+		function numberWithCommas(x) {
+		    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+		}
 			var bodyProduct = `<table class="table ">` +
 				` <tr>` +
 				` <th class="t-head head-it ">Products</th>` +
 				` <th class="t-head">Price</th>` +
 				` <th class="t-head">Quantity</th>` +
-				
+				` <th class="t-head">Total</th>` +
 				` </tr>`;
 			showProduct = (data) => {
 				
@@ -110,7 +116,7 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 						` <div class="clearfix"> </div>` +
 						` <div class="close1"> <i class="fa fa-times" aria-hidden="true"></i></div>` +
 						` </td>` +
-						` <td class="t-data">$10.00</td>` +
+						` <td class="t-data">${numberWithCommas(data[i].price*1000)} VND</td>` +
 						` <td class="t-data">` +
 						` <div class="quantity">` +
 						` 	<div class="quantity-select">` +
@@ -120,7 +126,9 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 						` </div>` +
 						` </div>` +
 						` </td>` +
-						
+						` <td class="t-data">` +
+							` <div class="t-data">${numberWithCommas(data[i].quantity *data[i].price*1000)} VND</div>` +
+						` </td>` +
 						` </tr>`;
 
 
@@ -163,6 +171,7 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 
 			$('.value-minus').on('click', function () {
 				var divUpd = $(this).parent().find('.value'), newVal = parseInt(divUpd.text(), 10) - 1;
+				console.log (divUpd)
 				if (newVal >= 1) divUpd.text(newVal);
 			});
 		</script>
