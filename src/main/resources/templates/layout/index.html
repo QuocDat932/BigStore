@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
-<script type="text/javascript">
+<!--<script type="text/javascript">
 
 var reloadFunctions = function () {
 	
 }
 var change =  {
 	
-}
+}-->
 </script>
 
 <body>
@@ -126,65 +126,6 @@ var change =  {
 										</div>
 									</ul>
 								</li>
-							<!--<li class="dropdown">
-
-									<a href="#" class="dropdown-toggle hyper" data-toggle="dropdown"><span> Personal
-											Care <b class="caret"></b></span></a>
-									<ul class="dropdown-menu multi multi1">
-										<div class="row">
-											<div class="col-sm-3">
-												<ul class="multi-column-dropdown">
-													<li><a th:href="@{/home/care}"><i class="fa fa-angle-right"
-																aria-hidden="true"></i> Ayurvedic </a></li>
-													<li><a th:href="@{/home/care}"><i class="fa fa-angle-right"
-																aria-hidden="true"></i>Baby Care</a></li>
-													<li><a th:href="@{/home/care}"><i class="fa fa-angle-right"
-																aria-hidden="true"></i>Cosmetics</a></li>
-													<li><a th:href="@{/home/care}"><i class="fa fa-angle-right"
-																aria-hidden="true"></i>Deo & Purfumes</a></li>
-
-												</ul>
-
-											</div>
-											<div class="col-sm-3">
-
-												<ul class="multi-column-dropdown">
-													<li><a th:href="@{/home/care}"> <i class="fa fa-angle-right"
-																aria-hidden="true"></i>Hair Care </a></li>
-													<li><a th:href="@{/home/care}"><i class="fa fa-angle-right"
-																aria-hidden="true"></i>Oral Care</a></li>
-													<li><a th:href="@{/home/care}"><i class="fa fa-angle-right"
-																aria-hidden="true"></i>Personal Hygiene</a></li>
-													<li><a th:href="@{/home/care}"><i class="fa fa-angle-right"
-																aria-hidden="true"></i>Skin care</a></li>
-
-												</ul>
-
-											</div>
-											<div class="col-sm-3">
-
-												<ul class="multi-column-dropdown">
-													<li><a th:href="@{/home/care}"><i class="fa fa-angle-right"
-																aria-hidden="true"></i> Fashion Accessories </a></li>
-													<li><a th:href="@{/home/care}"><i class="fa fa-angle-right"
-																aria-hidden="true"></i>Grooming Tools</a></li>
-													<li><a th:href="@{/home/care}"><i class="fa fa-angle-right"
-																aria-hidden="true"></i>Shaving Need</a></li>
-													<li><a th:href="@{/home/care}"><i class="fa fa-angle-right"
-																aria-hidden="true"></i>Sanitary Needs</a></li>
-
-												</ul>
-											</div>
-											<div class="col-sm-3 w3l">
-												<a th:href="@{/home/care}"><img th:src="@{/home/images/me1.png}"
-														class="img-responsive" alt=""></a>
-											</div>
-											<div class="clearfix"></div>
-										</div>
-									</ul>
-								</li> -->
-							
-
 								<li><a th:href="@{/home/codes}" class="hyper"> <span>Codes</span></a></li>
 								<li><a th:href="@{/home/contact}" class="hyper"><span>Contact Us</span></a></li>
 							</ul>
@@ -283,7 +224,7 @@ var change =  {
 			function numberWithCommas(x) {
 			    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 			}
-				reloadFunctions = function(){
+				/*reloadFunctions = ()=>{
 					var goToCartIcon = function ($addTocartBtn) {
 						var $cartIcon = $(".my-cart-icon");
 						var $image = $('<img width="30px" height="30px" src="/home/' + $addTocartBtn.data("image") + '"/>').css({"position": "fixed", "z-index": "999"});
@@ -318,7 +259,7 @@ var change =  {
 						}
 					});
 				}
-			
+				*/
 				getProduct = (data) => {
 					var body = "";
 					
@@ -379,18 +320,14 @@ var change =  {
 							$("#tesstlocal").click(function () {
 								CallApiProduct(localStorage.products);
 							});
-
-							reloadFunctions();
 						},
 						error: (e) => {
 							alert(e)
 						}
 					});
-
+					reloadFunctions();
 				};
-
 				ProductPage(0);
-
 			</script>
 
 
@@ -422,95 +359,7 @@ var change =  {
 						}
 					});
 				}
-
-
-
-
-
-
-				/*
-				
-				reloadFunctions = function () {
-					var goToCartIcon = function ($addTocartBtn) {
-						var $cartIcon = $(".my-cart-icon");
-						var $image = $('<img width="30px" height="30px" src="/home/' + $addTocartBtn.data("image") + '"/>').css({"position": "fixed", "z-index": "999"});
-						$addTocartBtn.prepend($image);
-						var position = $cartIcon.position();
-						$image.animate({
-							top: position.top,
-							left: position.left
-						}, 500, "linear", function () {
-							$image.remove();
-						});
-					}
-
-					$('.my-cart-btn').myCart({
-						classCartIcon: 'my-cart-icon',
-						classCartBadge: 'my-cart-badge',
-						affixCartIcon: true,
-						checkoutCart: function (products) {
-							$.each(products, function () {
-								console.log(this);
-							});
-						},
-						clickOnAddToCart: function ($addTocart) {
-							goToCartIcon($addTocart);
-						},
-						getDiscountPrice: function (products) {
-							var total = 0;
-							$.each(products, function () {
-								total += this.quantity * this.price;
-							});
-							return total * 1;
-						}
-					});
-				}
-				$(document).ready(function () {
-					$(".tabProd").click(function () {
-						reloadFunctions();
-					}); 
-					console.log("ready!"); reloadFunctions(); ProductPage(0);
-				});
-				
-				*/</script>
-			<script >
-				
-					reloadFunctions = function(){
-					var goToCartIcon = function ($addTocartBtn) {
-						var $cartIcon = $(".my-cart-icon");
-						var $image = $('<img width="30px" height="30px" src="/home/' + $addTocartBtn.data("image") + '"/>').css({"position": "fixed", "z-index": "999"});
-						$addTocartBtn.prepend($image);
-						var position = $cartIcon.position();
-						$image.animate({
-							top: position.top,
-							left: position.left
-						}, 500, "linear", function () {
-							$image.remove();
-						});
-					}
-
-					$('.my-cart-btn').myCart({
-						classCartIcon: 'my-cart-icon',
-						classCartBadge: 'my-cart-badge',
-						affixCartIcon: true,
-						checkoutCart: function (products) {
-							$.each(products, function () {
-								console.log(this);
-							});
-						},
-						clickOnAddToCart: function ($addTocart) {
-							goToCartIcon($addTocart);
-						},
-						getDiscountPrice: function (products) {
-							var total = 0;
-							$.each(products, function () {
-								total += this.quantity * this.price;
-							});
-							return total * 1;
-						}
-					});
-				}		
-			</script>
+		</script>
 			<script>
 					function numberWithCommas(x) {
 					    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
@@ -546,10 +395,7 @@ var change =  {
 							`  </div>  `+
 						`  </div>  `+
 					`  </div>  `  ;
-					
-					}
-				
-					
+					}					
 					$("#products1").html(body);
 				}
 				ProductPageType = (pageNum, Type) => {
@@ -578,17 +424,11 @@ var change =  {
 							alert(e)
 						}
 					});
-
 				};
 
 				if(typeof change == "function"){
 					change()
 				} 
-					
-
-				
-			
-
 			</script>
 
 

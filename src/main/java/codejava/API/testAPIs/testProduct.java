@@ -80,11 +80,15 @@ public class testProduct {
 		
 		
 		List<Products> l = ServP.findByTypeOfProduct(ServC.findBySlug(slug.orElse("RAU")));
-		int numP = 3;
+		int numP = 8;
 		int max = l.size()-numP;
 		int page = p.orElse(0) <= 0 ? 0 : p.get(); 
 		int page1 = page*numP;
 		while(page1 > max) {
+			if(( (max+numP) - page1 )>0 && ((max+numP) - page1) <numP) {
+				numP = (max+numP) - page1;
+				break;
+			}
 			 page1 -=numP;
 			 page-=1;
 		}
