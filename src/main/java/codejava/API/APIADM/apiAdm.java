@@ -1,5 +1,7 @@
 package codejava.API.APIADM;
 
+import codejava.Entity.Products;
+import codejava.Services.ProductsServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +20,8 @@ public class apiAdm {
 	private UserServices userSrvs;
 	@Autowired
 	private StatsServices adminSrvs;
+	@Autowired
+	private ProductsServices prodServices;
 	@GetMapping("/indexUser")
 	public ResponseEntity<?> doGetIndexUser(@RequestParam("userId") int userId){
 		Users userIndex = userSrvs.findByid(userId);
@@ -32,5 +36,14 @@ public class apiAdm {
 	public ResponseEntity<?> doGetTotalPricebyId(@RequestParam("userId") int userId){
 		String[][] dataPrice = adminSrvs.getTotalPriceByUser(userId);
 		return ResponseEntity.ok(dataPrice);
+	}
+	@GetMapping("/indexProd")
+	public ResponseEntity<?> getIndexProd(@RequestParam("index") int index){
+		Products prod = prodServices.findById(index);
+		return ResponseEntity.ok(prod);
+	}
+	@GetMapping("/allProd")
+	public ResponseEntity<?> getAllProd(){
+		return ResponseEntity.ok(prodServices.findAll());
 	}
 }

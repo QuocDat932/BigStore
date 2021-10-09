@@ -7,6 +7,9 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Dashboard Big Store</title>
   <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script type="text/javascript" src="http://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+    <link rel="stylesheet"href="http://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
   <!-- plugins:css -->
   <link rel="stylesheet" th:href="@{/admin/vendors/mdi/css/materialdesignicons.min.css}">
   <link rel="stylesheet" th:href="@{/admin/vendors/css/vendor.bundle.base.css}">
@@ -17,6 +20,7 @@
   <!-- End plugin css for this page -->
   <!-- Layout styles -->
   <link rel="stylesheet" th:href="@{/admin/css/demo/style.css}">
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <!-- End layout styles -->
   <link rel="shortcut icon" th:href="@{/admin/images/favicon.png}" />
 </head>
@@ -429,6 +433,7 @@
   <!-- End custom js for this page-->
   <script th:src="@{/admin/js/material.js}"></script>
   <script th:src="@{/admin/js/chartjs.js}"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
  <!--Chart-->
  <script th:inline="javascript">
  	//ChartUser = (dataUsarray) =>{
@@ -509,7 +514,7 @@
 					    }
 					  }
 		    });
-	}
+	};
 	setValueToForm = (data) =>{
 				$('#txtuserName').val(data.fullname);
 				$('#txtuserRole').val(data.role.description);
@@ -523,7 +528,9 @@
 				$('#txtHashPassWord').focus();
 				$('#txtuserRole').focus();
 				$('#txtuserName').focus();
-	}
+	};
+
+
 </script>
  <!--Event - Data -->
  <script th:inline="javascript">
@@ -541,15 +548,15 @@
 				//this.UserAccount();
 				$("tableUsers").unbind();
 				$("OrderStatistics").unbind();
-				this.ChartOrderstatisticsById(userindex.id);
-				this.setValueToForm(userindex);
+				ChartOrderstatisticsById(userindex.id);
+				setValueToForm(userindex);
 			},
 			error:(e) =>{
 				alert(e)
 			}
 		});
 	};
-	
+
 	ChartOrderstatisticsById = (userId) =>{
 		let url = "/api/admin/totalPricebyId?userId="+userId;
 		$.ajax({
@@ -558,13 +565,203 @@
 			url: url,
 			async: false,
 			success:(Data)=>{
-				this.ChartOrderstatistics(Data);
+				ChartOrderstatistics(Data);
 			},
 			error:(e) =>{
 				alert(e);
 			}
 		})
-	}
+	};
+
+    $(document).ready(function (){
+        loadDataProd();
+        $("#btnDelete").prop('disabled',true);
+        $("#btnClear").click( function (){
+            clearDataForm();
+        });
+
+        clearDataForm = () =>{
+            $('#txtProdId').val("");
+            $('#txtSlugProd').val("");
+            $('#txtProdName').val("");
+            $('#cboType').val("1");
+            $('#txtQuantity').val("")
+            $('#txtPrice').val("");
+            $('#cboUnit').val("1");
+            $('#txtDescription').val("");
+            $("#btnDelete").prop('disabled',true);
+            const img ="3ncGVzn.jpeg";
+            const path = "/home/images/"+img;
+            $('#prodImg').attr("src",path);
+            $('#btnCreate').text('Create');
+        }
+        // products
+        setValueToProdForm = (data) =>{
+            $('#txtProdId').val(data.id);
+            $('#txtSlugProd').val(data.slug);
+            $('#txtProdName').val(data.name);
+            $('#cboType').val(data.typeOfProduct.id);
+            $('#txtQuantity').val(data.quantity)
+            $('#txtPrice').val(data.price);
+            $('#cboUnit').val(data.unitType.id);
+            $('#txtDescription').val(data.description);
+            const path = "/home/images/"+data.imgUrl;
+            $('#prodImg').attr("src",path);
+            $("#btnDelete").prop('disabled',false);
+            $('#btnCreate').text('Update');
+            $('#txtDescription').focus();
+            $('#txtUnit').focus();
+            $('#txtPrice').focus();
+            $('#txtQuantity').focus();
+            $('#txtTypeProd').focus();
+            $('#txtProdName').focus();
+            $('#txtProdId').focus();
+        };
+
+        prodItem = (item) =>{
+            let response = '/api/admin/indexProd?index='+item;
+            $.ajax({
+                type: "GET",
+                contentType: "application/json",
+                url: response,
+                async: false,
+                success : (prod) =>{
+                    setValueToProdForm(prod);
+                },
+                error: (e) =>{
+                    alert('bug')
+                }
+            });
+        };
+        $("#btnCreate").click(function (){
+            addProduct();
+        });
+        $('#btnDelete').click(function (){
+            deleteProduct();
+            clearDataForm();
+        })
+    });
+    function addProduct(){
+        let response = '/admin/product/productMgt/insert';
+        let image = $('#prodImg').attr("src");
+        const idProd = $("#txtProdId").val();
+        const slugProd = $('#txtSlugProd').val();
+        const prodName = $("#txtProdName").val();
+        const typeProd = $("#cboType").val();
+        const quantityProd = $("#txtQuantity").val();
+        const priceProd = $("#txtPrice").val();
+        const unitProd = $("#cboUnit").val();
+        const descriptionProd = $('#txtDescription').val();
+        const imageProd = image.split("/").pop();
+        let jsonData = {
+            id : idProd,
+            slug : slugProd,
+            name : prodName,
+            quantity : quantityProd,
+            price : priceProd,
+            typeof : typeProd,
+            unitof : unitProd,
+            description : descriptionProd,
+            imgUrl : imageProd,
+        };
+        $.ajax({
+            type: "POST",
+            url : response,
+            data: JSON.stringify(jsonData),
+            contentType:"application/json",
+            success: function (data){
+                $('#btnCreate').text('Update');
+                Swal.fire({
+                    icon: 'success',
+                    text: data.status,
+                    timer: 5000,
+                }).then(function () {
+                    loadDataProd();
+                })
+            },
+            error: function (e){
+                Swal.fire({
+                    icon: 'error',
+                    text: data.status,
+                })
+            }
+        });
+    }
+    function deleteProduct(){
+        let image = $('#prodImg').attr("src");
+        const idProd = $("#txtProdId").val();
+        const slugProd = $('#txtSlugProd').val();
+        const prodName = $("#txtProdName").val();
+        const typeProd = $("#cboType").val();
+        const quantityProd = $("#txtQuantity").val();
+        const priceProd = $("#txtPrice").val();
+        const unitProd = $("#cboUnit").val();
+        const descriptionProd = $('#txtDescription').val();
+        const imageProd = image.split("/").pop();
+        let jsonData = {
+            id : idProd,
+            slug : slugProd,
+            name : prodName,
+            quantity : quantityProd,
+            price : priceProd,
+            typeof : typeProd,
+            unitof : unitProd,
+            description : descriptionProd,
+            imgUrl : imageProd,
+        };
+        let response = '/admin/product/productMgt/delete';
+        $.ajax({
+            type: "POST",
+            url : response,
+            data: JSON.stringify(jsonData),
+            contentType:"application/json",
+            success: function (data){
+                Swal.fire({
+                    icon: 'success',
+                    text: data.status,
+                }).then(function () {
+                    loadDataProd();
+                })
+            },
+            error: function (e){
+                Swal.fire({
+                    icon: 'error',
+                    text: data.status,
+                })
+            }
+        })
+    }
+    function loadDataProd(){
+        let response = '/api/admin/allProd'
+        $.ajax({
+            type: "GET",
+            url : response,
+            contentType:"application/json",
+            success: function (data){
+                reloadTable(data);
+            },
+            error: function (e){
+                Swal.fire({
+                    icon: 'error',
+                    text: "Can't load data !!!",
+                })
+            }
+        })
+    }
+    function reloadTable(newProd){
+        let body = ''
+        for (let i = 0; i < newProd.length; i++){
+            body += `<tr onclick='prodItem(${newProd[i].id})' class="text-center">` +
+                `<td>${newProd[i].id}</td>` +
+                `<td >${newProd[i].name}</td>\n` +
+                `<td >${newProd[i].typeOfProduct.description}</td>` +
+                `<td >${newProd[i].quantity}</td>` +
+                `<td >${newProd[i].price}</td>` +
+                `<td >${newProd[i].unitType.description}</td>` +
+                `</tr>`
+        }
+        $('#bodyProd').html(body);
+    }
 </script>
 </body>
 </html> 

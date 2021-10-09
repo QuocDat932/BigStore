@@ -1,31 +1,30 @@
 package codejava.Controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
 import javax.websocket.Session;
 
+import codejava.Dto.Message;
+import codejava.Dto.productDto;
+import codejava.Entity.*;
+import codejava.Services.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import codejava.Constant.RoleConst;
 import codejava.Constant.SessionConst;
 import codejava.Constant.publicConst;
-import codejava.Entity.Users;
-import codejava.Entity.roles;
 import codejava.Jwt.CustomUser;
-import codejava.Services.StatsServices;
-import codejava.Services.UserServices;
 import codejava.Constant.publicConst;
 
 @RequestMapping("/admin")
@@ -39,11 +38,18 @@ public class AdminController {
 	private AuthenticationManager  authenManager;
 	@Autowired
 	private UserServices userservices;
+	@Autowired
+	private ProductsServices prodServices;
+	@Autowired
+	private TypeOfProductServices typeServices;
+	@Autowired
+	private UnitTypeServices unitServices;
+
 	@GetMapping("/login")
 	public String doGetLogin(Model model, HttpSession session) {
 		System.out.println("Admin Login");
 		model.addAttribute("user", new Users());
-		model.addAttribute("message","login to continue");
+		model.addAttribute("message","Login to continue");
 		return "admin/login";
 	}
 	@PostMapping("/login")
@@ -61,7 +67,7 @@ public class AdminController {
 			{
 				session.setAttribute(SessionConst.CURRENT_USER, userResponse);
 				session.setAttribute(SessionConst.CURRENT_ROLE, RoleUserResponse);
-				return "layout/indexAdmin";
+				return "redirect:/admin/dashboard";
 			}
 			else {
 				model.addAttribute("message", "You are not allow");
@@ -106,9 +112,12 @@ public class AdminController {
 	};
 	@GetMapping("/product/productMgt")
 	public String doGetProduct(Model model) {
-		//** Code Here
-		//...
-		
+		List<Products> prod = prodServices.findAll();
+		List<TypeOfProduct> type = typeServices.findAll();
+		List<UnitType> unit = unitServices.findAll();
+		model.addAttribute("prod", prod);
+		model.addAttribute("type", type);
+		model.addAttribute("unit", unit);
 		return "admin/Product-productMgt";
 	};
 	@GetMapping("/product/categotyMgt")
@@ -148,5 +157,57 @@ public class AdminController {
 						
 		return "admin/ListOrder";
 	}
-	
+	@PostMapping("/product/productMgt/insert")
+	public ResponseEntity<?> insertProd(@RequestBody productDto newProd){
+		Message msg = new Message();
+		try {
+			Products prod = new Products();
+			if(newProd.getId() != 0){
+				prod.setId(newProd.getId());
+			}
+            prod.setName(newProd.getName());
+            prod.setPrice(newProd.getPrice());
+            prod.setQuantity(newProd.getQuantity());
+            prod.setTypeOfProduct(typeServices.findById(newProd.getTypeof()));
+            prod.setUnitType(unitServices.findById(newProd.getUnitof()));
+            prod.setImgUrl(newProd.getImgUrl());
+			prod.setDescription(newProd.getDescription());
+			prod.setIsDeleted(1.0);
+			if(newProd.getSlug() != ""){
+				prod.setSlug(newProd.getSlug());
+				msg.setStatus("Update successfully !!!");
+			} else {
+				prod.setSlug("Please update slug");
+				msg.setStatus("Insert successfully !!!");
+			}
+            prodServices.SaveOrUpdate(prod);
+		} catch (Exception e) {
+			e.printStackTrace();
+			msg.setStatus("Failure !!!");
+		}
+		return ResponseEntity.ok(msg);
+	}
+	@PostMapping("/product/productMgt/delete")
+	public ResponseEntity<?> delete(@RequestBody productDto deleteProd) {
+		Message msg = new Message();
+		try {
+			Products prod = new Products();
+			prod.setId(deleteProd.getId());
+			prod.setName(deleteProd.getName());
+			prod.setPrice(deleteProd.getPrice());
+			prod.setQuantity(deleteProd.getQuantity());
+			prod.setTypeOfProduct(typeServices.findById(deleteProd.getTypeof()));
+			prod.setUnitType(unitServices.findById(deleteProd.getUnitof()));
+			prod.setImgUrl(deleteProd.getImgUrl());
+			prod.setDescription(deleteProd.getDescription());
+			prod.setIsDeleted(0.0);
+			prod.setSlug(deleteProd.getSlug());
+			prodServices.SaveOrUpdate(prod);
+			msg.setStatus("Delete successfully !!!");
+		} catch (Exception e){
+			e.printStackTrace();
+			msg.setStatus("Failure !!!");
+		}
+		return ResponseEntity.ok(msg);
+	}
 }
