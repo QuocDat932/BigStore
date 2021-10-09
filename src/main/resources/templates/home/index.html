@@ -253,16 +253,17 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 						<b class="line"></b>
 					</div>
 				</div>
-				<div id="products"></div>
-				<ul class="pagination" style="margin: 14px ">
-					<li><a aria-label="Previous" id="testBack"><span>«</span></a></li>
-					<li><a id="testCurrent"></a></li>
-					<li><a aria-label="Next" id="testNext"><span>»</span></a></li>
-					<li><a aria-label="Next" id="tesstlocal"><span>local</span></a></li>
-				</ul>
-
-
+				<div>
+					<ul class="pagination" style="margin: 14px; ">
+						<li><a aria-label="Previous" id="testBack"><span>«</span></a></li>
+						<li><a id="testCurrent"></a></li>
+						<li><a aria-label="Next" id="testNext"><span>»</span></a></li>
+					</ul>
+				</div>
+					<div id="products"></div>
 			</div>
+	
+			
 		</div>
 		<!--footer-->
 
@@ -366,7 +367,7 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 							<h3 th:text="${product.name}"></h3>
 							<p class="in-para" th:text="${product.description}"> </p>
 							<div class="price_single">
-								<span class="reducedfrom " th:text="${product.price}">$1.50</span>
+								<span class="reducedfrom " th:text="${product.price}"></span>
 								<div class="clearfix"></div>
 							</div>
 							<h4 class="quick">Quick Overview:</h4>
@@ -374,7 +375,7 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 							<div class="add-to">
 								<button class="btn btn-danger my-cart-btn my-cart-b" th:data-id="${product.id}"
 									th:data-name="${product.name}" data-summary="summary 1"
-									th:data-price="${product.price}" th:data-quantity="${1}"
+									th:data-price="${product.price}" th:data-quantity="1"
 									th:data-image="@{'images/' + ${product.imgUrl}}">Add to Cart</button>
 							</div>
 						</div>
