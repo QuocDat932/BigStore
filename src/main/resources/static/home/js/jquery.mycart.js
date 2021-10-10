@@ -92,7 +92,7 @@
 				return false;
 			}
 			var products = getAllProducts();
-			products[productIndex].quantity = typeof quantity === "undefined" ? numberWithCommas(products[productIndex].quantity * 1000 + 1 ): quantity;
+			products[productIndex].quantity = typeof quantity === "undefined" ?(products[productIndex].quantity  + 1 ): quantity;
 			setAllProducts(products);
 			return true;
 		}
