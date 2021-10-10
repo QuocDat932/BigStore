@@ -98,7 +98,7 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 		<div class="content-top ">
 			<div class="container ">
 				<div class="spec ">
-					<h3>Special Offers</h3>
+					<h3>[(#{show.special_offers})]</h3>
 					<div class="ser-t">
 						<b></b>
 						<span><i></i></span>
@@ -111,7 +111,9 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 							<li th:each="type, state : ${listType}" class=""
 								th:attr="onclick='top4prod(\''+${type.slug}+'\')'">
 								<a class="tabProd" th:href="@{'#tab'+ ${state.index + 1}}" data-toggle="tab"
-									th:text="${type.description}"></a>
+								>[(#{'nav.'+${type.id}})]</a>
+									<!-- <a class="tabProd" th:href="@{'#tab'+ ${state.index + 1}}" data-toggle="tab"
+									th:text="${type.description}" >[(#{'nav.'+${type.id}})]</a> xóa-->
 							</li>
 						</ul>
 					</nav>
@@ -143,7 +145,7 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 											<div class="add">
 												<button class="btn btn-danger my-cart-btn my-cart-b" data-id="4"
 													data-name="Soya Chunks" data-summary="summary 4" data-price="3.50"
-													data-quantity="1" data-image="images/of3.png">Add to Cart</button>
+													data-quantity="1" data-image="images/of3.png" th:text="#{button.add_to_Cart}">Add to Cart</button>
 											</div>
 										</div>
 									</div>
@@ -165,7 +167,7 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 		
 		<div class="col-md-4 m-w3ls">
 			<div class="col-md1 ">
-				<a href="kitchen.html">
+				<a th:href="@{/type/Dau-thuc-vat}">
 					<img th:src="@{/home/images/co1.jpg}" class="img-responsive img" alt="">
 					<div class="big-sa">
 						<h6>New Collections</h6>
@@ -177,7 +179,8 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 		</div>
 		<div class="col-md-4 m-w3ls1">
 			<div class="col-md ">
-				<a href="hold.html">
+			
+				<a th:href="@{/type/Gia-dung}">
 					<img th:src="@{/home/images/co.jpg}"  class="img-responsive img" alt="">
 					<div class="big-sale">
 						<div class="big-sale1">
@@ -185,12 +188,12 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 							<p>It is a long established fact that a reader </p>
 						</div>
 					</div>
-				</a>
+				</a> 
 			</div>
 		</div>
 		<div class="col-md-4 m-w3ls">
 			<div class="col-md2 ">
-				<a href="kitchen.html">
+				<a th:href="@{/type/Do-an-nhanh}">
 					<img th:src="@{/home/images/co2.jpg}"  class="img-responsive img1" alt="">
 					<div class="big-sale2">
 						<h3>Cooking <span>Oil</span></h3>
@@ -199,7 +202,7 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 				</a>
 			</div>
 			<div class="col-md3 ">
-				<a href="hold.html">
+				<a th:href="@{/type/RAU}">
 					<img th:src="@{/home/images/co3.jpg}"  class="img-responsive img1" alt="">
 					<div class="big-sale3">
 						<h3>Vegeta<span>bles</span></h3>
@@ -246,7 +249,7 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 		<div class="product">
 			<div class="container">
 				<div class="spec ">
-					<h3>Special Offers</h3>
+					<h3 th:text="#{show.sanpham}">Products</h3>
 					<div class="ser-t">
 						<b></b>
 						<span><i></i></span>
@@ -375,7 +378,7 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 								<button class="btn btn-danger my-cart-btn my-cart-b" th:data-id="${product.id}"
 									th:data-name="${product.name}" data-summary="summary 1"
 									th:data-price="${product.price}" th:data-quantity="${1}"
-									th:data-image="@{'images/' + ${product.imgUrl}}">Add to Cart</button>
+									th:data-image="@{'images/' + ${product.imgUrl}}" >Add to Cart</button>
 							</div>
 						</div>
 						<div class="clearfix"> </div>
