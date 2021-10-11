@@ -55,7 +55,6 @@ public class HomeController {
 	private RolesServices rolesservices;
 	@Autowired
 	private TypeOfProductServices typrOfProductSrvcs;
-
 	@Autowired
 	private AuthenticationManager  authenManager;
 	@Autowired
@@ -177,13 +176,8 @@ public class HomeController {
 		if(Top4Prod == null) {
 			session.setAttribute("Top4Prod", new ListproductDto());
 		}
-
 		List<TypeOfProduct> listType = typrOfProductSrvcs.getListTypeOfProduct();
 		model.addAttribute("listType", listType);
-		
-		
-		
-		
 		return "home/kitchen";
 	}
 	@GetMapping("/home/care")
@@ -194,9 +188,13 @@ public class HomeController {
 	public String doGetContact() {
 		return "home/contact";
 	}
-	@GetMapping("/home/single")
-	public String doGetSingle() {
+	@GetMapping("/home/single/{slug}")
+	public String doGetSingle(@PathVariable Optional<String> slug, Model model) {
+		Products p = productsservices.findByProductsSlug(slug.get());
+		model.addAttribute("Product",p);
+		
 		return "home/single";
+		
 	}
 	@GetMapping("/home/terms")
 	public String doGetTerms() {

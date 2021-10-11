@@ -21,6 +21,7 @@ import codejava.Constant.publicVariable;
 import codejava.Dto.productDto;
 import codejava.Entity.Products;
 import codejava.Entity.TypeOfProduct;
+import codejava.Entity.Users;
 import codejava.Responsitory.ProductsRepository;
 import codejava.Services.ProductsServices;
 import codejava.Services.TypeOfProductServices;
@@ -76,7 +77,10 @@ public class testProduct {
 	};
 	@GetMapping("/type")
 	public ResponseEntity<?> getTypeofProduct(@RequestParam Optional<String> slug,@RequestParam Optional<Integer> p){
-		List<Products> l = ServP.findAll();
+		ServP.findByTypeOfProduct(ServC.findBySlug(slug.orElse("RAU")));
+		
+		
+		List<Products> l = ServP.findByTypeOfProduct(ServC.findBySlug(slug.orElse("RAU")));
 		if(p.isPresent() && p.get()==-999) {
 			return ResponseEntity.ok(l.size());
 		}
@@ -103,6 +107,14 @@ public class testProduct {
 		map.put("products", l1);
 		return ResponseEntity.ok(map);
 	}
+	
+	
+	@GetMapping("/ProductById")
+	public ResponseEntity<?> doGetProductId(@RequestParam("productId") int productId){
+		Products product = ServP.findById(productId);
+		return ResponseEntity.ok(product);
+	};
+	
 	
 	@PostMapping("/saveCart")
 	public ResponseEntity<?> postSetCart(@RequestBody List<productDto> ProductsDto ) {
