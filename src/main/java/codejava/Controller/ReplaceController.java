@@ -18,15 +18,16 @@ import codejava.Entity.Products;
 import codejava.Services.ProductsServices;
 
 @Controller
-@RequestMapping("/api/user/controller")
+@RequestMapping("/replace")
 public class ReplaceController {
 		@Autowired
 		private ProductsServices productSrvs;
-		@GetMapping("/top4product")
+		@GetMapping("/user/top4product")
 		public String goGettop4product(@RequestParam("param") String param, HttpSession session){
 			List<Products> top4 = productSrvs.findtop4Bytype(param);
 			ListproductDto listtop = (ListproductDto) session.getAttribute(publicConst.Top4Prod);
 			listtop.listTop4 = top4;
+			
 			return "home/index::#viewTop4prod";
 	}
 }

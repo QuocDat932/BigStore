@@ -22,6 +22,7 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 	<link th:href='@{/home/css/bootstrap.css}' rel='stylesheet' type='text/css' />
 	<!-- Custom Theme files -->
 	<link th:href='@{/home/css/style.css}' rel='stylesheet' type='text/css' />
+	<link th:href='@{/home/css/orderprocess.css}' rel='stylesheet' type='text/css' />
 	<!-- js -->
 	<script th:src='@{/home/js/jquery-1.11.1.min.js}'></script>
 	<!-- //js -->
@@ -110,8 +111,8 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 						<ul class="nav tabs ">
 							<li th:each="type, state : ${listType}" class=""
 								th:attr="onclick='top4prod(\''+${type.slug}+'\')'">
-								<!--<a class="tabProd" th:href="@{'#tab'+ ${state.index + 1}}" data-toggle="tab"
-									th:text="${type.description}"></a>-->
+								<a class="tabProd" th:href="@{'#tab'+ ${state.index + 1}}" data-toggle="tab"
+									th:text="${type.description}"></a>
 							</li>
 						</ul>
 					</nav>
@@ -286,7 +287,7 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 				top4prod('RAU');
 			});*/
 			top4prod = (param) => {
-				let url = "/api/user/controller/top4product?param=" + param;
+				let url = "/replace/user/top4product?param=" + param;
 				$.get(url).done(function (lsProduct) {
 					$("#viewTop4prod").replaceWith(lsProduct);
 				});
@@ -374,7 +375,7 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 					top4prod('Do-an-nhanh');
 					ProductPage(0);
 					//reloadFunctions();
-				});
+			});
 		</script>
 	</div>
 	</div>

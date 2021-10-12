@@ -25,10 +25,13 @@ var change =  {
 						<li><a th:href="@{/home/wishlist}"><i class="fa fa-heart" aria-hidden="true"></i>Wishlist</a>
 						</li>
 						<li><a th:href="@{/home/login}"><i class="fa fa-user" aria-hidden="true"></i>Login</a></li>
+						<li><a th:href="@{/home/logout}"><i class="fa fa-heart" aria-hidden="true"></i>LogOut</a>
+						</li>
 						<li><a th:href="@{/home/register}"><i class="fa fa-arrow-right"
 									aria-hidden="true"></i>Register</a></li>
-						<li><a th:href="@{/home/about} "><i class="fa fa-file-text-o" aria-hidden="true"></i>Order
+						<li><a th:href="@{/home/OrderHistory} "><i class="fa fa-file-text-o" aria-hidden="true"></i>Order
 								History</a></li>
+						<li><a th:href="@{/home/about} "><i class="fa fa-file-text-o" aria-hidden="true"></i>About Us</a></li>
 						<li><a th:href="@{/home/shipping}"><i class="fa fa-ship" aria-hidden="true"></i>Shipping</a>
 						</li>
 					</ul>
@@ -224,42 +227,6 @@ var change =  {
 			function numberWithCommas(x) {
 			    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 			}
-				/*reloadFunctions = ()=>{
-					var goToCartIcon = function ($addTocartBtn) {
-						var $cartIcon = $(".my-cart-icon");
-						var $image = $('<img width="30px" height="30px" src="/home/' + $addTocartBtn.data("image") + '"/>').css({"position": "fixed", "z-index": "999"});
-						$addTocartBtn.prepend($image);
-						var position = $cartIcon.position();
-						$image.animate({
-							top: position.top,
-							left: position.left
-						}, 500, "linear", function () {
-							$image.remove();
-						});
-					}
-
-					$('.my-cart-btn').myCart({
-						classCartIcon: 'my-cart-icon',
-						classCartBadge: 'my-cart-badge',
-						affixCartIcon: true,
-						checkoutCart: function (products) {
-							$.each(products, function () {
-								console.log(this);
-							});
-						},
-						clickOnAddToCart: function ($addTocart) {
-							goToCartIcon($addTocart);
-						},
-						getDiscountPrice: function (products) {
-							var total = 0;
-							$.each(products, function () {
-								total += this.quantity * this.price;
-							});
-							return total * 1;
-						}
-					});
-				}
-				*/
 				getProduct = (data) => {
 					var body = "";
 					
@@ -329,9 +296,6 @@ var change =  {
 				};
 				ProductPage(0);
 			</script>
-
-
-
 			<script>
 				CallApiProduct = (data) => {
 					console.log(data);
@@ -359,9 +323,9 @@ var change =  {
 						}
 					});
 				}
-		</script>
+			</script>
 			<script>
-					function numberWithCommas(x) {
+				function numberWithCommas(x) {
 					    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 					}
 			
@@ -425,7 +389,6 @@ var change =  {
 						}
 					});
 				};
-
 				if(typeof change == "function"){
 					change()
 				} 
