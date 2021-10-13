@@ -92,7 +92,8 @@
 						<div class="mdc-list-item mdc-drawer-item">
 							<a class="mdc-expansion-panel-link" href="#"
 								data-toggle="expansionPanel" data-target="ui-sub-menu"> <!--<i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true">dashboard</i>
-                --> <i class="fa fa-cubes mdc-list-item__start-detail mdc-drawer-item-icon"
+                --> <i
+								class="fa fa-cubes mdc-list-item__start-detail mdc-drawer-item-icon"
 								aria-hidden="true"></i>[(#{menu.ProductManagement})] <i
 								class="mdc-drawer-arrow material-icons">chevron_right</i>
 							</a>
@@ -102,14 +103,16 @@
 										<a class="mdc-drawer-link"
 											th:href="@{/admin/product/categotyMgt}"> <i
 											class='fa fa-university mdc-drawer-item-icon'
-											style='font-size: 15px' aria-hidden="true"></i> [(#{menu.category})]
+											style='font-size: 15px' aria-hidden="true"></i>
+											[(#{menu.category})]
 										</a>
 									</div>
 									<div class="mdc-list-item mdc-drawer-item">
 										<a class="mdc-drawer-link"
 											th:href="@{/admin/product/productMgt}"> <i
 											class='fa fa-th-large mdc-drawer-item-icon'
-											style='font-size: 15px' aria-hidden="true"></i> [(#{menu.products})]
+											style='font-size: 15px' aria-hidden="true"></i>
+											[(#{menu.products})]
 										</a>
 									</div>
 								</nav>
@@ -120,7 +123,8 @@
 								data-toggle="expansionPanel" data-target="ui-sub-menuUser">
 								<!--<i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true">dashboard</i>
                 --> <i class='fas fa-user-alt mdc-drawer-item-icon'
-								style='font-size: 20px' aria-hidden="true"></i> [(#{menu.UserManagement})] <i
+								style='font-size: 20px' aria-hidden="true"></i>
+								[(#{menu.UserManagement})] <i
 								class="mdc-drawer-arrow material-icons">chevron_right</i>
 							</a>
 							<div class="mdc-expansion-panel" id="ui-sub-menuUser">
@@ -258,6 +262,23 @@
 
 						<!-- language -->
 						<!-- th:href="@{/admin/vendors/flag-icon-css/css/flag-icon.min.css}" -->
+						
+    <div class="dropdown">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img width="32px" height="32px"
+            > <span id="langName">--Choose language--</span>
+           </button>
+        <div class="dropdown-menu">
+            <a class="dropdown-item" th:href="@{?lang=vi}" onclick="changuageValueLang('vn');check()"><img width="32px" height="32px"
+								th:src="@{/admin/vendors/flag-icon-css/flags/4x3/vn.svg}"> Vietnamese</a>
+            <a class="dropdown-item" th:href="@{?lang=en}" onclick="changuageValueLang('en');check()"><img
+									width="32px" height="32px"
+									th:src="@{/admin/vendors/flag-icon-css/flags/4x3/us.svg}"> English</a>
+        </div>
+    </div>
+
+<!-- 
+
+
 						<div class="dropdown show">
 
 							<a class="btn btn-secondary dropdown-toggle"
@@ -268,18 +289,17 @@
 								Tiếng việt
 							</a>
 							<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-								<a class="dropdown-item" th:href="@{?lang=vi}"> <img width="32px" height="32px"
-								th:src="@{/admin/vendors/flag-icon-css/flags/4x3/vn.svg}">
+								<a class="dropdown-item" th:href="@{?lang=vi}"> <img
+									width="32px" height="32px"
+									th:src="@{/admin/vendors/flag-icon-css/flags/4x3/vn.svg}">
 									Tiếng việt
-								</a>
-								
-								<a class="dropdown-item" th:href="@{?lang=en}"> <img
+								</a> <a class="dropdown-item" th:href="@{?lang=en}"> <img
 									width="32px" height="32px"
 									th:src="@{/admin/vendors/flag-icon-css/flags/4x3/us.svg}">
 									Tiếng anh
 								</a>
-							</div>							
-						</div>
+							</div>
+						</div> -->
 					</div>
 					<div
 						class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end mdc-top-app-bar__section-right">
@@ -872,6 +892,23 @@
         }
         $('#bodyProd').html(body);
     }
+    
+    //language   
+  
+        function check() {
+            var lang = sessionStorage.lang || 'vn';
+            var langName = document.getElementById("dropdownMenuButton");
+            var tv = `<img width="32px" height="32px" src="/admin/vendors/flag-icon-css/flags/4x3/vn.svg"> VI`
+            var ta =`<img width="32px" height="32px" src="/admin/vendors/flag-icon-css/flags/4x3/us.svg"> EN`
+            langName.innerHTML = lang == 'vn' ? tv : ta
+        }
+        check();
+
+        function changuageValueLang(params) {
+            sessionStorage.lang = params;
+            
+        }
+  		
 </script>
 </body>
 </html>
