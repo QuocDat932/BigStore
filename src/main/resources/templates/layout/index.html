@@ -241,7 +241,7 @@ var change =  {
 							`  </a>  `+
 							`  <div class="mid-1">  `+
 								`  <div class="women">  `+
-								`  	<h6><a href="/home/single/${data[i].slug} ">${data[i].name}</a></h6>  `+
+								`  	<h6><a href="/home/${data[i].slug} ">${data[i].name}</a></h6>  `+
 								`  </div>  `+
 								`  <div class="mid-2">  `+
 								`  	<p><label>$7.00</label><em class="item_price" >${data[i].price} VND</em></p>  `+
@@ -260,8 +260,6 @@ var change =  {
 					`  </div>  `  ;
 					
 					}
-
-
 					$("#products").html(body);
 				}
 				ProductPage = (pageNum) => {
@@ -292,7 +290,7 @@ var change =  {
 							alert(e)
 						}
 					});
-					reloadFunctions();
+					 reloadFunctions(); 	
 				};
 				ProductPage(0);
 			</script>
@@ -325,6 +323,8 @@ var change =  {
 				}
 			</script>
 			<script>
+		
+			
 				function numberWithCommas(x) {
 					    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 					}

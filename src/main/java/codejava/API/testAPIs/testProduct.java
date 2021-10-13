@@ -21,6 +21,7 @@ import codejava.Constant.publicVariable;
 import codejava.Dto.productDto;
 import codejava.Entity.Products;
 import codejava.Entity.TypeOfProduct;
+import codejava.Entity.Users;
 import codejava.Responsitory.ProductsRepository;
 import codejava.Services.ProductsServices;
 import codejava.Services.TypeOfProductServices;
@@ -80,29 +81,40 @@ public class testProduct {
 		
 		
 		List<Products> l = ServP.findByTypeOfProduct(ServC.findBySlug(slug.orElse("RAU")));
+		if(p.isPresent() && p.get()==-999) {
+			return ResponseEntity.ok(l.size());
+		}
 		int numP = 8;
-		int max = l.size()-numP;
-		int page = p.orElse(0) <= 0 ? 0 : p.get(); 
-		int page1 = page*numP;
-		while(page1 > max) {
+		int max = l.size() - numP;
+		int page = p.orElse(0) <= 0 ? 0 : p.get();
+		int page1 = page * numP;
+		while (page1 > max ) {
 			if(( (max+numP) - page1 )>0 && ((max+numP) - page1) <numP) {
 				numP = (max+numP) - page1;
 				break;
 			}
-			 page1 -=numP;
-			 page-=1;
+			page1 -= numP;
+			page -= 1;
 		}
 		List<Products> l1 = new ArrayList<Products>();
-		for (int i = page1; i <= page1+numP-1; i++) {
+				for (int i = page1; i <= page1 + numP -1; i++) {
 			l1.add(l.get(i));
 		}
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("current", page);
-		map.put("back", page-1<0?page:page-1);
-		map.put("next", page+numP >=max?page:page+1);
+		map.put("back", page - 1 < 0 ? page : page - 1);
+		map.put("next", page + numP >= max ? page : page + 1);
 		map.put("products", l1);
 		return ResponseEntity.ok(map);
 	}
+	
+	
+	@GetMapping("/ProductById")
+	public ResponseEntity<?> doGetProductId(@RequestParam("productId") int productId){
+		Products product = ServP.findById(productId);
+		return ResponseEntity.ok(product);
+	};
+	
 	
 	@PostMapping("/saveCart")
 	public ResponseEntity<?> postSetCart(@RequestBody List<productDto> ProductsDto ) {
