@@ -660,7 +660,7 @@
 				$('#txtuserName').focus();
 	};
 
-
+  /*************************************END USER********************************************/
 </script>
 	<!--Event - Data -->
 	<script th:inline="javascript">
@@ -705,12 +705,7 @@
 
     $(document).ready(function (){
         loadDataProd();
-        $("#btnDelete").prop('disabled',true);
-        $("#btnClear").click( function (){
-            clearDataForm();
-        });
-
-        clearDataForm = () =>{
+         clearDataForm = () =>{
             $('#txtProdId').val("");
             $('#txtSlugProd').val("");
             $('#txtProdName').val("");
@@ -747,7 +742,6 @@
             $('#txtProdName').focus();
             $('#txtProdId').focus();
         };
-
         prodItem = (item) =>{
             let response = '/api/admin/indexProd?index='+item;
             $.ajax({
@@ -763,14 +757,9 @@
                 }
             });
         };
-        $("#btnCreate").click(function (){
-            addProduct();
-        });
-        $('#btnDelete').click(function (){
-            deleteProduct();
-            clearDataForm();
-        })
+        registerButton();
     });
+    /*************************************BEGIN PRODUCT*****************************************/
     function addProduct(){
         let response = '/admin/product/productMgt/insert';
         let image = $('#prodImg').attr("src");
@@ -891,6 +880,21 @@
                 `</tr>`
         }
         $('#bodyProd').html(body);
+    };
+    /*************************************END PRODUCT********************************************/
+    
+    registerButton = () =>{
+      $("#btnDelete").prop('disabled',true);
+      $("#btnClear").click( function (){
+          clearDataForm();
+      });
+      $("#btnCreate").click(function (){
+            addProduct();
+        });
+      $('#btnDelete').click(function (){
+          deleteProduct();
+          clearDataForm();
+      });
     }
     
     //language   

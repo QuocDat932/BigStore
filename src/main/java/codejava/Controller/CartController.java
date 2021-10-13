@@ -61,6 +61,7 @@ public class CartController {
 
 	@PostMapping(value = "/cart/save")
 	public String doPostSaveCart(Model model, HttpSession sess) {
+		Double totalPrice = 0.0;
 		if (Objects.isNull(publicVariable.ListCart) || publicVariable.ListCart.size() == 0) {
 			return "redirect:/home";
 		}
@@ -73,7 +74,13 @@ public class CartController {
 		o.setUser(u);
 		o.setPhone("0982769574");
 		o.setAddress("DongNai");
-		o.setProcess(ProcessS.findBySlug(publicConst.Orderprocess.CANCEL));
+		o.setProcess(ProcessS.findBySlug(publicConst.Orderprocess.NEW));
+		
+		for(productDto dt : publicVariable.ListCart) {
+			totalPrice += (dt.getQuantity() * dt.getPrice());
+		};
+		o.setTotalprice(totalPrice);
+		
 		try {
 			OrderS.insert(o); // Insert Order
 			o = OrderS.findNewOrder(u);
@@ -106,7 +113,6 @@ public class CartController {
 				System.out.println("Price    >> "+OrdDtl.getPrice());
 				OrderDlS.save(OrdDtl);
 				System.out.println("ORDER DETAIL SAVE DONE !");
-
 			} catch (Exception e) {
 				System.out.println("ERROR insert cart detail - " + e);
 			}

@@ -20,7 +20,6 @@ public class APIproduct {
 	private ProductsServices productSrvs;
 	@GetMapping("/top4product")
 	public ResponseEntity<?> goGettop4product(@RequestParam("param") String param){
-		System.out.println("Param >> "+ param);
 		List<Products> top4 = productSrvs.findtop4Bytype(param);
 		return ResponseEntity.ok(top4);
 	}
