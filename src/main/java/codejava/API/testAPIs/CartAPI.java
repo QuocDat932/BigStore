@@ -23,15 +23,11 @@ import codejava.Services.ProductsServices;
 import codejava.Services.TypeOfProductServices;
 
 @RestController
-@RequestMapping("cart/api")
+@RequestMapping("/cart/api")
 public class CartAPI {
 	
 @Autowired
 private CartService cart;
-
-
-
-
 
 @GetMapping("/update")
 public ResponseEntity<?> dogetUpdateCart(

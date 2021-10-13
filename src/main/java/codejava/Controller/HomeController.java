@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import codejava.Dto.ListproductDto;
 import codejava.Dto.cartDto;
+import codejava.Entity.Orders;
 import codejava.Entity.Products;
 import codejava.Entity.TypeOfProduct;
 import codejava.Constant.SessionConst;
@@ -33,6 +34,7 @@ import codejava.Entity.roles;
 import codejava.Jwt.CustomUser;
 import codejava.Jwt.JwtTokenProvider;
 import codejava.Services.CartService;
+import codejava.Services.Orderservices;
 import codejava.Services.ProductsServices;
 import codejava.Services.RolesServices;
 import codejava.Services.TypeOfProductServices;
@@ -55,6 +57,9 @@ public class HomeController {
 	private RolesServices rolesservices;
 	@Autowired
 	private TypeOfProductServices typrOfProductSrvcs;
+	@Autowired
+	private Orderservices orderServices;
+	
 	@Autowired
 	private AuthenticationManager  authenManager;
 	@Autowired
@@ -108,12 +113,6 @@ public class HomeController {
 			session.setAttribute(SessionConst.JWT, tokenProvider.generateToken(customUser));
 			session.setAttribute(SessionConst.CURRENT_USER, userResponse);
 			return "redirect:/home";
-//		} else {
-//			String message = "Sai mật khẩu !";
-//			model.addAttribute("message", message);
-//			System.out.println(message);
-//			return "/home/login";
-//		}
 			}catch(Exception e ) {
 			e.printStackTrace();
 			String message = "Error! Missing fail";
@@ -128,7 +127,13 @@ public class HomeController {
 	//public String doGetRemove(Model model, @PathVariable("id") int userid) {
 		return "home/index";
 	}
-	
+	@GetMapping("/home/logout")
+	public String doGetLogout(Model model, HttpSession session){
+		session.removeAttribute(SessionConst.CURRENT_CART);
+		session.removeAttribute(SessionConst.CURRENT_ROLE);
+		session.removeAttribute(SessionConst.CURRENT_USER);
+		return "redirect:/home";
+	};
 	@GetMapping("/home/codes")
 	public String doGetCodes() {
 		return "home/codes";
@@ -160,6 +165,12 @@ public class HomeController {
 	@GetMapping("/home/about")
 	public String doGetAbout() {
 		return "home/about";
+	}
+	@GetMapping("/home/OrderHistory")
+	public String doGetOrderHistory() {
+		//List<Orders> result = orderServices.findByParam(4 ,"UserIdAndPaymentMethod", 2, null);
+		
+		return "home/OrderHistory";
 	}
 	@GetMapping("/home/shipping")
 	public String doGetShipping() {

@@ -92,7 +92,7 @@
 				return false;
 			}
 			var products = getAllProducts();
-			products[productIndex].quantity = typeof quantity === "undefined" ?(products[productIndex].quantity  + 1 ): quantity;
+			products[productIndex].quantity = typeof quantity === "undefined" ? (products[productIndex].quantity*1 +1): quantity;
 			setAllProducts(products);
 			return true;
 		}
@@ -209,10 +209,10 @@
 			$cartTable.empty();
 
 			var products = ProductManager.getAllProducts();
-			console.log(products);
+			
 			$.each(products, function() {
-				var total = numberWithCommas(this.quantity * this.price*1000);
-				
+				var total = numberWithCommas(this.quantity * this.price* 1000);
+				console.log(products);
 				$cartTable.append(
 					'<tr title="' + this.summary + '" data-id="' + this.id + '" data-price="' + this.price + '">' +
 					'<td class="text-center" style="width: 30px;"><img width="30px" height="30px" src="/home/' + this.image + '"/></td>' +
@@ -367,7 +367,7 @@
 			var id = $(this).closest("tr").data("id");
 			var quantity = $(this).val();
 
-			$(this).parent("td").next("." + classProductTotal).text(numberWithCommas(price * quantity*1000 )+" VND"  );
+			$(this).parent("td").next("." + classProductTotal).text(numberWithCommas(price * quantity * 1000 )+" VND"  );
 			ProductManager.updatePoduct(id, quantity);
 
 			$cartBadge.text(ProductManager.getTotalQuantity());

@@ -22,6 +22,7 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 	<link th:href='@{/home/css/bootstrap.css}' rel='stylesheet' type='text/css' />
 	<!-- Custom Theme files -->
 	<link th:href='@{/home/css/style.css}' rel='stylesheet' type='text/css' />
+	<link th:href='@{/home/css/orderprocess.css}' rel='stylesheet' type='text/css' />
 	<!-- js -->
 	<script th:src='@{/home/js/jquery-1.11.1.min.js}'></script>
 	<!-- //js -->
@@ -130,7 +131,8 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 										</a>
 										<div class="mid-1">
 											<div class="women">
-												<h6><a th:href="@{'/home/'+${prod.slug}}" th:text="${prod.name}"> </a></h6>
+											<!-- th:href="@{'/home/'+${prod.slug}}" -->
+												<h6><a  th:text="${prod.name}"> </a></h6>
 											</div>
 											<div class="mid-2">
 												<p><label>$4.00</label><em class="item_price"
@@ -141,9 +143,9 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 												<div class="clearfix"></div>
 											</div>
 											<div class="add">
-												<button class="btn btn-danger my-cart-btn my-cart-b" data-id="4"
-													data-name="Soya Chunks" data-summary="summary 4" data-price="3.50"
-													data-quantity="1" data-image="images/of3.png">Add to Cart</button>
+												<button class="btn btn-danger my-cart-btn my-cart-b" th:data-id="${prod.id}"
+													th:data-name="${prod.name}" data-summary="summary 4" data-price="3.50"
+													th:data-quantity="${1}" th:data-image="@{'images/'+ ${prod.imgUrl}}">Add to Cart</button>
 											</div>
 										</div>
 									</div>
@@ -282,70 +284,16 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 		<!-- //for bootstrap working -->
 		<script type='text/javascript' th:src="@{/home/js/jquery.mycart.js}"></script>
 		<script type="text/javascript">
-			$(document).ready(function () {
+			/*$(document).ready(function () {
 				top4prod('RAU');
-			});
+			});*/
 			top4prod = (param) => {
-				let url = "/api/user/controller/top4product?param=" + param;
+				let url = "/replace/user/top4product?param=" + param;
 				$.get(url).done(function (lsProduct) {
 					$("#viewTop4prod").replaceWith(lsProduct);
-					/*		var html_to_append = '';			
-								$.each(lsProduct, function(i, item) {
-									html_to_append +=
-										'<div class="col-md-3 m-wthree"><div class="col-m"><a href="#" data-toggle="modal" data-target="#myModal4" class="offer-img"> <img src="/home/images/'+
-											item.imgUrl+
-											'" class="img-responsive" alt=""><div class="offer"><p><span>Offer</span></p></div> </a> <div class="mid-1"> <div class="women"> <h6>'+
-											item.name+
-											'</h6> </div> <div class="mid-2"> <p ><label>$4.00</label><em class="item_price">$3.50</em></p> <div class="block"> <div class="starbox small ghosting"> </div> </div> <div class="clearfix"></div> </div> <div class="add"> <button class="btn btn-danger my-cart-btn my-cart-b" data-id="4" data-name="Soya Chunks" data-summary="summary 4" data-price="3.50" data-quantity="1" data-image="images/of3.png">Add to Cart</button> </div> </div> </div> </div>';
-								});
-								$("#viewTop4prod").html(html_to_append);
-					*/
 				});
+			};
 
-			}
-
-		</script>
-		<script type="text/javascript">
-			function rel(){
-				$(function () {
-
-				var goToCartIcon = function ($addTocartBtn) {
-					var $cartIcon = $(".my-cart-icon");
-					var $image = $('<img width="30px" height="30px" src="/home/' + $addTocartBtn.data("image") + '"/>').css({"position": "fixed", "z-index": "999"});
-					$addTocartBtn.prepend($image);
-					var position = $cartIcon.position();
-					$image.animate({
-						top: position.top,
-						left: position.left
-					}, 500, "linear", function () {
-						$image.remove();
-					});
-				}
-
-				$('.my-cart-btn').myCart({
-					classCartIcon: 'my-cart-icon',
-					classCartBadge: 'my-cart-badge',
-					affixCartIcon: true,
-					checkoutCart: function (products) {
-						$.each(products, function () {
-							console.log(this);
-						});
-					},
-					clickOnAddToCart: function ($addTocart) {
-						goToCartIcon($addTocart);
-					},
-					getDiscountPrice: function (products) {
-						var total = 0;
-						$.each(products, function () {
-							total += this.quantity * this.price;
-						});
-						return total * 1;
-					}
-				});
-
-			});
-			}
-			rel();
 		</script>
 		<!-- product -->
 		<!-- <div class="modal fade" id="19" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"> -->
@@ -372,12 +320,12 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 							</div>
 							<h4 class="quick">Quick Overview:</h4>
 							<p class="quick_desc" th:text="${product.description}"> </p>
-							<div class="add-to">
+							<!--<div class="add-to">
 								<button class="btn btn-danger my-cart-btn my-cart-b" th:data-id="${product.id}"
-									th:data-name="${product.name}" data-summary="summary 1"
-									th:data-price="${product.price}" th:data-quantity="1"
+									th:data-name="${product.name}" th:data-summary="@{'summary '+ ${product.id}}"
+									th:data-price="${product.price}" th:data-quantity="${1}"
 									th:data-image="@{'images/' + ${product.imgUrl}}">Add to Cart</button>
-							</div>
+							</div>-->
 						</div>
 						<div class="clearfix"> </div>
 					</div>
@@ -400,7 +348,6 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 							$image.remove();
 						});
 					}
-
 					$('.my-cart-btn').myCart({
 						classCartIcon: 'my-cart-icon',
 						classCartBadge: 'my-cart-badge',
@@ -422,12 +369,14 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 						}
 					});
 				}
-				$(document).ready(function () {
-					$(".tabProd").click(function () {
+			$(document).ready(function () {
+					/*$(".tabProd").click(function () {
 						reloadFunctions();
-					}); 
-					console.log("ready!"); reloadFunctions(); ProductPage(0);
-				});
+					});*/ 
+					top4prod('Do-an-nhanh');
+					ProductPage(0);
+					//reloadFunctions();
+			});
 		</script>
 	</div>
 	</div>

@@ -58,7 +58,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 					.tokenValiditySeconds(30*60);
 		http.cors()
 				.and().authorizeRequests()
-				.antMatchers("/admin/**","/", "/home/**","/index", "/login", "/logout", "/sanpham/**", "/api/**","/cart/**", "/register","/home/login","/type/**","/home/cart/**","/home/single/**").permitAll() // Cho phep tat ca truy cap link nay
+				.antMatchers("/admin/**","/", "/home","/index", "/sanpham/**", "/replace/**","/api/**","/cart/**", "/register","/home/login","/type/**","/home/cart/**","/home/single/**").permitAll() // Cho phep tat ca truy cap link nay
 				.anyRequest().authenticated(); // Cac link con lai thi phai xac thuc
 	
 		http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);

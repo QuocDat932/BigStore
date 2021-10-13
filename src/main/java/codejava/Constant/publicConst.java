@@ -1,13 +1,16 @@
 package codejava.Constant;
 
+import java.sql.Date;
+
 public class publicConst {
 	
 	public enum Orderprocess {
-		NEW("NEW"),
-		CONFIRM("CONFIRM"),
-		APPROVE("APPROVE"),
-		REJECT("REJECT"),
-		CANCEL("CANCEL");
+		NEW("NEW"),				//1 Lên Đơn Hàng
+		CONFIRM("CONFIRM"),		//2 Xác Nhận Đơn Hàng
+		SHIP("SHIP"),			//3 Vận Chuyển Hàng
+		TAKED("TAKED"),			//4 Đã Nhận Hàng
+		REJECT("REJECT"),		//5 Trả Đơn
+		CANCEL("CANCEL");		//6 Hủy hàng
 		private String code;
 		Orderprocess(String newCode) { this.code = newCode;}
 		public String getCode() {return this.code;}
@@ -15,4 +18,11 @@ public class publicConst {
 	
 	public final static String Top4Prod = "Top4Prod";
 	public final static String ListCart = "listCart";
+	
+	public final static Date CurrentDtSQL() {
+		long millis=System.currentTimeMillis();  
+		java.sql.Date date=new java.sql.Date(millis);
+		return date;
+	}
+	
 }
