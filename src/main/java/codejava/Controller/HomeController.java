@@ -161,7 +161,6 @@ public class HomeController {
 			//return "redirect:/home/register";
 			return "12344";
 		}
-		
 	}			  
 	@GetMapping("/home/about")
 	public String doGetAbout() {
@@ -171,7 +170,7 @@ public class HomeController {
 	public String doGetOrderHistory() {
 		//List<Orders> result = orderServices.findByParam(4 ,"UserIdAndPaymentMethod", 2, null);
 		
-		return "home/OrderHistory";
+		return "home/orderHist";
 	}
 	@GetMapping("/home/shipping")
 	public String doGetShipping() {
@@ -187,13 +186,8 @@ public class HomeController {
 		if(Top4Prod == null) {
 			session.setAttribute("Top4Prod", new ListproductDto());
 		}
-
 		List<TypeOfProduct> listType = typrOfProductSrvcs.getListTypeOfProduct();
 		model.addAttribute("listType", listType);
-		
-		
-		
-		
 		return "home/kitchen";
 	}
 	@GetMapping("/home/care")
@@ -204,9 +198,13 @@ public class HomeController {
 	public String doGetContact() {
 		return "home/contact";
 	}
-	@GetMapping("/home/single")
-	public String doGetSingle() {
+	@GetMapping("/home/{slug}")
+	public String doGetSingle(@PathVariable Optional<String> slug, Model model) {
+	Products p = productsservices.findByProductsSlug(slug.get());
+	model.addAttribute("Product",p);
+		
 		return "home/single";
+		
 	}
 	@GetMapping("/home/terms")
 	public String doGetTerms() {
