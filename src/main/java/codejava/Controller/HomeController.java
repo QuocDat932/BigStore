@@ -156,7 +156,6 @@ public class HomeController {
 			//return "redirect:/home/register";
 			return "12344";
 		}
-		
 	}			  
 	@GetMapping("/home/about")
 	public String doGetAbout() {
@@ -188,10 +187,10 @@ public class HomeController {
 	public String doGetContact() {
 		return "home/contact";
 	}
-	@GetMapping("/home/single/{slug}")
+	@GetMapping("/home/{slug}")
 	public String doGetSingle(@PathVariable Optional<String> slug, Model model) {
-		Products p = productsservices.findByProductsSlug(slug.get());
-		model.addAttribute("Product",p);
+	Products p = productsservices.findByProductsSlug(slug.get());
+	model.addAttribute("Product",p);
 		
 		return "home/single";
 		
