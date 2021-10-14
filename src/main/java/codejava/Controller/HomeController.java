@@ -170,7 +170,7 @@ public class HomeController {
 	public String doGetOrderHistory() {
 		//List<Orders> result = orderServices.findByParam(4 ,"UserIdAndPaymentMethod", 2, null);
 		
-		return "home/OrderHistory";
+		return "home/orderHist";
 	}
 	@GetMapping("/home/shipping")
 	public String doGetShipping() {
