@@ -78,8 +78,6 @@ public class testProduct {
 	@GetMapping("/type")
 	public ResponseEntity<?> getTypeofProduct(@RequestParam Optional<String> slug,@RequestParam Optional<Integer> p){
 		ServP.findByTypeOfProduct(ServC.findBySlug(slug.orElse("RAU")));
-		
-		
 		List<Products> l = ServP.findByTypeOfProduct(ServC.findBySlug(slug.orElse("RAU")));
 		if(p.isPresent() && p.get()==-999) {
 			return ResponseEntity.ok(l.size());

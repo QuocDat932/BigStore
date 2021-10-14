@@ -130,8 +130,8 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 										</a>
 										<div class="mid-1">
 											<div class="women">
-											<!-- th:href="@{'/home/'+${prod.slug}}" -->
-												<h6><a  th:text="${prod.name}"> </a></h6>
+											
+												<h6><a th:href="@{'/home/'+${prod.slug}}" th:text="${prod.name}"> </a></h6>
 											</div>
 											<div class="mid-2">
 												<p><label>$4.00</label><em class="item_price"

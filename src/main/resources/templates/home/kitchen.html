@@ -179,27 +179,7 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 <!-- //for bootstrap working -->
 <script type='text/javascript' th:src="@{/home/js/jquery.mycart.js}"></script>
 <script type="text/javascript">
-	$(document).ready(function() {
-		top4prod('RAU');
-	});
-	top4prod = (param) =>{
-		let url = "/api/user/controller/top4product?param="+param;
-		$.get(url).done(function(lsProduct){
-			$("#viewTop4prod").replaceWith(lsProduct);
-	/*		var html_to_append = '';			
-				$.each(lsProduct, function(i, item) {
-					html_to_append +=
-						'<div class="col-md-3 m-wthree"><div class="col-m"><a href="#" data-toggle="modal" data-target="#myModal4" class="offer-img"> <img src="/home/images/'+
-							item.imgUrl+
-							'" class="img-responsive" alt=""><div class="offer"><p><span>Offer</span></p></div> </a> <div class="mid-1"> <div class="women"> <h6>'+
-							item.name+
-							'</h6> </div> <div class="mid-2"> <p ><label>$4.00</label><em class="item_price">$3.50</em></p> <div class="block"> <div class="starbox small ghosting"> </div> </div> <div class="clearfix"></div> </div> <div class="add"> <button class="btn btn-danger my-cart-btn my-cart-b" data-id="4" data-name="Soya Chunks" data-summary="summary 4" data-price="3.50" data-quantity="1" data-image="images/of3.png">Add to Cart</button> </div> </div> </div> </div>';
-				});
-				$("#viewTop4prod").html(html_to_append);
-	*/	
-		});
 
-	}
 
 </script>  
 <script type="text/javascript">
@@ -245,6 +225,41 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 	Type =window.location.pathname.slice(6);
 		ProductPageType(0, Type);
 	}
+	reloadFunctions = function () {
+		var goToCartIcon = function ($addTocartBtn) {
+			var $cartIcon = $(".my-cart-icon");
+			var $image = $('<img width="30px" height="30px" src="/home/' + $addTocartBtn.data("image") + '"/>').css({"position": "fixed", "z-index": "999"});
+			$addTocartBtn.prepend($image);
+			var position = $cartIcon.position();
+			$image.animate({
+				top: position.top,
+				left: position.left
+			}, 500, "linear", function () {
+				$image.remove();
+			});
+		}
+		$('.my-cart-btn').myCart({
+			classCartIcon: 'my-cart-icon',
+			classCartBadge: 'my-cart-badge',
+			affixCartIcon: true,
+			checkoutCart: function (products) {
+				$.each(products, function () {
+					console.log(this);
+				});
+			},
+			clickOnAddToCart: function ($addTocart) {
+				goToCartIcon($addTocart);
+			},
+			getDiscountPrice: function (products) {
+				var total = 0;
+				$.each(products, function () {
+					total += this.quantity * this.price;
+				});	
+				return total * 1;
+			}
+		});
+	}
+
 </script>
   <!-- product -->
 			<!-- <div class="modal fade" id="19" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"> -->
