@@ -1,0 +1,226 @@
+<!--
+Author: W3layouts
+Author URL: http://w3layouts.com
+License: Creative Commons Attribution 3.0 Unported
+License URL: http://creativecommons.org/licenses/by/3.0/
+-->
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/index.html}">
+
+<head>
+	<title>Big store a Ecommerce Online Shopping Category Flat Bootstrap Responsive Website Template| Home :: w3layouts
+	</title>
+	<!-- for-mobile-apps -->
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta property="og:title" content="Vide" />
+	<meta name="keywords" content="Big store Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template, 
+Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
+	<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false);
+function hideURLbar(){ window.scrollTo(0,1); } </script>
+	<!-- //for-mobile-apps -->
+	<link th:href='@{/home/css/bootstrap.css}' rel='stylesheet' type='text/css' />
+	<!-- Custom Theme files -->
+	<link th:href='@{/home/css/style.css}' rel='stylesheet' type='text/css' />
+	<!-- js -->
+	<script th:src='@{/home/js/jquery-1.11.1.min.js}'></script>
+	<!-- //js -->
+	<!-- start-smoth-scrolling -->
+	<script type="text/javascript" th:src="@{/home/js/move-top.js}"></script>
+	<script type="text/javascript" th:src="@{/home/js/easing.js}"></script>
+	<!-- React -->
+    <script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
+    <!-- ReactDOM -->
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
+    <!-- babel -->
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+	<script type="text/javascript">
+		let ListOrder = [];
+		$(document).ready(function () {
+			reloadDataOrder();
+		});
+		function reloadDataOrder() {
+			let TYPE   = "UserIdAndPaymentMethod";
+			let paramInt1 = 1;
+			let paramString1 = null;
+			let url = "/api/order/orderTable?TYPE="+TYPE+"&paramInt1="+paramInt1+"&paramString1="+paramString1;
+			$.ajax({
+            type: "GET",
+            url : url,
+            contentType:"application/json",
+            success: function (data){
+				ListOrder = data;
+				CreateTableOrder(data)
+            },
+            error: function (e){
+                Swal.fire({
+                    icon: 'error',
+                    text: "Can't load data !!!",
+                })
+            }
+        })
+		};
+		
+		function CreateTableOrder(data) {
+		let body = ''
+		for (let i = 0; i < data.length; i++){
+			body += `<tr onclick='thisItem(${data[i].id})' class="text-center">` +
+				`<td>${i+1}</td>` +
+				`<td >${"CODE"+data[i].id}</td>\n` +
+				`<td >${data[i].createDate}</td>\n` +
+				`<td >${numberWithCommas(data[i].totalprice)}</td>\n` +
+				`<td >${data[i].process.description}</td>` +
+				`</tr>`
+		}
+		$('#bodyOrder').html(body);
+    	};
+		function OrderProcess(currentOrder){
+			console.log(currentOrder);
+			let clsOrder = '';
+			let clsConfirm = '';
+			let clsShip = '';
+			let clsTake = '';
+			if(currentOrder.process.id == 1){ // xác nhận nhận hàng
+				clsOrder = 'progtrckr-done';
+				clsConfirm = 'progtrckr-todo';
+				clsShip = 'progtrckr-todo';
+				clsTake = 'progtrckr-todo';	
+			}else if(currentOrder.process.id == 2){ // Xác Nhận Đơn Hàng
+				clsOrder = 'progtrckr-done';
+				clsConfirm = 'progtrckr-done';
+				clsShip = 'progtrckr-todo';
+				clsTake = 'progtrckr-todo';	
+			}else if(currentOrder.process.id == 3){ // Xác Nhận Đơn Hàng
+				clsOrder = 'progtrckr-done';
+				clsConfirm = 'progtrckr-done';
+				clsShip = 'progtrckr-done';
+				clsTake = 'progtrckr-todo';	
+			}else if(currentOrder.process.id == 4){ // Xác Nhận Đơn Hàng
+				clsOrder = 'progtrckr-done';
+				clsConfirm = 'progtrckr-done';
+				clsShip = 'progtrckr-done';
+				clsTake = 'progtrckr-done';	
+			};
+			console.log(clsOrder);
+			let body =''
+			body =
+			`<div class="advn-two">`+
+			`<ol class="progtrckr" data-progtrckr-steps="4">`+
+			`	<li class="`+clsOrder+`">Mua Hàng </br>`+
+			`		<img class="icon" src="https://i.imgur.com/9nnc9Et.png">`+
+			`	</li>`+
+			`	<li class="`+clsConfirm+`">Xác Nhận </br>`+
+			`		<img class="icon" src="https://i.imgur.com/u1AzR7w.png">`+
+			`	</li>`+
+			`	<li class="`+clsShip+`">Vận Chuyển </br>`+
+			`		<img class="icon" src="https://i.imgur.com/TkPm63y.png">`+
+			`	</li>`+
+			`<li class="`+clsTake+`">Nhận Hàng </br>`+
+			`		<img class="icon" src="https://i.imgur.com/HdsziHP.png">`+
+			`	</li>`+
+			`</ol>`+
+			`</div>`
+		$('#tabOrderProcess').html(body);
+		}
+		thisItem = (orderId) =>{
+			let currentOrder = ListOrder.filter((x) => x.id == orderId);
+			OrderProcess(currentOrder[0]);
+		};
+		numberWithCommas = function (x) {
+			    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+			}
+	</script>
+	<!-- start-smoth-scrolling -->
+	<link th:href='@{/home/css/font-awesome.css}' rel='stylesheet'>
+	<link th:href='@{http://fonts.googleapis.com/css?family=Montserrat:400,700}' rel='stylesheet' type='text/css'>
+	<link th:href='@{http://fonts.googleapis.com/css?family=Noto+Sans:400,700}' rel='stylesheet' type='text/css'>
+	<!--- start-rate-->
+	<script th:src="@{/home/js/jstarbox.js}"></script>
+	<link rel="stylesheet" th:href="@{/home/css/jstarbox.css}" type="text/css" media="screen" charset="utf-8" />
+	<script type="text/javascript">
+		jQuery(function () {
+			jQuery('.starbox').each(function () {
+				var starbox = jQuery(this);
+				starbox.starbox({
+					average: starbox.attr('data-start-value'),
+					changeable: starbox.hasClass('unchangeable') ? false : starbox.hasClass('clickonce') ? 'once' : true,
+					ghosting: starbox.hasClass('ghosting'),
+					autoUpdateAverage: starbox.hasClass('autoupdate'),
+					buttons: starbox.hasClass('smooth') ? false : starbox.attr('data-button-count') || 5,
+					stars: starbox.attr('data-star-count') || 5
+				}).bind('starbox-value-changed', function (event, value) {
+					if (starbox.hasClass('random')) {
+						var val = Math.random();
+						starbox.next().text(' ' + val);
+						return val;
+					}
+				})
+			});
+		});
+	</script>
+	<!---//End-rate-->
+	<!--- CSS-->
+	<link th:href='@{/home/css/orderprocess.css}' rel='stylesheet' type='text/css' />
+	<!--<link rel="stylesheet" th:href="@{/admin/css/demo/style.css}">-->
+</head>
+
+<body>
+	<div layout:fragment="content">
+		<div class="banner-top">
+			<div class="container">
+				<h3>Order History</h3>
+				<h4><a th:href="@{/home}">Home</a><label>/</label>Order History</h4>
+				<div class="clearfix"> </div>
+			</div>
+		</div>
+
+		<!-- faqs -->
+		<div class="about-w3 ">
+			<!--advantages-->
+			<div class="container">
+				<div class="advantages">
+					<div class="col-md-6 advantages-left ">
+						<h3>Order History</h3>
+						<div class="main-wrapper mdc-drawer-app-content">
+							<div class="page-wrapper mdc-toolbar-fixed-adjust">
+							<main class="content-wrapper">
+								<div class="mdc-layout-grid">
+								<div class="mdc-layout-grid__inner">
+									<div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-12">
+									<div class="mdc-card p-0">
+										<div class="table-responsive">
+										<table class="table table-hoverable">
+											<thead>
+											<tr>
+												<th class="text-left">No</th>
+												<th>Customer Order</th>
+												<th>Order Date</th>
+												<th>Total Price</th>
+												<th>Status</th>
+											</tr>
+											</thead>
+											<tbody id="bodyOrder">
+										</table>
+										</div>
+									</div>
+									</div>
+								</div>
+								</div>
+							</main>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-6 advantages-left about-agi">
+						<h3>Order Process</h3>      
+						<div id="tabOrderProcess"></div> 
+					</div>
+					<div class="clearfix"></div>
+				</div>
+			</div>
+			<!--advantages-->
+
+		</div>
+	</div>
+</body>
+
+</html>
