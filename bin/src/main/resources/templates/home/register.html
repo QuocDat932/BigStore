@@ -82,28 +82,40 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 		<div class="main-agileits">
 				<div class="form-w3agile form1">
 					<h3>Register</h3>
-					<form action="#" method="post">
+					<form th:action="@{/register}" th:object="${newUser}" method="POST">
+					
+					
+						<h5 style = "padding-bottom: 10px">User Name:</h5>
 						<div class="key">
 							<i class="fa fa-user" aria-hidden="true"></i>
-							<input  type="text" value="Username" name="Username" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Username';}" required="">
+							<input  type="text" name="Username" onfocus="this.value = '';"  required="" th:field="*{username}">
 							<div class="clearfix"></div>
 						</div>
+						<h5 style = "padding-bottom: 10px">Full Name:</h5>
 						<div class="key">
-							<i class="fa fa-envelope" aria-hidden="true"></i>
-							<input  type="text" value="Email" name="Email" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Email';}" required="">
+							<i class="fa fa-address-card" aria-hidden="true"></i>
+							<input  type="text" value="Full Name" name="Fullname" onfocus="this.value = '';"  required="" th:field="*{fullname}">
 							<div class="clearfix"></div>
 						</div>
+						<h5 style = "padding-bottom: 10px">Email:</h5>
+						<div class="key">
+							<i class="fa  fa-envelope" aria-hidden="true"></i>
+							<input  type="text" value="Email" name="Email" onfocus="this.value = '';"  required="" th:field="*{email}">
+							<div class="clearfix"></div>
+						</div>
+						<h5 style = "padding-bottom: 10px">Password:</h5>
 						<div class="key">
 							<i class="fa fa-lock" aria-hidden="true"></i>
-							<input  type="password" value="Password" name="Password" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Password';}" required="">
+							<input id="pwss1" type="password" value="Password" name="Password" onfocus="this.value = '';"  required="" th:field="*{hashPassword}">
 							<div class="clearfix"></div>
 						</div>
+						<h5 style = "padding-bottom: 10px">Confirm Password:</h5>
 						<div class="key">
 							<i class="fa fa-lock" aria-hidden="true"></i>
-							<input  type="password" value="Confirm Password" name="Confirm Password" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Confirm Password';}" required="">
+							<input id="pwss2" type="password" value="Confirm Password" name="Confirm Password" onfocus="this.value = '';" required="">
 							<div class="clearfix"></div>
 						</div>
-						<input type="submit" value="Submit">
+						 <input id="submit" type="submit" value="Submit">
 					</form>
 				</div>
 				
@@ -169,6 +181,21 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 
   });
   </script>
+
+<script >
+		const pssw1 = document.querySelector('#pwss1');
+		const pssw2 = document.querySelector('#pwss2');
+	$("#submit").oncick = function(){
+		if(pssw1.value != pssw2.value){
+			alert("Loi pass");
+			console.log("ololo");
+		}else {
+			alert("dung pass");
+			console.log("ololo123");
+		}
+	}
+
+</script>
 
 </body>
 </html>
