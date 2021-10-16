@@ -1,5 +1,6 @@
 package codejava.Services.impl;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collector;
@@ -25,8 +26,6 @@ public class OrderServicesimpl implements Orderservices{
 	@Transactional
 	public Orders insert(Orders order) throws Exception {
 		try {
-			 
-			
 			order.setCreateDate(publicConst.CurrentDtSQL());
 			return repo.saveAndFlush(order);
 		} catch (Exception e) {
@@ -52,20 +51,12 @@ public class OrderServicesimpl implements Orderservices{
 		return repo.findById(id).isPresent()?repo.findById(id).get():null;
 	};
 	@Override
-	public List<Orders> findByParam(int UserId, String Type, int ParamInt1 ,String ParamString2){
-		List<Orders> result = new ArrayList<>();
-		if(Type.equals("UserIdAndOrderProcess")){
-			System.out.println("UserIdAndOrderProcess");
-			result = repo.findByUser_idAndProcess_idOrderByIdDesc(UserId, ParamInt1);
-		};
-		if(Type.equals("UserIdAndPaymentSTS")) {
-			System.out.println("UserIdAndPaymentSTS");
-			result = repo.findByUser_idAndPaymentstsOrderByIdDesc(UserId, ParamString2);
-		};
-		if(Type.equals("UserIdAndPaymentMethod")) {
-			System.out.println("UserIdAndPaymentMethod");
-			result = repo.findByUser_idAndPaymentmethod_idOrderByIdDesc(UserId, ParamInt1);
-		};
-		return result;
+	public List<Orders> findByUserId(int userId){
+		return repo.findByUser_idOrderByIdDesc(userId);
 	};
+	@Override
+	public List<Orders> findByParams(int UserId, int paymentMethodId, int processId, Date frmDt, Date toDt) {
+		List<Orders> result = repo.findByUser_idAndPaymentmethod_idAndProcess_idAndCreateDateBetweenOrderByIdDesc(UserId, paymentMethodId, processId, frmDt, toDt); 
+		return result;
+	}
 }

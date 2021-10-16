@@ -1,5 +1,6 @@
 package codejava.Services;
 
+import java.sql.Date;
 import java.util.List;
 
 import codejava.Entity.Orders;
@@ -9,5 +10,7 @@ public interface Orderservices {
 	Orders insert(Orders order) throws Exception;
 	Orders findNewOrder(Users idUser) throws Exception;
 	Orders findById(int id);
-	List<Orders> findByParam(int UserId, String Type, int ParamId ,String ParamString);
+	List<Orders> findByUserId(int userId);
+	List<Orders> findByParams(int userId, int paymentMethodId, int processId, Date frmDt, Date toDt);
+
 }

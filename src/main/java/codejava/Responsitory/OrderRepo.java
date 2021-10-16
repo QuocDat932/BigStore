@@ -1,5 +1,6 @@
 package codejava.Responsitory;
 
+import java.sql.Date;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -15,7 +16,7 @@ public interface OrderRepo extends JpaRepository<Orders, Integer>{
 	@Query("SELECT max(o.id) FROM Orders o where o.user like ?1 order by o.id desc")
 	Integer findNewOrder(Users idUser);
 	
-	List<Orders> findByUser_id(int userId);
+	List<Orders> findByUser_idOrderByIdDesc(int userId);
 	
 	// Find By UserId and PaymentMethodId
 	List<Orders> findByUser_idAndPaymentmethod_idOrderByIdDesc(int userId, int PaymentMethodId);
@@ -25,4 +26,6 @@ public interface OrderRepo extends JpaRepository<Orders, Integer>{
 	
 	// Find By UserId and OrderProcess
 	List<Orders> findByUser_idAndProcess_idOrderByIdDesc(int userId, int ProcessId);
+	
+	List<Orders> findByUser_idAndPaymentmethod_idAndProcess_idAndCreateDateBetweenOrderByIdDesc(int userId, int PaymentMethodId, int ProcessId, Date frmDt, Date toDt);
 }
