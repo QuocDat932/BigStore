@@ -76,8 +76,9 @@ $(document).ready(function() {
 	}
 	async function getDataSubmit() {
 		var phone = $("#phone").val().trim();
-		var address = $("#address").val().trim()
-		const url = '/api/cart/save?phone=' + phone + '&address=' + address;
+		var address = $("#address").val().trim();
+		var method = $("#paymentMethod").val();
+		const url = '/api/cart/save?phone=' + phone + '&address=' + address+'&payment='+method;
 		await $.ajax({
 			url: url,
 			type: "POST",
@@ -107,7 +108,7 @@ $(document).ready(function() {
 		}
 
 	}
-
+	
 
 	//step3 : end
 

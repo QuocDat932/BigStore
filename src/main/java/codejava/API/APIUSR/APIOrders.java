@@ -1,5 +1,6 @@
 package codejava.API.APIUSR;
 
+import java.sql.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -14,23 +15,49 @@ import org.springframework.web.bind.annotation.RestController;
 import codejava.Entity.Orders;
 import codejava.Entity.Users;
 import codejava.Services.Orderservices;
+import codejava.Services.PaymentMethodServices;
+import codejava.Services.ProcessService;
 
 @RestController
 @RequestMapping("/api/order")
 public class APIOrders {
 	@Autowired 
 	private Orderservices orderServ;
-	@GetMapping("/orderTable")
-	public ResponseEntity<?> doGetOrderTable(@RequestParam("TYPE") String type,
-											 @RequestParam("paramInt1") int paramInt1,
-											 @RequestParam("paramString1") String paramString1,
-											 HttpSession session){
+	@Autowired
+	private PaymentMethodServices paymntMthdServ;
+	@Autowired
+	private ProcessService processServr;
+	@GetMapping("/GetPaymentMethod")
+	public ResponseEntity<?> doGetPaymentMethod() throws Exception{
+		return ResponseEntity.ok(paymntMthdServ.listPaymentMethod());
+	};
+	@GetMapping("/GetProcess")
+	public ResponseEntity<?> doGetProcess() throws Exception{
+		return ResponseEntity.ok(processServr.findAll());
+	};
+	@GetMapping("/orderDataByParam")
+	public ResponseEntity<?> doGetOrderDataByParam(@RequestParam("paymentMethodId") int paymentMethodId,
+												   @RequestParam("processId") int processId,
+												   @RequestParam("frmOrderDt") Date frmOrderDt,
+												   @RequestParam("toOrderDt") Date toOrderDt,
+												   HttpSession session){
 		if(session.getAttribute("currentUser") == null) {
-			return ResponseEntity.ok(null);
+		return ResponseEntity.ok(null);
 		}else {
-			Users userCurrent = (Users) session.getAttribute("currentUser");
-			List<Orders> result = orderServ.findByParam(userCurrent.getId(), type, paramInt1, paramString1);		
-			return ResponseEntity.ok(result);
+		Users userCurrent = (Users) session.getAttribute("currentUser");
+		List<Orders> result = orderServ.findByParams(userCurrent.getId(), paymentMethodId, processId, frmOrderDt, toOrderDt);		
+		return ResponseEntity.ok(result);
 		}
-	}
+	};
+	@GetMapping("/AllorderData")
+	public ResponseEntity<?> doGetOrderDataByParam(HttpSession session){
+		if(session.getAttribute("currentUser") == null) {
+		return ResponseEntity.ok(null);
+		}else {
+		Users userCurrent = (Users) session.getAttribute("currentUser");
+		List<Orders> result = orderServ.findByUserId(userCurrent.getId());		
+		return ResponseEntity.ok(result);
+		}
+	};
+	
 }

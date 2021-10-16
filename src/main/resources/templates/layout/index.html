@@ -14,16 +14,15 @@
 				</div>
 				<div class="head-t">
 					<ul class="card">
-						<li><a th:href="@{/home/wishlist}"><i class="fa fa-heart" aria-hidden="true"></i>Wishlist</a>
+						<li><a th:href="@{/home/wishlist}"><i class="fa fa-heart" aria-hidden="true"></i>[(#{submenu.whishlist})]</a>
 						</li>
-						<li><a th:href="@{/home/login}"><i class="fa fa-user" aria-hidden="true"></i>Login</a></li>
-						<li><a th:href="@{/home/logout}"><i class="fa fa-heart" aria-hidden="true"></i>LogOut</a>
+						<li><a th:href="@{/home/login}"><i class="fa fa-user" aria-hidden="true"></i>[(#{submenu.login})]</a></li>
+						<li><a th:href="@{/home/logout}"><i class="fa fa-heart" aria-hidden="true"></i>[(#{submenu.logout})]</a>
 						</li>
 						<li><a th:href="@{/home/register}"><i class="fa fa-arrow-right"
-									aria-hidden="true"></i>Register</a></li>
-						<li><a th:href="@{/home/OrderHistory} "><i class="fa fa-file-text-o" aria-hidden="true"></i>Order
-								History</a></li>
-						<li><a th:href="@{/home/about} "><i class="fa fa-file-text-o" aria-hidden="true"></i>About Us</a></li>
+									aria-hidden="true"></i>[(#{submenu.register})]</a></li>
+						<li><a th:href="@{/home/OrderHistory} "><i class="fa fa-file-text-o" aria-hidden="true"></i>[(#{submenu.order_history})]</a></li>
+						<li><a th:href="@{/home/about} "><i class="fa fa-file-text-o" aria-hidden="true"></i>[(#{submenu.about_us})]</a></li>
 						<li><a th:href="@{/home/shipping}"><i class="fa fa-ship" aria-hidden="true"></i>Shipping</a>
 						</li>
 					</ul>
@@ -57,13 +56,12 @@
 						</div>
 						<div class="collapse navbar-collapse" id="bs-megadropdown-tabs">
 							<ul class="nav navbar-nav ">
-								<li><a th:href="@{/home}" class="hyper "><span>Home</span></a></li>
+								<li><a th:href="@{/home}" class="hyper " th:text="#{nav.home}"><span >Home</span></a></li>
 
 				<!-- th:onclick="@{'change(\'' + ${type.slug} + '\')'}" -->
 								<li  class="dropdown" th:each="type, state : ${listType}" >
-									<a th:href="@{'/type/'+${type.slug}}" class="dropdown-toggle  hyper">
-									<span th:text="${type.id}"></span>
-									</a>
+									<a th:href="@{'/type/'+${type.slug}}" class="dropdown-toggle  hyper" 
+									><span th:text="#{'nav.'+${type.id}}"><b class="caret"></b></span></a>
 								</li>			
 												
 									<ul class="dropdown-menu multi">
@@ -124,18 +122,36 @@
 								</li>
 								<li><a th:href="@{/home/codes}" class="hyper"> <span>Codes</span></a></li>
 								<li><a th:href="@{/home/contact}" class="hyper"><span>Contact Us</span></a></li>
-							</ul>
-						</div>
+							</ul>							
+						</div>						
 					</nav>
 					<div class="cart">
-
 						<span class="fa fa-shopping-cart my-cart-icon"><span
-								class="badge badge-notify my-cart-badge"></span></span>
-					</div>
-					<div class="clearfix"></div>
-				</div>
+								class="badge badge-notify my-cart-badge"></span></span>						
+					</div>						
+								
+					<div class="header-ri">
+                        <ul class="social-top">
+                            <!-- languge -->
 
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{?lang=vi}">
+                                    <!--  <img src="/home/images/vn_flag.jpg"/> -->
+                                    <img width="30px" height="30px" th:src="@{/admin/vendors/flag-icon-css/flags/4x3/vn.svg}">VI</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{?lang=en}">
+                                    <img width="30px" height="30px" th:src="@{/admin/vendors/flag-icon-css/flags/4x3/us.svg}">EN
+                                </a>
+                            </li>
+
+                        </ul>
+                    </div>	
+            				
+					<div class="clearfix"></div>					
+				</div>
 			</div>
+			
 		</div>
 	</header>
 	<!--Main Content-->
@@ -143,44 +159,40 @@
 	</div>
 
 	<footer>
-
 		<div class="footer">
 			<div class="container">
 				<div class="col-md-3 footer-grid">
-					<h3>About Us</h3>
-					<p>Nam libero tempore, cum soluta nobis est eligendi
-						optio cumque nihil impedit quo minus id quod maxime
-						placeat facere possimus.</p>
+					<h3>[(#{nav.about})]</h3>
+					<p>[(#{footer.info})]</p>
 				</div>
 				<div class="col-md-3 footer-grid ">
-					<h3>Menu</h3>
+					<h3>[(#{footer.menu})]</h3>
 					<ul>
-						<li><a th:href="@{/home}">Home</a></li>
-						<li><a th:href="@{/home/kitchen}">Kitchen</a></li>
-						<li><a th:href="@{/home/care}">Personal Care</a></li>
-						<li><a th:href="@{/home/hold}">Household</a></li>
-						<li><a th:href="@{/home/codes}">Short Codes</a></li>
-						<li><a th:href="@{/home/contact}">Contact</a></li>
+						<li><a th:href="@{/home}" th:text="#{nav.home}">Home</a></li>
+						<li><a th:href="@{/home/kitchen}">[(#{nav.home})]</a></li>
+						<li th:each="type, state : ${listType}">
+                            <a th:href="@{'/type/'+${type.slug}}"><span th:text="#{'nav.'+${type.id}}" ><b class="caret"></b></span></a>
+                        </li>
+						<li><a th:href="@{/home/contact}"  th:text="#{nav.about}">Contact</a></li>
 					</ul>
 				</div>
 				<div class="col-md-3 footer-grid ">
 					<h3>Customer Services</h3>
-					<ul>
-						<li><a th:href="@{/home/shipping}">Shipping</a></li>
-						<li><a th:href="@{/home/terms}">Terms & Conditions</a></li>
-						<li><a th:href="@{/home/faqs}">Faqs</a></li>
-						<li><a th:href="@{/home/contact}">Contact</a></li>
-						<li><a th:href="@{/home/offer}">Online Shopping</a></li>
+                    <ul>
+                        <li><a th:href="@{/home/shipping}">Shipping</a></li>
+                        <li><a th:href="@{/home/terms}">Terms & Conditions</a></li>
+                        <li><a th:href="@{/home/faqs}">Faqs</a></li>
+                        <li><a th:href="@{/home/contact}">Contact</a></li>
+                        <li><a th:href="@{/home/offer}">Online Shopping</a></li>
+                    </ul>
 
-					</ul>
 				</div>
 				<div class="col-md-3 footer-grid">
-					<h3>My Account</h3>
+					<h3>[(#{footer.MyAccount})]</h3>
 					<ul>
-						<li><a th:href="@{/home/login}">Login</a></li>
-						<li><a th:href="@{/home/register}">Register</a></li>
-						<li><a th:href="@{/home/wishlist}">Wishlist</a></li>
-
+						<li><a th:href="@{/home/login}">[(#{submenu.login})]</a></li>
+						<li><a th:href="@{/home/register}">[(#{submenu.register})]</a></li>
+						<li><a th:href="@{/home/wishlist}">[(#{submenu.whishlist})]</a></li>
 					</ul>
 				</div>
 				<div class="clearfix"></div>
@@ -198,10 +210,10 @@
 					</ul>
 					<div class=" address">
 						<div class="col-md-4 fo-grid1">
-							<p><i class="fa fa-home" aria-hidden="true"></i>12K Street , 45 Building Road Canada.</p>
+							<p><i class="fa fa-home" aria-hidden="true"></i>756 Bình Thạnh, Tp.HCM.</p>
 						</div>
 						<div class="col-md-4 fo-grid1">
-							<p><i class="fa fa-phone" aria-hidden="true"></i>+1234 758 839 , +1273 748 730</p>
+							<p><i class="fa fa-phone" aria-hidden="true"></i>+0964192032 , +0972769574</p>
 						</div>
 						<div class="col-md-4 fo-grid1">
 							<p><a href="mailto:info@example.com"><i class="fa fa-envelope-o"
@@ -249,7 +261,7 @@
 								`  <div class="add add-2">  `+
 								`  	<button class="btn btn-danger my-cart-btn my-cart-b" data-id="${data[i].id}"  `+
 										`  data-name="${data[i].name}" data-summary="summary 1" data-price="${data[i].price}"  `+
-										`  data-quantity="${1}" data-image="images/${data[i].imgUrl}">Add to Cart</button>  `+
+										`  data-quantity="${1}" data-image="images/${data[i].imgUrl}">[(#{button.add_to_Cart})]</button>  `+
 								`  </div>  `+
 							`  </div>  `+
 						`  </div>  `+

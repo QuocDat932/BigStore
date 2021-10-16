@@ -116,20 +116,10 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 										value="Previous" />
 								</fieldset>
 								<fieldset>
-									<div class="form-card">
-										<div class="row">
-											<div class="col-7">
-												<h2 class="fs-title">Image Upload:</h2>
-											</div>
-											<div class="col-5">
-												<h2 class="steps">Bước 3 - 4</h2>
-											</div>
-										</div> <label class="fieldlabels">Upload Your Photo:</label> <input type="file"
-											name="pic" accept="image/*"> <label class="fieldlabels">Upload Signature
-											Photo:</label> <input type="file" name="pic" accept="image/*">
-									</div> <input type="button" name="next" class="next action-button s3" value="Submit" /> 
-									<input type="button" name="previous"
-										class="previous action-button-previous" value="Previous" />
+									<div id="step2"></div>
+									<input type="button" name="next" class="next action-button s3" value="Submit" />
+									<input type="button" name="previous" class="previous action-button-previous"
+										value="Previous" />
 								</fieldset>
 								<fieldset>
 									<div class="form-card">
@@ -160,19 +150,52 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 				</div>
 			</div>
 		</div>
-		<form action="/home/cart/save" method="post" style="margin-left: 190px;" id="formsubmit">
-			<td class="t-data t-w3l"><button class=" add-1">Purchase</button></td>
-		</form>
+		<td class="t-data t-w3l"><button onclick="checkkkk()">Purchase</button></td>
 		<!--</div>-->
 		<script>
 			$(document).ready(function () {
 				CallApiProduct(localStorage.products);
 				getProducts();
+				getPaymentMethod();
+				checkkkk = () =>{
+				console.log("check")
+				alert($("#paymentMethod").val())
+			}
 			})
 
 
-
-
+			getBodyPaymentMethod = (data) => {
+				var body = `
+				<div class="form-card"> ` +
+					`<div class="form-group">` +
+					`<label class="col-sm-4 control-label">Payment Method </label>`+
+						`<div class="col-sm-8">` +
+					`<select id="paymentMethod">`
+ ;
+				for(var i = 0; i < data.length; i++){
+					body += `<option value='${data[i].id}'> ${data[i].description} </option>`
+					
+				body+=`</div> </div> </div>`;
+				$("#step2").html(body);
+			}
+			}
+			getPaymentMethod = () => {
+				const url = "/api/order/GetPaymentMethod"
+				$.ajax({
+					url: url,
+					type: "GET",
+					contentType: "application/json",
+					dataType: "json",
+					success: function (data) {
+						console.log(data)
+						getBodyPaymentMethod(data)
+					},
+					error: function (err) {
+						console.warn(err)
+					}
+				})
+			}
+			
 			getProducts = () => {
 				var data = JSON.parse(localStorage.products);
 				$("#crosss").html(showProduct(data));
@@ -186,9 +209,7 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 				*/
 			};
 			CallApiProduct = (data) => {
-				console.log(data);
 				let url = '/api/saveCart';
-
 				$.ajax({
 					url: url,
 					type: "POST",
@@ -248,7 +269,6 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 
 			$('.value-minus').on('click', function () {
 				var divUpd = $(this).parent().find('.value'), newVal = parseInt(divUpd.text(), 10) - 1;
-				console.log(divUpd)
 				if (newVal >= 1) divUpd.text(newVal);
 			});
 		</script>

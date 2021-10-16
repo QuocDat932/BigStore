@@ -71,8 +71,8 @@ public class CartAPI {
 	public ResponseEntity<?> doPostSaveCart(HttpSession sess,
 			@RequestParam Optional<String> phone,
 			@RequestParam Optional<String> address
-//			,
-//			@RequestParam Optional<Integer> payment
+			,
+			@RequestParam Optional<Integer> payment
 			) {
 		if (Objects.isNull(publicVariable.ListCart) || publicVariable.ListCart.size() == 0) {
 			return ResponseEntity.ok(MessageAPI.message("Failed", "Missing Cart", null));
@@ -86,7 +86,7 @@ public class CartAPI {
 		}
 		
 		
-		PaymentMethod pay =  pay = PaymentS.findById(1);
+		PaymentMethod pay =  pay = PaymentS.findById(payment.orElse(1));
 		Users u = (Users) sess.getAttribute(SessionConst.CURRENT_USER);
 		Orders o = new Orders();
 		o.setUser(u);
