@@ -180,12 +180,7 @@ public class HomeController {
 	public String doGetKitchen(Model model,HttpSession session) {
 		cartDto currentCart = (cartDto) session.getAttribute("currentCart");
 		ListproductDto Top4Prod = (ListproductDto) session.getAttribute("Top4Prod");
-		if(currentCart == null) {
-			session.setAttribute("currentCart", new cartDto());
-		}
-		if(Top4Prod == null) {
-			session.setAttribute("Top4Prod", new ListproductDto());
-		}
+
 		List<TypeOfProduct> listType = typrOfProductSrvcs.getListTypeOfProduct();
 		model.addAttribute("listType", listType);
 		return "home/kitchen";
@@ -199,10 +194,22 @@ public class HomeController {
 		return "home/contact";
 	}
 	@GetMapping("/home/{slug}")
-	public String doGetSingle(@PathVariable Optional<String> slug, Model model) {
+	public String doGetSingle(@PathVariable Optional<String> slug, Model model,Model model2,HttpSession session) {
 	Products p = productsservices.findByProductsSlug(slug.get());
+	
+	TypeOfProduct Type =  p.getTypeOfProduct(); 
+	
+	List<Products> listP = productsservices.findByTypeOfProduct(Type);
+	/*
+	 * if(Type listP) {
+	 * 
+	 * }
+	 */
+	listP.remove(p.getSlug());
 	model.addAttribute("Product",p);
-		
+	model2.addAttribute("lisType",listP) ; 
+	
+	
 		return "home/single";
 		
 	}
