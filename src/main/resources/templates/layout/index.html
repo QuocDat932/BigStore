@@ -61,8 +61,9 @@
 
 				<!-- th:onclick="@{'change(\'' + ${type.slug} + '\')'}" -->
 								<li  class="dropdown" th:each="type, state : ${listType}" >
-									<a th:href="@{'/type/'+${type.slug}}" class="dropdown-toggle  hyper" 
-									><span th:text="${type.description}"><b class="caret"></b></span></a>
+									<a th:href="@{'/type/'+${type.slug}}" class="dropdown-toggle  hyper">
+									<span th:text="${type.id}"></span>
+									</a>
 								</li>			
 												
 									<ul class="dropdown-menu multi">
@@ -289,34 +290,7 @@
 				};
 				ProductPage(0);
 			</script>
-			<script>
-				CallApiProduct = (data) => {
-					console.log(data);
-					let url = '/api/saveCart';
-
-					$.ajax({
-						url: url,
-						type: "POST",
-						contentType: "application/json",
-						dataType: "json",
-						data: data,
-						success: function (data) {
-							alert(data);
-						},
-						error: function (response) {
-							if (response.responseText == "DONE") {
-								var form = $('<form action="/home/cart/saveLocal" >' +
-									'<input  value="${data}" />' +
-									'</form>');
-								$('body').append(form);
-								form.submit();
-							} else {
-
-							}
-						}
-					});
-				}
-			</script>
+			
 			<script>
 		
 			
