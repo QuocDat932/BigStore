@@ -23,6 +23,26 @@
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <!-- End layout styles -->
   <link rel="shortcut icon" th:href="@{/admin/images/favicon.png}" />
+  
+  <!-- bs -->
+<!-- Bootstrap CSS -->
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+	crossorigin="anonymous">
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+	integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+	crossorigin="anonymous"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+	integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+	crossorigin="anonymous"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+	integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+	crossorigin="anonymous"></script>
 </head>
 <body>
 <script th:src="@{/admin/js/preloader.js}"></script>
@@ -44,13 +64,13 @@
             <div class="mdc-list-item mdc-drawer-item">
               <a class="mdc-drawer-link" th:href="@{/admin/dashboard}">
                 <i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true">home</i>
-                Dashboard
+                [(#{menu.dashboash})]
               </a>
             </div>
             <div class="mdc-list-item mdc-drawer-item">
               <a class="mdc-drawer-link" th:href="@{/admin/forms}">
                 <i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true">track_changes</i>
-                Forms
+                [(#{menu.forms})]
               </a>
             </div>
             <div class="mdc-list-item mdc-drawer-item">
@@ -58,7 +78,7 @@
                 <!--<i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true">dashboard</i>
                 -->
                 <i class="fa fa-cubes mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true"></i>
-                Product Control
+                [(#{menu.ProductManagement})]
                 <i class="mdc-drawer-arrow material-icons">chevron_right</i>
               </a>
               <div class="mdc-expansion-panel" id="ui-sub-menu">
@@ -66,13 +86,13 @@
                   <div class="mdc--item mdc-drawer-item">
                     <a class="mdc-drawer-link" th:href="@{/admin/product/categotyMgt}">
                     <i class='fa fa-university mdc-drawer-item-icon' style='font-size:15px' aria-hidden="true"></i>
-                      Category
+                      [(#{menu.category})]
                     </a>
                   </div>
                   <div class="mdc-list-item mdc-drawer-item">
                     <a class="mdc-drawer-link" th:href="@{/admin/product/productMgt}">
                     <i class='fa fa-th-large mdc-drawer-item-icon' style='font-size:15px' aria-hidden="true"></i>
-                      Products
+                      [(#{menu.products})]
                     </a>
                   </div>
                 </nav>
@@ -83,7 +103,7 @@
                 <!--<i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true">dashboard</i>
                 -->
                 <i class='fas fa-user-alt mdc-drawer-item-icon' style='font-size:20px' aria-hidden="true"></i>
-                User Control
+                [(#{menu.UserManagement})]
                 <i class="mdc-drawer-arrow material-icons">chevron_right</i>
               </a>
               <div class="mdc-expansion-panel" id="ui-sub-menuUser">
@@ -92,7 +112,7 @@
                     <a class="mdc-drawer-link" th:href="@{/admin/user/user-userMgt}">
 					<!--<i class='fas fa-user-alt mdc-drawer-item-icon' style='font-size:10px' aria-hidden="true"></i>
                      --> <i class='fas fa-user-cog mdc-drawer-item-icon' style='font-size:15px'></i>
-                      Account User
+                      [(#{menu.AccountUser})]
                     </a>
                   </div>
                   <div class="mdc-list-item mdc-drawer-item">
@@ -107,13 +127,13 @@
             <div class="mdc-list-item mdc-drawer-item">
               <a class="mdc-drawer-link" th:href="@{/admin/ListOrder}">
                 <i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true">grid_on</i>
-                List Order
+                [(#{menu.List_Order})]
               </a>
             </div>
             <div class="mdc-list-item mdc-drawer-item">
               <a class="mdc-drawer-link" th:href="@{/admin/ChartOrder}">
                 <i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true">pie_chart_outlined</i>
-                Charts
+                [(#{menu.Charts})]
               </a>
             </div>
             <div class="mdc-list-item mdc-drawer-item">
@@ -214,6 +234,23 @@
 	              </div>
 	            </div>
 	          </div>
+	          <!-- language -->
+						<!-- th:href="@{/admin/vendors/flag-icon-css/css/flag-icon.min.css}" -->
+						<div class="dropdown show">
+						<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img width="32px" height="32px"> <span id="langName"> VI</span></button>
+							
+							<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+								<a class="dropdown-item" th:href="@{?lang=vi}" onclick="changeValueLange('vn');check()"> <img width="32px" height="32px"
+								th:src="@{/admin/vendors/flag-icon-css/flags/4x3/vn.svg}">
+									VI
+								</a>
+								
+								<a class="dropdown-item" th:href="@{?lang=en}" onclick="changeValueLange('en');check()"> <img width="32px" height="32px"
+								th:src="@{/admin/vendors/flag-icon-css/flags/4x3/us.svg}">
+									EN
+								</a>
+							</div>							
+						</div>		
 	          <div class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end mdc-top-app-bar__section-right">
 	            <div class="menu-button-container menu-profile d-none d-md-block">
 	              <button class="mdc-button mdc-menu-button">
@@ -766,6 +803,19 @@
           clearDataForm();
       });
     }
+    
+    //language    
+        function check() {
+            var lang = sessionStorage.lang || 'vn';
+            var langName = document.getElementById("dropdownMenuButton");
+            var vi=`<img width="32px" height="32px" src="/admin/vendors/flag-icon-css/flags/4x3/vn.svg"> VI`
+            var en=`<img width="32px" height="32px" src="/admin/vendors/flag-icon-css/flags/4x3/us.svg"> EN`
+            langName.innerHTML = lang == 'vn' ? vi : en
+        }
+        check();
+        function changeValueLange(params) {
+            sessionStorage.lang = params;
+        }    
 </script>
 </body>
 </html> 
