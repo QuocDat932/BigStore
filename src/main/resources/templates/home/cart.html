@@ -43,55 +43,184 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 	<!--- start-rate-->
 	<script th:src="@{/home/js/jstarbox.js}"></script>
 	<link rel="stylesheet" th:href="@{/home/css/jstarbox.css}" type="text/css" media="screen" charset="utf-8" />
-	
+	<link th:href='@{/home/css/custom_order.css}' rel='stylesheet' type='text/css' />
+	<script th:src="@{/home/js/custom_order.js}"></script>
 	<!---//End-rate-->
 </head>
 
 <body>
-
 	<div layout:fragment="content">
-
 		<script>window.jQuery || document.write('<script th:src="@{js/vendor/jquery-1.11.1.min.js}"><\/script>')</script>
 		<script th:src="@{/home/js/jquery.vide.min.js}"></script>
-
-
-
-
 		<!--banner-->
 		<div class="banner-top">
 			<div class="container">
-				<h3>Wishlist</h3>
+				<h3>Wishlist ă</h3>
 				<h4><a href="index.html">Home</a><label>/</label>CART</h4>
 				<div class="clearfix"> </div>
 			</div>
 		</div>
-
 		<!-- contact -->
-		<div class="check-out">
-			<div class="container">
-				<div class="spec ">
-					<h3>CART</h3>
-					<div class="ser-t">
-						<b></b>
-						<span><i></i></span>
-						<b class="line"></b>
+		<!--<div class="check-out">-->
+		<div class="container">
+			<div class="container ">
+				<div class="row justify-content-center ">
+					<div class="form1 col-11 col-sm-9 col-md-7 col-lg-6 col-xl-5 text-center p-0 pt-4 mt-3 mb-2">
+						<div class="card px-0 pt-4 pb-0 mt-3 mb-3">
+							<h2 id="heading">Giỏ Hàng Của Bạn </h2>
+							<!--@ly define muti language chỗ này dùm-->
+							<p>Điền Thông Tin Đi Bạn</p>
+							<form id="msform">
+								<!-- progressbar -->
+								<ul id="progressbar">
+									<li class="active" id="account"><strong>Sản Phẩm</strong></li>
+									<li id="personal"><strong>Thông Tin Giao Hàng</strong></li>
+									<li id="payment"><strong>Phương Thức Thanh Toán</strong></li>
+									<li id="confirm"><strong>Hoàn thành </strong></li>
+								</ul>
+								<div class="progress">
+									<div class="progress-bar progress-bar-striped progress-bar-animated"
+										role="progressbar" aria-valuemin="0" aria-valuemax="100"></div>
+								</div> <br> <!-- fieldsets -->
+								<fieldset>
+									<div class="form-card">
+										<div class="row">
+											<div class="col-7">
+												<h2 class="fs-title">Thông tin giỏ hàng:</h2>
+											</div>
+											<div class="col-5">
+												<h2 class="steps">Bước 1 - 4</h2>
+											</div>
+										</div>
+										<table id="crosss" class="table "></table>
+									</div> <input type="button" name="next" class="next action-button s1"
+										value="Next" />
+								</fieldset>
+								<fieldset>
+									<div class="form-card">
+										<div class="row">
+											<div class="col-7">
+												<h2 class="fs-title">Personal Information:</h2>
+											</div>
+											<div class="col-5">
+												<h2 class="steps">Bước 2 - 4</h2>
+											</div>
+										</div>
+										<label class="fieldlabels">Phone: *</label>
+										<input type="text" id="phone" placeholder="Your Phone Number" />
+										<label class="fieldlabels">Address: *</label>
+										<input type="text" id="address" placeholder="Your Address" />
+									</div>
+									<input type="button" name="next" class="next action-button s2" value="Next" />
+									<input type="button" name="previous" class="previous action-button-previous"
+										value="Previous" />
+								</fieldset>
+								<fieldset>
+									<div id="step2"></div>
+									<input id="submitdata" type="button" name="next" class="next action-button s3" value="Submit" />
+									<input type="button" name="previous" class="previous action-button-previous"
+										value="Previous" />
+								</fieldset>
+								<fieldset>
+									<div class="form-card">
+										<div class="row">
+											<div class="col-7">
+												<h2 class="fs-title">Finish:</h2>
+											</div>
+											<div class="col-5">
+												<h2 class="steps">Bước 4 - 4</h2>
+											</div>
+										</div> <br><br>
+										<h2 class="purple-text text-center"><strong>SUCCESS !</strong></h2> <br>
+										<div class="row justify-content-center">
+											<div class="col-3 fit-image-bg"> <img src="https://i.imgur.com/GwStPmg.png"
+													class="fit-image" </div>
+											</div> <br><br>
+											<div class="row justify-content-center">
+												<div class="col-7 text-center">
+													<h5 class="purple-text text-center">You Have Successfully Signed Up
+													</h5>
+												</div>
+											</div>
+										</div>
+								</fieldset>
+							</form>
+						</div>
 					</div>
 				</div>
-
-				<table id="crosss" class="table ">
-
-	
-				</table>
 			</div>
-						<form action="/home/cart/save" method="post" style="margin-left: 190px;" id="formsubmit">	
-							<td class="t-data t-w3l"><button class=" add-1" >Purchase</button></td>
-						</form>
 		</div>
+		<td class="t-data t-w3l"><button onclick="checkkkk()">Purchase</button></td>
+		<!--</div>-->
 		<script>
+			$(document).ready(function () {
+				CallApiProduct(localStorage.products);
+				getProducts();
+				getPaymentMethod();
+				checkkkk = () =>{
+				console.log("check")
+				alert($("#paymentMethod").val())
+			}
+			})
 
-		function numberWithCommas(x) {
-		    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-		}
+
+			getBodyPaymentMethod = (data) => {
+				var body = `
+				<div class="form-card"> ` +
+					`<div class="form-group">` +
+					`<label class="col-sm-4 control-label">Payment Method </label>`+
+						`<div class="col-sm-8">` +
+					`<select id="paymentMethod">`
+ ;
+				for(var i = 0; i < data.length; i++){
+					body += `<option value='${data[i].id}'> ${data[i].description} </option>`
+					
+				body+=`</div> </div> </div>`;
+				$("#step2").html(body);
+			}
+			}
+			getPaymentMethod = () => {
+				const url = "/api/order/GetPaymentMethod"
+				$.ajax({
+					url: url,
+					type: "GET",
+					contentType: "application/json",
+					dataType: "json",
+					success: function (data) {
+						console.log(data)
+						getBodyPaymentMethod(data)
+					},
+					error: function (err) {
+						console.warn(err)
+					}
+				})
+			}
+			
+			getProducts = () => {
+				var data = JSON.parse(localStorage.products);
+				$("#crosss").html(showProduct(data));
+				/*
+				for (var i = 0; i < data.length; i++) {
+					$(x).click('click', function () {
+						x = ".close" + i;
+						console.log("x = " + x);
+					});
+				}
+				*/
+			};
+			CallApiProduct = (data) => {
+				let url = '/api/saveCart';
+				$.ajax({
+					url: url,
+					type: "POST",
+					contentType: "application/json",
+					dataType: "json",
+					data: data
+				});
+			}
+			function numberWithCommas(x) {
+				return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+			}
 			var bodyProduct = `<table class="table ">` +
 				` <tr>` +
 				` <th class="t-head head-it ">Products</th>` +
@@ -100,7 +229,6 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 				` <th class="t-head">Total</th>` +
 				` </tr>`;
 			showProduct = (data) => {
-				
 				for (var i = 0; i < data.length; i++) {
 					bodyProduct += ` <tr class="cross` + i + `">` +
 						` <td class="ring-in t-data">` +
@@ -113,7 +241,7 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 						` <div class="clearfix"> </div>` +
 						` <div class="close1"> <i class="fa fa-times" aria-hidden="true"></i></div>` +
 						` </td>` +
-						` <td class="t-data">${numberWithCommas(data[i].price*1000)} VND</td>` +
+						` <td class="t-data">${numberWithCommas(data[i].price * 1000)} VND</td>` +
 						` <td class="t-data">` +
 						` <div class="quantity">` +
 						` 	<div class="quantity-select">` +
@@ -124,40 +252,13 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 						` </div>` +
 						` </td>` +
 						` <td class="t-data">` +
-							` <div class="t-data">${numberWithCommas(data[i].quantity *data[i].price*1000)} VND</div>` +
+						` <div class="t-data">${numberWithCommas(data[i].quantity * data[i].price * 1000)} VND</div>` +
 						` </td>` +
 						` </tr>`;
-
-
 				};
 				bodyProduct += `</table>`;
 				return bodyProduct;
 			};
-
-			getProducts = () => {
-				let urlCurrent = '/api/getCart';
-				var x = "";
-				$.ajax({
-					type: "GET",
-					contentType: "application/json",
-					url: urlCurrent,
-					async: false,
-					success: (data) => {
-						$("#crosss").html(showProduct(data));
-						for(var i = 0; i<data.length;i++){
-							$(x).click('click', function () {
-							x = ".close" + i;
-							console.log("x = " + x);
-						});
-						}
-					},
-					error: (e) => {
-						alert(e)
-					}
-				});
-
-			};
-			getProducts();
 		</script>
 		<!--quantity-->
 		<script>
@@ -168,13 +269,10 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 
 			$('.value-minus').on('click', function () {
 				var divUpd = $(this).parent().find('.value'), newVal = parseInt(divUpd.text(), 10) - 1;
-				console.log (divUpd)
 				if (newVal >= 1) divUpd.text(newVal);
 			});
 		</script>
 		<!--quantity-->
-
-
 	</div>
 	<!-- smooth scrolling -->
 	<script type="text/javascript">
@@ -198,7 +296,6 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 	<script type='text/javascript' th:src="@{js/jquery.mycart.js}"></script>
 	<script type="text/javascript">
 		$(function () {
-
 			var goToCartIcon = function ($addTocartBtn) {
 				var $cartIcon = $(".my-cart-icon");
 				var $image = $('<img width="30px" height="30px" src="' + $addTocartBtn.data("image") + '"/>').css({"position": "fixed", "z-index": "999"});
@@ -211,7 +308,6 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 					$image.remove();
 				});
 			}
-
 			$('.my-cart-btn').myCart({
 				classCartIcon: 'my-cart-icon',
 				classCartBadge: 'my-cart-badge',
@@ -232,11 +328,8 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 					return total * 1;
 				}
 			});
-
 		});
-
 	</script>
-
 </body>
 
 </html>
