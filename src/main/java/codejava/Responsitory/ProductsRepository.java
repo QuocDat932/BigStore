@@ -34,7 +34,7 @@ public interface ProductsRepository extends JpaRepository<Products, Integer>{
 	
 	Page<Products> findAll(Pageable page);
 	@Query(value="SELECT pro.* FROM SYSTEM.products pro LEFT JOIN SYSTEM.types_of_product types ON pro.TYPEID = types.ID\r\n"
-			+ "WHERE pro.isdeleted = 1 and types.isdeleted = 1 and types.slug = ?1 and rownum < 5 order by pro.id desc", nativeQuery = true)
+			+ "WHERE pro.isdeleted = 1 and types.isdeleted = 1 and types.slug = ?1 order by pro.id desc", nativeQuery = true)
 	List<Products> findtop4Bytype(String type);
 	
 /*
