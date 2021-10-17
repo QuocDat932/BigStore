@@ -40,8 +40,8 @@ $(document).ready(function() {
 			return false;
 		}
 		var checkUser = await checkCurrentUser();
-		if (checkUser === undefined || checkUser == 'NO') {
-			console.log(checkUser)
+		if (checkUser != 'YES') {
+			console.log(checkUser);
 			alert("Xin hãy đăng nhập để tiếp tục !");
 			location.href = "/home/login";
 			return false;
@@ -104,6 +104,7 @@ $(document).ready(function() {
 			return true;
 		} else {
 			console.log(dataResult.Message)
+			alert(dataResult.Message);
 			return false;
 		}
 
@@ -124,7 +125,9 @@ $(document).ready(function() {
 			if (!check) { return false };
 		};
 		if (c.includes("s3")) {
-			await checkStep3();
+			var chec = await checkStep3();
+			if(chec){getDataSubmit() }
+			 
 		};
 
 		//Add Class Active
