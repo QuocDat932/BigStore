@@ -130,7 +130,7 @@ $(document).ready(function() {
 			$("#submitdata").attr("disabled", true);
 
 			var chec = await checkStep3();
-			if(chec){getDataSubmit() }
+			if(!chec){ alert('something wrong !'); return false }
 			 
 		};
 
