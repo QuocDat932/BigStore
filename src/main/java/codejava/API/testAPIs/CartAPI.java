@@ -85,8 +85,7 @@ public class CartAPI {
 			return ResponseEntity.ok(MessageAPI.message("Failed", "Missing Address or Phone", null));
 		}
 		
-		
-		PaymentMethod pay =  pay = PaymentS.findById(payment.orElse(1));
+		PaymentMethod pay = PaymentS.findById(payment.orElse(1));
 		Users u = (Users) sess.getAttribute(SessionConst.CURRENT_USER);
 		Orders o = new Orders();
 		o.setUser(u);
@@ -113,7 +112,6 @@ public class CartAPI {
 			return ResponseEntity.ok(MessageAPI.message("Failed", "ERROR for create Order 2", null));
 		}
 		final int idO = o.getId();
-		int z = 0;
 		boolean check = true;
 		List<productDto> listdto = publicVariable.ListCart;
 		for (int i = 0; i < listdto.size(); i++) {
@@ -136,12 +134,9 @@ public class CartAPI {
 				check=false;
 			}
 		}
-		
 		if(!check) {
 			return ResponseEntity.ok(MessageAPI.message("Failed", "ERROR for create Order detail", null));
 		}
-		
-		
 		Map<String, Object> result = new  HashMap<>();
 		result.put("order", o);
 		result.put("order", listdto);
