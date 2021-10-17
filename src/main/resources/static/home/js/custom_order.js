@@ -40,8 +40,10 @@ $(document).ready(function() {
 			return false;
 		}
 		var checkUser = await checkCurrentUser();
-		if (checkUser === undefined || checkUser == 'NO') {
-			console.log(checkUser)
+
+		if (checkUser != 'YES') {
+			console.log("check : "+ checkUser);
+
 			alert("Xin hãy đăng nhập để tiếp tục !");
 			location.href = "/home/login";
 			return false;
@@ -50,15 +52,14 @@ $(document).ready(function() {
 		return true;
 	}
 	async function checkCurrentUser() {
-		var result = false;
+		var result = 'NO';
 		const url = "/api/user/currentUser";
 		await $.ajax({
 			url: url,
 			type: "GET",
 			contentType: "application/json",
 			success: function(data) {
-				console.log(data)
-				result = true;
+				result = data;
 			},
 			error: function(err) {
 				reject(err) // Reject the promise and go to catch()
@@ -104,6 +105,7 @@ $(document).ready(function() {
 			return true;
 		} else {
 			console.log(dataResult.Message)
+			alert(dataResult.Message);
 			return false;
 		}
 
@@ -120,11 +122,16 @@ $(document).ready(function() {
 			CallApiProduct(localStorage.products);
 		};
 		if (c.includes("s2")) {
-			var check = await checkPhoneAddress()
+			var check = await checkPhoneAddress();
 			if (!check) { return false };
 		};
-		if (c.includes("s3")) {
-			await checkStep3();
+		if (c.includes("s3")) { 
+				
+			$("#submitdata").attr("disabled", true);
+
+			var chec = await checkStep3();
+			if(chec){getDataSubmit() }
+			 
 		};
 
 		//Add Class Active
