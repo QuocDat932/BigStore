@@ -40,9 +40,10 @@ $(document).ready(function() {
 			return false;
 		}
 		var checkUser = await checkCurrentUser();
-		
+
 		if (checkUser != 'YES') {
 			console.log("check : "+ checkUser);
+
 			alert("Xin hãy đăng nhập để tiếp tục !");
 			location.href = "/home/login";
 			return false;
@@ -125,9 +126,9 @@ $(document).ready(function() {
 			if (!check) { return false };
 		};
 		if (c.includes("s3")) { 
-			
-			
+				
 			$("#submitdata").attr("disabled", true);
+
 			var chec = await checkStep3();
 			if(chec){getDataSubmit() }
 			 
