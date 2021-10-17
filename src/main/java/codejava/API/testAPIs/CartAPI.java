@@ -93,7 +93,7 @@ public class CartAPI {
 		o.setPhone(phone.get());
 		o.setAddress(address.get());
 		o.setPaymentmethod(pay);
-		o.setPaymentsts(pay.getDescription());
+		o.setPaymentsts("No");
 		Double pricezz = 0D;
 		for (productDto c : publicVariable.ListCart) {
 			pricezz+=(c.getPrice()*c.getQuantity());
