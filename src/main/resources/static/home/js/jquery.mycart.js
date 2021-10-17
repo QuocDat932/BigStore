@@ -211,7 +211,7 @@
 			var products = ProductManager.getAllProducts();
 			
 			$.each(products, function() {
-				var total = numberWithCommas(this.quantity * this.price* 1000);
+				var total = numberWithCommas(this.quantity * this.price* 1);
 				console.log(products);
 				$cartTable.append(
 					'<tr title="' + this.summary + '" data-id="' + this.id + '" data-price="' + this.price + '">' +
@@ -337,7 +337,7 @@
 			});
 		}
 		var showGrandTotal = function() {
-			$("#" + idGrandTotal).text( numberWithCommas(ProductManager.getTotalPrice()*1000)+" VND" );
+			$("#" + idGrandTotal).text( numberWithCommas(ProductManager.getTotalPrice()*1)+" VND" );
 		}
 		var showDiscountPrice = function() {
 			$("#" + idDiscountPrice).text( options.getDiscountPrice(ProductManager.getAllProducts(), ProductManager.getTotalPrice(), ProductManager.getTotalQuantity())+" VND"  );
@@ -367,7 +367,7 @@
 			var id = $(this).closest("tr").data("id");
 			var quantity = $(this).val();
 
-			$(this).parent("td").next("." + classProductTotal).text(numberWithCommas(price * quantity * 1000 )+" VND"  );
+			$(this).parent("td").next("." + classProductTotal).text(numberWithCommas(price * quantity * 1 )+" VND"  );
 			ProductManager.updatePoduct(id, quantity);
 
 			$cartBadge.text(ProductManager.getTotalQuantity());
