@@ -43,6 +43,7 @@
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
 	integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
 	crossorigin="anonymous"></script>
+
 </head>
 <body>
 <script th:src="@{/admin/js/preloader.js}"></script>
@@ -787,6 +788,8 @@
                 `</tr>`
         }
         $('#bodyProd').html(body);
+        $('#prodTable').DataTable();
+        $('#tableUsers').DataTable();
     };
     /*************************************END PRODUCT********************************************/
     
@@ -817,5 +820,9 @@
             sessionStorage.lang = params;
         }    
 </script>
+<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
+<script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css">
 </body>
 </html> 
