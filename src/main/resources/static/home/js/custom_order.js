@@ -124,7 +124,8 @@ $(document).ready(function() {
 			var check = await checkPhoneAddress();
 			if (!check) { return false };
 		};
-		if (c.includes("s3")) {
+		if (c.includes("s3")) { 
+			
 			
 			$("#submitdata").attr("disabled", true);
 			var chec = await checkStep3();
