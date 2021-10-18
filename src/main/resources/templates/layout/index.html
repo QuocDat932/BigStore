@@ -307,34 +307,7 @@
 				};
 				ProductPage(0);
 			</script>
-			<script>
-				CallApiProduct = (data) => {
-					
-					let url = '/api/saveCart';
-
-					$.ajax({
-						url: url,
-						type: "POST",
-						contentType: "application/json",
-						dataType: "json",
-						data: data,
-						success: function (data) {
-							alert(data);
-						},
-						error: function (response) {
-							if (response.responseText == "DONE") {
-								var form = $('<form action="/home/cart/saveLocal" >' +
-									'<input  value="${data}" />' +
-									'</form>');
-								$('body').append(form);
-								form.submit();
-							} else {
-
-							}
-						}
-					});
-				}
-			</script>
+			
 			<script>
 		
 			

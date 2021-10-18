@@ -1,5 +1,7 @@
 package codejava.Services.impl;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
@@ -76,7 +78,12 @@ public class ProductsServicesImpl implements ProductsServices{
 	}
 	@Override
 	public List<Products> findtop4Bytype(String type){
-		return repo.findtop4Bytype(type);
+		List<Products> list = repo.findtop4Bytype(type);
+		List<Products> listResult = new ArrayList<>();
+		for(int i = 0 ;i<4;i++) {
+			listResult.add(list.get(i));
+		}
+		return listResult;
 	}
 
 	@Override

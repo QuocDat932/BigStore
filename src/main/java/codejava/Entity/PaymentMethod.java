@@ -21,6 +21,7 @@ import lombok.Setter;
 public class PaymentMethod {
 	
 	private static final long serialVersionUID = 1L;
+	
 	@Id
 	@Column(name ="id")
 	private int id;
