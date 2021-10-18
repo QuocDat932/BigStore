@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -21,6 +23,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import codejava.Dto.ListproductDto;
@@ -64,6 +67,8 @@ public class HomeController {
 	private AuthenticationManager  authenManager;
 	@Autowired
     private JwtTokenProvider tokenProvider;
+	@Autowired
+	private JavaMailSender mailSend;
 	
 	@GetMapping({"/home","/"})
 	public String doGetController(Model model,HttpSession session,@RequestParam("p") Optional<Integer> p) {
@@ -154,14 +159,29 @@ public class HomeController {
 			newUser.setHashPassword(bcrypt.encode(newUser.getHashPassword()));
 			roles role = rolesservices.findByID(2);
 			newUser.setRole(role);
+			sendVerificationEmail(newUser); 
 			userservices.addUser(newUser);
+			
+			
 			return "redirect:/home";
 		} catch (Exception e) {	
 			e.printStackTrace();
 			//return "redirect:/home/register";
 			return "12344";
 		}
+		
 	}			  
+	
+	private void sendVerificationEmail(Users newUser) {
+		String subject = "Please verify your account"+ newUser.getUsername();
+		String note = "Please check and Verify";
+		SimpleMailMessage msg = new SimpleMailMessage();
+		msg.setTo(newUser.getEmail());
+		msg.setSubject(subject);
+		msg.setText(note);
+		mailSend.send(msg);
+	}
+
 	@GetMapping("/home/about")
 	public String doGetAbout() {
 		return "home/about";

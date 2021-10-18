@@ -83,6 +83,8 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 
 		<div class="login">
 
+		<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
 			<div class="main-agileits">
 				<div class="form-w3agile">
 					<h3>Login</h3>
@@ -102,9 +104,12 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 								onblur="if (this.value == '') {this.value = 'hashPassword';}" required="">
 							<div class="clearfix"></div>
 						</div>
-						<input type="submit" value="Login">
+						<input type="submit" value="Login" onclick=" return validateForm()" >
 					</form>
 				</div>
+				<div class="g-recaptcha" th:data-sitekey="${@environment.getProperty('recaptcha.key')}">
+				 </div>
+				<br>	
 				<div class="forg">
 					<a href="#" class="forg-left">Forgot Password</a>
 					<a th:href="@{/home/register}" class="forg-right">Register</a>
@@ -126,6 +131,14 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 				*/
 				$().UItoTop({easingType: 'easeOutQuart'});
 			});
+			function validateForm(){
+				if( grecaptcha.getResponse()){
+					return true;
+				}else{
+					alert("Please check robot");
+					return false;
+				}
+			} 
 		</script>
 		<a href="#" id="toTop" style="display: block;"> <span id="toTopHover" style="opacity: 1;"> </span></a>
 		<!-- //smooth scrolling -->
