@@ -55,7 +55,7 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 		<!--banner-->
 		<div class="banner-top">
 			<div class="container">
-				<h3>Wishlist ă</h3>
+				<h3>Wishlist </h3>
 				<h4><a href="index.html">Home</a><label>/</label>CART</h4>
 				<div class="clearfix"> </div>
 			</div>
@@ -85,10 +85,10 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 								<fieldset>
 									<div class="form-card">
 										<div class="row">
-											<div class="col-7">
+											<div class="col-md-7">
 												<h2 class="fs-title">Thông tin giỏ hàng:</h2>
 											</div>
-											<div class="col-5">
+											<div class="col-md-5">
 												<h2 class="steps">Bước 1 - 4</h2>
 											</div>
 										</div>
@@ -99,42 +99,71 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 								<fieldset>
 									<div class="form-card">
 										<div class="row">
-											<div class="col-7">
+											<div class="col-md-7">
 												<h2 class="fs-title">Personal Information:</h2>
 											</div>
-											<div class="col-5">
+											<div class="col-md-5">
 												<h2 class="steps">Bước 2 - 4</h2>
 											</div>
+											<div class="col-md-6">
+												<div class="row">
+													<label class="col-md-4">Phone: * </label>
+													<input class="col-md-8" type="text" id="phone"
+														placeholder="Your Phone Number" />
+													<label class="col-md-4">Address: * </label>
+													<input class="col-md-8" type="text" id="address"
+														placeholder="Your Address" /><br>
+													<label class="col-md-4">Descriptions: *</label>
+													<textarea class="col-md-8" id="description"
+														placeholder="Your comments" rows="4" cols="50"></textarea>
+												</div>
+											</div>
+											<div class="row col-md-5">
+												<div id="infoUser" class="col-md-6"></div>
+												<img class="col-md-6" th:src="@{'/home/images/cac.jpg'}">
+											</div>
 										</div>
-										<label class="fieldlabels">Phone: *</label>
-										<input type="text" id="phone" placeholder="Your Phone Number" />
-										<label class="fieldlabels">Address: *</label>
-										<input type="text" id="address" placeholder="Your Address" />
 									</div>
 									<input type="button" name="next" class="next action-button s2" value="Next" />
 									<input type="button" name="previous" class="previous action-button-previous"
 										value="Previous" />
 								</fieldset>
 								<fieldset>
-									<div id="step2"></div>
-									<input id="submitdata" type="button" name="next" class="next action-button s3" value="Submit" />
+									<div class="row">
+										<div class="row col-md-4">
+											<div class="col-md-12">
+											<div id="step2"></div>
+											</div>
+											<div class="row col-md-12">
+											<label class="col-sm-6 control-label">Ship Express : <input type="checkbox"></label>`
+											 
+											</div>
+										</div>
+										<div class="row col-md-8">
+											<div class=" col-md-6" id="statusStep2"></div>
+											<img class="col-md-6" th:src="@{'/home/images/cac.jpg'}">
+										</div>
+									</div>
+									<input id="submitdata" type="button" name="next" class="next action-button s3"
+										value="Submit" />
 									<input type="button" name="previous" class="previous action-button-previous"
 										value="Previous" />
 								</fieldset>
 								<fieldset>
 									<div class="form-card">
 										<div class="row">
-											<div class="col-7">
+											<div class="col-md-7">
 												<h2 class="fs-title">Finish:</h2>
 											</div>
-											<div class="col-5">
+											<div class="col-md-5">
 												<h2 class="steps">Bước 4 - 4</h2>
 											</div>
 										</div> <br><br>
 										<h2 class="purple-text text-center"><strong>SUCCESS !</strong></h2> <br>
 										<div class="row justify-content-center">
-											<div class="col-3 fit-image-bg"> <img src="https://i.imgur.com/GwStPmg.png"
-													class="fit-image"/> </div>
+											<div class="col-3 fit-image-bg"> 
+											<img src="https://i.imgur.com/GwStPmg.png"
+													class="fit-image" />   </div>
 											</div> <br><br>
 											<div class="row justify-content-center">
 												<div class="col-7 text-center">
@@ -150,34 +179,27 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 				</div>
 			</div>
 		</div>
-		<td class="t-data t-w3l"><button onclick="checkkkk()">Purchase</button></td>
 		<!--</div>-->
 		<script>
 			$(document).ready(function () {
 				CallApiProduct(localStorage.products);
 				getProducts();
 				getPaymentMethod();
-				checkkkk = () =>{
-				console.log("check")
-				alert($("#paymentMethod").val())
-			}
 			})
-
 
 			getBodyPaymentMethod = (data) => {
 				var body = `
 				<div class="form-card"> ` +
 					`<div class="form-group">` +
-					`<label class="col-sm-4 control-label">Payment Method </label>`+
-						`<div class="col-sm-8">` +
-					`<select id="paymentMethod">`
- ;
-				for(var i = 0; i < data.length; i++){
-					body += `<option value='${data[i].id}'> ${data[i].description} </option>`
-					
-				body+=`</div> </div> </div>`;
-				$("#step2").html(body);
-			}
+					`<label class="col-sm-6 control-label">Payment Method </label>` +
+					`<div class="col-sm-6">` +
+					`<select id="paymentMethod"  onchange="paymentDetals()">`
+					;
+				for (var i = 0; i < data.length; i++) {
+					body += `<option value='${data[i].id}' > ${data[i].description} </option>` +
+						`</div> </div> </div>`;
+					$("#step2").html(body);
+				}
 			}
 			getPaymentMethod = () => {
 				const url = "/api/order/GetPaymentMethod"
@@ -194,8 +216,16 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 						console.warn(err)
 					}
 				})
+
 			}
-			
+			function paymentDetals() {
+				var x = $('#paymentMethod').val()
+				if (x == '1') {
+					$('#statusStep2').html(`<h4>Trả Tiền Khi Nhận Hàng !</h4> <img width="200px" src='https://toidentowa.com/wp-content/uploads/2017/12/thanh-toan.png'>`)
+				} else {
+					$('#statusStep2').html(`<h4>Trả Tiền Trước Qua Momo !</h4> <img width="200px" src='https://upload.wikimedia.org/wikipedia/vi/archive/f/fe/20201011055543%21MoMo_Logo.png'>`)
+				}
+			}
 			getProducts = () => {
 				var data = JSON.parse(localStorage.products);
 				$("#crosss").html(showProduct(data));
@@ -241,7 +271,7 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 						` <div class="clearfix"> </div>` +
 						` <div class="close1"> <i class="fa fa-times" aria-hidden="true"></i></div>` +
 						` </td>` +
-						` <td class="t-data">${numberWithCommas(data[i].price * 1000)} VND</td>` +
+						` <td class="t-data">${numberWithCommas(data[i].price * 1)} VND</td>` +
 						` <td class="t-data">` +
 						` <div class="quantity">` +
 						` 	<div class="quantity-select">` +
@@ -252,7 +282,7 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 						` </div>` +
 						` </td>` +
 						` <td class="t-data">` +
-						` <div class="t-data">${numberWithCommas(data[i].quantity * data[i].price * 1000)} VND</div>` +
+						` <div class="t-data">${numberWithCommas(data[i].quantity * data[i].price * 1)} VND</div>` +
 						` </td>` +
 						` </tr>`;
 				};

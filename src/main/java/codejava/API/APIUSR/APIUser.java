@@ -28,6 +28,6 @@ public class APIUser {
 		if(Objects.isNull(sess.getAttribute(SessionConst.CURRENT_USER))) {
 			return ResponseEntity.ok("NO");
 		}
-		return ResponseEntity.ok("YES");
+		return ResponseEntity.ok((Users)sess.getAttribute(SessionConst.CURRENT_USER));
 	}
 }
