@@ -70,8 +70,8 @@ public class CartAPI {
 	@PostMapping(value = "/save")
 	public ResponseEntity<?> doPostSaveCart(HttpSession sess,
 			@RequestParam Optional<String> phone,
-			@RequestParam Optional<String> address
-			,
+			@RequestParam Optional<String> address,
+			@RequestParam Optional<String> discription,
 			@RequestParam Optional<Integer> payment
 			) {
 		if (Objects.isNull(publicVariable.ListCart) || publicVariable.ListCart.size() == 0) {
@@ -90,6 +90,7 @@ public class CartAPI {
 		Orders o = new Orders();
 		o.setUser(u);
 		o.setPhone(phone.get());
+		o.setOrderdescription(discription.orElse("Nothing"));
 		o.setAddress(address.get());
 		o.setPaymentmethod(pay);
 		o.setPaymentsts("N");
