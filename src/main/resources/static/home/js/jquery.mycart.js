@@ -193,10 +193,8 @@
 				'<table class="table table-hover table-responsive" id="' + idCartTable + '"></table>' +
 				'</div>' +
 				'<div class="modal-footer">' +
-						'<form action="/home/cart/saveLocal" method="post">' +
 						'<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>' +
-						' <button id="check" type="button" class="btn btn-default" >Check</button></a> ' +
-						'</form>' +
+						' <a href="/home/cart"><button id="check" type="button" class="btn btn-default" >Check</button></a> ' +
 				'</div>' +
 				'</div>' +
 				'</div>' +
@@ -211,7 +209,7 @@
 			var products = ProductManager.getAllProducts();
 			
 			$.each(products, function() {
-				var total = numberWithCommas(this.quantity * this.price* 1000);
+				var total = numberWithCommas(this.quantity * this.price* 1);
 				console.log(products);
 				$cartTable.append(
 					'<tr title="' + this.summary + '" data-id="' + this.id + '" data-price="' + this.price + '">' +
@@ -256,6 +254,7 @@
 		}
 		
 		//TEST
+		/*
 		var CallApiProduct = (data) => {
 					let url = '/api/saveCart';
 
@@ -270,7 +269,7 @@
 						},
 						error: function (response) {
 							if (response.responseText == "DONE") {
-								var form = $('<form action="/home/cart/saveLocal" method="post">' +
+								var form = $('<form action="/home/cart" method="GET">' +
 									'<input type="text" name="api_url" value="${data}" />' +
 									'</form>');
 								$('body').append(form);
@@ -281,7 +280,7 @@
 						}
 					});
 				}
-		
+		*/
 		
 		
 		var showModal = function() {
@@ -294,7 +293,7 @@
 			console.log(products);
 			});*/
 			
-		$("#check").unbind();
+	/*	$("#check").unbind();
 		$("#check").click(function() {
 			var products = localStorage.products; //ProductManager.getAllProducts();
 			console.log(products + "-" +localStorage.products);
@@ -313,8 +312,7 @@
 						},
 						error: function (response) {
 							if (response.responseText == "DONE") {
-								var form = $('<form action="/home/cart/saveLocal" method="post">' +
-									'<input type="text" name="api_url" value="${data}" />' +
+								var form = $('<form action="/home/cart" method="GET">' +
 									'</form>');
 								$('body').append(form);
 								form.submit();
@@ -326,7 +324,7 @@
 				}
 				CallApiProduct(products);
 		});
-		
+		*/
 		
 		
 		
@@ -337,7 +335,7 @@
 			});
 		}
 		var showGrandTotal = function() {
-			$("#" + idGrandTotal).text( numberWithCommas(ProductManager.getTotalPrice()*1000)+" VND" );
+			$("#" + idGrandTotal).text( numberWithCommas(ProductManager.getTotalPrice()*1)+" VND" );
 		}
 		var showDiscountPrice = function() {
 			$("#" + idDiscountPrice).text( options.getDiscountPrice(ProductManager.getAllProducts(), ProductManager.getTotalPrice(), ProductManager.getTotalQuantity())+" VND"  );
@@ -367,7 +365,7 @@
 			var id = $(this).closest("tr").data("id");
 			var quantity = $(this).val();
 
-			$(this).parent("td").next("." + classProductTotal).text(numberWithCommas(price * quantity * 1000 )+" VND"  );
+			$(this).parent("td").next("." + classProductTotal).text(numberWithCommas(price * quantity * 1 )+" VND"  );
 			ProductManager.updatePoduct(id, quantity);
 
 			$cartBadge.text(ProductManager.getTotalQuantity());

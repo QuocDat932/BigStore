@@ -107,34 +107,63 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 
 <!--content-->
 <div class="kic-top ">
-	<div class="container ">
-	<div class="kic ">
+	
+ 
+
+	<div class="container">
+		<div class="kic ">
 			<h3>Popular Categories</h3>
 			
 		</div>
-		<div class="col-md-4 kic-top1">
-			<a th:href="@{/home/single}">
-				<img th:src="@{/home/images/ki.jpg}"  class="img-responsive" alt="">
-			</a>
-			<h6>Dal</h6>
-			<p>Nam libero tempore</p>
+	<div class="col-md-4 m-w3ls">
+			<div class="col-md1 ">
+				<a th:href="@{/type/Do-an-nhanh}">
+					<img th:src="@{/home/images/co1.jpg}" class="img-responsive img" alt="">
+					<div class="big-sa">
+						<h6>New Collections</h6>
+						<h3>House<span>ware </span></h3>
+						<p>Small household items such as kitchen utensils, tableware, and decorative objects</p>
+					</div>
+				</a>
+			</div>
 		</div>
-		<div class="col-md-4 kic-top1">
-			<a th:href="@{/home/single}">
-				<img th:src="@{/home/images/ki1.jpg}" class="img-responsive" alt="">
-			</a>
-			<h6>Snacks</h6>
-			<p>Nam libero tempore</p>
+		<div class="col-md-4 m-w3ls1">
+			<div class="col-md ">
+				<a th:href="@{/type/Gia-dung}">
+					<img th:src="@{/home/images/co.jpg}"  class="img-responsive img" alt="">
+					<div class="big-sale">
+						<div class="big-sale1">
+							<h3>Fast <span>food</span></h3>
+							<p>food that can be prepared quickly and easily  </p>
+						</div>
+					</div>
+				</a>
+			</div>
 		</div>
-		<div class="col-md-4 kic-top1">
-			<a th:href="@{/home/single}">
-				<img th:src="@{/home/images/ki2.jpg}" class="img-responsive" alt="">
-			</a>
-			<h6>Spice</h6>
-			<p>Nam libero tempore</p>
+		<div class="col-md-4 m-w3ls">
+			<div class="col-md2 ">
+				<a th:href="@{/type/Dau-thuc-vat}">
+					<img th:src="@{/home/images/co2.jpg}"  class="img-responsive img1" alt="">
+					<div class="big-sale2">
+						<h3>Cooking <span>Oil</span></h3>
+						<p>It is a long established fact that a reader </p>		
+					</div>
+				</a>
+			</div>
+			<div class="col-md3 ">
+				<a th:href="@{/type/RAU}">
+					<img th:src="@{/home/images/co3.jpg}"  class="img-responsive img1" alt="">
+					<div class="big-sale3">
+						<h3>Vegeta<span>bles</span></h3>
+						<p>It is a long established fact that a reader </p>
+					</div>
+				</a>
+			</div>
 		</div>
-	</div>
-
+	
+	
+	<!---728x90--->
+</div>
 <!--content-->
   <!-- Carousel
     ================================================== -->
@@ -198,7 +227,7 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 			});
 		}
 
-		$('.my-cart-btn').myCart({
+	/* 	$('.my-cart-btn').myCart({
 			classCartIcon: 'my-cart-icon',
 			classCartBadge: 'my-cart-badge',
 			affixCartIcon: true,
@@ -217,7 +246,7 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 				});
 				return total * 1;
 			}
-		});
+		}); */
 
 	});
 	var change= () =>{

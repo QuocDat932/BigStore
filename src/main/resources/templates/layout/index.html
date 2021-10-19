@@ -28,6 +28,7 @@
 					</ul>
 				</div>
 
+
 				<div class="header-ri">
 					<ul class="social-top">
 						<li><a href="#" class="icon facebook"><i class="fa fa-facebook"
@@ -38,6 +39,25 @@
 									aria-hidden="true"></i><span></span></a></li>
 						<li><a href="#" class="icon dribbble"><i class="fa fa-dribbble"
 									aria-hidden="true"></i><span></span></a></li>
+									
+									<div class="header-ri">
+									 <li class="nav-item">
+                                <a class="nav-link" th:href="@{?lang=vi}">
+                                    <!--  <img src="/home/images/vn_flag.jpg"/> -->
+                                    <img width="30px" height="30px" th:src="@{/admin/vendors/flag-icon-css/flags/4x3/vn.svg}">VI</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{?lang=en}">
+                                    <img width="30px" height="30px" th:src="@{/admin/vendors/flag-icon-css/flags/4x3/us.svg}">EN
+                                </a>
+                            </li>
+                    <!--     <ul class="social-top">
+                            languge
+
+                           
+
+                        </ul> -->
+                    </div>	
 					</ul>
 				</div>
 
@@ -122,6 +142,7 @@
 								</li>
 								<li><a th:href="@{/home/codes}" class="hyper"> <span>Codes</span></a></li>
 								<li><a th:href="@{/home/contact}" class="hyper"><span>Contact Us</span></a></li>
+								
 							</ul>							
 						</div>						
 					</nav>
@@ -130,23 +151,7 @@
 								class="badge badge-notify my-cart-badge"></span></span>						
 					</div>						
 								
-					<div class="header-ri">
-                        <ul class="social-top">
-                            <!-- languge -->
-
-                            <li class="nav-item">
-                                <a class="nav-link" th:href="@{?lang=vi}">
-                                    <!--  <img src="/home/images/vn_flag.jpg"/> -->
-                                    <img width="30px" height="30px" th:src="@{/admin/vendors/flag-icon-css/flags/4x3/vn.svg}">VI</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" th:href="@{?lang=en}">
-                                    <img width="30px" height="30px" th:src="@{/admin/vendors/flag-icon-css/flags/4x3/us.svg}">EN
-                                </a>
-                            </li>
-
-                        </ul>
-                    </div>	
+					
             				
 					<div class="clearfix"></div>					
 				</div>
@@ -239,7 +244,7 @@
 					var body = "";
 					
 					for(var i = 0; i < data.length;i++){
-						data[i].price = numberWithCommas(data[i].price);
+						/* data[i].price = numberWithCommas(data[i].price); */
 						body+=`  <div class=" con-w3l">   `+
 				`  	<div class="col-md-3 pro-1"">  `+
 					`  	<div class="col-m">  `+
@@ -252,7 +257,7 @@
 								`  	<h6><a href="/home/${data[i].slug} ">${data[i].name}</a></h6>  `+
 								`  </div>  `+
 								`  <div class="mid-2">  `+
-								`  	<p><label>$7.00</label><em class="item_price" >${data[i].price} VND</em></p>  `+
+								`  	<p><label>$7.00</label><em class="item_price" >${numberWithCommas(data[i].price)} VND</em></p>  `+
 								`  	<div class="block">  `+
 										`  <div class="starbox small ghosting"> </div>  `+
 									`  </div>  `+
@@ -302,45 +307,17 @@
 				};
 				ProductPage(0);
 			</script>
-			<script>
-				CallApiProduct = (data) => {
-					console.log(data);
-					let url = '/api/saveCart';
-
-					$.ajax({
-						url: url,
-						type: "POST",
-						contentType: "application/json",
-						dataType: "json",
-						data: data,
-						success: function (data) {
-							alert(data);
-						},
-						error: function (response) {
-							if (response.responseText == "DONE") {
-								var form = $('<form action="/home/cart/saveLocal" >' +
-									'<input  value="${data}" />' +
-									'</form>');
-								$('body').append(form);
-								form.submit();
-							} else {
-
-							}
-						}
-					});
-				}
-			</script>
+			
 			<script>
 		
 			
 				function numberWithCommas(x) {
 					    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 					}
-			
 				getProductType = (data) => {
 					var body = "";
 					for(var i = 0; i < data.length;i++){
-						data[i].price = numberWithCommas(data[i].price);
+						/* data[i].price = numberWithCommas(data[i].price); */
 						body+=`  <div class=" con-w3l">   `+
 				`  	<div class="col-md-3 pro-1"">  `+
 					`  	<div class="col-m">  `+
@@ -350,10 +327,10 @@
 							`  </a>  `+
 							`  <div class="mid-1">  `+
 								`  <div class="women">  `+
-								`  	<h6><a href="/home/single/${data[i].slug} ">${data[i].name}</a></h6>  `+
+								`  	<h6><a href="/home/${data[i].slug} ">${data[i].name}</a></h6>  `+
 								`  </div>  `+
 								`  <div class="mid-2">  `+
-								`  	<p><label>$7.00</label><em class="item_price" >${data[i].price} VND</em></p>  `+
+								`  	<p><label>$7.00</label><em class="item_price" >${numberWithCommas(data[i].price)} VND</em></p>  `+
 								`  	<div class="block">  `+
 										`  <div class="starbox small ghosting"> </div>  `+
 									`  </div>  `+

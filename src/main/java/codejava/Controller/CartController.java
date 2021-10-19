@@ -50,14 +50,11 @@ public class CartController {
 //		});		
 		return "home/wishlist";
 	}
-
-	@PostMapping(value = "/cart/saveLocal")
+	@GetMapping(value = "/cart")
 	public String doPostCart(Model model) {
-		if (Objects.isNull(publicVariable.ListCart) || publicVariable.ListCart.size() == 0) {
-			return "redirect:/home";
-		}
 		return "home/cart";
 	}
+	
 
 	@PostMapping(value = "/cart/save")
 	public String doPostSaveCart(Model model, HttpSession sess) {

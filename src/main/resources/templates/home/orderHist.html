@@ -34,6 +34,15 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 	<script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
 	<!-- babel -->
 	<script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+
+	<!-- Table Data
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+-->
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
+    <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css">
+
 	<script type="text/javascript">
 		let ListOrder = [];
 		let ListpaymentMethod = [];
@@ -44,6 +53,7 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 			setOrderDate();
 			searchOrder();
 			OrderProcess(null);
+			
 		});
 		function CreateTableOrder(data) {
 			let body = ''
@@ -57,6 +67,7 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 					`</tr>`
 			}
 			$('#bodyOrder').html(body);
+			$('#example').DataTable();
 		};
 		function OrderProcess(currentOrder) {
 			console.log(currentOrder);
@@ -401,7 +412,7 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 													<div class="table-responsive">
 														<br>
 														<br>
-														<table class="table table-hoverable">
+														<table id="example" class="table table-hoverable">
 															<thead>
 																<tr>
 																	<th class="text-left">No</th>
