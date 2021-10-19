@@ -43,6 +43,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
+	
 		http.csrf().disable();
 		
 		/*
@@ -56,12 +57,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		http.authorizeRequests().and().rememberMe()
 					.tokenRepository(this.persistentTokenRepository())
 					.tokenValiditySeconds(30*60);
+		
+		
+		 
 		http.cors()
 				.and().authorizeRequests()
-				.antMatchers("/admin/**","/", "/home","/index", "/sanpham/**", "/replace/**","/api/**","/cart/**", "/register","/home/login","/type/**","/home/cart/**").permitAll() // Cho phep tat ca truy cap link nay
-				.anyRequest().authenticated(); // Cac link con lai thi phai xac thuc
-	
+				.antMatchers("/admin/**","/", "/home","/index", "/sanpham/**", "/replace/**","/api/**","/cart/**", "/register","/home/login","/type/**","/home/cart/**","loginGG/**").permitAll() // Cho phep tat ca truy cap link nay
+				.anyRequest().authenticated()  .and().oauth2Login(); // Cac link con lai thi phai xac thuc
+		/* http.authorizeRequests() .anyRequest().authenticated() ; */
 		http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+		
+	
+		
 	}
 	
 	@Override
