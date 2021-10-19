@@ -40,10 +40,7 @@ $(document).ready(function() {
 			return false;
 		}
 		var checkUser = await checkCurrentUser();
-
-		if (checkUser != 'YES') {
-			console.log("check : "+ checkUser);
-
+		if (checkUser == 'NO') {
 			alert("Xin hãy đăng nhập để tiếp tục !");
 			location.href = "/home/login";
 			return false;
@@ -67,6 +64,14 @@ $(document).ready(function() {
 		})
 		return result;
 	}
+	function paymentDetals() {
+				var x = $('#paymentMethod').val()
+				if (x == '1') {
+					$('#statusStep2').html(`<h4>Trả Tiền Khi Nhận Hàng !</h4> <img width="200px" src='https://toidentowa.com/wp-content/uploads/2017/12/thanh-toan.png'>`)
+				} else {
+					$('#statusStep2').html(`<h4>Trả Tiền Trước Qua Momo !</h4> <img width="200px" src='https://upload.wikimedia.org/wikipedia/vi/archive/f/fe/20201011055543%21MoMo_Logo.png'>`)
+				}
+			}
 	//step 2 : end
 
 
@@ -113,16 +118,29 @@ $(document).ready(function() {
 	
 
 	//step3 : end
-
+	async function getCurrentUser() {
+		var checkUser = await checkCurrentUser();
+		if (checkUser == 'NO') {
+			$("#infoUser").html('Bạn chưa đăng nhập! </br> <a href="/home/login">click here to login</a>')
+		} else {
+			var currenUser = JSON.parse(JSON.stringify(checkUser));
+			console.log(currenUser);
+			var body = `<div>Họ và tên : ${currenUser.fullname} </br> ` +
+			`Email : ${currenUser.email} </br></div>`;
+			$("#infoUser").html(body);
+		}
+	}
 	$(".next").click(async function() {
 		current_fs = $(this).parent();
 		next_fs = $(this).parent().next();
 		var c = $(this).attr('class');
 		if (c.includes("s1")) {
 			CallApiProduct(localStorage.products);
+			var checkUser = await getCurrentUser();
 		};
 		if (c.includes("s2")) {
 			var check = await checkPhoneAddress();
+			paymentDetals();
 			if (!check) { return false };
 		};
 		if (c.includes("s3")) { 
