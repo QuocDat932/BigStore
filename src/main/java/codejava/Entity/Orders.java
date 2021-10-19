@@ -53,6 +53,9 @@ public class Orders implements Serializable{
 	@Column(name ="paymentsts")
 	private String paymentsts;
 	
+	@Column(name="orderdescription")
+	private String orderdescription;
+	
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
 	@JoinColumn( name="paymentmethod" ,referencedColumnName = "id")
 	@JsonIgnoreProperties(value = {"applications", "hibernateLazyInitializer"})
