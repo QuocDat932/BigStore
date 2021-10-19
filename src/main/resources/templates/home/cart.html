@@ -161,8 +161,9 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 										</div> <br><br>
 										<h2 class="purple-text text-center"><strong>SUCCESS !</strong></h2> <br>
 										<div class="row justify-content-center">
-											<div class="col-3 fit-image-bg"> <img src="https://i.imgur.com/GwStPmg.png"
-													class="fit-image" </div>
+											<div class="col-3 fit-image-bg"> 
+											<img src="https://i.imgur.com/GwStPmg.png"
+													class="fit-image" />   </div>
 											</div> <br><br>
 											<div class="row justify-content-center">
 												<div class="col-7 text-center">
@@ -270,7 +271,7 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 						` <div class="clearfix"> </div>` +
 						` <div class="close1"> <i class="fa fa-times" aria-hidden="true"></i></div>` +
 						` </td>` +
-						` <td class="t-data">${numberWithCommas(data[i].price * 1000)} VND</td>` +
+						` <td class="t-data">${numberWithCommas(data[i].price * 1)} VND</td>` +
 						` <td class="t-data">` +
 						` <div class="quantity">` +
 						` 	<div class="quantity-select">` +
@@ -281,7 +282,7 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 						` </div>` +
 						` </td>` +
 						` <td class="t-data">` +
-						` <div class="t-data">${numberWithCommas(data[i].quantity * data[i].price * 1000)} VND</div>` +
+						` <div class="t-data">${numberWithCommas(data[i].quantity * data[i].price * 1)} VND</div>` +
 						` </td>` +
 						` </tr>`;
 				};
