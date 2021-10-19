@@ -15,9 +15,7 @@ $(document).ready(function() {
 
 	//step 1 : start
 	CallApiProduct = (data) => {
-		console.log(data);
 		let url = '/api/saveCart';
-
 		$.ajax({
 			url: url,
 			type: "POST",
@@ -83,8 +81,10 @@ $(document).ready(function() {
 	async function getDataSubmit() {
 		var phone = $("#phone").val().trim();
 		var address = $("#address").val().trim();
+		
+		var discription = $("#discription").val().trim();
 		var method = $("#paymentMethod").val();
-		const url = '/api/cart/save?phone=' + phone + '&address=' + address+'&payment='+method;
+		const url = '/api/cart/save?phone=' + phone + '&address=' + address+'&payment='+method+'&discription='+discription;
 		await $.ajax({
 			url: url,
 			type: "POST",
@@ -124,7 +124,6 @@ $(document).ready(function() {
 			$("#infoUser").html('Bạn chưa đăng nhập! </br> <a href="/home/login">click here to login</a>')
 		} else {
 			var currenUser = JSON.parse(JSON.stringify(checkUser));
-			console.log(currenUser);
 			var body = `<div>Họ và tên : ${currenUser.fullname} </br> ` +
 			`Email : ${currenUser.email} </br></div>`;
 			$("#infoUser").html(body);
@@ -144,12 +143,10 @@ $(document).ready(function() {
 			if (!check) { return false };
 		};
 		if (c.includes("s3")) { 
-				
 			$("#submitdata").attr("disabled", true);
-
 			var chec = await checkStep3();
 			if(!chec){ alert('something wrong !'); return false }
-			 
+			window.localStorage.removeItem('products');
 		};
 
 		//Add Class Active
