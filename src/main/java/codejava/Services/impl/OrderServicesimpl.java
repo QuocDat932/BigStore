@@ -66,4 +66,9 @@ public class OrderServicesimpl implements Orderservices{
 	public List<Orders> findAll(){
 		return repo.findAll();
 	};
+	@Override
+	public Orders findByOrderId(int ID) {
+		// TODO Auto-generated method stub
+		return repo.getOrderById(ID);
+	}
 }

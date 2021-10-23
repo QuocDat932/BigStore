@@ -11,8 +11,8 @@ import codejava.Entity.Order_Process;
 @Repository	
 public interface OrderProcessRepo extends JpaRepository<Order_Process, Integer>{
 	
-	/*@Query(value = "SELECT * FROM ORDER_PROCESS WHERE ORDERID = ?1", nativeQuery = true)
-	List<Order_Process> lstOrder_ProcessById(int ordId);*/
-	List<Order_Process> findByOrder_Id(int ordId);
+	@Query(value = "SELECT * FROM SYSTEM.ORDER_PROCESS WHERE ORDERID = ?1", nativeQuery = true)
+	List<Order_Process> lstOrder_ProcessById(int ordId);
+	//List<Order_Process> findByOrder_Id(int ordId);
 	
 }

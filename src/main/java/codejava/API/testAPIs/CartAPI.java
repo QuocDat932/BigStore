@@ -25,6 +25,7 @@ import codejava.Constant.publicVariable;
 import codejava.Dto.cartDetailDto;
 import codejava.Dto.cartDto;
 import codejava.Dto.productDto;
+import codejava.Entity.Order_Process;
 import codejava.Entity.Orders;
 import codejava.Entity.PaymentMethod;
 import codejava.Entity.Products;
@@ -38,8 +39,7 @@ import codejava.Services.Orderservices;
 import codejava.Services.PaymentService;
 import codejava.Services.ProcessService;
 import codejava.Services.ProductsServices;
-import codejava.Services.TypeOfProductServices;
-
+import codejava.Services.Order_ProcessServices;
 @RestController
 @RequestMapping("api/cart")
 public class CartAPI {
@@ -56,7 +56,8 @@ public class CartAPI {
 	private ProcessService ProcessS;
 	@Autowired
 	private PaymentService PaymentS;
-
+	@Autowired
+	private Order_ProcessServices Order_ProS;
 //	@GetMapping("/update")
 //	public ResponseEntity<?> dogetUpdateCart(@RequestParam("product") Integer idProduct,
 //			@RequestParam("quantity") Integer quantity, @RequestParam("isUpdate") Boolean isUpdate,
@@ -112,6 +113,7 @@ public class CartAPI {
 			System.out.println(e);
 			return ResponseEntity.ok(MessageAPI.message("Failed", "ERROR for create Order 2", null));
 		}
+		//Save List Order Details
 		final int idO = o.getId();
 		boolean check = true;
 		List<productDto> listdto = publicVariable.ListCart;
@@ -137,6 +139,16 @@ public class CartAPI {
 		}
 		if(!check) {
 			return ResponseEntity.ok(MessageAPI.message("Failed", "ERROR for create Order detail", null));
+		}
+		//Save Order Process
+		try {
+			Order_Process op = new Order_Process();
+			op.setOrder(o);
+			op.setProcessStep(ProcessS.findBySlug(publicConst.Orderprocess.NEW));
+			op.setUserProcess(u);
+			Order_ProS.Save(op);
+		} catch (Exception e) {
+			return ResponseEntity.ok(MessageAPI.message("Failed", "ERROR for create Order Process", null));
 		}
 		Map<String, Object> result = new  HashMap<>();
 		result.put("order", o);
