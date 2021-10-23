@@ -1,6 +1,7 @@
 package codejava.Constant;
 
 import java.sql.Date;
+import java.time.LocalDateTime;
 
 public class publicConst {
 	
@@ -23,6 +24,10 @@ public class publicConst {
 		long millis=System.currentTimeMillis();  
 		java.sql.Date date=new java.sql.Date(millis);
 		return date;
-	}
+	};
+	public static LocalDateTime CurrentTimestampDtSQL() {
+		// TODO Auto-generated method stub
+		return java.time.LocalDateTime.now();
+	};
 	
 }
