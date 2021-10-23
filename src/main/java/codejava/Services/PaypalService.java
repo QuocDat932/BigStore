@@ -23,8 +23,9 @@ public class PaypalService {
 			PaypalPaymentMethod method,
 			PaypalPaymentIntent intent,
 			String description,
-			String cancelUrl,
-			String successUrl) throws PayPalRESTException{
+			String url1,
+			String url2
+			) throws PayPalRESTException{
 		Amount amount = new Amount();
 		amount.setCurrency(currency);
 		amount.setTotal(String.format("%.2f", total));
@@ -40,8 +41,8 @@ public class PaypalService {
 		payment.setPayer(payer);
 		payment.setTransactions(transactions);
 		RedirectUrls redirectUrls = new RedirectUrls();
-		redirectUrls.setCancelUrl(cancelUrl);
-		redirectUrls.setReturnUrl(successUrl);
+		redirectUrls.setCancelUrl(url1);
+		redirectUrls.setReturnUrl(url2);
 		payment.setRedirectUrls(redirectUrls);
 		apiContext.setMaskRequestId(true);
 		return payment.create(apiContext);

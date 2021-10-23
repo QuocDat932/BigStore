@@ -37,6 +37,7 @@ $(document).ready(function() {
 			alert("Xin hãy nhập thông tin để tiếp tục");
 			return false;
 		}
+
 		var checkUser = await checkCurrentUser();
 		if (checkUser == 'NO') {
 			alert("Xin hãy đăng nhập để tiếp tục !");
@@ -63,13 +64,14 @@ $(document).ready(function() {
 		return result;
 	}
 	function paymentDetals() {
-				var x = $('#paymentMethod').val()
-				if (x == '1') {
-					$('#statusStep2').html(`<h4>Trả Tiền Khi Nhận Hàng !</h4> <img width="200px" src='https://toidentowa.com/wp-content/uploads/2017/12/thanh-toan.png'>`)
-				} else {
-					$('#statusStep2').html(`<h4>Trả Tiền Trước Qua Momo !</h4> <img width="200px" src='https://upload.wikimedia.org/wikipedia/vi/archive/f/fe/20201011055543%21MoMo_Logo.png'>`)
-				}
-			}
+		var x = $('#paymentMethod').val()
+		if (x == '1') {
+			$('#statusStep2').html(`<h4>Trả Tiền Khi Nhận Hàng !</h4> <img width="200px" src='https://toidentowa.com/wp-content/uploads/2017/12/thanh-toan.png'>`)
+		} else {
+			$('#statusStep2').html(`<h4>Trả Tiền Trước Qua Momo !</h4> <img width="200px" src='https://upload.wikimedia.org/wikipedia/vi/archive/f/fe/20201011055543%21MoMo_Logo.png'>`)
+		}
+	}
+	
 	//step 2 : end
 
 
@@ -81,10 +83,10 @@ $(document).ready(function() {
 	async function getDataSubmit() {
 		var phone = $("#phone").val().trim();
 		var address = $("#address").val().trim();
-		
+		var status = $("#statusPP").val().trim()||"Reject";
 		var discription = $("#discription").val().trim();
 		var method = $("#paymentMethod").val();
-		const url = '/api/cart/save?phone=' + phone + '&address=' + address+'&payment='+method+'&discription='+discription;
+		const url = '/api/cart/save?phone=' + phone + '&address=' + address + '&payment=' + method + '&discription=' + discription+ '&status=' + status;
 		await $.ajax({
 			url: url,
 			type: "POST",
@@ -115,7 +117,7 @@ $(document).ready(function() {
 		}
 
 	}
-	
+
 
 	//step3 : end
 	async function getCurrentUser() {
@@ -125,7 +127,7 @@ $(document).ready(function() {
 		} else {
 			var currenUser = JSON.parse(JSON.stringify(checkUser));
 			var body = `<div>Họ và tên : ${currenUser.fullname} </br> ` +
-			`Email : ${currenUser.email} </br></div>`;
+				`Email : ${currenUser.email} </br></div>`;
 			$("#infoUser").html(body);
 		}
 	}
@@ -142,10 +144,10 @@ $(document).ready(function() {
 			paymentDetals();
 			if (!check) { return false };
 		};
-		if (c.includes("s3")) { 
+		if (c.includes("s3")) {
 			$("#submitdata").attr("disabled", true);
 			var chec = await checkStep3();
-			if(!chec){ alert('something wrong !'); return false }
+			if (!chec) { alert('something wrong !'); return false }
 			window.localStorage.removeItem('products');
 		};
 

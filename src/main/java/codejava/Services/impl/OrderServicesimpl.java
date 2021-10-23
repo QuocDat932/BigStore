@@ -35,18 +35,6 @@ public class OrderServicesimpl implements Orderservices{
 		}
 	}
 	@Override
-	public Orders findNewOrder(Users idUser) throws Exception {
-//		return repo.findNewOrder(idUser).size()==0?null:repo.findNewOrder(idUser).get(0);
-		
-		if(repo.findNewOrder(idUser)==null) {
-			return null;
-		}
-		
-		int id = repo.findNewOrder(idUser);
-		
-		return  repo.findById(id).isEmpty()?null:repo.findById(id).get();
-	}
-	@Override
 	public Orders findById(int id) {
 		return repo.findById(id).isPresent()?repo.findById(id).get():null;
 	};
@@ -58,5 +46,16 @@ public class OrderServicesimpl implements Orderservices{
 	public List<Orders> findByParams(int UserId, int paymentMethodId, int processId, Date frmDt, Date toDt) {
 		List<Orders> result = repo.findByUser_idAndPaymentmethod_idAndProcess_idAndCreateDateBetweenOrderByIdDesc(UserId, paymentMethodId, processId, frmDt, toDt); 
 		return result;
+	}
+	@Override
+	public Orders findNewOrder(Integer idUser) throws Exception {
+
+		if(repo.findNewOrder(idUser)==null) {
+			return null;
+		}
+		
+		int id = repo.findNewOrder(idUser);
+		
+		return  repo.findById(id).isEmpty()?null:repo.findById(id).get();
 	}
 }
