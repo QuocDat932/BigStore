@@ -23,4 +23,9 @@ public class Order_ProcessServicesImpl implements Order_ProcessServices{
 		// TODO Auto-generated method stub
 		return repo.findByOrder_Id(ordId);
 	}
+	@Override
+	public Order_Process Save(Order_Process Order_Process) throws Exception {
+		// TODO Auto-generated method stub
+		return repo.saveAndFlush(Order_Process);
+	}
 }
