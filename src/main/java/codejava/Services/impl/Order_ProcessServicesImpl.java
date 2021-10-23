@@ -21,7 +21,7 @@ public class Order_ProcessServicesImpl implements Order_ProcessServices{
 	@Override
 	public List<Order_Process> lstOrder_ProcessByOrdId(int ordId) throws Exception {
 		// TODO Auto-generated method stub
-		return repo.findByOrder_Id(ordId);
+		return repo.lstOrder_ProcessById(ordId);
 	}
 	@Override
 	public Order_Process Save(Order_Process Order_Process) throws Exception {
