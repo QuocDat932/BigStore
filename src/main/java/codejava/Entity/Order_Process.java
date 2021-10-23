@@ -38,5 +38,10 @@ public class Order_Process implements Serializable{
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
 	@JoinColumn(name = "processstep", referencedColumnName = "id")
 	@JsonIgnoreProperties(value = {"applications", "hibernateLazyInitializer"})
-	private Process process;
+	private Process processStep;
+	
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+	@JoinColumn(name = "processuserid", referencedColumnName = "id")
+	@JsonIgnoreProperties(value = {"applications", "hibernateLazyInitializer"})
+	private Users userProcess;
 }
