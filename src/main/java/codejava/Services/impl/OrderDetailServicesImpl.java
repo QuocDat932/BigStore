@@ -1,5 +1,7 @@
 package codejava.Services.impl;
 
+import java.util.List;
+
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,5 +21,9 @@ public class OrderDetailServicesImpl implements OrderDetailServices{
 	public void save(cartDetailDto p) throws Exception {
 		// TODO Auto-generated method stub
 		repo.saveDetail(p);
-	}
+	};
+	@Override
+	public List<OrderDetails> listOrdDtlById(int ordId) throws Exception{
+		return repo.findByOrder_Id(ordId);
+	};
 }
