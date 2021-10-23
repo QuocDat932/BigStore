@@ -2,6 +2,7 @@ package codejava.Entity;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.time.LocalDateTime;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -14,6 +15,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.CreationTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -44,8 +46,8 @@ public class Orders implements Serializable{
 	private String phone;
 	
 	@Column(name ="createddate")
-//	@CreationTimestamp
-	private Date createDate;
+	@CreationTimestamp
+	private LocalDateTime createDate;
 	
 	@Column(name ="totalprice")
 	private Double totalprice;
