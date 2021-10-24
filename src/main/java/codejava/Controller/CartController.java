@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import codejava.Constant.MessageAPI;
 import codejava.Constant.SessionConst;
 import codejava.Constant.publicConst;
 import codejava.Constant.publicVariable;
@@ -52,6 +54,7 @@ public class CartController {
 	}
 	@GetMapping(value = "/cart")
 	public String doPostCart(Model model) {
+		MessageAPI.STATUSPAYPAL = "Reject";
 		return "home/cart";
 	}
 	
@@ -80,7 +83,7 @@ public class CartController {
 		
 		try {
 			OrderS.insert(o); // Insert Order
-			o = OrderS.findNewOrder(u);
+			o = OrderS.findNewOrder(u.getId());
 			System.out.println("Create Order Done : ID : "+o.getId());
 			if (Objects.isNull(o)) {
 				System.out.println("Error CartController");

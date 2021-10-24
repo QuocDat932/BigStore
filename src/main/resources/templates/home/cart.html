@@ -132,11 +132,21 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 									<div class="row">
 										<div class="row col-md-4">
 											<div class="col-md-12">
-											<div id="step2"></div>
+												<div id="step2"></div>
 											</div>
 											<div class="row col-md-12">
-											<label class="col-sm-6 control-label">Ship Express : <input type="checkbox"></label>`
-											 
+												<label class="col-sm-6 control-label">Ship Express : <input
+														type="checkbox"></label>`
+												<div class="col-md-6">
+													<a onclick="openPaypal()">Thanh Toans owr day</a>
+
+												</div>
+												<div class="col-md-6" id="checkstatusPaypal1">
+													<a onclick="checkPaypalStatus()">checkstatus</a>
+													<input type="hidden" id="statusPP1"></input>
+													<span id="statusPP"></span>
+												</div>
+
 											</div>
 										</div>
 										<div class="row col-md-8">
@@ -161,17 +171,16 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 										</div> <br><br>
 										<h2 class="purple-text text-center"><strong>SUCCESS !</strong></h2> <br>
 										<div class="row justify-content-center">
-											<div class="col-3 fit-image-bg"> 
-											<img src="https://i.imgur.com/GwStPmg.png"
-													class="fit-image" />   </div>
-											</div> <br><br>
-											<div class="row justify-content-center">
-												<div class="col-7 text-center">
-													<h5 class="purple-text text-center">You Have Successfully Signed Up
-													</h5>
-												</div>
+											<div class="col-3 fit-image-bg">
+												<img src="https://i.imgur.com/GwStPmg.png" class="fit-image" /> </div>
+										</div> <br><br>
+										<div class="row justify-content-center">
+											<div class="col-7 text-center">
+												<h5 class="purple-text text-center">You Have Successfully Signed Up
+												</h5>
 											</div>
 										</div>
+									</div>
 								</fieldset>
 							</form>
 						</div>
@@ -185,6 +194,8 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 				CallApiProduct(localStorage.products);
 				getProducts();
 				getPaymentMethod();
+
+
 			})
 
 			getBodyPaymentMethod = (data) => {
@@ -221,13 +232,69 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 			function paymentDetals() {
 				var x = $('#paymentMethod').val()
 				if (x == '1') {
+					//$('#checkstatusPaypal').hide();
 					$('#statusStep2').html(`<h4>Trả Tiền Khi Nhận Hàng !</h4> <img width="200px" src='https://toidentowa.com/wp-content/uploads/2017/12/thanh-toan.png'>`)
 				} else {
+					//$('#checkstatusPaypal').show();
 					$('#statusStep2').html(`<h4>Trả Tiền Trước Qua Momo !</h4> <img width="200px" src='https://upload.wikimedia.org/wikipedia/vi/archive/f/fe/20201011055543%21MoMo_Logo.png'>`)
 				}
 			}
+
+			async function openPaypal() {
+				var total = 0;
+				var data = JSON.parse(localStorage.products)
+				dataProduct.forEach((e) => {
+					total += (e.price*e.quantity);
+				})
+				let url = '/api/pay?price='+total;
+				var getUrlPaypal;
+				await $.ajax({
+					url: url,
+					type: "GET",
+					contentType: "application/json",
+					dataType: "json",
+					success: function (data) {
+						getUrlPaypal = data.Items;
+					},
+					error: function (err) {
+						getUrlPaypal = err;
+					}
+				});
+				window.open(getUrlPaypal, 'Paypal', 'width=600,height=800');
+			}
+			async function checkPaypalStatus() {
+				let url = '/api/pay/getstatus';
+				var getStatusPaypal;
+				await $.ajax({
+					url: url,
+					type: "GET",
+					contentType: "application/json",
+					dataType: "json",
+					success: function (data) {
+						var d = data.Items;
+						$('#statusPP1').val(d)
+						$('#statusPP').html(d)
+					},
+					error: function (err) {
+						var d = err.Items;
+						$('#statusPP1').val(d)
+						$('#statusPP').html(d)
+					}
+				});
+			}
+			CallApiProduct = (data) => {
+				let url = '/api/saveCart';
+				$.ajax({
+					url: url,
+					type: "POST",
+					contentType: "application/json",
+					dataType: "json",
+					data: data
+				});
+			}
+			var dataProduct;
 			getProducts = () => {
-				var data = JSON.parse(localStorage.products);
+				var data = dataProduct = JSON.parse(localStorage.products);
 				$("#crosss").html(showProduct(data));
 				/*
 				for (var i = 0; i < data.length; i++) {
