@@ -1,5 +1,10 @@
 package codejava.Config;
 
+import java.io.IOException;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,14 +16,20 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
+import org.springframework.web.util.UrlPathHelper;
+
 import codejava.Constant.*;
 import codejava.Constant.RoleConst;
 import codejava.Jwt.JwtAuthenticationFilter;
 import codejava.Services.impl.*;
+import codejava.oauth2.CustomOAuth2UserService;
+import codejava.oauth2.Oauth2LoginSuccess;
 import nz.net.ultraq.thymeleaf.LayoutDialect;
 
 @Configuration
@@ -43,7 +54,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-	
 		http.csrf().disable();
 		
 		/*
@@ -58,17 +68,28 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 					.tokenRepository(this.persistentTokenRepository())
 					.tokenValiditySeconds(30*60);
 		
-		
-		 
+		/*login Google, FaceBook*/
+		http.oauth2Login().loginPage("/login").userInfoEndpoint().userService(customoauthserv)
+		.and().successHandler(Oauth2LoginSuccessHandler).and().logout().
+		logoutSuccessHandler(new LogoutSuccessHandler() {
+			
+			@Override
+			public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
+					throws IOException, ServletException {
+				System.out.println("user " + authentication.getName());
+				UrlPathHelper helper = new UrlPathHelper();
+				String context = helper.getContextPath(request);
+				response.sendRedirect(context);
+			}
+		}).permitAll() 
+		;
+	
 		http.cors()
 				.and().authorizeRequests()
-				.antMatchers("/admin/**","/", "/home","/index", "/sanpham/**", "/replace/**","/api/**","/cart/**", "/register","/home/login","/type/**","/home/cart/**","loginGG/**").permitAll() // Cho phep tat ca truy cap link nay
-				.anyRequest().authenticated()  .and().oauth2Login(); // Cac link con lai thi phai xac thuc
-		/* http.authorizeRequests() .anyRequest().authenticated() ; */
-		http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
-		
+				.antMatchers("/admin/**","/", "/home","/index", "/sanpham/**", "/replace/**","/api/**","/cart/**", "/register","/home/login","/type/**","/home/cart/**","/login").permitAll() // Cho phep tat ca truy cap link nay
+				.anyRequest().authenticated(); // Cac link con lai thi phai xac thuc
 	
-		
+		http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 	}
 	
 	@Override
@@ -96,4 +117,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public LayoutDialect layoutDialect() {
         return new LayoutDialect();
     }
+	
+	@Autowired
+	private CustomOAuth2UserService customoauthserv;
+	@Autowired
+	private Oauth2LoginSuccess Oauth2LoginSuccessHandler;
+	
 }
