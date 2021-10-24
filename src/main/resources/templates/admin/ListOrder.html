@@ -20,7 +20,54 @@
   <link rel="shortcut icon" th:href="@{/admin/images/favicon.png}" />
   <script type="text/javascript">
     $(document).ready(function () {
+      setOrderDate();
+      reloadDataStatus();
     });
+    function setOrderDate() {
+			var currentDate = new Date();
+			var day = currentDate.getDate();
+			var month = currentDate.getMonth() + 1;
+			var year = currentDate.getFullYear();
+			ToDay = year + "-" + month + "-" + day;
+			threeDayAgo = year + "-" + month + "-" + (day - 6);
+			$('#frmOrderDt').val(threeDayAgo);
+			$('#toOrderDt').val(ToDay);
+		};
+    function reloadDataStatus() {
+			url = "/api/order/GetProcess";
+			$.ajax({
+				type: "GET",
+				url: url,
+				contentType: "application/json",
+				success: function (data) {
+					// sort by value
+					ListOrderProcess = data.sort(function (a, b) {
+						return a.id - b.id;
+					});;
+					selectStatus(ListOrderProcess);
+				},
+				error: function (e) {
+					Swal.fire({
+						icon: 'error',
+						text: "Can't load data !!!",
+					})
+				}
+			})
+		}
+		function selectStatus(ListOrderProcess) {
+			let option = '';
+			for (let i = 0; i < ListOrderProcess.length; i++) {
+				option += `<option value="${ListOrderProcess[i].id}">${ListOrderProcess[i].description}</option>`
+			};
+			let bodySelect =
+				`<select id="OrderStatus" class="form-control" >` +
+				option +
+				`</select>`;
+			$('#selectStatus').html(bodySelect);
+		};
+    function searchOrder(){
+      
+    }
   </script>
 </head>
 
@@ -35,6 +82,25 @@
                 <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-12">
                   <div class="mdc-card p-0">
                     <h6 class="card-title card-padding pb-0">[(#{order.titlePage})]</h6>
+                    <form>
+                      <fieldset>
+                        <!--<div class="form-group form-inline">
+                          <label for="paymentMethod" style="width: 15%;">Payment Method</label>
+                          <div id="selectPaymentMethod"></div>
+                        </div>-->
+                        <div class="form-group form-inline">
+                          <label for="status" >Status</label>
+                          <div id="selectStatus"></div>
+                        </div>
+                        <label for="orderDate" >Order Date</label>
+                        <div class="form-group form-inline">
+                          <input id="frmOrderDt" type="date" class="form-control">
+                          <label for="orderDate"> To </label>
+                          <input id="toOrderDt" type="date" class="form-control">
+                        </div>
+                      </fieldset>
+                      <button type="button" th:attr="onclick='searchOrder()'" class="btn btn-primary">Search</button>
+                    </form>
                     <div class="table-responsive">
                       <table id="tableOrderADM" class="table table-hoverable" style="cursor: pointer;">
                         <thead>
