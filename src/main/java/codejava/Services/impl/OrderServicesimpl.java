@@ -1,6 +1,7 @@
 package codejava.Services.impl;
 
 import java.sql.Date;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -48,8 +49,8 @@ public class OrderServicesimpl implements Orderservices{
 		return repo.findByUser_idOrderByIdDesc(userId);
 	};
 	@Override
-	public List<Orders> findByParams(int UserId, int paymentMethodId, int processId, Date frmDt, Date toDt) {
-		List<Orders> result = repo.findByUser_idAndPaymentmethod_idAndProcess_idAndCreateDateBetweenOrderByIdDesc(UserId, paymentMethodId, processId, frmDt, toDt); 
+	public List<Orders> findByParams(int paymentMethodId, int processId, LocalDateTime frmDt, LocalDateTime toDt) {
+		List<Orders> result = repo.findByProcess_idAndCreateDateBetweenOrderByIdDesc(processId, frmDt, toDt); 
 		
 		return result;
 	};

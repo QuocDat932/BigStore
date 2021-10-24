@@ -35,7 +35,7 @@ public class APIOrders {
 	public ResponseEntity<?> doGetProcess() throws Exception{
 		return ResponseEntity.ok(processServr.findAll());
 	};
-	@GetMapping("/orderDataByParam")
+	/*@GetMapping("/orderDataByParam")
 	public ResponseEntity<?> doGetOrderDataByParam(@RequestParam("paymentMethodId") int paymentMethodId,
 												   @RequestParam("processId") int processId,
 												   @RequestParam("frmOrderDt") Date frmOrderDt,
@@ -48,7 +48,7 @@ public class APIOrders {
 		List<Orders> result = orderServ.findByParams(userCurrent.getId(), paymentMethodId, processId, frmOrderDt, toOrderDt);		
 		return ResponseEntity.ok(result);
 		}
-	};
+	};*/
 	@GetMapping("/AllorderData")
 	public ResponseEntity<?> doGetOrderDataByParam(HttpSession session){
 		if(session.getAttribute("currentUser") == null) {

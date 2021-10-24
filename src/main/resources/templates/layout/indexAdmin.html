@@ -681,7 +681,7 @@
       registerButton();
 
       //Order
-      searchOrder();
+      //searchAllOrder();
       order(null);
       //Users
       $('#tableUsers').DataTable();
@@ -813,68 +813,89 @@
     /*************************************END PRODUCT********************************************/
 
     /*************************************BEGIN OPRDER*****************************************/
-    function CreateTableOrder(data) {
-      let body = ''
-      let dataSort = [];
-      ADM_sortByIdDESC(data);
-      for (let i = 0; i < data.length; i++) {
-        if (data[i].process.id == 1) {
-          backgroundColor = "background-color: #CAE5E8;"
-        }
-        else if (data[i].process.id == 2) {
-          backgroundColor = "background-color: #6EC3C9;"
-        }
-        else if (data[i].process.id == 3) {
-          backgroundColor = "background-color: #FEF889;"
-        }
-        else if (data[i].process.id == 4) {
-          backgroundColor = "background-color: #5BBD2B;"
-        }
-        body += `<tr onclick='thisItemOrd(${data[i].id})' class="text-center" style="${backgroundColor}">` +
-          `<td>${i + 1}</td>` +
-          `<td >${"CODE" + data[i].id}</td>\n` +
-          `<td >${data[i].createDate.substring(0, 10)}</td>\n` +
-          `<td >${data[i].createDate.substring(11, 19)}</td>\n` +
-          `<td >${data[i].totalprice}</td>\n` +
-          `<td >${data[i].process.description}</td>` +
-          `<td >${data[i].user.fullname}</td>` +
-          `<td >${data[i].paymentmethod.methodname}</td>` +
-          `<td style="width: 10px;">${data[i].orderdescription}</td>` +
-          `</tr>`
-      }
-      $('#bodyOrder').html(body);
-      $('#tableOrderADM').DataTable();
-      ADM_GetDataProcess();
-    };
+    async function CreateTableOrder(data) {
+          let body = '';
+          let headerTable =     `<table id="tableOrderADM" class="table table-hoverable ADMTableOrder" style="cursor: pointer;">`+
+                                `    <thead>`+
+                                `      <tr>`+
+                                `        <th class="text-left">[(#{order.stt})]</th>`+
+                                `        <th>[(#{order.code})]</th>`+
+                                `        <th>[(#{order.orddt})]</th>`+
+                                `        <th>[(#{order.ordtm})]</th>`+
+                                `        <th>[(#{order.totalprc})]</th>`+
+                                `        <th>[(#{order.process_sts})]</th>`+
+                                `        <th>[(#{order.user_userNm})]</th>`+
+                                `        <th>[(#{order.paymentMethod_Nm})]</th>`+
+                                `        <th style="minWidth: 50px">[(#{order.description})]</th>`+
+                                `      </tr>`+
+                                `    </thead>`+
+                                `    <tbody id="bodyOrder"></tbody>`+
+                                `  </table>`;
+            $('#tableOrder').html(headerTable);           
+          ADM_sortByIdDESC(data);
+          for (let i = 0; i < data.length; i++) {
+            if (data[i].process.id == 1) {
+              backgroundColor = "background-color: #CAE5E8;"
+            }
+            else if (data[i].process.id == 2) {
+              backgroundColor = "background-color: #6EC3C9;"
+            }
+            else if (data[i].process.id == 3) {
+              backgroundColor = "background-color: #FEF889;"
+            }
+            else if (data[i].process.id == 4) {
+              backgroundColor = "background-color: #5BBD2B;"
+            }
+            body += `<div><tr onclick='thisItemOrd(${data[i].id})' class="text-center liness" style="${backgroundColor}">` +
+              `<td>${i + 1}</td>` +
+              `<td >${"CODE" + data[i].id}</td>\n` +
+              `<td >${data[i].createDate.substring(0, 10)}</td>\n` +
+              `<td >${data[i].createDate.substring(11, 19)}</td>\n` +
+              `<td >${data[i].totalprice}</td>\n` +
+              `<td >${data[i].process.description}</td>` +
+              `<td >${data[i].user.fullname}</td>` +
+              `<td >${data[i].paymentmethod.methodname}</td>` +
+              `<td style="width: 10px;">${data[i].orderdescription}</td>` +
+              `</tr>`
+          }
+          $('#bodyOrder').html(body);
+          $('#tableOrderADM').DataTable();
+          ADM_GetDataProcess();
+        };
+    
     function thisItemOrd(orderId) {
-      let currentOrder = LstDataTableOrd.filter((e) => e.id == orderId);
+      let currentOrder = listOrder_DataOrderSearch.filter((e) => e.id == orderId);
       order(currentOrder[0]);
     };
+    function approveNextSetp(orderId, stepFrm, stepTo){
+      console.log(orderId);
+      console.log(stepFrm);
+      console.log(stepTo);
+    }
     async function order(currentOrder) {
       let processFrm = '';
       let processTo = '';
       let viewPrcess = '';
       let viewDetailTable = '';
+      let btnApproveStep = '';
       let NVLcurrentOrder = {user:{fullname: ''}, createDate: '', address:''};
       if (currentOrder != null) {
         NVLcurrentOrder = currentOrder;
-        console.log(currentOrder.process);
         let lsPrcss = ADM_frmProcessToProcess(currentOrder.process.id);
-        console.log(lsPrcss);
         if (lsPrcss.length > 1) {
           processFrm = lsPrcss[0].description;
           processTo = lsPrcss[1].description;
           viewPrcess = `<i class="fa fa-check" style="color: green;"></i> <text style="color: green;">${processFrm}</text>` + 
                       '<br>' + 
                        ` <i class="fa fa-spinner" aria-hidden="true" style="color: red; font-size: 30px;"></i> <text style="color: red; font-size: 30px;">${processTo}</text>`
+          btnApproveStep = `<button class="btn btn-danger btn-block order-button" onclick="approveNextSetp(${currentOrder.id},${lsPrcss[0].id},${lsPrcss[1].id})">Go to : ${processTo}</button>`;
         }
         else {
           processFrm = lsPrcss[0].description;
-          viewPrcess = `${processFrm}`;
+          viewPrcess = `<i class="fa fa-check" style="color: green;"></i> <text style="color: green; font-size: 30px;">${processFrm}</text>`;
         }
         let lstOrdDtl = await ADM_getDataOrderDetailByOrderId(currentOrder.id);
         if (lstOrdDtl.length > 0) {
-          console.log(currentOrder);
           lstOrdDtl.forEach((dtl)=>{
             viewDetailTable +=  
               `                    <div class="row g-0 border-bottom">` +
@@ -951,8 +972,8 @@
         `                      <div class="d-flex justify-content-center mb-5 flex-column align-items-center"> <span` +
         `                          class="check1" style="font-size: 20px;"><i class="fa fa-th-list" aria-hidden="true"></i> [(#{order.nextStep})]</span> <span class="font-weight-bold"> ${viewPrcess}` +
         `                          </span> <small class="mt-2">Your illustraion will go to you soon</small> <a` +
-        `                          href="#" class="text-decoration-none invoice-link">View Invoice</a> </div> <button` +
-        `                        class="btn btn-danger btn-block order-button">Go to your Order</button>` +
+        `                          href="#" class="text-decoration-none invoice-link">View Invoice</a> </div>${btnApproveStep}` +
+                                      
         `                    </div>` +
         `                  </div>` +
         `                  <div class="col-md-8 background-muted">` +
@@ -1001,27 +1022,7 @@
     function orderDetail(orderId) {
       ADM_getOrderDetailByOrderId(orderId)
     }
-    searchOrder = () => {
-      let url = '';
-      url = "/api/admin/order/getLstOrder";
-      $.ajax({
-        type: "GET",
-        url: url,
-        contentType: "application/json",
-        success: function (data) {
-          LstDataTableOrd = data;
-          CreateTableOrder(LstDataTableOrd)
-        },
-        error: function (e) {
-          Swal.fire({
-            icon: 'error',
-            text: "Can't load data !!!",
-          })
-        }
-      })
-
-    };
-
+    
     /*************************************EMD OPRDER*****************************************/
 
     registerButton = () => {
