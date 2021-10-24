@@ -49,7 +49,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		  	Su dung doan code nay de chan cac request tuong ung voi role ADMIN
 		  	Khi xay dung chuc nang cho phia admin thi dung doan code nay de khong cho
 		     cac user thong thuong duoc goi api admin va truy cap trang admin
-		 
 		 http.authorizeRequests().antMatchers("/admin/**").hasAuthority(RoleConst.ROLE_ADMIN);
 		 */
 		http.authorizeRequests().antMatchers("/admin/**").hasAuthority(RoleConst.ROLE_ADMIN);
@@ -58,7 +57,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 					.tokenValiditySeconds(30*60);
 		http.cors()
 				.and().authorizeRequests()
-				.antMatchers("/admin/**","/", "/home","/index", "/sanpham/**", "/replace/**","/api/**","/cart/**", "/register","/home/login","/type/**","/home/cart/**").permitAll() // Cho phep tat ca truy cap link nay
+				.antMatchers("/admin/**","/", "/home","/index", "/sanpham/**", "/replace/**","/api/**","/cart/**", "/register","/home/login","/type/**","/home/cart/**,","/home/cart").permitAll() // Cho phep tat ca truy cap link nay
 				.anyRequest().authenticated(); // Cac link con lai thi phai xac thuc
 	
 		http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
@@ -66,7 +65,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Override
 	public void configure(WebSecurity web) throws Exception {
-		web.ignoring().antMatchers("/home/*", "/home/css/*", "/home/fonts/*", "/home/images/*", "/home/js/**","/home/video/*","/layout/**");
+		web.ignoring().antMatchers("/home/*", "/home/css/*", "/home/fonts/*", "/home/images/*", "/home/js/**","/home/video/*","/layout/**","/home/pay/*");
 	}
 
 	@Bean

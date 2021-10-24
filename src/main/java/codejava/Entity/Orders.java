@@ -2,6 +2,7 @@ package codejava.Entity;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 import javax.persistence.CascadeType;
@@ -47,8 +48,8 @@ public class Orders implements Serializable{
 	
 	@Column(name ="createddate")
 	@CreationTimestamp
+	//private LocalDateTime createDate;
 	private LocalDateTime createDate;
-	
 	@Column(name ="totalprice")
 	private Double totalprice;
 	
