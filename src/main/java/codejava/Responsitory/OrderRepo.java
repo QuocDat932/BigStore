@@ -28,4 +28,7 @@ public interface OrderRepo extends JpaRepository<Orders, Integer>{
 	List<Orders> findByUser_idAndProcess_idOrderByIdDesc(int userId, int ProcessId);
 	
 	List<Orders> findByUser_idAndPaymentmethod_idAndProcess_idAndCreateDateBetweenOrderByIdDesc(int userId, int PaymentMethodId, int ProcessId, Date frmDt, Date toDt);
+	
+	@Query(value="SELECT * FROM SYSTEM.orders WHERE id = ?1", nativeQuery = true)
+	Orders getOrderById(int ID);
 }

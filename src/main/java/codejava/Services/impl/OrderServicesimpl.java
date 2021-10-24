@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import codejava.Constant.publicConst;
+import codejava.Constant.publicFuncs;
 import codejava.Entity.Orders;
 import codejava.Entity.Products;
 import codejava.Entity.Users;
@@ -29,7 +30,8 @@ public class OrderServicesimpl implements Orderservices{
 	@Transactional
 	public Orders insert(Orders order) throws Exception {
 		try {
-			order.setCreateDate(publicConst.CurrentDtSQL());
+			//order.setCreateDate(publicConst.CurrentDtSQL());
+			order.setCreateDate(publicConst.CurrentTimestampDtSQL());
 			return repo.saveAndFlush(order);
 		} catch (Exception e) {
 			System.out.println("here");
@@ -48,7 +50,17 @@ public class OrderServicesimpl implements Orderservices{
 	@Override
 	public List<Orders> findByParams(int UserId, int paymentMethodId, int processId, Date frmDt, Date toDt) {
 		List<Orders> result = repo.findByUser_idAndPaymentmethod_idAndProcess_idAndCreateDateBetweenOrderByIdDesc(UserId, paymentMethodId, processId, frmDt, toDt); 
+		
 		return result;
+	};
+	@Override
+	public List<Orders> findAll(){
+		return repo.findAll();
+	};
+	@Override
+	public Orders findByOrderId(int ID) {
+		// TODO Auto-generated method stub
+		return repo.getOrderById(ID);
 	}
 	@Override
 	public Orders findNewOrder(Integer idUser) throws Exception {

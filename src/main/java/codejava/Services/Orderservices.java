@@ -12,5 +12,6 @@ public interface Orderservices {
 	Orders findById(int id);
 	List<Orders> findByUserId(int userId);
 	List<Orders> findByParams(int userId, int paymentMethodId, int processId, Date frmDt, Date toDt);
-
+	List<Orders> findAll();
+	Orders findByOrderId(int ID);
 }

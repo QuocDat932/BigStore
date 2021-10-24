@@ -1,4 +1,5 @@
 package codejava.API.APIUSR;
+
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,39 +23,38 @@ import codejava.Constant.PaypalPaymentIntent;
 import codejava.Constant.PaypalPaymentMethod;
 import codejava.Services.PaypalService;
 import codejava.Ultis.Utils;
+
 @RestController
 @RequestMapping("api")
 public class APIPayment {
 	public static final String URL_PAYPAL_SETSTS = "/pay/setstatus";
 	public static final String URL_PAYPAL_GETSTS = "/pay/getstatus";
 	public static final String URL_PAYPAL_SUCCESS = "home/pay/success";
-	public static final String URL_PAYPAL_CANCEL = "home/pay/cancel";
-	;
-	//Logger can print status in console website
+	public static final String URL_PAYPAL_CANCEL = "home/pay/cancel";;
+	// Logger can print status in console website
 	private Logger log = LoggerFactory.getLogger(getClass());
 	@Autowired
 	private PaypalService paypalService;
-	
-// Account Sanbox Paypal 
-//	Email : sb-ukzf28264986@personal.example.com || Main Personal Account
-//	Pass : yIu/8@g6 
-//	Email:	sb-ukzf28264986-1@personal.example.com 
-//	Pass : DATBUI123
+
+//	Account Paypal develop
+//		Email : thientran10201@gmail.com
+//		Pass : KfQa#z#BKY8qg6q
+//
+// 	Account Sanbox Paypal 
+//		Email : sb-ukzf28264986@personal.example.com || Main Personal Account
+//		Pass : yIu/8@g6 
+//
+//		Email:	sb-ukzf28264986-1@personal.example.com 
+//		Pass : DATBUI123
 	@GetMapping("/pay")
-	public ResponseEntity<?> pay(HttpServletRequest request,@RequestParam("price") double price ){
+	public ResponseEntity<?> pay(HttpServletRequest request, @RequestParam("price") double price) {
 		String cancelUrl = Utils.getBaseURL(request) + "/" + URL_PAYPAL_CANCEL;
 		String successUrl = Utils.getBaseURL(request) + "/" + URL_PAYPAL_SUCCESS;
 		try {
-			Payment payment = paypalService.createPayment(
-					price,
-					"USD",
-					PaypalPaymentMethod.paypal,
-					PaypalPaymentIntent.sale,
-					"payment description",
-					cancelUrl,
-					successUrl);
-			for(Links links : payment.getLinks()){
-				if(links.getRel().equals("approval_url")){
+			Payment payment = paypalService.createPayment(price, "USD", PaypalPaymentMethod.paypal,
+					PaypalPaymentIntent.sale, "payment description", cancelUrl, successUrl);
+			for (Links links : payment.getLinks()) {
+				if (links.getRel().equals("approval_url")) {
 					return ResponseEntity.ok(MessageAPI.message("Submited", "everything is done", links.getHref()));
 				}
 			}
@@ -63,8 +63,10 @@ public class APIPayment {
 		}
 		return ResponseEntity.ok(MessageAPI.message("Failed", "Something Wrong", null));
 	}
+
 	@GetMapping(URL_PAYPAL_SETSTS)
-	public ResponseEntity<?> setStatusPay(@RequestParam("paymentId") String paymentId, @RequestParam("PayerID") String payerId){
+	public ResponseEntity<?> setStatusPay(@RequestParam("paymentId") String paymentId,
+			@RequestParam("PayerID") String payerId) {
 		try {
 			Payment payment = paypalService.executePayment(paymentId, payerId);
 			System.out.println("app");
@@ -78,9 +80,11 @@ public class APIPayment {
 		MessageAPI.STATUSPAYPAL = "Reject";
 		return ResponseEntity.ok("Reject");
 	}
+
 	@GetMapping(URL_PAYPAL_GETSTS)
-	public ResponseEntity<?> getStatusPay(){
-		boolean a = MessageAPI.STATUSPAYPAL==null||MessageAPI.STATUSPAYPAL.length()==0;
-		return ResponseEntity.ok(a?MessageAPI.message("Faild", "Reject Paypal", MessageAPI.STATUSPAYPAL):MessageAPI.message("Submit", "Paypal Approred",  MessageAPI.STATUSPAYPAL));
+	public ResponseEntity<?> getStatusPay() {
+		boolean a = MessageAPI.STATUSPAYPAL == null || MessageAPI.STATUSPAYPAL.length() == 0;
+		return ResponseEntity.ok(a ? MessageAPI.message("Faild", "Reject Paypal", MessageAPI.STATUSPAYPAL)
+				: MessageAPI.message("Submit", "Paypal Approred", MessageAPI.STATUSPAYPAL));
 	}
 }

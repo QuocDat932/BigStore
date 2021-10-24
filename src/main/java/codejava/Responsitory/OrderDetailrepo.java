@@ -1,5 +1,7 @@
 package codejava.Responsitory;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -16,4 +18,6 @@ public interface OrderDetailrepo extends JpaRepository<OrderDetails, Integer> {
 			 + "VALUES (:#{#dto.idOrder}, :#{#dto.idProduct}, :#{#dto.price}, :#{#dto.quantity})",
 			 nativeQuery = true)
 	void saveDetail(@Param("dto") cartDetailDto dto);
+	
+	List<OrderDetails> findByOrder_Id(int ordId);
 }
