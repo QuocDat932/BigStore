@@ -48,9 +48,9 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 		let ListpaymentMethod = [];
 		let ListOrderProcess = [];
 		$(document).ready(function () {
-			reloadDataPaymentMethod();
-			reloadDataStatus();
-			setOrderDate();
+			//reloadDataPaymentMethod();
+			//reloadDataStatus();
+			//setOrderDate();
 			searchOrder();
 			OrderProcess(null);
 			
@@ -61,7 +61,8 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 				body += `<tr onclick='thisItem(${data[i].id})' class="text-center">` +
 					`<td>${i + 1}</td>` +
 					`<td >${"CODE" + data[i].id}</td>\n` +
-					`<td >${data[i].createDate}</td>\n` +
+					`<td >${data[i].createDate.substring(0,10)}</td>\n` +
+					`<td >${data[i].createDate.substring(11,19)}</td>\n` +
 					`<td >${numberWithCommas(data[i].totalprice)}</td>\n` +
 					`<td >${data[i].process.description}</td>` +
 					`</tr>`
@@ -70,7 +71,6 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 			$('#example').DataTable();
 		};
 		function OrderProcess(currentOrder) {
-			console.log(currentOrder);
 			let clsOrder = '';
 			let clsConfirm = '';
 			let clsShip = '';
@@ -133,7 +133,13 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 					`<div class="form-group">`+
 							`<label class="col-sm-4 control-label">Order Date </label>`+
 							`<div class="col-sm-8">`+
-								' : '+currentOrder.createDate+
+								' : '+currentOrder.createDate.substring(0,10)+
+							`</div>`+
+					`</div>`+
+					`<div class="form-group">`+
+							`<label class="col-sm-4 control-label">Order Time </label>`+
+							`<div class="col-sm-8">`+
+								' : '+currentOrder.createDate.substring(11,19)+
 							`</div>`+
 					`</div>`+
 					`<div class="form-group">`+
@@ -294,17 +300,16 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 			}
 		}
 		searchOrder = () => {
-			let paymentMethodId = $('#paymentMethod').val();
+			/*let paymentMethodId = $('#paymentMethod').val();
 			let orderProcessId = $('#OrderStatus').val();
 			let frmOrderDate = $('#frmOrderDt').val();
-			let toOrderDate = $('#toOrderDt').val();
+			let toOrderDate = $('#toOrderDt').val();*/
 			let url = '';
-			console.log(document.getElementById('searchAll').checked);
-			if (!document.getElementById('searchAll').checked) {
+			/*if (!document.getElementById('searchAll').checked) {
 				url = "/api/order/orderDataByParam?paymentMethodId=" + paymentMethodId + "&processId=" + orderProcessId + "&frmOrderDt=" + frmOrderDate + "&toOrderDt=" + toOrderDate;
-			} else {
+			} else {*/
 				url = "/api/order/AllorderData";
-			}
+			//}
 			$.ajax({
 				type: "GET",
 				url: url,
@@ -372,7 +377,7 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 			<!--advantages-->
 			<div class="container">
 				<div class="advantages">
-					<div class="col-md-12">
+					<!--<div class="col-md-12">
 						<form>
 							<fieldset>
 								<div class="form-group form-inline">
@@ -398,7 +403,7 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 							<button type="button" th:attr="onclick='searchOrder()'"
 								class="btn btn-primary">Search</button>
 						</form>
-					</div>
+					</div>-->
 					<div class="col-md-6 advantages-left ">
 						<h3>Order History</h3>
 						<div class="main-wrapper mdc-drawer-app-content">
@@ -418,6 +423,7 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 																	<th class="text-left">No</th>
 																	<th>Customer Order</th>
 																	<th>Order Date</th>
+																	<th>Order Time</th>
 																	<th>Total Price</th>
 																	<th>Status</th>
 																</tr>
