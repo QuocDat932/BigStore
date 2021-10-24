@@ -1,0 +1,61 @@
+<!--
+Author: W3layouts
+Author URL: http://w3layouts.com
+License: Creative Commons Attribution 3.0 Unported
+License URL: http://creativecommons.org/licenses/by/3.0/
+-->
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+
+<body>
+	<script>
+
+		var url = window.location.href;
+		function getDataUrl(url) {
+			var place = url.indexOf('success') + 7 + 1;
+			var data = url.slice(place, url.length)
+			var dataArray = data.split('&')
+			return dataArray;
+		}
+		function getData() {
+			var result = {
+				paymentId: "", PayerID: ""
+			};
+			var array = getDataUrl(url);
+			for (let i = 0; i < array.length; i++) {
+				const e = array[i];
+				if (e.includes('paymentId')) {
+					result.paymentId = array[i].slice('paymentId'.length + 1, array[i].length)
+				}
+				if (e.includes('PayerID')) {
+					result.PayerID = array[i].slice('PayerID'.length + 1, array[i].length)
+				}
+
+			}
+			return JSON.parse(JSON.stringify(result));
+		}
+		async function checkstatus(d) {
+			let url = '/api/pay/setstatus';
+			var status = "reject";
+			await $.ajax({
+				url: url,
+				type: "GET",
+				contentType: "application/json",
+				dataType: "json",
+				data: d,
+				complete: function (data) {
+					window.close();
+				}
+
+			});
+		}
+		checkstatus(getData());
+//	out();
+	</script>
+</body>
+
+</html>

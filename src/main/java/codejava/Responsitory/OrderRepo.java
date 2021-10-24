@@ -13,7 +13,7 @@ import codejava.Entity.Users;
 @Repository
 public interface OrderRepo extends JpaRepository<Orders, Integer>{
 //	@Query("select SYSTEM.ORDERS.id, SYSTEM.ORDERS.createddate, SYSTEM.ORDERS.phone, SYSTEM.ORDERS.userid from SYSTEM.ORDERS where SYSTEM.ORDERS.userid like ?1 order by SYSTEM.ORDERS.id desc")
-	@Query("SELECT max(o.id) FROM Orders o where o.user like ?1 order by o.id desc")
+	@Query(value = "SELECT max(o.id) FROM SYSTEM.orders o  where o.userid like ?1",nativeQuery = true)
 	Integer findNewOrder(Users idUser);
 	
 	List<Orders> findByUser_idOrderByIdDesc(int userId);

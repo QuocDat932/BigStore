@@ -3,6 +3,7 @@ package codejava.Services.impl;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
@@ -17,12 +18,14 @@ import codejava.Entity.Orders;
 import codejava.Entity.Products;
 import codejava.Entity.Users;
 import codejava.Responsitory.OrderRepo;
+import codejava.Responsitory.Userrepository;
 import codejava.Services.Orderservices;
 @Service
 public class OrderServicesimpl implements Orderservices{
 	@Autowired
 	private OrderRepo repo;
-	
+	@Autowired
+	private Userrepository Urepo;
 	@Override
 	@Transactional
 	public Orders insert(Orders order) throws Exception {
@@ -35,18 +38,6 @@ public class OrderServicesimpl implements Orderservices{
 			e.printStackTrace();
 			return null;
 		}
-	}
-	@Override
-	public Orders findNewOrder(Users idUser) throws Exception {
-//		return repo.findNewOrder(idUser).size()==0?null:repo.findNewOrder(idUser).get(0);
-		
-		if(repo.findNewOrder(idUser)==null) {
-			return null;
-		}
-		
-		int id = repo.findNewOrder(idUser);
-		
-		return  repo.findById(id).isEmpty()?null:repo.findById(id).get();
 	}
 	@Override
 	public Orders findById(int id) {
@@ -70,5 +61,14 @@ public class OrderServicesimpl implements Orderservices{
 	public Orders findByOrderId(int ID) {
 		// TODO Auto-generated method stub
 		return repo.getOrderById(ID);
+	}
+	@Override
+	public Orders findNewOrder(Integer idUser) throws Exception {
+		Users u = Urepo.findById(idUser).isPresent()?Urepo.findById(idUser).get():null;
+		if(Objects.isNull(u)) {
+			return null;
+		}
+		int id = repo.findNewOrder(u);
+		return  repo.findById(id).isEmpty()?null:repo.findById(id).get();
 	}
 }
