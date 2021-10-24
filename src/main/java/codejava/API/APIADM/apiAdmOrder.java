@@ -1,5 +1,10 @@
 package codejava.API.APIADM;
 
+import java.sql.Date;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import codejava.Constant.publicFuncs;
 import codejava.Entity.OrderDetails;
 import codejava.Entity.Orders;
 import codejava.Responsitory.OrderRepo;
@@ -46,5 +52,15 @@ public class apiAdmOrder {
 	@GetMapping("/order/getOrder_Process")
 	public ResponseEntity<?> doGetOrder_Process(@RequestParam("ordId") int ordId) throws Exception{
 		return ResponseEntity.ok(ordPrcssServs.lstOrder_ProcessByOrdId(ordId));
+	}
+	@GetMapping("/order/getLstOrderByParam")
+	public ResponseEntity<?> doGetLstOrderByParam(@RequestParam("processId") int prcssId,
+												  @RequestParam("frmOrderDate") Date frmOrderDate,
+												  @RequestParam("toOrderDate") Date toOrderDate){
+	    int datex = toOrderDate.getDate()+1;
+	    toOrderDate.setDate(datex);
+		LocalDateTime fm = publicFuncs.convertToLocalDateTimeViaMilisecond(frmOrderDate);
+		LocalDateTime to = publicFuncs.convertToLocalDateTimeViaMilisecond(toOrderDate);
+		return ResponseEntity.ok(OrdServs.findByParams(1, prcssId, fm, to));
 	}
 }

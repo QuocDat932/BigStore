@@ -19,41 +19,44 @@
   <!-- End layout styles -->
   <link rel="shortcut icon" th:href="@{/admin/images/favicon.png}" />
   <script type="text/javascript">
-    $(document).ready(function () {
+    $(document).ready( function () {
       setOrderDate();
       reloadDataStatus();
+      
+      //$('#tableOrderADM').DataTable();
     });
     function setOrderDate() {
 			var currentDate = new Date();
 			var day = currentDate.getDate();
 			var month = currentDate.getMonth() + 1;
 			var year = currentDate.getFullYear();
-			ToDay = year + "-" + month + "-" + day;
+			ToDay = year + "-" + month + "-" + (day);
 			threeDayAgo = year + "-" + month + "-" + (day - 6);
 			$('#frmOrderDt').val(threeDayAgo);
 			$('#toOrderDt').val(ToDay);
 		};
-    function reloadDataStatus() {
-			url = "/api/order/GetProcess";
-			$.ajax({
-				type: "GET",
-				url: url,
-				contentType: "application/json",
-				success: function (data) {
-					// sort by value
-					ListOrderProcess = data.sort(function (a, b) {
-						return a.id - b.id;
-					});;
-					selectStatus(ListOrderProcess);
-				},
-				error: function (e) {
-					Swal.fire({
-						icon: 'error',
-						text: "Can't load data !!!",
-					})
-				}
-			})
-		}
+    async function reloadDataStatus() {
+          url = "/api/order/GetProcess";
+          await $.ajax({
+                type: "GET",
+                url: url,
+                contentType: "application/json",
+                success: function (data) {
+                  // sort by value
+                  ListOrderProcess = data.sort(function (a, b) {
+                    return a.id - b.id;
+                  });;
+                  selectStatus(ListOrderProcess);
+                },
+                error: function (e) {
+                  Swal.fire({
+                    icon: 'error',
+                    text: "Can't load data !!!",
+                  })
+                }
+              });
+              searchOrder();
+        }
 		function selectStatus(ListOrderProcess) {
 			let option = '';
 			for (let i = 0; i < ListOrderProcess.length; i++) {
@@ -65,9 +68,28 @@
 				`</select>`;
 			$('#selectStatus').html(bodySelect);
 		};
-    function searchOrder(){
-      
-    }
+    let listOrder_DataOrderSearch = [];
+      async function searchOrder(){
+              let orderProcessId = $('#OrderStatus').val();
+              let frmOrderDate = $('#frmOrderDt').val();
+              let toOrderDate = $('#toOrderDt').val();
+              let url = '/api/admin/order/getLstOrderByParam?processId='+orderProcessId+'&frmOrderDate='+frmOrderDate+'&toOrderDate='+toOrderDate;
+              await    $.ajax({
+                        type: "GET",
+                        url: url,
+                        contentType: "application/json",
+                        success: function (data) {
+                          listOrder_DataOrderSearch = data;
+                          CreateTableOrder(listOrder_DataOrderSearch);
+                        },
+                        error: function (e) {
+                          Swal.fire({
+                            icon: 'error',
+                            text: "Can't load data !!!",
+                          })
+                        }
+                      });
+            }
   </script>
 </head>
 
@@ -89,10 +111,10 @@
                           <div id="selectPaymentMethod"></div>
                         </div>-->
                         <div class="form-group form-inline">
-                          <label for="status" >Status</label>
+                          <label for="status" >[(#{order.process_sts})]</label>
                           <div id="selectStatus"></div>
                         </div>
-                        <label for="orderDate" >Order Date</label>
+                        <label for="orderDate" >[(#{order.orddt})]</label>
                         <div class="form-group form-inline">
                           <input id="frmOrderDt" type="date" class="form-control">
                           <label for="orderDate"> To </label>
@@ -101,23 +123,10 @@
                       </fieldset>
                       <button type="button" th:attr="onclick='searchOrder()'" class="btn btn-primary">Search</button>
                     </form>
-                    <div class="table-responsive">
-                      <table id="tableOrderADM" class="table table-hoverable" style="cursor: pointer;">
-                        <thead>
-                          <tr>
-                            <th class="text-left">[(#{order.stt})]</th>
-                            <th>[(#{order.code})]</th>
-                            <th>[(#{order.orddt})]</th>
-                            <th>[(#{order.ordtm})]</th>
-                            <th>[(#{order.totalprc})]</th>
-                            <th>[(#{order.process_sts})]</th>
-                            <th>[(#{order.user_userNm})]</th>
-                            <th>[(#{order.paymentMethod_Nm})]</th>
-                            <th>[(#{order.description})]</th>
-                          </tr>
-                        </thead>
-                        <tbody id="bodyOrder"></tbody>
-                      </table>
+                    <div class="table-responsive" >
+                      <div id="tableOrder">
+                        
+                      </div>
                     </div>
                   </div>
                 </div>

@@ -1,6 +1,7 @@
 package codejava.Responsitory;
 
 import java.sql.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -27,7 +28,10 @@ public interface OrderRepo extends JpaRepository<Orders, Integer>{
 	// Find By UserId and OrderProcess
 	List<Orders> findByUser_idAndProcess_idOrderByIdDesc(int userId, int ProcessId);
 	
-	List<Orders> findByUser_idAndPaymentmethod_idAndProcess_idAndCreateDateBetweenOrderByIdDesc(int userId, int PaymentMethodId, int ProcessId, Date frmDt, Date toDt);
+	List<Orders> findByUser_idAndPaymentmethod_idAndProcess_idAndCreateDateBetweenOrderByIdDesc(int userId, int PaymentMethodId, int ProcessId, LocalDateTime frmDt, LocalDateTime toDt);
+	
+	List<Orders> findByProcess_idAndCreateDateBetweenOrderByIdDesc(int ProcessId, LocalDateTime frmDt, LocalDateTime toDt);
+	
 	
 	@Query(value="SELECT * FROM SYSTEM.orders WHERE id = ?1", nativeQuery = true)
 	Orders getOrderById(int ID);
