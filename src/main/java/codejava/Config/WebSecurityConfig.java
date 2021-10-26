@@ -60,7 +60,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		  	Su dung doan code nay de chan cac request tuong ung voi role ADMIN
 		  	Khi xay dung chuc nang cho phia admin thi dung doan code nay de khong cho
 		     cac user thong thuong duoc goi api admin va truy cap trang admin
-		 
 		 http.authorizeRequests().antMatchers("/admin/**").hasAuthority(RoleConst.ROLE_ADMIN);
 		 */
 		http.authorizeRequests().antMatchers("/admin/**").hasAuthority(RoleConst.ROLE_ADMIN);
@@ -94,7 +93,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Override
 	public void configure(WebSecurity web) throws Exception {
-		web.ignoring().antMatchers("/home/*", "/home/css/*", "/home/fonts/*", "/home/images/*", "/home/js/**","/home/video/*","/layout/**");
+		web.ignoring().antMatchers("/home/*", "/home/css/*", "/home/fonts/*", "/home/images/*", "/home/js/**","/home/video/*","/layout/**","/home/pay/*");
 	}
 
 	@Bean

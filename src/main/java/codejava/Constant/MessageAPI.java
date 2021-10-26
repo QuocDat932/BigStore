@@ -6,7 +6,9 @@ import java.util.Map;
 import java.util.Objects;
 
 public class MessageAPI {
-	public static Map<String, Object> message(String status, String Message, Object items) {
+	public static String STATUSPAYPAL ="";
+	public static Map<String, Object> message(String status,String Message,Object items) {
+		
 		Map<String, Object> map = new HashMap<>();
 		map.put("Status", status);
 		map.put("Message", Message);

@@ -10,17 +10,15 @@ import java.util.Date;
 
 public class publicFuncs {
 	
-	public static String FormatDate(LocalDateTime Date, String FormatType) {
-		String strDate = null ;
-		if(FormatType.equalsIgnoreCase("hh:mm:ss")) {
-			SimpleDateFormat formatter = new SimpleDateFormat("hh:mm:ss");
-	        strDate = formatter.format(Date);
-		}
-		return strDate;
-	};
-	public static LocalDateTime formatDateLocalDateTime(Date dateToConvert) {
-		return Instant.ofEpochMilli(dateToConvert.getTime())
-			      .atZone(ZoneId.systemDefault())
-			      .toLocalDateTime();
+	public static LocalDateTime convertToLocalDateTimeViaInstant(Date dateToConvert) {
+	    return dateToConvert.toInstant()
+	      .atZone(ZoneId.systemDefault())
+	      .toLocalDateTime();
+	}
+
+	public static LocalDateTime convertToLocalDateTimeViaMilisecond(Date dateToConvert) {
+	    return Instant.ofEpochMilli(dateToConvert.getTime())
+	      .atZone(ZoneId.systemDefault())
+	      .toLocalDateTime();
 	}
 }
