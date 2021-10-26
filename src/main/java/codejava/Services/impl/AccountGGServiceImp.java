@@ -40,7 +40,7 @@ public class AccountGGServiceImp implements AccountGGService{
 	@Override
 	public Users findByEmailAndIdaccount(String email, String idaccount) {
 		// TODO Auto-generated method stub
-		Users	  resultUser = new Users();
+		Users resultUser = null;
 		AccountGG resultAccountGG  = repo.findByEmailAndIdaccount(email, idaccount);
 		      	  
 		if(!Objects.isNull(resultAccountGG)) {

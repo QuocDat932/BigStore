@@ -48,7 +48,10 @@ public class Oauth2LoginSuccess extends SavedRequestAwareAuthenticationSuccessHa
 		
 		HttpSession session = request.getSession();
 		if (!Objects.isNull(account)) {
+			System.out.println("da dk");
+			System.out.println(account.getRole().getId());
 			roles rolesUserGG = role.findByID(account.getRole().getId());
+			
 			session.setAttribute(SessionConst.CURRENT_USER, account);
 			session.setAttribute(SessionConst.CURRENT_ROLE, rolesUserGG);
 //			httpSession.setAttribute(SessionConst.CURRENT_ROLE, account.getUsers().getRole());
@@ -57,7 +60,7 @@ public class Oauth2LoginSuccess extends SavedRequestAwareAuthenticationSuccessHa
 			roles RoleFrmSession = (roles) session.getAttribute("currentRole");
 			System.out.println("da dk");
 		} else {
-			
+			System.out.println("da1 dk");
 			Users users = new Users();
 			users.setFullname(a.getFullName());
 			users.setEmail(a.getEmail());

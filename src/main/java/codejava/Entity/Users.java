@@ -33,7 +33,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(schema = "SYSTEM",name ="users")
+@Table(schema = "SYSTEM",name ="users2")
 public class Users implements Serializable {
 	/**
 	 * 
