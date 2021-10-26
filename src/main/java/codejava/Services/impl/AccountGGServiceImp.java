@@ -1,6 +1,7 @@
 package codejava.Services.impl;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,10 +40,10 @@ public class AccountGGServiceImp implements AccountGGService{
 	@Override
 	public Users findByEmailAndIdaccount(String email, String idaccount) {
 		// TODO Auto-generated method stub
-		Users	  resultUser = null;
+		Users	  resultUser = new Users();
 		AccountGG resultAccountGG  = repo.findByEmailAndIdaccount(email, idaccount);
 		      	  
-		if(resultAccountGG != null) {
+		if(!Objects.isNull(resultAccountGG)) {
 			resultUser = userRepo.findByEmail(resultAccountGG.getEmail());
 		}
 		return resultUser; 

@@ -15,6 +15,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -53,8 +54,8 @@ public class Account implements Serializable {
 //	@Column(name="isdeleted")
 //	private Boolean isDeleted;
 	
-	// Khoa Ngoai
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+	// Khoa Ngoaine
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
 	@JoinColumn(name = "idusers", referencedColumnName = "id")
 	@JsonIgnoreProperties(value = {"applications", "hibernateLazyInitializer"})
 	private Users users;

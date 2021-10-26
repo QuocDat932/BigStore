@@ -56,7 +56,7 @@ public class AccountGG implements Serializable {
 	  private boolean isDelete;
 	
 	// Khoa Ngoai
-	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
 	@JoinColumn(name = "idusers", referencedColumnName = "id")
 	@JsonIgnoreProperties(value = {"applications", "hibernateLazyInitializer"})
 	private Users users;

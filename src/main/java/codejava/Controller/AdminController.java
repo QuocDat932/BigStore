@@ -62,9 +62,12 @@ public class AdminController {
 					accountLogin.getUsername(), accountLogin.getHashPassword());
 			Authentication authentication = authenManager.authenticate(authenInfo);
 			CustomUser customUser = (CustomUser) authentication.getPrincipal();
-			Account userResponse = accountServices.findByUsername(accountLogin.getUsername());
 			
-			roles RoleUserResponse = userResponse.getUsers().getRole();
+			Account userAccount = accountServices.findByUsername(accountLogin.getUsername());
+			
+			Users userResponse     = userAccount.getUsers();
+			roles RoleUserResponse = userAccount.getUsers().getRole();
+			
 			if (RoleUserResponse.getDescription().equalsIgnoreCase(RoleConst.ROLE_ADMIN)
 					|| RoleUserResponse.getDescription().equalsIgnoreCase(RoleConst.ROLE_MANAGER)) {
 				session.setAttribute(SessionConst.CURRENT_USER, userResponse);

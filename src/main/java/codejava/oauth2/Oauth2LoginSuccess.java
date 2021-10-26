@@ -55,8 +55,6 @@ public class Oauth2LoginSuccess extends SavedRequestAwareAuthenticationSuccessHa
 //			session.setAttribute(SessionConst.JWT, tokenProvider.generateToken(customUser));
 			Users UserFrmSession = (Users) session.getAttribute("currentUser");
 			roles RoleFrmSession = (roles) session.getAttribute("currentRole");
-			System.out.println(" UserFrmSession >> "+ UserFrmSession.getFullname());
-			System.out.println(" RoleFrmSession >> "+ RoleFrmSession.getDescription());
 			System.out.println("da dk");
 		} else {
 			
