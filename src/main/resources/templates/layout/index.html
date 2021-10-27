@@ -17,6 +17,7 @@
 						<li><a th:href="@{/home/wishlist}"><i class="fa fa-heart" aria-hidden="true"></i>[(#{submenu.whishlist})]</a>
 						</li>
 						<li><a th:href="@{/home/login}"><i class="fa fa-user" aria-hidden="true"></i>[(#{submenu.login})]</a></li>
+							<li><a th:href="@{/home/login}"><i class="fa fa-user" aria-hidden="true"></i>[(#{submenu.login})]</a></li>
 						<li><a th:href="@{/home/logout}"><i class="fa fa-heart" aria-hidden="true"></i>[(#{submenu.logout})]</a>
 						</li>
 						<li><a th:href="@{/home/register}"><i class="fa fa-arrow-right"
@@ -25,15 +26,16 @@
 						<li><a th:href="@{/home/about} "><i class="fa fa-file-text-o" aria-hidden="true"></i>[(#{submenu.about_us})]</a></li>
 						<li><a th:href="@{/home/shipping}"><i class="fa fa-ship" aria-hidden="true"></i>Shipping</a>
 						</li>
+						
 					</ul>
 				</div>
 
 
 				<div class="header-ri">
 					<ul class="social-top">
-						<li><a href="#" class="icon facebook"><i class="fa fa-facebook"
+						<li><a th:href="@{/oauth2/authorization/google}"  class="icon pinterest"><i class="fa fa-google"
 									aria-hidden="true"></i><span></span></a></li>
-						<li><a href="#" class="icon twitter"><i class="fa fa-twitter"
+						<li><a th:href="@{/oauth2/authorization/facebook}" class="icon twitter"><i class="fa fa-twitter"
 									aria-hidden="true"></i><span></span></a></li>
 						<li><a href="#" class="icon pinterest"><i class="fa fa-pinterest-p"
 									aria-hidden="true"></i><span></span></a></li>

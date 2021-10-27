@@ -9,7 +9,7 @@ import java.time.ZoneId;
 import java.util.Date;
 
 public class publicFuncs {
-	
+	// Convert Date SQL to LocalDateTime
 	public static LocalDateTime convertToLocalDateTimeViaInstant(Date dateToConvert) {
 	    return dateToConvert.toInstant()
 	      .atZone(ZoneId.systemDefault())

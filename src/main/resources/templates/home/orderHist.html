@@ -38,31 +38,45 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 	<!-- Table Data
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 -->
-    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
-    <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css">
+	<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+	<link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
+	<script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+	<link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css">
+
+	<!-- Common Function PgOrdIN
+	 import : -->
+	<script type="text/javascript" th:src='@{/common/FunctionPage/Order.js}'></script>
 
 	<script type="text/javascript">
 		let ListOrder = [];
 		let ListpaymentMethod = [];
 		let ListOrderProcess = [];
 		$(document).ready(function () {
-			//reloadDataPaymentMethod();
-			//reloadDataStatus();
-			//setOrderDate();
 			searchOrder();
 			OrderProcess(null);
-			
+
 		});
 		function CreateTableOrder(data) {
 			let body = ''
+			let backgroundColor = '';
 			for (let i = 0; i < data.length; i++) {
-				body += `<tr onclick='thisItem(${data[i].id})' class="text-center">` +
+				if (data[i].process.id == 1) {
+					backgroundColor = "background-color: #CAE5E8;"
+				}
+				else if (data[i].process.id == 2) {
+					backgroundColor = "background-color: #6EC3C9;"
+				}
+				else if (data[i].process.id == 3) {
+					backgroundColor = "background-color: #FEF889;"
+				}
+				else if (data[i].process.id == 4) {
+					backgroundColor = "background-color: #5BBD2B;"
+				};
+				body += `<tr onclick='thisItem(${data[i].id})' class="text-center" style="${backgroundColor} cursor: pointer;">` +
 					`<td>${i + 1}</td>` +
-					`<td >${"CODE" + data[i].id}</td>\n` +
-					`<td >${data[i].createDate.substring(0,10)}</td>\n` +
-					`<td >${data[i].createDate.substring(11,19)}</td>\n` +
+					`<td >${"PO" + data[i].id}</td>\n` +
+					`<td >${data[i].createDate.substring(0, 10)}</td>\n` +
+					`<td >${data[i].createDate.substring(11, 19)}</td>\n` +
 					`<td >${numberWithCommas(data[i].totalprice)}</td>\n` +
 					`<td >${data[i].process.description}</td>` +
 					`</tr>`
@@ -70,11 +84,15 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 			$('#bodyOrder').html(body);
 			$('#example').DataTable();
 		};
-		function OrderProcess(currentOrder) {
+		async function OrderProcess(currentOrder) {
 			let clsOrder = '';
 			let clsConfirm = '';
 			let clsShip = '';
 			let clsTake = '';
+			let viewDetailTable = '';
+			let viewPrcess = '';
+			let btnApproveStep = '';
+			let NVLcurrentOrder = { user: { fullname: '' }, createDate: '', address: '' };
 			if (currentOrder === null) { // Mới vào chỉ load ID
 				clsOrder = 'progtrckr-todo';
 				clsConfirm = 'progtrckr-todo';
@@ -123,59 +141,112 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 				`<br>` +
 				`<br>`;
 			if (currentOrder !== null) {
+				NVLcurrentOrder = currentOrder;
+				let orderDetail = await PgOrd_getDataOrderDetailByOrderId(currentOrder.id);
+				if (orderDetail.length > 0) {
+					orderDetail.forEach((dtl) => {
+						viewDetailTable +=
+							`                    <tr class="border-bottom">` +
+							`                      <td class="col-md-4 border-left">` +
+							`                        <div class="p-3 d-flex justify-content-center align-items-center"> <span>${dtl.product.name}</span> </div>` +
+							`                      </td>` +
+							`                      <td class="col-md-2 border-left">` +
+							`						 <img width="32px" height="32px" src="/home/images/${dtl.product.imgUrl}">` +
+							`                        <div class="p-3 d-flex justify-content-center align-items-center"> <span>x${dtl.quantity}</span> </div>` +
+							`                      </td>` +
+							`                      <td class="col-md-3">` +
+							`                        <div class="p-3 d-flex justify-content-center align-items-center"> <span>${dtl.price}` +
+							`                            VNĐ</span> </div>` +
+							`                      </td>` +
+							`                      <td class="col-md-3">` +
+							`                        <div class="p-3 d-flex justify-content-center align-items-center"> <span>${dtl.price * dtl.quantity}` +
+							`                            VNĐ</span> </div>` +
+							`                      </td>` +
+							`                    </tr>`
+					});
+
+					/*viewDetailTable +=
+						`                    <div class="row g-0 border-bottom">` +
+						`                      <div class="col-md-6">` +
+						`                        <div class="p-3 d-flex justify-content-center align-items-center"> <span>[(#{order.totalprc})]</span>` +
+						`                        </div>` +
+						`                      </div>` +
+						`                      <div class="col-md-6">` +
+						`                        <div class="p-3 d-flex justify-content-center align-items-center"> <span>${currentOrder.totalprice} VNĐ</span> </div>` +
+						`                      </div>` +
+						`                    </div>` +
+						`                    <div class="row g-0 border-bottom">` +
+						`                      <div class="col-md-6">` +
+						`                        <div class="p-3 d-flex justify-content-center align-items-center"> <span>Processing` +
+						`                            fees</span> </div>` +
+						`                      </div>` +
+						`                      <div class="col-md-6">` +
+						`                        <div class="p-3 d-flex justify-content-center align-items-center"> <span>$1.80</span>` +
+						`                        </div>` +
+						`                      </div>` +
+						`                    </div>` +
+						`                    <div class="row g-0">` +
+						`                      <div class="col-md-6">` +
+						`                        <div class="p-3 d-flex justify-content-center align-items-center"> <span` +
+						`                           class="font-weight-bold">[(#{order.totalprc})]</span> </div>` +
+						`                      </div>` +
+						`                      <div class="col-md-6">` +
+						`                        <div class="p-3 d-flex justify-content-center align-items-center"> <span` +
+						`                            class="font-weight-bold">${currentOrder.totalprice} VNĐ</span> </div>` +
+						`                      </div>` +
+						`                    </div>`*/
+				};
 				body +=
-					`<div class="form-group">`+
-							`<label class="col-sm-4 control-label">Order Code </label>`+
-							`<div class="col-sm-8">`+
-								' : '+currentOrder.id+
-							`</div>`+
-					`</div>`+
-					`<div class="form-group">`+
-							`<label class="col-sm-4 control-label">Order Date </label>`+
-							`<div class="col-sm-8">`+
-								' : '+currentOrder.createDate.substring(0,10)+
-							`</div>`+
-					`</div>`+
-					`<div class="form-group">`+
-							`<label class="col-sm-4 control-label">Order Time </label>`+
-							`<div class="col-sm-8">`+
-								' : '+currentOrder.createDate.substring(11,19)+
-							`</div>`+
-					`</div>`+
-					`<div class="form-group">`+
-							`<label class="col-sm-4 control-label">Status </label>`+
-							`<div class="col-sm-8">`+
-								' : '+currentOrder.process.description+
-							`</div>`+
-					`</div>`+
-					`<div class="form-group">`+
-							`<label class="col-sm-4 control-label">Payment Method </label>`+
-							`<div class="col-sm-8">`+
-								' : '+currentOrder.paymentmethod.description+
-							`</div>`+
-					`</div>`+
-					`<div class="form-group">`+
-							`<label class="col-sm-4 control-label">Total Proce </label>`+
-							`<div class="col-sm-8">`+
-								' : '+currentOrder.totalprice+
-							`</div>`+
-					`</div>`
-				/*`<div class="form-inline">`+
-					`<label>Order Code     : `+`</label>`+"CODE"+currentOrder.id+
-				`</div>`+
-				`<div class="form-group form-inline">`+
-					`<label>Order Date     : `+`</label>`+currentOrder.createDate+
-				`</div>`+
-				`<div class="form-group form-inline">`+
-					`<label>Status 	       : `+`</label>`+currentOrder.process.description+
-				`</div>`+
-				`<div class="form-group form-inline">`+
-					`<label>Payment Method : `+`</label>`+currentOrder.paymentmethod.description+
-				`</div>`+
-				`<div class="form-group form-inline">`+
-					`<label>Status         : `+`</label>`+currentOrder.process.description+
-				`</div>`*/
+					`<form class="form">` +
+					`	<h2 style="text-align: center;"> [(#{order.code})] PO${currentOrder.id}</h2>` +
+					`	<div class="form-group">` +
+					`		<label for="" class="col-sm-5 control-label">[(#{order.orddt})]</label>` +
+					`		<div class="col-sm-7">` +
+					`			<text>...</text>` +
+					`		</div>` +
+					`	</div>` +
+					`	<div class="form-group">` +
+					`		<label for="" class="col-sm-5 control-label">[(#{order.ordtm})]</label>` +
+					`		<div class="col-sm-7">` +
+					`			<text>...</text>` +
+					`		</div>` +
+					`	</div>` +
+					`	<div class="form-group">` +
+					`		<label for="" class="col-sm-5 control-label">[(#{order.process_sts})]</label>` +
+					`		<div class="col-sm-7">` +
+					`			<text>...</text>` +
+					`		</div>` +
+					`	</div>` +
+					`	<!--Table Detail-->` +
+					`	<table id="tableDetailOrder" class="table table-condensed">` +
+					`		<thead>` +
+					`			<tr>` +
+					`				<th class="col-md-4">[(#{order.name})]</th>` +
+					`				<th class="col-md-2">[(#{order.quantity})]</th>` +
+					`				<th class="col-md-3">[(#{order.price})]</th>` +
+					`				<th class="col-md-3">[(#{order.toPrice})]</th>` +
+					`			</tr>` +
+					`		</thead>` +
+					`		<tbody id="bodytableDetailOrder">` +
+					`			${viewDetailTable}` +
+					`		</tbody>` +
+					`	</table>`;
+				if (currentOrder.process.id === 1) {
+					body +=
+						`	<!--Reject-->` +
+						`	<div class="col-md-12">` +
+						`		<div class="form-group">` +
+						`			<label class="" for="">[(#{order.description})]</label>` +
+						`			<textarea class="form-control" rows="3"` +
+						`				style="width: 401px; height: 95px;"></textarea>` +
+						`		</div>` +
+						`		<button type="submit" class="btn btn-danger">[(#{order.reject})]</button>` +
+						`	</div>`
+				}
+				body += `</form>`;
 			}
+			//let bodyDtl = ''
+
 			$('#tabOrderProcess').html(body);
 		}
 		thisItem = (orderId) => {
@@ -185,120 +256,7 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 		numberWithCommas = function (x) {
 			return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 		}
-		function reloadDataPaymentMethod() {
-			url = "/api/order/GetPaymentMethod";
-			$.ajax({
-				type: "GET",
-				url: url,
-				contentType: "application/json",
-				success: function (data) {
-					ListpaymentMethod = data;
-					selectPaymentMethod(ListpaymentMethod);
-				},
-				error: function (e) {
-					Swal.fire({
-						icon: 'error',
-						text: "Can't load data !!!",
-					})
-				}
-			})
-		}
-		function selectPaymentMethod(dataPayment) {
-			let option = '';
-			for (let i = 0; i < dataPayment.length; i++) {
-				option += `<option value="${dataPayment[i].id}">${dataPayment[i].methodname}</option>`
-			};
-			let bodySelect =
-				`<select id="paymentMethod" class="form-control" style="width: 35%;">` +
-				option +
-				`</select>`;
-			$('#selectPaymentMethod').html(bodySelect);
-			document.getElementById('paymentMethod').setAttribute('disabled', true);
-			document.getElementById('paymentMethod').setAttribute("style", "background-color: #68838B; width: 35%;");
-		};
 
-		function reloadDataStatus() {
-			url = "/api/order/GetProcess";
-			$.ajax({
-				type: "GET",
-				url: url,
-				contentType: "application/json",
-				success: function (data) {
-					// sort by value
-					ListOrderProcess = data.sort(function (a, b) {
-						return a.id - b.id;
-					});;
-					selectStatus(ListOrderProcess);
-				},
-				error: function (e) {
-					Swal.fire({
-						icon: 'error',
-						text: "Can't load data !!!",
-					})
-				}
-			})
-		}
-		function selectStatus(ListOrderProcess) {
-			let option = '';
-			for (let i = 0; i < ListOrderProcess.length; i++) {
-				option += `<option style="background-color: #68838B; width: 35%;" value="${ListOrderProcess[i].id}">${ListOrderProcess[i].description}</option>`
-			};
-			let bodySelect =
-				`<select id="OrderStatus" class="form-control" style="width: 35%;">` +
-				option +
-				`</select>`;
-			$('#selectStatus').html(bodySelect);
-			document.getElementById('OrderStatus').setAttribute('disabled', true);
-			document.getElementById('OrderStatus').setAttribute("style", "background-color: #68838B; width: 35%;");
-			//lockFormSearch(true);
-		};
-
-		function setOrderDate() {
-			var currentDate = new Date();
-			var day = currentDate.getDate();
-			var month = currentDate.getMonth() + 1;
-			var year = currentDate.getFullYear();
-			ToDay = year + "-" + month + "-" + day;
-			threeDayAgo = year + "-" + month + "-" + (day - 6);
-			$('#frmOrderDt').val(threeDayAgo);
-			$('#toOrderDt').val(ToDay);
-			document.getElementById('frmOrderDt').setAttribute('disabled', true);
-			document.getElementById('frmOrderDt').setAttribute("style", "background-color: #68838B;");
-			document.getElementById('toOrderDt').setAttribute('disabled', true);
-			document.getElementById('toOrderDt').setAttribute("style", "background-color: #68838B;");
-		};
-		function searchAllOrder() {
-			lockFormSearch(document.getElementById('searchAll').checked);
-		};
-		function lockFormSearch(lock) {
-			if (lock) {
-				document.getElementById('paymentMethod').setAttribute('disabled', true);
-				document.getElementById('paymentMethod').setAttribute("style", "background-color: #68838B; width: 35%;");
-
-				document.getElementById('OrderStatus').setAttribute('disabled', true);
-				document.getElementById('OrderStatus').setAttribute("style", "background-color: #68838B; width: 35%;");
-
-				document.getElementById('frmOrderDt').setAttribute('disabled', true);
-				document.getElementById('frmOrderDt').setAttribute("style", "background-color: #68838B;");
-
-				document.getElementById('toOrderDt').setAttribute('disabled', true);
-				document.getElementById('toOrderDt').setAttribute("style", "background-color: #68838B;");
-			} else {
-				document.getElementById('paymentMethod').removeAttribute('disabled');
-				document.getElementById('paymentMethod').removeAttribute('style');
-				document.getElementById('paymentMethod').setAttribute("style", "width: 35%;");
-
-				document.getElementById('OrderStatus').removeAttribute('disabled');
-				document.getElementById('OrderStatus').removeAttribute('style');
-				document.getElementById('OrderStatus').setAttribute("style", "width: 35%;");
-
-				document.getElementById('frmOrderDt').removeAttribute('disabled');
-				document.getElementById('frmOrderDt').removeAttribute('style');
-
-				document.getElementById('toOrderDt').removeAttribute('disabled');
-				document.getElementById('toOrderDt').removeAttribute('style');
-			}
-		}
 		searchOrder = () => {
 			/*let paymentMethodId = $('#paymentMethod').val();
 			let orderProcessId = $('#OrderStatus').val();
@@ -308,7 +266,7 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 			/*if (!document.getElementById('searchAll').checked) {
 				url = "/api/order/orderDataByParam?paymentMethodId=" + paymentMethodId + "&processId=" + orderProcessId + "&frmOrderDt=" + frmOrderDate + "&toOrderDt=" + toOrderDate;
 			} else {*/
-				url = "/api/order/AllorderData";
+			url = "/api/order/AllorderData";
 			//}
 			$.ajax({
 				type: "GET",
@@ -367,8 +325,8 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 	<div layout:fragment="content">
 		<div class="banner-top">
 			<div class="container">
-				<h3>Order History</h3>
-				<h4><a th:href="@{/home}">Home</a><label>/</label>Order History</h4>
+				<h3>[(#{order.Hist})]</h3>
+				<h4><a th:href="@{/home}">[(#{nav.home})]</a><label>/</label>[(#{order.Hist})]</h4>
 				<div class="clearfix"> </div>
 			</div>
 		</div>
@@ -420,12 +378,12 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 														<table id="example" class="table table-hoverable">
 															<thead>
 																<tr>
-																	<th class="text-left">No</th>
-																	<th>Customer Order</th>
-																	<th>Order Date</th>
-																	<th>Order Time</th>
-																	<th>Total Price</th>
-																	<th>Status</th>
+																	<th class="text-left">[(#{order.stt})]</th>
+																	<th>[(#{order.code})]</th>
+																	<th>[(#{order.orddt})]</th>
+																	<th>[(#{order.ordtm})]</th>
+																	<th>[(#{order.totalprc})]</th>
+																	<th>[(#{order.process_sts})]</th>
 																</tr>
 															</thead>
 															<tbody id="bodyOrder">
@@ -442,6 +400,7 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 					<div class="col-md-6 advantages-left about-agi">
 						<h3>Order Process</h3>
 						<div id="tabOrderProcess"></div>
+
 					</div>
 					<div class="clearfix"></div>
 				</div>

@@ -1,0 +1,40 @@
+paypal:
+  client:
+    app: ASoBTsLThTtVNXZgM-I23iTf6NZ7GuoPtRkA6RSKIBwy6zPh6zP4zBt611Rc4xjAOH-r8U9dON_gsZ6w
+    secret: EPiau2F3sIw2-IBYDVofvAmoy09Mm5ApBqIIaJrWxPxtS_ZcfjQvAggnM4etxrDNJfHI6k39f4nC1wEl
+  mode: sandbox
+recaptcha:
+  key: 6Lc4JNscAAAAAA3yR4YVIQDZukwXgeVl8WYsLZD1
+  secret: 6Lc4JNscAAAAAFjRI6JfWazIO5qngeTRcz1YC4Zb
+server:
+  port: 8181
+spring:
+  datasource:
+    driver-class-name: oracle.jdbc.OracleDriver
+    password: root123
+    url: jdbc:oracle:thin:@localhost:1521:xe
+    username: 'sys as sysdba '
+  mail:
+    host: smtp.gmail.com
+    password: voanduy182
+    port: 587
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+    username: voanduy1822001@gmail.com
+  security:
+    oauth2:
+      client:
+        registration:
+          facebook:
+            client-id: 202418502004304
+            client-secret: 88074cfa7a6d941f6b50f001a76d89aa
+          google:
+            client-id: 856763043442-2nkqhu9glsfssmks0922majbkk54jah1.apps.googleusercontent.com
+            client-secret: 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
+            scope:
+             - email
+             - profile

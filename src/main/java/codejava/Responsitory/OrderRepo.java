@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
@@ -35,4 +36,8 @@ public interface OrderRepo extends JpaRepository<Orders, Integer>{
 	
 	@Query(value="SELECT * FROM SYSTEM.orders WHERE id = ?1", nativeQuery = true)
 	Orders getOrderById(int ID);
+	
+	@Modifying
+	@Query(value = "UPDATE SYSTEM.orders SET PROCESSID = ?1 WHERE ID = ?2", nativeQuery = true)
+	int ApproveOrder(int sepTo, int ordId);
 }

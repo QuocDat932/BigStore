@@ -24,12 +24,13 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-@Entity
-@Table(schema = "SYSTEM",name="orders")
+
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Entity
+@Table(schema = "SYSTEM",name="orders")
 public class Orders implements Serializable{
 
 	/**

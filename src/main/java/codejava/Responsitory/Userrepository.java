@@ -17,7 +17,7 @@ import codejava.Entity.Users;
 public interface Userrepository extends JpaRepository<Users, Integer>{
 Users findByfullname(String fullname);
 	
-	Users findByUsernameAndHashPassword(String username, String hashpassword);
+/* Users findByUsernameAndHashPassword(String username, String hashpassword); */
 	
 	Users findByEmail(String email);
 	
@@ -25,7 +25,7 @@ Users findByfullname(String fullname);
 	
 	/*@Query(value = "SELECT hashPassword FROM users WHERE username = ?1", nativeQuery = true)
 	Optional<Users> findby(String hashPassword);*/
-	Optional<Users> findByUsername(String username);
+//	Optional<Users> findByUsername(String username);
 	
 	
 }

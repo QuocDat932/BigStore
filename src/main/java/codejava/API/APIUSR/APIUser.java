@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import codejava.Constant.MessageAPI;
 import codejava.Constant.SessionConst;
 import codejava.Entity.Products;
 import codejava.Entity.Users;
@@ -25,9 +26,18 @@ public class APIUser {
 	private ProductsServices productSrvs;
 	@GetMapping("/currentUser")
 	public ResponseEntity<?> getCurrentUser(HttpSession sess){
-		if(Objects.isNull(sess.getAttribute(SessionConst.CURRENT_USER))) {
-			return ResponseEntity.ok("NO");
+		try {
+			Users session = (Users) sess.getAttribute(SessionConst.CURRENT_USER);
+			Users i = session;
+			if(Objects.isNull(session)) {
+				return ResponseEntity.ok(MessageAPI.message(MessageAPI.FAIL, "Session Null", null));
+			}
+			System.out.println(session.getEmail());
+			System.out.println(session.getFullname());
+			System.out.println(session.getRole().getDescription());
+			return ResponseEntity.ok(MessageAPI.message(MessageAPI.SUBMIT, "Everything is done ", session));
+		} catch (Exception e) {
+			return ResponseEntity.ok(MessageAPI.message(MessageAPI.FAIL, "Something Wrong ", null));
 		}
-		return ResponseEntity.ok((Users)sess.getAttribute(SessionConst.CURRENT_USER));
 	}
 }

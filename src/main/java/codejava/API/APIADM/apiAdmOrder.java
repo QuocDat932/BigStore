@@ -7,6 +7,8 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -62,5 +64,14 @@ public class apiAdmOrder {
 		LocalDateTime fm = publicFuncs.convertToLocalDateTimeViaMilisecond(frmOrderDate);
 		LocalDateTime to = publicFuncs.convertToLocalDateTimeViaMilisecond(toOrderDate);
 		return ResponseEntity.ok(OrdServs.findByParams(1, prcssId, fm, to));
+	};
+	@GetMapping("/order/approveNextSetp")
+	public ResponseEntity<?> doGetApproveNextSetp(@RequestParam("ordId") int ordId,
+												  @RequestParam("stepFrm") int stepFrm,
+												  @RequestParam("stepTo") int stepTo,
+												  @RequestParam("desc") String NoteApprove,
+												  HttpSession session) throws Exception{
+		Orders result = OrdServs.ApproveOrder(ordId, stepFrm, stepTo, NoteApprove,session);
+		return ResponseEntity.ok(result);
 	}
 }

@@ -265,9 +265,9 @@
               <button class="mdc-button mdc-menu-button">
                 <span class="d-flex align-items-center">
                   <span class="figure">
-                    <img th:src="@{'/admin/images/faces/'+${session.currentUser.imgUrl}}" alt="user" class="user">
+                    <img th:src="@{'/admin/images/faces/'+${session.currentAdmin.imgUrl}}" alt="user" class="user">
                   </span>
-                  <span class="user-name" th:text="${session.currentUser.fullname}">Clyde Miles</span>
+                  <span class="user-name" th:text="${session.currentAdmin.fullname}">Clyde Miles</span>
                 </span>
               </button>
               <div class="mdc-menu mdc-menu-surface" tabindex="-1">
@@ -848,7 +848,7 @@
             }
             body += `<div><tr onclick='thisItemOrd(${data[i].id})' class="text-center liness" style="${backgroundColor}">` +
               `<td>${i + 1}</td>` +
-              `<td >${"CODE" + data[i].id}</td>\n` +
+              `<td >${"PO" + data[i].id}</td>\n` +
               `<td >${data[i].createDate.substring(0, 10)}</td>\n` +
               `<td >${data[i].createDate.substring(11, 19)}</td>\n` +
               `<td >${data[i].totalprice}</td>\n` +
@@ -867,11 +867,7 @@
       let currentOrder = listOrder_DataOrderSearch.filter((e) => e.id == orderId);
       order(currentOrder[0]);
     };
-    function approveNextSetp(orderId, stepFrm, stepTo){
-      console.log(orderId);
-      console.log(stepFrm);
-      console.log(stepTo);
-    }
+    
     async function order(currentOrder) {
       let processFrm = '';
       let processTo = '';
@@ -888,7 +884,12 @@
           viewPrcess = `<i class="fa fa-check" style="color: green;"></i> <text style="color: green;">${processFrm}</text>` + 
                       '<br>' + 
                        ` <i class="fa fa-spinner" aria-hidden="true" style="color: red; font-size: 30px;"></i> <text style="color: red; font-size: 30px;">${processTo}</text>`
-          btnApproveStep = `<button class="btn btn-danger btn-block order-button" onclick="approveNextSetp(${currentOrder.id},${lsPrcss[0].id},${lsPrcss[1].id})">Go to : ${processTo}</button>`;
+          btnApproveStep = `<div class="mb-3">
+                              <label for="exampleFormControlTextarea1" class="form-label">[(#{lbl.note})]</label>
+                              <textarea id="NoteApprove" class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                              <br>
+                              <button class="btn btn-danger btn-block order-button" onclick="approveNextSetp(${currentOrder.id},${lsPrcss[0].id},${lsPrcss[1].id})">Go to : ${processTo}</button>
+                            </div>`;
         }
         else {
           processFrm = lsPrcss[0].description;
@@ -956,7 +957,7 @@
         `              <div class="card">` +
         `                <div class="d-flex justify-content-center border-bottom">` +
         `                  <div class="p-3">` +
-        `                    <h6 class="card-title card-padding pb-0">Detail Order</h6>` +
+        `                    <h3 class="card-title card-padding pb-0">[(#{order.ordDtl})]</h3>` +
         `                    <!--<div class="progresses">` +
         `                      <div class="steps"> <span><i class="fa fa-check"></i></span> </div> <span` +
         `                        class="line"></span>` +
@@ -1022,7 +1023,30 @@
     function orderDetail(orderId) {
       ADM_getOrderDetailByOrderId(orderId)
     }
-    
+    async function approveNextSetp(ordId, stepFrm, stepTo){
+      let NoteApprove = $('#NoteApprove').val();
+		  let url = `/api/admin/order/approveNextSetp?ordId=${ordId}&stepFrm=${stepFrm}&stepTo=${stepTo}&desc=${NoteApprove}`;
+      await $.ajax({
+        type: 'GET',
+        url: url,
+        contentType: 'application/json',
+      success: function (data) {
+            if(data){
+              searchOrder();
+            }
+        Swal.fire({
+          icon: 'success',
+          text:	'[(#{order.nextStep})] ' + '[(#{msg.success})]'
+        })    
+          },
+          error: function (e) {
+            Swal.fire({
+              icon: 'error',
+              text: "Can't load data !!!",
+            })
+          }
+      })
+    }
     /*************************************EMD OPRDER*****************************************/
 
     registerButton = () => {
