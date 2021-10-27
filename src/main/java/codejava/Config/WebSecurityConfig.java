@@ -65,7 +65,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Override
 	public void configure(WebSecurity web) throws Exception {
-		web.ignoring().antMatchers("/home/*", "/home/css/*", "/home/fonts/*", "/home/images/*", "/home/js/**","/home/video/*","/layout/**","/home/pay/*");
+		web.ignoring().antMatchers("/home/*", "/home/css/*", "/home/fonts/*", "/home/images/*", "/home/js/**","/home/video/*","/layout/**","/home/pay/*","/common/**");
 	}
 
 	@Bean

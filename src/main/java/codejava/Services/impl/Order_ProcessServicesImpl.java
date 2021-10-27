@@ -2,6 +2,8 @@ package codejava.Services.impl;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +26,7 @@ public class Order_ProcessServicesImpl implements Order_ProcessServices{
 		return repo.lstOrder_ProcessById(ordId);
 	}
 	@Override
+	@Transactional
 	public Order_Process Save(Order_Process Order_Process) throws Exception {
 		// TODO Auto-generated method stub
 		return repo.saveAndFlush(Order_Process);

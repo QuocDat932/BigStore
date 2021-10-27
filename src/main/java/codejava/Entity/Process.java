@@ -23,12 +23,13 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-@Entity
-@Table(schema = "SYSTEM",name="process")
+
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Entity
+@Table(schema = "SYSTEM",name="process")
 public class Process implements Serializable{
 
 	private static final long serialVersionUID = 1L;

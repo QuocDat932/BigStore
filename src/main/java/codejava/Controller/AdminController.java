@@ -65,7 +65,7 @@ public class AdminController {
 			if(RoleUserResponse.getDescription().equalsIgnoreCase(RoleConst.ROLE_ADMIN) ||
 			   RoleUserResponse.getDescription().equalsIgnoreCase(RoleConst.ROLE_MANAGER))
 			{
-				session.setAttribute(SessionConst.CURRENT_USER, userResponse);
+				session.setAttribute(SessionConst.CURRENT_ADMIN, userResponse);
 				session.setAttribute(SessionConst.CURRENT_ROLE, RoleUserResponse);
 				return "redirect:/admin/dashboard";
 			}
@@ -82,9 +82,8 @@ public class AdminController {
 	}
 	@GetMapping("/logout")
 	public String doGetLogout(Model model, HttpSession session) {
-		session.removeAttribute(SessionConst.CURRENT_USER);
+		session.removeAttribute(SessionConst.CURRENT_ADMIN);
 		session.removeAttribute(SessionConst.CURRENT_ROLE);
-		session.removeAttribute(SessionConst.CURRENT_CART);
 		model.addAttribute("message","Login to continue");
 		return "redirect:/admin/login";
 	}
