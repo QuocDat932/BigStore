@@ -26,8 +26,7 @@
 						<li><a th:href="@{/home/about} "><i class="fa fa-file-text-o" aria-hidden="true"></i>[(#{submenu.about_us})]</a></li>
 						<li><a th:href="@{/home/shipping}"><i class="fa fa-ship" aria-hidden="true"></i>Shipping</a>
 						</li>
-						<li sec:authorize="isAuthenticated()">
-						<a  sec:authentication="principal.fullName" >asdasdsa </a></li>
+						
 					</ul>
 				</div>
 
