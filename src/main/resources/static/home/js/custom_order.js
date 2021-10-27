@@ -39,7 +39,7 @@ $(document).ready(function() {
 		}
 
 		var checkUser = await checkCurrentUser();
-		if (checkUser == 'NO') {
+		if (checkUser.Status != 'Submitted') {
 			alert("Xin hãy đăng nhập để tiếp tục !");
 			location.href = "/home/login";
 			return false;
@@ -58,7 +58,7 @@ $(document).ready(function() {
 				result = data;
 			},
 			error: function(err) {
-				reject(err) // Reject the promise and go to catch()
+				console.warn(err) // Reject the promise and go to catch()
 			}
 		})
 		return result;
@@ -122,10 +122,11 @@ $(document).ready(function() {
 	//step3 : end
 	async function getCurrentUser() {
 		var checkUser = await checkCurrentUser();
-		if (checkUser == 'NO') {
+		
+		if (checkUser.Status != 'Submitted') {
 			$("#infoUser").html('Bạn chưa đăng nhập! </br> <a href="/home/login">click here to login</a>')
 		} else {
-			var currenUser = JSON.parse(JSON.stringify(checkUser));
+			var currenUser = checkUser.Items;
 			var body = `<div>Họ và tên : ${currenUser.fullname} </br> ` +
 				`Email : ${currenUser.email} </br></div>`;
 			$("#infoUser").html(body);

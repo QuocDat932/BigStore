@@ -15,6 +15,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -33,8 +34,8 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(schema = "SYSTEM",name ="users")
-public class Users implements Serializable {
+@Table(schema = "SYSTEM",name ="account")
+public class Account implements Serializable {
 	/**
 	 * 
 	 */
@@ -44,28 +45,18 @@ public class Users implements Serializable {
 	@Column(name ="id")
 	private int id;
 	
-	@Column(name = "fullname")
-	private String fullname;
+	@Column(name ="username")
+	private String username;
 	
-	@Column(name="email")
-	private String email;
-	/*@Column(name="createdate"ái bài 
-	@CreationTimestamp
-	//private Date createDate;
-	private Timestamp createDate;
-	*/
-	@Column(name="imgurl")
-	private String imgUrl;
+	@Column(name="hashpassword")
+	private String hashPassword;
 	
-	@Column(name="isdeleted")
-	private Boolean isDeleted;
+//	@Column(name="isdeleted")
+//	private Boolean isDeleted;
 	
-	@Column(name="type_account")
-	private String type_account;
-	
-	// Khoa Ngoai
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-	@JoinColumn(name = "roleid", referencedColumnName = "id")
+	// Khoa Ngoaine
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+	@JoinColumn(name = "idusers", referencedColumnName = "id")
 	@JsonIgnoreProperties(value = {"applications", "hibernateLazyInitializer"})
-	private roles role;
+	private Users users;
 }

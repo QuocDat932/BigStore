@@ -1,6 +1,7 @@
 package codejava.Entity;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -18,17 +19,25 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Entity
-@Table(schema = "SYSTEM",name="order_process")
+
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Entity
+@Table(schema = "SYSTEM",name="order_process")
 public class Order_Process implements Serializable{
+
 	private static final long serialVersionUID = 1L;
 	@Id
 	@Column(name="id")
 	private int id;
+	
+	@Column(name="processdate")
+	private LocalDateTime processdate;
+	
+	@Column(name="description")
+	private String description;
 	
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
 	@JoinColumn(name = "orderid", referencedColumnName = "id")

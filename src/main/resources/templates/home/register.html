@@ -82,29 +82,29 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 		<div class="main-agileits">
 				<div class="form-w3agile form1">
 					<h3>Register</h3>
-					<form th:action="@{/register}" th:object="${newUser}" method="POST">
+					<form th:action="@{/register}"  method="POST">
 					
 					
 						<h5 style = "padding-bottom: 10px">User Name:</h5>
-						<div class="key">
+						<div class="key" th:object="${newAccount}">
 							<i class="fa fa-user" aria-hidden="true"></i>
 							<input  type="text" name="Username" onfocus="this.value = '';"  required="" th:field="*{username}">
 							<div class="clearfix"></div>
 						</div>
 						<h5 style = "padding-bottom: 10px">Full Name:</h5>
-						<div class="key">
+						<div class="key" th:object="${newUser}" >
 							<i class="fa fa-address-card" aria-hidden="true"></i>
 							<input  type="text" value="Full Name" name="Fullname" onfocus="this.value = '';"  required="" th:field="*{fullname}">
 							<div class="clearfix"></div>
 						</div>
 						<h5 style = "padding-bottom: 10px">Email:</h5>
-						<div class="key">
+						<div class="key"th:object="${newUser}">
 							<i class="fa  fa-envelope" aria-hidden="true"></i>
 							<input  type="text" value="Email" name="Email" onfocus="this.value = '';"  required="" th:field="*{email}">
 							<div class="clearfix"></div>
 						</div>
 						<h5 style = "padding-bottom: 10px">Password:</h5>
-						<div class="key">
+						<div class="key"th:object="${newAccount}">
 							<i class="fa fa-lock" aria-hidden="true"></i>
 							<input id="pwss1" type="password" value="Password" name="Password" onfocus="this.value = '';"  required="" th:field="*{hashPassword}">
 							<div class="clearfix"></div>
