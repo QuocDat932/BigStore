@@ -11,8 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -74,8 +72,7 @@ public class HomeController {
 	private AuthenticationManager authenManager;
 	@Autowired
 	private JwtTokenProvider tokenProvider;
-	@Autowired
-	private JavaMailSender mailSend;
+
 
 	@GetMapping({ "/home", "/" })
 	public String doGetController(Model model, HttpSession session, @RequestParam("p") Optional<Integer> p) {
@@ -100,7 +97,11 @@ public class HomeController {
 		return "home/login";
 	};
 
-
+	@GetMapping("/login")
+	public String doGetLogi1(Model model) {
+		return "redirect:/home";
+	};
+	
 	@PostMapping("/home/login")
 	public String doPostLogin(Model model, @ModelAttribute("user") @Validated Account accountLogin,
 			HttpSession session) {

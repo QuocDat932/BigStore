@@ -39,6 +39,10 @@ import codejava.Services.Orderservices;
 import codejava.Services.PaymentService;
 import codejava.Services.ProcessService;
 import codejava.Services.ProductsServices;
+
+import codejava.Services.TypeOfProductServices;
+import codejava.Services.UserServices;
+
 import codejava.Services.Order_ProcessServices;
 @RestController
 @RequestMapping("api/cart")
@@ -57,6 +61,8 @@ public class CartAPI {
 	@Autowired
 	private PaymentService PaymentS;
 	@Autowired
+	private UserServices UserS;
+	@Autowired
 	private Order_ProcessServices Order_ProS;
 //	@GetMapping("/update")
 //	public ResponseEntity<?> dogetUpdateCart(@RequestParam("product") Integer idProduct,
@@ -73,7 +79,8 @@ public class CartAPI {
 			@RequestParam Optional<String> phone,
 			@RequestParam Optional<String> address,
 			@RequestParam Optional<String> discription,
-			@RequestParam Optional<Integer> payment
+			@RequestParam Optional<Integer> payment,
+			@RequestParam Optional<String> status
 			) {
 		if (Objects.isNull(publicVariable.ListCart) || publicVariable.ListCart.size() == 0) {
 			return ResponseEntity.ok(MessageAPI.message("Failed", "Missing Cart", null));
@@ -87,14 +94,16 @@ public class CartAPI {
 		}
 		
 		PaymentMethod pay = PaymentS.findById(payment.orElse(1));
-		Users u = (Users) sess.getAttribute(SessionConst.CURRENT_USER);
+		Users u1 = (Users) sess.getAttribute(SessionConst.CURRENT_USER);
+		Users u = UserS.findByid(u1.getId());
 		Orders o = new Orders();
 		o.setUser(u);
 		o.setPhone(phone.get());
 		o.setOrderdescription(discription.orElse("Nothing"));
 		o.setAddress(address.get());
 		o.setPaymentmethod(pay);
-		o.setPaymentsts("N");
+		o.setPaymentsts(status.orElse("Reject")=="Reject"?"N":"Y");
+		System.out.println("status : "+status.orElse("Rejesct"));
 		Double pricezz = 0D;
 		for (productDto c : publicVariable.ListCart) {
 			pricezz+=(c.getPrice()*c.getQuantity());
@@ -102,8 +111,11 @@ public class CartAPI {
 		o.setTotalprice(pricezz);
 		o.setProcess(ProcessS.findBySlug(publicConst.Orderprocess.NEW));
 		try {
+			
 			OrderS.insert(o); // Insert Order
-			o = OrderS.findNewOrder(u);
+			System.out.println("start create order");
+			o = OrderS.findNewOrder(u.getId());
+			System.out.println("end create order");
 			System.out.println("Create Order Done : ID : " + o.getId());
 			if (Objects.isNull(o)) {
 				System.out.println("Error CartController");
@@ -148,6 +160,7 @@ public class CartAPI {
 			op.setUserProcess(u);
 			Order_ProS.Save(op);
 		} catch (Exception e) {
+			System.out.println(e);
 			return ResponseEntity.ok(MessageAPI.message("Failed", "ERROR for create Order Process", null));
 		}
 		Map<String, Object> result = new  HashMap<>();

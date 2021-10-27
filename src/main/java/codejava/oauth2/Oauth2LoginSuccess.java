@@ -48,19 +48,13 @@ public class Oauth2LoginSuccess extends SavedRequestAwareAuthenticationSuccessHa
 		
 		HttpSession session = request.getSession();
 		if (!Objects.isNull(account)) {
-			System.out.println("da dk");
 			System.out.println(account.getRole().getId());
 			roles rolesUserGG = role.findByID(account.getRole().getId());
 			
 			session.setAttribute(SessionConst.CURRENT_USER, account);
 			session.setAttribute(SessionConst.CURRENT_ROLE, rolesUserGG);
-//			httpSession.setAttribute(SessionConst.CURRENT_ROLE, account.getUsers().getRole());
-//			session.setAttribute(SessionConst.JWT, tokenProvider.generateToken(customUser));
-			Users UserFrmSession = (Users) session.getAttribute("currentUser");
-			roles RoleFrmSession = (roles) session.getAttribute("currentRole");
 			System.out.println("da dk");
 		} else {
-			System.out.println("da1 dk");
 			Users users = new Users();
 			users.setFullname(a.getFullName());
 			users.setEmail(a.getEmail());
@@ -74,7 +68,15 @@ public class Oauth2LoginSuccess extends SavedRequestAwareAuthenticationSuccessHa
 			accountGG.setUsers(userSerive.findByEmail(a.getEmail()));
 			accountGG.setDelete(true);
 			accountGGSerive.addAccount(accountGG);
-			System.out.println("ch dk");
+			
+			account = accountGGSerive.findByEmailAndIdaccount(email, idgg);
+			if (!Objects.isNull(account)) {
+			roles rolesUserGG = role.findByID(account.getRole().getId());
+			session.setAttribute(SessionConst.CURRENT_USER, account);
+			session.setAttribute(SessionConst.CURRENT_ROLE, rolesUserGG);
+			}else {
+			System.out.println("chua dang ki");
+			}
 		}
 
 		super.onAuthenticationSuccess(request, response, authentication);
