@@ -32,11 +32,7 @@ public class UserServicesImpl implements UserServices{
 		Optional<Users> result = repo.findById(id);
 		return result.isPresent() ? result.get() : null;
 	}
-	@Override
-	public Users findByUsernameAndHashPassword(String username, String hashpassword) {
-		// TODO Auto-generated method stub
-		return repo.findByUsernameAndHashPassword(username, hashpassword);
-	}
+
 	@Override
 	public Users findByEmail(String email) {
 		// TODO Auto-generated method stub
@@ -62,11 +58,7 @@ public class UserServicesImpl implements UserServices{
 		}
 		return repo.findByRoleIn(roles);
 	}
-	@Override
-	public Users findByUserName(String username) {
-		Optional<Users> result = repo.findByUsername(username);
-		return result.isPresent() ? result.get() : null;
-	}
+
 	@Override
 	public void delete(Users user) {
 		// TODO Auto-generated method stub

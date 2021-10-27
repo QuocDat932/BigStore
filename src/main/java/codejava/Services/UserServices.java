@@ -13,7 +13,6 @@ List<Users> findAll();
 	
 	Users findByid(int id);
 	
-	Users findByUsernameAndHashPassword(String username, String hashpassword);
 	
 	Users findByEmail(String email);
 	
@@ -21,6 +20,6 @@ List<Users> findAll();
 	
 	List<Users> UserHaveRoles(List<roles> roles);
 	
-	Users findByUserName(String findByUserName);
+	
 	void delete(Users user);
 }

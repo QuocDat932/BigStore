@@ -14,12 +14,12 @@ public class CustomUser implements UserDetails {
 	
 	private static final long serialVersionUID = 1L;
 	
-	private Users user;
+	private Account account;
 
 	private Collection<? extends GrantedAuthority> authorities;
 	
-	public CustomUser (Users user, Collection<? extends GrantedAuthority> authorities) {
-		this.user = user;
+	public CustomUser (Account account, Collection<? extends GrantedAuthority> authorities) {
+		this.account = account;
 		this.authorities = authorities;
 	}
 	
@@ -30,12 +30,12 @@ public class CustomUser implements UserDetails {
 
 	@Override
 	public String getPassword() {
-		return user.getHashPassword();
+		return account.getHashPassword(); 
 	}
 
 	@Override
 	public String getUsername() {
-		return user.getUsername();
+		return account.getUsername();
 	}
 
 	@Override
