@@ -3,7 +3,6 @@
 // Common Function PgOrdIN
 // import :
 // <script type="text/javascript" th:src='@{/common/FunctionPage/Order.js}' ></script>
-
 /************************AJAX */
 TestOrd = () =>{
     console.log("TestOrd");
@@ -81,4 +80,34 @@ PgOrd_getOrderDetailByOrderId = async (orderId) =>{
                 })
             }
         })
-}
+};
+PgOrd_RejectOrder = async (ordId) =>{
+    let confirmReject = document.getElementById('confirmReject');
+    if(confirmReject.checked){
+        let reasonReject = $('#resionReject').val();
+        if(reasonReject.length <= 0 || reasonReject === '' || reasonReject === null){
+            alert(`Give Us Your Reasons , Please ! `);
+        }else{
+        let url = '/api/order/RejectOrder?ordId='+ordId+'&reasonReject='+reasonReject;
+        await $.ajax({
+                    type: "POST",
+                    url : url,
+                    contentType:"application/json",
+                    success: function (data){
+                        searchOrder();
+                    },
+                    error: function (e){
+                        Swal.fire({
+                            icon: 'error',
+                            text: "Can't load data !!!",
+                        })
+                    }
+                });
+        }
+    }else{
+        alert(`Check Reject PO, Please ! `);
+        return false;
+    }
+};
+
+

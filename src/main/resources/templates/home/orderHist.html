@@ -42,11 +42,10 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 	<link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
 	<script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
 	<link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css">
-
 	<!-- Common Function PgOrdIN
 	 import : -->
 	<script type="text/javascript" th:src='@{/common/FunctionPage/Order.js}'></script>
-
+	
 	<script type="text/javascript">
 		let ListOrder = [];
 		let ListpaymentMethod = [];
@@ -54,7 +53,6 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 		$(document).ready(function () {
 			searchOrder();
 			OrderProcess(null);
-
 		});
 		function CreateTableOrder(data) {
 			let body = ''
@@ -71,7 +69,10 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 				}
 				else if (data[i].process.id == 4) {
 					backgroundColor = "background-color: #5BBD2B;"
-				};
+				}
+				else if (data[i].process.id == 5 || data[i].process.id == 6) {
+              		backgroundColor = "background-color: #ff777c;"
+            	};
 				body += `<tr onclick='thisItem(${data[i].id})' class="text-center" style="${backgroundColor} cursor: pointer;">` +
 					`<td>${i + 1}</td>` +
 					`<td >${"PO" + data[i].id}</td>\n` +
@@ -92,6 +93,8 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 			let viewDetailTable = '';
 			let viewPrcess = '';
 			let btnApproveStep = '';
+			let linkReject = '';
+			let lsPrcss = '';
 			let NVLcurrentOrder = { user: { fullname: '' }, createDate: '', address: '' };
 			if (currentOrder === null) { // Mới vào chỉ load ID
 				clsOrder = 'progtrckr-todo';
@@ -119,30 +122,19 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 				clsConfirm = 'progtrckr-done';
 				clsShip = 'progtrckr-done';
 				clsTake = 'progtrckr-done';
+			} else if (currentOrder.process.id == 5 || currentOrder.process.id == 6) { // Trả Đơn Hàng
+				clsOrder = 'progtrckr-cancel';
+				clsConfirm = 'progtrckr-cancel';
+				clsShip = 'progtrckr-cancel';
+				clsTake = 'progtrckr-cancel';
 			};
-			let body = ''
-			body =
-				`<div class="advn-two">` +
-				`<ol class="progtrckr" data-progtrckr-steps="4">` +
-				`	<li class="` + clsOrder + `">Mua Hàng </br>` +
-				`		<img class="icon" src="https://i.imgur.com/9nnc9Et.png">` +
-				`	</li>` +
-				`	<li class="` + clsConfirm + `">Xác Nhận </br>` +
-				`		<img class="icon" src="https://i.imgur.com/u1AzR7w.png">` +
-				`	</li>` +
-				`	<li class="` + clsShip + `">Vận Chuyển </br> &emsp;` +
-				`		<img class="icon" src="https://i.imgur.com/TkPm63y.png">` +
-				`	</li>` +
-				`	<li class="` + clsTake + `">Nhận Hàng </br>` +
-				`		<img class="icon" src="https://i.imgur.com/HdsziHP.png">` +
-				`	</li>` +
-				`</ol>` +
-				`</div>` +
-				`<br>` +
-				`<br>`;
+			let body = '';
 			if (currentOrder !== null) {
 				NVLcurrentOrder = currentOrder;
 				let orderDetail = await PgOrd_getDataOrderDetailByOrderId(currentOrder.id);
+				if(currentOrder.process.id === 1){
+					linkReject = `	<a class="button" href="#deteleOrder" id="btnOpenPopupDtl" style="font-size: 30px">[(#{order.reject})] PO${currentOrder.id} </a>`;
+				}
 				if (orderDetail.length > 0) {
 					orderDetail.forEach((dtl) => {
 						viewDetailTable +=
@@ -164,90 +156,100 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 							`                      </td>` +
 							`                    </tr>`
 					});
-
-					/*viewDetailTable +=
-						`                    <div class="row g-0 border-bottom">` +
-						`                      <div class="col-md-6">` +
-						`                        <div class="p-3 d-flex justify-content-center align-items-center"> <span>[(#{order.totalprc})]</span>` +
-						`                        </div>` +
-						`                      </div>` +
-						`                      <div class="col-md-6">` +
-						`                        <div class="p-3 d-flex justify-content-center align-items-center"> <span>${currentOrder.totalprice} VNĐ</span> </div>` +
-						`                      </div>` +
-						`                    </div>` +
-						`                    <div class="row g-0 border-bottom">` +
-						`                      <div class="col-md-6">` +
-						`                        <div class="p-3 d-flex justify-content-center align-items-center"> <span>Processing` +
-						`                            fees</span> </div>` +
-						`                      </div>` +
-						`                      <div class="col-md-6">` +
-						`                        <div class="p-3 d-flex justify-content-center align-items-center"> <span>$1.80</span>` +
-						`                        </div>` +
-						`                      </div>` +
-						`                    </div>` +
-						`                    <div class="row g-0">` +
-						`                      <div class="col-md-6">` +
-						`                        <div class="p-3 d-flex justify-content-center align-items-center"> <span` +
-						`                           class="font-weight-bold">[(#{order.totalprc})]</span> </div>` +
-						`                      </div>` +
-						`                      <div class="col-md-6">` +
-						`                        <div class="p-3 d-flex justify-content-center align-items-center"> <span` +
-						`                            class="font-weight-bold">${currentOrder.totalprice} VNĐ</span> </div>` +
-						`                      </div>` +
-						`                    </div>`*/
 				};
-				body +=
-					`<form class="form">` +
-					`	<h2 style="text-align: center;"> [(#{order.code})] PO${currentOrder.id}</h2>` +
-					`	<div class="form-group">` +
-					`		<label for="" class="col-sm-5 control-label">[(#{order.orddt})]</label>` +
-					`		<div class="col-sm-7">` +
-					`			<text>...</text>` +
-					`		</div>` +
-					`	</div>` +
-					`	<div class="form-group">` +
-					`		<label for="" class="col-sm-5 control-label">[(#{order.ordtm})]</label>` +
-					`		<div class="col-sm-7">` +
-					`			<text>...</text>` +
-					`		</div>` +
-					`	</div>` +
-					`	<div class="form-group">` +
-					`		<label for="" class="col-sm-5 control-label">[(#{order.process_sts})]</label>` +
-					`		<div class="col-sm-7">` +
-					`			<text>...</text>` +
-					`		</div>` +
-					`	</div>` +
-					`	<!--Table Detail-->` +
-					`	<table id="tableDetailOrder" class="table table-condensed">` +
-					`		<thead>` +
-					`			<tr>` +
-					`				<th class="col-md-4">[(#{order.name})]</th>` +
-					`				<th class="col-md-2">[(#{order.quantity})]</th>` +
-					`				<th class="col-md-3">[(#{order.price})]</th>` +
-					`				<th class="col-md-3">[(#{order.toPrice})]</th>` +
-					`			</tr>` +
-					`		</thead>` +
-					`		<tbody id="bodytableDetailOrder">` +
-					`			${viewDetailTable}` +
-					`		</tbody>` +
-					`	</table>`;
-				if (currentOrder.process.id === 1) {
+				
+				if (currentOrder.process.id !== 0) {
 					body +=
-						`	<!--Reject-->` +
-						`	<div class="col-md-12">` +
-						`		<div class="form-group">` +
-						`			<label class="" for="">[(#{order.description})]</label>` +
-						`			<textarea class="form-control" rows="3"` +
-						`				style="width: 401px; height: 95px;"></textarea>` +
-						`		</div>` +
-						`		<button type="submit" class="btn btn-danger">[(#{order.reject})]</button>` +
-						`	</div>`
+						`<div class="container">`+
+						`	<a class="button" href="#popupDtl" id="btnOpenPopupDtl" style="font-size: 30px">[(#{order.code})] PO${currentOrder.id} </a>`+
+						`	<div class="popup" id="popupDtl">`+
+						`		<div class="popup-inner">`+
+						`			<div class="popupphoto">`+
+						`				<img src="https://th.bing.com/th/id/R.12c066fb2d73ef80c197b1b488bb5bcf?rik=EtcJM%2fhZlAOgzQ&riu=http%3a%2f%2fwww.southsfinestmeats.com%2fwp-content%2fuploads%2f2018%2f02%2fFresh-Vegetables-Colorful-Veg-195451207-1g8.jpg&ehk=7IgchnrBxPHq%2bYz7ogQVm5kzrGCdBzeH9P%2bgDNpve3w%3d&risl=&pid=ImgRaw&r=0" alt="">`+
+						`			</div>`+
+						`			<div class="popuptext">`+
+							`	<h2 style="text-align: center;"> [(#{order.code})] PO${currentOrder.id}</h2>` +
+							// popup : Process
+									`<div class="advn-two">` +
+									`<ol class="progtrckr" data-progtrckr-steps="4">` +
+									`	<li class="` + clsOrder + `" style="front-site: 15px">Mua Hàng </br>` +
+									`		<img class="icon" src="https://i.imgur.com/9nnc9Et.png">` +
+									`	</li>` +
+									`	<li class="` + clsConfirm + `" style="front-site: 15px">Xác Nhận </br>` +
+									`		<img class="icon" src="https://i.imgur.com/u1AzR7w.png">` +
+									`	</li>` +
+									`	<li class="` + clsShip + `" style="front-site: 15px">Vận Chuyển </br> &emsp;` +
+									`		<img class="icon" src="https://i.imgur.com/TkPm63y.png">` +
+									`	</li>` +
+									`	<li class="` + clsTake + `" style="front-site: 15px">Nhận Hàng </br>` +
+									`		<img class="icon" src="https://i.imgur.com/HdsziHP.png">` +
+									`	</li>` +
+									`</ol>` +
+									`</div>` +
+									`<br>` +
+									`<br>`+
+							// popup : Order Detail
+									`	<div class="form-group">` +
+									`		<label for="" class="col-sm-5 control-label">[(#{order.orddt})]</label>` +
+									`		<div class="col-sm-7">` +
+									`			<text>${currentOrder.createDate.substring(0, 10)}</text>` +
+									`		</div>` +
+									`		<label for="" class="col-sm-5 control-label">[(#{order.ordtm})]</label>` +
+									`		<div class="col-sm-7">` +
+									`			<text>${currentOrder.createDate.substring(11, 19)}</text>` +
+									`		</div>` +
+									`		<label for="" class="col-sm-5 control-label">[(#{order.totalprc})]</label>` +
+									`		<div class="col-sm-7">` +
+									`			<text>${currentOrder.totalprice} VNĐ</text>` +
+									`		</div>` +
+									`	</div>` +
+									`	<!--Table Detail-->` +
+									`	<table id="tableDetailOrder" class="table table-condensed">` +
+									`		<thead>` +
+									`			<tr>` +
+									`				<th class="col-md-4">[(#{order.name})]</th>` +
+									`				<th class="col-md-2">[(#{order.quantity})]</th>` +
+									`				<th class="col-md-3">[(#{order.price})]</th>` +
+									`				<th class="col-md-3">[(#{order.toPrice})]</th>` +
+									`			</tr>` +
+									`		</thead>` +
+									`		<tbody id="bodytableDetailOrder">` +
+									`			${viewDetailTable}` +
+									`		</tbody>` +
+									`	</table>${linkReject}`+
+									
+						`			</div>`+
+						`			<a class="closepopup" href="#">X</a>`+
+						`		</div>`+
+						`	</div>`+
+						//Reject 
+						`<div class="container">`+
+						`	<div class="popup" id="deteleOrder">`+
+						`		<div class="popup-inner">`+
+						`			<div class="popuppleft">`+
+						`				<iframe src="https://giphy.com/embed/BEob5qwFkSJ7G" width="100%" height="100%" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>`+
+						`			</div>`+
+						`			<div class="popuppright">`+
+									//--------------------------------------------------	
+									`<h1 style="text-align: center;"> [(#{order.reject})] PO${currentOrder.id}</h1>` +
+									`<textarea id="resionReject" class="form-control" rows="3" required="true"></textarea>`+	
+									`<button class="button" onclick="PgOrd_RejectOrder(${currentOrder.id})" id="btnRejectOrd" style="font-size: 30px">[(#{order.code})]</button>`+
+									`<label class="checkbox-inline">`+
+									`	<input type="checkbox" id="confirmReject" value="Y"> Make Sure to Reject`+
+									`</label>`+
+									`<a class="button" href="#popupDtl" id="btnOpenPopupDtl" style="font-size: 30px">[(#{order.code})] PO${currentOrder.id} </a>`+
+									//--------------------------------------------------
+						`			</div>`+
+						`			<a class="closepopup" href="#">X</a>`+
+						`		</div>`+
+						`	</div>`+
+						`</div>`;
 				}
 				body += `</form>`;
 			}
 			//let bodyDtl = ''
-
 			$('#tabOrderProcess').html(body);
+			$('#tableDetailOrder').DataTable({"lengthMenu": [ [2, 3, 4, -1], [2, 3, 4,  "All"] ]});
 		}
 		thisItem = (orderId) => {
 			let currentOrder = ListOrder.filter((x) => x.id == orderId);
@@ -258,16 +260,8 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 		}
 
 		searchOrder = () => {
-			/*let paymentMethodId = $('#paymentMethod').val();
-			let orderProcessId = $('#OrderStatus').val();
-			let frmOrderDate = $('#frmOrderDt').val();
-			let toOrderDate = $('#toOrderDt').val();*/
 			let url = '';
-			/*if (!document.getElementById('searchAll').checked) {
-				url = "/api/order/orderDataByParam?paymentMethodId=" + paymentMethodId + "&processId=" + orderProcessId + "&frmOrderDt=" + frmOrderDate + "&toOrderDt=" + toOrderDate;
-			} else {*/
 			url = "/api/order/AllorderData";
-			//}
 			$.ajax({
 				type: "GET",
 				url: url,
@@ -318,6 +312,8 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 	<!---//End-rate-->
 	<!--- CSS-->
 	<link th:href='@{/home/css/orderprocess.css}' rel='stylesheet' type='text/css' />
+	<link th:href='@{/home/css/tooltips.css}' rel='stylesheet' type='text/css' />
+	<link th:href='@{/home/css/popup.css}' rel='stylesheet' type='text/css' />
 	<!--<link rel="stylesheet" th:href="@{/admin/css/demo/style.css}">-->
 </head>
 
@@ -335,34 +331,8 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 			<!--advantages-->
 			<div class="container">
 				<div class="advantages">
-					<!--<div class="col-md-12">
-						<form>
-							<fieldset>
-								<div class="form-group form-inline">
-									<label for="paymentMethod" style="width: 15%;">Payment Method</label>
-									<div id="selectPaymentMethod"></div>
-								</div>
-								<div class="form-group form-inline">
-									<label for="status" style="width: 15%;">Status</label>
-									<div id="selectStatus"></div>
-								</div>
-								<label for="orderDate" style="width: 15%;">Order Date</label>
-								<div class="form-group form-inline">
-									<input id="frmOrderDt" type="date" class="form-control">
-									<label for="orderDate"> To </label>
-									<input id="toOrderDt" type="date" class="form-control">
-								</div>
-								<div class="form-inline">
-									<label for="searchAll"> Search All </label>
-									<input checked th:attr="onchange='searchAllOrder()'" id="searchAll" type="checkbox"
-										class="form-control">
-								</div>
-							</fieldset>
-							<button type="button" th:attr="onclick='searchOrder()'"
-								class="btn btn-primary">Search</button>
-						</form>
-					</div>-->
-					<div class="col-md-6 advantages-left ">
+					
+					<div class="col-md-8 advantages-left ">
 						<h3>Order History</h3>
 						<div class="main-wrapper mdc-drawer-app-content">
 							<div class="page-wrapper mdc-toolbar-fixed-adjust">
@@ -397,10 +367,10 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 							</div>
 						</div>
 					</div>
-					<div class="col-md-6 advantages-left about-agi">
+					<div class="col-md-4 advantages-left about-agi">
 						<h3>Order Process</h3>
 						<div id="tabOrderProcess"></div>
-
+						
 					</div>
 					<div class="clearfix"></div>
 				</div>
