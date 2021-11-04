@@ -210,7 +210,6 @@
 			
 			$.each(products, function() {
 				var total = numberWithCommas(this.quantity * this.price* 1);
-				console.log(products);
 				$cartTable.append(
 					'<tr title="' + this.summary + '" data-id="' + this.id + '" data-price="' + this.price + '">' +
 					'<td class="text-center" style="width: 30px;"><img width="30px" height="30px" src="/home/' + this.image + '"/></td>' +
