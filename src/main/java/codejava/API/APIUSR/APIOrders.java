@@ -2,12 +2,14 @@ package codejava.API.APIUSR;
 
 import java.sql.Date;
 import java.util.List;
+import java.util.Optional;
 
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -58,6 +60,16 @@ public class APIOrders {
 		List<Orders> result = orderServ.findByUserId(userCurrent.getId());		
 		return ResponseEntity.ok(result);
 		}
-	};
+	}
+	
+	@PostMapping("/RejectOrder")
+	public ResponseEntity<?> doPostRejectOrder(@RequestParam("ordId") int ordId,
+											   @RequestParam("reasonReject") Optional<String> reasonReject,
+											   HttpSession session)throws Exception {
+		Orders orderReject = orderServ.findById(ordId);
+		String reasonRejectString = reasonReject.orElse("No Reasion") + "";
+		Orders result = orderServ.ApproveOrder(ordId, orderReject.getProcess().getId(), 5,reasonRejectString, session);
+		return ResponseEntity.ok(result);
+	}
 	
 }

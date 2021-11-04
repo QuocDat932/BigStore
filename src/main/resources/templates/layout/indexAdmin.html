@@ -846,6 +846,9 @@
             else if (data[i].process.id == 4) {
               backgroundColor = "background-color: #5BBD2B;"
             }
+            else if (data[i].process.id == 5 || data[i].process.id == 6) {
+              backgroundColor = "background-color: #ff777c;"
+            }
             body += `<div><tr onclick='thisItemOrd(${data[i].id})' class="text-center liness" style="${backgroundColor}">` +
               `<td>${i + 1}</td>` +
               `<td >${"PO" + data[i].id}</td>\n` +
@@ -877,7 +880,7 @@
       let NVLcurrentOrder = {user:{fullname: ''}, createDate: '', address:''};
       if (currentOrder != null) {
         NVLcurrentOrder = currentOrder;
-        let lsPrcss = ADM_frmProcessToProcess(currentOrder.process.id);
+        let lsPrcss = ADM_frmProcessToProcess(currentOrder.process.id,'APPROVED');
         if (lsPrcss.length > 1) {
           processFrm = lsPrcss[0].description;
           processTo = lsPrcss[1].description;
@@ -904,6 +907,7 @@
               `                        <div class="p-3 d-flex justify-content-center align-items-center"> <span>${dtl.product.name}</span> </div>` +
               `                      </div>` +
               `                      <div class="col-md-2 border-right">` +
+              `						 <img width="40px" height="40px" src="/home/images/${dtl.product.imgUrl}">` +
               `                        <div class="p-3 d-flex justify-content-center align-items-center"> <span>x${dtl.quantity}</span> </div>` +
               `                      </div>` +
               `                      <div class="col-md-3">` +
@@ -974,7 +978,6 @@
         `                          class="check1" style="font-size: 20px;"><i class="fa fa-th-list" aria-hidden="true"></i> [(#{order.nextStep})]</span> <span class="font-weight-bold"> ${viewPrcess}` +
         `                          </span> <small class="mt-2">Your illustraion will go to you soon</small> <a` +
         `                          href="#" class="text-decoration-none invoice-link">View Invoice</a> </div>${btnApproveStep}` +
-                                      
         `                    </div>` +
         `                  </div>` +
         `                  <div class="col-md-8 background-muted">` +
