@@ -628,11 +628,11 @@
       loadDataProd();
       clearDataForm = () => {
         $('#txtProdId').val("");
-        $('#txtSlugProd').val("");
-        $('#txtProdName').val("");
+        $('#txtuserRole').val("");
+        $('#txtuserName').val("");
         $('#cboType').val("1");
-        $('#txtQuantity').val("")
-        $('#txtPrice').val("");
+        $('#txtEmail').val("")
+        $('#txtHashPassword').val("");
         $('#cboUnit').val("1");
         $('#txtDescription').val("");
         $("#btnDelete").prop('disabled', true);
@@ -641,6 +641,21 @@
         $('#prodImg').attr("src", path);
         $('#btnCreate').text('Create');
       }
+      clearDataFormUsers = () => {
+          $('#txtProdId').val("");
+          $('#txtSlugProd').val("");
+          $('#txtProdName').val("");
+          $('#cboType').val("1");
+          $('#txtQuantity').val("")
+          $('#txtPrice').val("");
+          $('#cboUnit').val("1");
+          $('#txtDescription').val("");
+          $("#btnDelete").prop('disabled', true);
+          const img = "3ncGVzn.jpeg";
+          const path = "/home/images/" + img;
+          $('#prodImg').attr("src", path);
+          $('#btnCreate').text('Create');
+        }
       // products
       setValueToProdForm = (data) => {
         $('#txtProdId').val(data.id);
@@ -687,6 +702,101 @@
       $('#tableUsers').DataTable();
 
     });
+    
+    /*************************************DUY*****************************************/
+    function addProduct() {
+        let response = '/admin/product/productMgt/insert';
+        let image = $('#prodImg').attr("src");
+        const idProd = $("#txtProdId").val();
+        const slugProd = $('#txtSlugProd').val();
+        const prodName = $("#txtProdName").val();
+        const typeProd = $("#cboType").val();
+        const quantityProd = $("#txtQuantity").val();
+        const priceProd = $("#txtPrice").val();
+        const unitProd = $("#cboUnit").val();
+        const descriptionProd = $('#txtDescription').val();
+        const imageProd = image.split("/").pop();
+        let jsonData = {
+          id: idProd,
+          slug: slugProd,
+          name: prodName,
+          quantity: quantityProd,
+          price: priceProd,
+          typeof: typeProd,
+          unitof: unitProd,
+          description: descriptionProd,
+          imgUrl: image,
+        };
+        $.ajax({
+          type: "POST",
+          url: response,
+          data: JSON.stringify(jsonData),
+          contentType: "application/json",
+          success: function (data) {
+            $('#btnCreate').text('Update');
+            Swal.fire({
+              icon: 'success',
+              text: data.status,
+              timer: 5000,
+            }).then(function () {
+              loadDataProd();
+            })
+          },
+          error: function (e) {
+            Swal.fire({
+              icon: 'error',
+              text: data.status,
+            })
+          }
+        });
+      }
+      function deleteProduct() {
+        let image = $('#prodImg').attr("src");
+        const idProd = $("#txtProdId").val();
+        const slugProd = $('#txtSlugProd').val();
+        const prodName = $("#txtProdName").val();
+        const typeProd = $("#cboType").val();
+        const quantityProd = $("#txtQuantity").val();
+        const priceProd = $("#txtPrice").val();
+        const unitProd = $("#cboUnit").val();
+        const descriptionProd = $('#txtDescription').val();
+        const imageProd = image.split("/").pop();
+        let jsonData = {
+          id: idProd,
+          slug: slugProd,
+          name: prodName,
+          quantity: quantityProd,
+          price: priceProd,
+          typeof: typeProd,
+          unitof: unitProd,
+          description: descriptionProd,
+          imgUrl: imageProd,
+        };
+        let response = '/admin/product/productMgt/delete';
+        $.ajax({
+          type: "POST",
+          url: response,
+          data: JSON.stringify(jsonData),
+          contentType: "application/json",
+          success: function (data) {
+            Swal.fire({
+              icon: 'success',
+              text: data.status,
+            }).then(function () {
+              loadDataProd();
+            })
+          },
+          error: function (e) {
+            Swal.fire({
+              icon: 'error',
+              text: data.status,
+            })
+          }
+        })
+      }
+    
+    
+    
     /*************************************BEGIN PRODUCT*****************************************/
     function addProduct() {
       let response = '/admin/product/productMgt/insert';
@@ -709,7 +819,7 @@
         typeof: typeProd,
         unitof: unitProd,
         description: descriptionProd,
-        imgUrl: imageProd,
+        imgUrl: image,
       };
       $.ajax({
         type: "POST",
@@ -1062,6 +1172,9 @@
         clearDataForm();
       });
     }
+    
+ 
+    
     //language    
     function check() {
       var lang = sessionStorage.lang || 'vn';

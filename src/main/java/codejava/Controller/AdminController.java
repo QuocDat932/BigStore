@@ -1,11 +1,23 @@
 package codejava.Controller;
 
+import java.awt.image.BufferedImage;
+import java.io.BufferedOutputStream;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.imageio.ImageIO;
 import javax.servlet.http.HttpSession;
 import javax.websocket.Session;
+import javax.xml.bind.DatatypeConverter;
 
 import codejava.Dto.Message;
 import codejava.Dto.productDto;
@@ -46,7 +58,7 @@ public class AdminController {
 	private UnitTypeServices unitServices;
 	@Autowired
 	private AccountService accountServices;
-	
+
 	@GetMapping("/login")
 	public String doGetLogin(Model model, HttpSession session) {
 		System.out.println("Admin Login");
@@ -56,18 +68,19 @@ public class AdminController {
 	}
 
 	@PostMapping("/login")
-	public String doPostLogin(Model model, @ModelAttribute("user") @Validated Account accountLogin, HttpSession session) {
+	public String doPostLogin(Model model, @ModelAttribute("user") @Validated Account accountLogin,
+			HttpSession session) {
 		try {
 			UsernamePasswordAuthenticationToken authenInfo = new UsernamePasswordAuthenticationToken(
 					accountLogin.getUsername(), accountLogin.getHashPassword());
 			Authentication authentication = authenManager.authenticate(authenInfo);
 			CustomUser customUser = (CustomUser) authentication.getPrincipal();
-			
+
 			Account userAccount = accountServices.findByUsername(accountLogin.getUsername());
-			
-			Users userResponse     = userAccount.getUsers();
+
+			Users userResponse = userAccount.getUsers();
 			roles RoleUserResponse = userAccount.getUsers().getRole();
-			
+
 			if (RoleUserResponse.getDescription().equalsIgnoreCase(RoleConst.ROLE_ADMIN)
 					|| RoleUserResponse.getDescription().equalsIgnoreCase(RoleConst.ROLE_MANAGER)) {
 				session.setAttribute(SessionConst.CURRENT_ADMIN, userResponse);
@@ -89,7 +102,7 @@ public class AdminController {
 	public String doGetLogout(Model model, HttpSession session) {
 		session.removeAttribute(SessionConst.CURRENT_ADMIN);
 		session.removeAttribute(SessionConst.CURRENT_ROLE);
-		model.addAttribute("message","Login to continue");
+		model.addAttribute("message", "Login to continue");
 		return "redirect:/admin/login";
 	}
 
@@ -172,8 +185,43 @@ public class AdminController {
 	}
 
 	@PostMapping("/product/productMgt/insert")
-	public ResponseEntity<?> insertProd(@RequestBody productDto newProd) {
+	public ResponseEntity<?> insertProd(@RequestBody productDto newProd) throws IOException {
 		Message msg = new Message();
+
+		System.out.println("hinh:" + newProd.getImgUrl());
+		String base64String = newProd.getImgUrl();
+		String[] strings = base64String.split(",");
+		String extension = "jpg";
+
+		// convert base64 string to binary data
+		Path path1 = Paths.get("src/main/resources/static/home/images/");
+		System.out.println("string:" +strings.length);
+		if (strings.length > 1) {
+
+			switch (strings[0]) {// check image's extension
+			case "data:image/jpeg;base64":
+				extension = "jpeg";
+				break;
+			case "data:image/png;base64":
+				extension = "png";
+				break;
+			case "data:image/jpg;base64":
+				extension = "jpg";
+				break;
+			default:// should write cases for more images types
+				extension = "false";
+				break;
+			}
+			byte[] data = DatatypeConverter.parseBase64Binary(strings[1]);
+			String path = path1 + "//" + newProd.getSlug() + "." + extension;
+			File file = new File(path);
+			try (OutputStream outputStream = new BufferedOutputStream(new FileOutputStream(file))) {
+				outputStream.write(data);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+
 		try {
 			Products prod = new Products();
 			if (newProd.getId() != 0) {
@@ -184,7 +232,11 @@ public class AdminController {
 			prod.setQuantity(newProd.getQuantity());
 			prod.setTypeOfProduct(typeServices.findById(newProd.getTypeof()));
 			prod.setUnitType(unitServices.findById(newProd.getUnitof()));
-			prod.setImgUrl(newProd.getImgUrl());
+			if (extension == "false") {
+				prod.setImgUrl("erorr.jpg");
+			} else {
+				prod.setImgUrl(newProd.getSlug() + "." + extension);
+			}
 			prod.setDescription(newProd.getDescription());
 			prod.setIsDeleted(1.0);
 			if (newProd.getSlug() != "") {
