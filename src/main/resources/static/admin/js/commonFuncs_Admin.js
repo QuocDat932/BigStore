@@ -42,8 +42,9 @@
         });
     };
 // From Process To Process
-    ADM_frmProcessToProcess = (processId) => {
+    ADM_frmProcessToProcess = (processId, TYPE) => {
     let result = [];
+    if(TYPE === 'APPROVED'){
       if(processId === 1){
         result.push(DataProcess[0], DataProcess[1]);
       }
@@ -56,8 +57,15 @@
       else if(processId === 4){
         result.push(DataProcess[3]);
       }
-      return result;
+      else if(processId === 5){
+        result.push(DataProcess[4]); 
+      }
     }
+    else if(TYPE === 'REJECT'){
+        result.push(DataProcess[0], DataProcess[4]);
+    }
+      return result;
+}
 
 /**********************************************************************ORDER - ORDER DETAIL****/
     let lstOrdDtl = [];
