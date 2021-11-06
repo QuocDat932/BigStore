@@ -36,7 +36,7 @@ public class UserServicesImpl implements UserServices{
 	@Override
 	public Users findByEmail(String email) {
 		// TODO Auto-generated method stub
-		return repo.findByEmail(email);
+		return repo.findByEmail(email).isPresent()?repo.findByEmail(email).get():null;
 	}
 	
 	@Override
@@ -64,5 +64,11 @@ public class UserServicesImpl implements UserServices{
 		// TODO Auto-generated method stub
 		repo.delete(user);
 		System.out.println("Delete Thành Công!");
+	}
+
+	@Override
+	public void SaveAndUpdate(Users user) {
+		// TODO Auto-generated method stub
+		repo.saveAndFlush(user);
 	}
 }

@@ -10,9 +10,13 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.Normalizer;
+import java.text.Normalizer.Form;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
+import java.util.regex.Pattern;
 
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpSession;
@@ -21,6 +25,7 @@ import javax.xml.bind.DatatypeConverter;
 
 import codejava.Dto.Message;
 import codejava.Dto.productDto;
+import codejava.Dto.usersDto;
 import codejava.Entity.*;
 import codejava.Services.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +33,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
@@ -58,7 +64,13 @@ public class AdminController {
 	private UnitTypeServices unitServices;
 	@Autowired
 	private AccountService accountServices;
+	@Autowired
+	private RolesServices roleServices;
 
+	BCryptPasswordEncoder bcrypt = new BCryptPasswordEncoder();
+	 private static final Pattern NONLATIN = Pattern.compile("[^\\w-]");
+	  private static final Pattern WHITESPACE = Pattern.compile("[\\s]");
+	  
 	@GetMapping("/login")
 	public String doGetLogin(Model model, HttpSession session) {
 		System.out.println("Admin Login");
@@ -184,10 +196,138 @@ public class AdminController {
 		return "admin/ListOrder";
 	}
 
+	@PostMapping("/users/userMgt/insert")
+	public ResponseEntity<?> insertUser(@RequestBody usersDto newUser) throws IOException {
+		Message msg = new Message();
+
+		System.out.println("hinh:" + newUser.getImgUrl());
+
+		String extension = "jpg";
+		if (newUser.getImgUrl() != null) {
+			String base64String = newUser.getImgUrl();
+			String[] strings = base64String.split(",");
+
+			// convert base64 string to binary data
+			Path path1 = Paths.get("src/main/resources/static/home/images/");
+			System.out.println("string:" + strings.length);
+			if (strings.length > 1) {
+
+				switch (strings[0]) {// check image's extension
+				case "data:image/jpeg;base64":
+					extension = "jpeg";
+					break;
+				case "data:image/png;base64":
+					extension = "png";
+					break;
+				case "data:image/jpg;base64":
+					extension = "jpg";
+					break;
+				default:// should write cases for more images types
+					extension = "false";
+					break;
+				}
+				byte[] data = DatatypeConverter.parseBase64Binary(strings[1]);
+				String path = path1 + "//" + newUser.getUsername() + "." + extension;
+				File file = new File(path);
+				try (OutputStream outputStream = new BufferedOutputStream(new FileOutputStream(file))) {
+					outputStream.write(data);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+
+		try {
+
+			Users users = new Users();
+			Account account = new Account();
+
+			
+
+			if (newUser.getId() != 0) {
+				users.setId(newUser.getId());
+
+			} else {
+				if (accountServices.findByUsername(newUser.getUsername()) == null) {
+					account.setUsername(newUser.getUsername());
+				} else {
+					msg.setStatus("Has Username");
+					return ResponseEntity.ok(msg);
+				}
+				account.setHashPassword(bcrypt.encode(newUser.getHashPassword()));
+			}
+			Users checkuseremail = userservices.findByEmail(newUser.getEmail());
+			
+			users.setFullname(newUser.getFullname());
+		
+			
+			if (checkuseremail != null ) {
+				if(!newUser.getEmail().equalsIgnoreCase(checkuseremail.getEmail()) ) {
+					msg.setStatus("Has Email");
+					return ResponseEntity.ok(msg);
+				}
+			
+				
+			}
+			users.setEmail(newUser.getEmail());
+			
+			users.setIsDeleted(true);
+			users.setRole(roleServices.findByID(2));
+			if (newUser.getImgUrl() != null) {
+				users.setImgUrl(newUser.getUsername() + "." + extension);
+			} else {
+				users.setImgUrl(newUser.getImgUrl());
+
+			}
+
+			
+			
+			
+			userservices.SaveAndUpdate(users);
+			account.setUsers(userservices.findByEmail(newUser.getEmail()));
+			if(newUser.getId() == 0) {
+			accountServices.addAccount(account);
+	
+			}
+			msg.setStatus("Update successfully !!!");
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			msg.setStatus("Failure !!!");
+
+		}
+		return ResponseEntity.ok(msg);
+	}
+
+	@PostMapping("/users/userMgt/delete")
+	public ResponseEntity<?> deleteuser(@RequestBody usersDto newUser) {
+		Message msg = new Message();
+		try {
+			Users users = userservices.findByEmail(newUser.getEmail());
+			userservices.findByEmail(newUser.getEmail());
+			System.out.println("email" + newUser.getEmail());
+			users.setIsDeleted(false);
+			userservices.addUser(users);
+			msg.setStatus("Delete successfully !!!");
+		} catch (Exception e) {
+			e.printStackTrace();
+			msg.setStatus("Failure !!!");
+		}
+		return ResponseEntity.ok(msg);
+	}
+
 	@PostMapping("/product/productMgt/insert")
 	public ResponseEntity<?> insertProd(@RequestBody productDto newProd) throws IOException {
 		Message msg = new Message();
 
+		String input = newProd.getName();
+		
+			    String nowhitespace = WHITESPACE.matcher(input).replaceAll("-");
+			    String normalized = Normalizer.normalize(nowhitespace, Form.NFD);
+			    String slug = NONLATIN.matcher(normalized).replaceAll("");
+			  
+		
+		
 		System.out.println("hinh:" + newProd.getImgUrl());
 		String base64String = newProd.getImgUrl();
 		String[] strings = base64String.split(",");
@@ -195,7 +335,7 @@ public class AdminController {
 
 		// convert base64 string to binary data
 		Path path1 = Paths.get("src/main/resources/static/home/images/");
-		System.out.println("string:" +strings.length);
+		System.out.println("string:" + strings.length);
 		if (strings.length > 1) {
 
 			switch (strings[0]) {// check image's extension
@@ -212,8 +352,9 @@ public class AdminController {
 				extension = "false";
 				break;
 			}
+			
 			byte[] data = DatatypeConverter.parseBase64Binary(strings[1]);
-			String path = path1 + "//" + newProd.getSlug() + "." + extension;
+			String path = path1 + "//" + slug.toLowerCase(Locale.ENGLISH) + "." + extension;
 			File file = new File(path);
 			try (OutputStream outputStream = new BufferedOutputStream(new FileOutputStream(file))) {
 				outputStream.write(data);
@@ -232,21 +373,23 @@ public class AdminController {
 			prod.setQuantity(newProd.getQuantity());
 			prod.setTypeOfProduct(typeServices.findById(newProd.getTypeof()));
 			prod.setUnitType(unitServices.findById(newProd.getUnitof()));
+		
+			prod.setDescription(newProd.getDescription());
+			prod.setIsDeleted(1.0);
+			prod.setSlug(slug.toLowerCase(Locale.ENGLISH));
 			if (extension == "false") {
 				prod.setImgUrl("erorr.jpg");
 			} else {
-				prod.setImgUrl(newProd.getSlug() + "." + extension);
+				if (strings.length > 1) {
+				prod.setImgUrl(slug.toLowerCase(Locale.ENGLISH) + "." + extension);
+				}
+				else {
+				prod.setImgUrl(newProd.getSlug()+ extension);
+				}
 			}
-			prod.setDescription(newProd.getDescription());
-			prod.setIsDeleted(1.0);
-			if (newProd.getSlug() != "") {
-				prod.setSlug(newProd.getSlug());
-				msg.setStatus("Update successfully !!!");
-			} else {
-				prod.setSlug("Please update slug");
-				msg.setStatus("Insert successfully !!!");
-			}
+			
 			prodServices.SaveOrUpdate(prod);
+			msg.setStatus("Success");
 		} catch (Exception e) {
 			e.printStackTrace();
 			msg.setStatus("Failure !!!");
