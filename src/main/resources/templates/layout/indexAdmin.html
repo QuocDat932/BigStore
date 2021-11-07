@@ -566,9 +566,10 @@
       });
     };
     setValueToForm = (data) => {
-      $('#txtuserName').val(data.fullname);
+      $('#txtfullName').val(data.fullname);
       $('#txtuserRole').val(data.role.description);
       $('#txtEmail').val(data.email);
+      $('#txtidUsers').val(data.id);
       $('#txtHashPassWord').val(data.hashPassword);
       //$('#chkUsing').attr("style","checked");
       //$('#chkUsing').before();
@@ -598,6 +599,8 @@
           //this.UserAccount();
           $("tableUsers").unbind();
           $("OrderStatistics").unbind();
+          $("#btnDeleted").prop('disabled', false);
+          $('#btnCreated').text('Update');
           ChartOrderstatisticsById(userindex.id);
           setValueToForm(userindex);
         },
@@ -628,19 +631,24 @@
       loadDataProd();
       clearDataForm = () => {
         $('#txtProdId').val("");
-        $('#txtSlugProd').val("");
-        $('#txtProdName').val("");
+        $('#txtuserRole').val("");
+        $('#txtuserName').val("");
+        $('#txtfullName').val("");
         $('#cboType').val("1");
-        $('#txtQuantity').val("")
-        $('#txtPrice').val("");
+        $('#txtEmail').val("")
+        $('#txtHashPassWord').val("");
         $('#cboUnit').val("1");
         $('#txtDescription').val("");
-        $("#btnDelete").prop('disabled', true);
+        $('#txtidUsers').val("");
+        $('#fileImage').val("");
+        $("#btnDeleted").prop('disabled', true);
+      /*   $('#userImg').attr(""); */
         const img = "3ncGVzn.jpeg";
         const path = "/home/images/" + img;
         $('#prodImg').attr("src", path);
-        $('#btnCreate').text('Create');
+        $('#btnCreated').text('Create');
       }
+  
       // products
       setValueToProdForm = (data) => {
         $('#txtProdId').val(data.id);
@@ -679,7 +687,7 @@
         });
       };
       registerButton();
-
+	  registerButtonUser();	
       //Order
       //searchAllOrder();
       order(null);
@@ -687,6 +695,95 @@
       $('#tableUsers').DataTable();
 
     });
+    
+    /*************************************DUY*****************************************/
+    function addUsers() {
+        let response = '/admin/users/userMgt/insert';
+        let image = $('#userImg').attr("src"); 
+        const Email = $("#txtEmail").val();
+        const fullName = $('#txtfullName').val();
+        const hashPassword = $("#txtHashPassWord").val();
+        const usersName = $("#txtuserName").val();
+        const idProd = $("#txtidUsers").val()|| null ;
+        
+       /* const unitProd = $("#cboUnit").val();
+        const descriptionProd = $('#txtDescription').val();
+        const imageProd = image.split("/").pop(); */
+        let jsonData = {
+          id: idProd,  
+          email: Email,
+          fullname: fullName,
+          hashPassword: hashPassword,
+          username: usersName,
+         /*  typeof: typeProd,
+          unitof: unitProd,
+          description: descriptionProd,*/
+          imgUrl: image,  
+        };
+        $.ajax({
+          type: "POST",
+          url: response,
+          data: JSON.stringify(jsonData),
+          contentType: "application/json",
+          success: function (data) {
+            $('#btnCreated').text('Update');
+            Swal.fire({
+              icon: 'success',
+              text: data.status,
+              timer: 5000,
+            }).then(function () {
+              loadDataProd();
+            })
+          },
+          error: function (e) {
+            Swal.fire({
+              icon: 'error',
+              text: data.status,
+            })
+          }
+        });
+      }
+      function deleteUsers() {
+      
+        let response = '/admin/users/userMgt/delete';
+        
+        const Email = $("#txtEmail").val();
+        const fullName = $('#txtfullName').val();
+        const hashPassword = $("#txtHashPassWord").val();
+        const usersName = $("#txtuserName").val();
+     
+        let jsonData = {
+     
+          email: Email,
+          fullname: fullName,
+          hashPassword: hashPassword,
+          username: usersName,
+          
+        };
+        $.ajax({
+          type: "POST",
+          url: response,
+          data: JSON.stringify(jsonData),
+          contentType: "application/json",
+          success: function (data) {
+            Swal.fire({
+              icon: 'success',
+              text: data.status,
+            }).then(function () {
+              loadDataProd();
+            })
+          },
+          error: function (e) {
+            Swal.fire({
+              icon: 'error',
+              text: data.status,
+            })
+          }
+        })
+      }
+    
+    
+    
     /*************************************BEGIN PRODUCT*****************************************/
     function addProduct() {
       let response = '/admin/product/productMgt/insert';
@@ -709,7 +806,7 @@
         typeof: typeProd,
         unitof: unitProd,
         description: descriptionProd,
-        imgUrl: imageProd,
+        imgUrl: image,
       };
       $.ajax({
         type: "POST",
@@ -1065,6 +1162,24 @@
         clearDataForm();
       });
     }
+    
+    registerButtonUser =() => {
+    	 $("#btnDeleted").prop('disabled', true);
+    	 $("#btnClear").click(function () {
+    	        clearDataForm();
+    	 });
+    	 $("#btnCreated").click(function () {
+    	        addUsers();
+    	    
+    	 });
+    	 $('#btnDeleted').click(function () {
+    	        deleteUsers();
+    	        clearDataForm();
+    	 });
+    }
+    
+ 
+    
     //language    
     function check() {
       var lang = sessionStorage.lang || 'vn';

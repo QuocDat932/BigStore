@@ -44,7 +44,7 @@ public class AccountGGServiceImp implements AccountGGService{
 		AccountGG resultAccountGG  = repo.findByEmailAndIdaccount(email, idaccount);
 		      	  
 		if(!Objects.isNull(resultAccountGG)) {
-			resultUser = userRepo.findByEmail(resultAccountGG.getEmail());
+			resultUser = userRepo.findByEmail(resultAccountGG.getEmail()).get();
 		}
 		return resultUser; 
 	}

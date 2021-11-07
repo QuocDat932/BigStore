@@ -72,9 +72,17 @@
 				                  <!--<h6 class="card-title">Detail Information</h6>-->
 				                  <div class="template-demo">
 				                    <div class="">
-				                      <div class="mdc-layout-grid__cell--span-6-desktop">
+				                    
+				                       <div class="mdc-layout-grid__cell--span-6-desktop">
 				                        <div class="mdc-text-field ">
 				                          <input class="mdc-text-field__input" style="" id="txtuserName">
+				                          <div class="mdc-line-ripple"></div>
+				                          <label for="text-field-hero-input" class="mdc-floating-label">User Name</label>
+				                        </div>
+				                      </div>
+				                      <div class="mdc-layout-grid__cell--span-6-desktop">
+				                        <div class="mdc-text-field ">
+				                          <input class="mdc-text-field__input" style="" id="txtfullName">
 				                          <div class="mdc-line-ripple"></div>
 				                          <label for="text-field-hero-input" class="mdc-floating-label">Full Name</label>
 				                        </div>
@@ -88,7 +96,7 @@
 				                      </div>
 				                      <div class="mdc-layout-grid__cell--span-6-desktop">
 				                        <div class="mdc-text-field ">
-				                          <input class="mdc-text-field__input" id="txtEmail">
+				                          <input class="mdc-text	-field__input" id="txtEmail">
 				                          <div class="mdc-line-ripple"></div>
 				                          <label for="text-field-hero-input" class="mdc-floating-label">Email</label>
 				                        </div>
@@ -100,7 +108,7 @@
 				                          <div class="mdc-notched-outline">
 				                            <div class="mdc-notched-outline__leading"></div>
 				                            <div class="mdc-notched-outline__notch">
-				                              <label for="text-field-hero-input" class="mdc-floating-label">Password</label>
+				                              <label for="text-field-hero-input" class="mdc-floating-label" type="password">Password</label>
 				                            </div>
 				                            <div class="mdc-notched-outline__trailing"></div>
 				                          </div>
@@ -129,9 +137,23 @@
 				                      <img style="width: 100%;" id="userImg"  alt="user" class="user">
 				                    </div>
 				                  </div>
+				                   <input type="file"  name="fileImage" id="fileImage" accept="image/png, image/jpeg">
 				                </div>
 				              </div>
 			            </div>
+			              <div class="mdc-card__supporting-text">
+                      <div class ="template-demo">
+                        <button id="btnCreated" class="mdc-button mdc-button--unelevated mdc-ripple-upgraded" style="--mdc-ripple-fg-size:57px; --mdc-ripple-fg-scale:1.96776; --mdc-ripple-fg-translate-start:42.5px, -7.5px; --mdc-ripple-fg-translate-end:19.3047px, -10.5px;">
+                          Create
+                        </button>
+                        <button id="btnDeleted" class="mdc-button mdc-button--unelevated mdc-ripple-upgraded" style="--mdc-ripple-fg-size:57px; --mdc-ripple-fg-scale:1.96776; --mdc-ripple-fg-translate-start:42.5px, -7.5px; --mdc-ripple-fg-translate-end:19.3047px, -10.5px;" disabled>
+                          Delete
+                        </button>
+                        <button id="btnClear" class="mdc-button mdc-button--unelevated mdc-ripple-upgraded" style="--mdc-ripple-fg-size:57px; --mdc-ripple-fg-scale:1.96776; --mdc-ripple-fg-translate-start:42.5px, -7.5px; --mdc-ripple-fg-translate-end:19.3047px, -10.5px;">
+                          Clear
+                        </button>
+                      </div>
+                    </div>
 						<div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-6-desktop">
 							<div class="mdc-card">
 							<h6 class="card-title">Order statistics</h6>
@@ -143,6 +165,25 @@
 	         </div>
 	        </div>
             </div>
+            
+   <script type="text/javascript">
+  	$(document).ready(function(){
+  		$('#fileImage').change(function(){
+  			ShownImage(this);
+  		})
+  		
+  	})
+  	function ShownImage(fileInput){
+  		file = fileInput.files[0];
+  		reader = new FileReader();
+  		reader.onload = function(e){
+  			$('#userImg').attr('src', e.target.result);
+  		};
+  		reader.readAsDataURL(file);
+  	}
+  
+  </script>            
+            
 </div>
 <!-- plugins:js -->
   <script th:src="@{/admin/vendors/js/vendor.bundle.base.js}"></script>
