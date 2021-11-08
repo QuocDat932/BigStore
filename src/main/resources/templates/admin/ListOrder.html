@@ -71,7 +71,6 @@
               let orderProcessId = $('#OrderStatus').val();
               let frmOrderDate = $('#frmOrderDt').val();
               let toOrderDate = $('#toOrderDt').val();
-              console.log(frmOrderDate);
               let url = '/api/admin/order/getLstOrderByParam?processId='+orderProcessId+'&frmOrderDate='+frmOrderDate+'&toOrderDate='+toOrderDate;
               await    $.ajax({
                         type: "GET",

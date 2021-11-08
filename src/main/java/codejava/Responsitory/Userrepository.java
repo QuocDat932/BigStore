@@ -19,7 +19,7 @@ Users findByfullname(String fullname);
 	
 /* Users findByUsernameAndHashPassword(String username, String hashpassword); */
 	
-	Users findByEmail(String email);
+ 	Optional<Users> findByEmail(String email);
 	
 	List<Users> findByRoleIn(List<roles> roles);
 	
