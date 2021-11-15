@@ -103,11 +103,12 @@ public class OrderServicesimpl implements Orderservices {
 			Ordresult = repo.findById(OrdId);
 			if (!Objects.isNull(Ordresult)) {
 				OrdrApproved = Ordresult.isPresent() ? Ordresult.get() : null;
+				Process nextStep = prcssRepo.findById(stepTo);
 				// Order Process
 				Order_Process orderProcess = new Order_Process();
 				Users UserApproved = (Users) session.getAttribute("currentAdmin");
 				orderProcess.setOrder(OrdrApproved);
-				orderProcess.setProcessStep(OrdrApproved.getProcess());
+				orderProcess.setProcessStep(nextStep);
 				orderProcess.setUserProcess(UserApproved);
 				orderProcess.setProcessdate(publicConst.CurrentTimestampDtSQL());
 				orderProcess.setDescription(NoteApprove);

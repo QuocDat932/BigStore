@@ -36,14 +36,14 @@ public class apiAdm {
 	public ResponseEntity<?> doGetTotalPricebyId(@RequestParam("userId") int userId){
 		String[][] dataPrice = adminSrvs.getTotalPriceByUser(userId);
 		return ResponseEntity.ok(dataPrice);
-	}
+	};
 	@GetMapping("/indexProd")
 	public ResponseEntity<?> getIndexProd(@RequestParam("index") int index){
 		Products prod = prodServices.findById(index);
 		return ResponseEntity.ok(prod);
-	}
+	};
 	@GetMapping("/allProd")
 	public ResponseEntity<?> getAllProd(){
 		return ResponseEntity.ok(prodServices.findAll());
-	}
+	};
 }

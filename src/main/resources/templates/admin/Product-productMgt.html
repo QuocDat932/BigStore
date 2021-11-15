@@ -18,6 +18,8 @@
   <link rel="stylesheet" th:href="@{/admin/css/demo/style.css}">
   <!-- End layout styles -->
   <link rel="shortcut icon" th:href="@{/admin/images/favicon.png}" />
+
+  <script type="text/javascript" th:src='@{/admin/js/pages/ADM_product.js}' ></script>
 </head>
 <body>
 <div layout:fragment="contentAdmin">
@@ -160,7 +162,7 @@
           <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-6-desktop">
             <div class="mdc-card">
               <h6 class="card-title">Order statistics</h6>
-              <canvas id="OrderStatistics"></canvas>
+              <canvas id="chrProductOrderStatistics"></canvas>
             </div>
           </div>
         
@@ -174,8 +176,8 @@
   	$(document).ready(function(){
   		$('#fileImage').change(function(){
   			ShownImage(this);
-  		})
-  		
+  		});
+      ADM_product()
   	})
   	function ShownImage(fileInput){
   		file = fileInput.files[0];
@@ -205,11 +207,5 @@
   <script th:src="@{/admin/js/dashboard.js}"></script>
   <!-- End custom js for this page-->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  
-
-  
-  
-  
-  
 </body>
 </html>

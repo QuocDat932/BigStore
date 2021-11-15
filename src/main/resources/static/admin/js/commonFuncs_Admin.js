@@ -89,4 +89,27 @@
                     })
                 }
             })
+    };
+/******************************************************************************ORDER - ORDER_PROCESS BY ID ****/
+    let lstOrdPrcss = [];
+    ADM_GetDataOrderProcess = async (orderId) =>{
+        await ADM_OrderProcess(orderId);
+        return lstOrdPrcss;
+    }
+    ADM_OrderProcess = async (orderId) =>{
+        let url = '/api/admin/order/stepProcess?ordId='+orderId;
+        await $.ajax({
+            type: "GET",
+            url : url,
+            contentType:"application/json",
+            success: function (data){
+                lstOrdPrcss = data;
+            },
+            error: function (e){
+                Swal.fire({
+                    icon: 'error',
+                    text: "Can't load data !!!",
+                })
+            }
+        });
     }

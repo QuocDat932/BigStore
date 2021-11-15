@@ -16,7 +16,6 @@
 					<ul class="card">
 						<li><a th:href="@{/home/wishlist}"><i class="fa fa-heart" aria-hidden="true"></i>[(#{submenu.whishlist})]</a>
 						</li>
-						<li><a th:href="@{/home/login}"><i class="fa fa-user" aria-hidden="true"></i>[(#{submenu.login})]</a></li>
 							<li><a th:href="@{/home/login}"><i class="fa fa-user" aria-hidden="true"></i>[(#{submenu.login})]</a></li>
 						<li><a th:href="@{/home/logout}"><i class="fa fa-heart" aria-hidden="true"></i>[(#{submenu.logout})]</a>
 						</li>
@@ -85,12 +84,10 @@
 									<a th:href="@{'/type/'+${type.slug}}" class="dropdown-toggle  hyper" 
 									><span th:text="#{'nav.'+${type.id}}"><b class="caret"></b></span></a>
 								</li>			
-												
 									<ul class="dropdown-menu multi">
 										<div class="row">
 											<div class="col-sm-3">
 												<ul class="multi-column-dropdown">
-
 													<li><a th:href="@{/home/kitchen}"><i class="fa fa-angle-right"
 																aria-hidden="true"></i>Water & Beverages</a></li>
 													<li><a th:href="@{/home/kitchen}"><i class="fa fa-angle-right"

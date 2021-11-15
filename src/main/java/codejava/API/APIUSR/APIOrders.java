@@ -34,7 +34,8 @@ public class APIOrders {
 		return ResponseEntity.ok(paymntMthdServ.listPaymentMethod());
 	};
 	@GetMapping("/GetProcess")
-	public ResponseEntity<?> doGetProcess() throws Exception{
+	public ResponseEntity<?> doGetProcess(HttpSession session) throws Exception{
+		Users currentAccount = (Users) session.getAttribute("currentAdmin");
 		return ResponseEntity.ok(processServr.findAll());
 	};
 	/*@GetMapping("/orderDataByParam")
