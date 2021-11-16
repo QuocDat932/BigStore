@@ -6,5 +6,5 @@ import java.util.List;
 public interface StatsServices {
 	String[][] getTotalPriceByUser(int userId);
 	String[][] getcountUs();
-	String[][] getTotalPriceByProd(LocalDateTime frmDate, LocalDateTime toDate, int prodId);
+	//String[][] getTotalPriceByProd(LocalDateTime frmDate, LocalDateTime toDate, int prodId);
 }

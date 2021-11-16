@@ -11,5 +11,5 @@ public interface AccountService {
 	
 	void addAccount(Account account);
 	
-	
+	Account findByUsers_Id(int UserId);
 }

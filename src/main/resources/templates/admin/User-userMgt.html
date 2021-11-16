@@ -1,204 +1,226 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layout/indexAdmin.html}">
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/indexAdmin.html}">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Material Dash</title>
-  <!-- plugins:css -->
-  <link rel="stylesheet" th:href="@{/admin/vendors/mdi/css/materialdesignicons.min.css}">
-  <link rel="stylesheet" th:href="@{/admin/vendors/css/vendor.bundle.base.css}">
-  <!-- endinject -->
-  <!-- Plugin css for this page -->
-  <link rel="stylesheet" th:href="@{/admin/vendors/flag-icon-css/css/flag-icon.min.css}">
-  <link rel="stylesheet" th:href="@{/admin/vendors/jvectormap/jquery-jvectormap.css}">
-  <!-- End plugin css for this page -->
-  <!-- Layout styles -->
-  <link rel="stylesheet" th:href="@{/admin/css/demo/style.css}">
-  <!-- End layout styles -->
-  <link rel="shortcut icon" th:href="@{/admin/images/favicon.png}" />
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Material Dash</title>
+	<!-- plugins:css -->
+	<link rel="stylesheet" th:href="@{/admin/vendors/mdi/css/materialdesignicons.min.css}">
+	<link rel="stylesheet" th:href="@{/admin/vendors/css/vendor.bundle.base.css}">
+	<!-- endinject -->
+	<!-- Plugin css for this page -->
+	<link rel="stylesheet" th:href="@{/admin/vendors/flag-icon-css/css/flag-icon.min.css}">
+	<link rel="stylesheet" th:href="@{/admin/vendors/jvectormap/jquery-jvectormap.css}">
+	<!-- End plugin css for this page -->
+	<!-- Layout styles -->
+	<link rel="stylesheet" th:href="@{/admin/css/demo/style.css}">
+	<!-- End layout styles -->
+	<link rel="shortcut icon" th:href="@{/admin/images/favicon.png}" />
 </head>
+
 <body>
-<div layout:fragment="contentAdmin">
-            <div class="mdc-layout-grid__inner">
-              <div class="mdc-layout-grid__cell--span-12">
-                <div class="mdc-card">
-                  <h6 class="card-title">Title</h6>
-                  User Management
-                </div>
-              </div>
-             <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-6-desktop">
-	              <div class="mdc-card">
-	                <h6 class="card-title">User Account</h6>
-	                <canvas id="totalUser"></canvas>
-	              </div>
-	              </br>
-	              <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-6-desktop">
-	                <div class="mdc-card p-0">
-	                  <h6 class="card-title card-padding pb-0">User Table</h6>
-	                  <div class="table-responsive">
-	                    <table class="table table-hoverable" id="tableUsers">
-	                      <thead>
-	                        <tr>
-	                          <th class="text-left">No.</th>
-	                          <th>Name</th>
-	                          <th>Roles</th>
-	                          <th>Using</th>
-	                        </tr>
-	                      </thead>
-	                      <tbody>
-	                        <tr th:each="user, state : ${users}" th:attr="onclick='UsersDb(\''+${user.id}+'\')'">
-	                          <td th:text="${state.index + 1}"></td>
-	                          <td th:text="${user.fullname}"></td>
-	                          <td th:text="${user.role.description}"></td>
-	                          <td th:text="${user.isDeleted}"></td>
-	                        </tr>
-	                      </tbody>
-	                    </table>
-	                  </div>
-	                </div>
-                  </div>  
-             </div>
-            <!--User Detail-->
-            <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-6-desktop">
-	            <div class="mdc-card">
-	            <h1 class="card-title">User Detail</h1>
-			        <div class="mdc-layout-grid__cell--span-12">
-			            <div class="mdc-layout-grid__inner">
-			            <!--Infor-->
-				              <div class="mdc-layout-grid__cell--span-7">
-				                <div class="mdc-card">
-				                  <!--<h6 class="card-title">Detail Information</h6>-->
-				                  <div class="template-demo">
-				                    <div class="">
-				                    
-				                       <div class="mdc-layout-grid__cell--span-6-desktop">
-				                        <div class="mdc-text-field ">
-				                          <input class="mdc-text-field__input" style="" id="txtuserName">
-				                          <div class="mdc-line-ripple"></div>
-				                          <label for="text-field-hero-input" class="mdc-floating-label">User Name</label>
-				                        </div>
-				                      </div>
-				                      <div class="mdc-layout-grid__cell--span-6-desktop">
-				                        <div class="mdc-text-field ">
-				                          <input class="mdc-text-field__input" style="" id="txtfullName">
-				                          <div class="mdc-line-ripple"></div>
-				                          <label for="text-field-hero-input" class="mdc-floating-label">Full Name</label>
-				                        </div>
-				                      </div>
-				                      <div class="mdc-layout-grid__cell--span-6-desktop">
-				                        <div class="mdc-text-field ">
-				                          <input class="mdc-text-field__input" style="" id="txtuserRole">
-				                          <div class="mdc-line-ripple"></div>
-				                          <label for="text-field-hero-input" class="mdc-floating-label">Role</label>
-				                        </div>
-				                      </div>
-				                      <div class="mdc-layout-grid__cell--span-6-desktop">
-				                        <div class="mdc-text-field ">
-				                          <input class="mdc-text	-field__input" id="txtEmail">
-				                          <div class="mdc-line-ripple"></div>
-				                          <label for="text-field-hero-input" class="mdc-floating-label">Email</label>
-				                        </div>
-				                      </div>
-				                      <div class="mdc-layout-grid__cell--span-6-desktop">
-				                        <div class="mdc-text-field mdc-text-field--outlined mdc-text-field--with-trailing-icon">
-				                          <i class="material-icons mdc-text-field__icon">visibility</i>
-				                          <input class="mdc-text-field__input" id="txtHashPassWord">
-				                          <div class="mdc-notched-outline">
-				                            <div class="mdc-notched-outline__leading"></div>
-				                            <div class="mdc-notched-outline__notch">
-				                              <label for="text-field-hero-input" class="mdc-floating-label" type="password">Password</label>
-				                            </div>
-				                            <div class="mdc-notched-outline__trailing"></div>
-				                          </div>
-				                        </div>
-				                      </div>
-				                      <br>
-				                      Using 
-				                      <div class="mdc-switch mdc-switch--checked" data-mdc-auto-init="MDCSwitch">
-										<div class="mdc-switch__track"></div>
-										<div class="mdc-switch__thumb-underlay">
-										  <div class="mdc-switch__thumb">
-											  <input aria-hidden="true" id="chkUsing" type="checkbox" class="mdc-switch__native-control" role="switch">
-										  </div>
+	<div layout:fragment="contentAdmin">
+		<div class="mdc-layout-grid__inner">
+			<div class="mdc-layout-grid__cell--span-12">
+				<div class="mdc-card">
+					<h6 class="card-title">Title</h6>
+					User Management
+				</div>
+			</div>
+			<div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-6-desktop">
+				<div class="mdc-card">
+					<h6 class="card-title">User Account</h6>
+					<canvas id="totalUser"></canvas>
+				</div>
+				</br>
+				<div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-6-desktop">
+					<div class="mdc-card p-0">
+						<h6 class="card-title card-padding pb-0">User Table</h6>
+						<div class="table-responsive">
+							<table class="table table-hoverable" id="tableUsers">
+								<thead>
+									<tr>
+										<th class="text-left">[(#{user.no})]</th>
+										<th>[(#{user.name})]</th>
+										<th>[(#{user.role})]</th>
+										<th>[(#{user.using})]</th>
+										<th>[(#{user.type})]</th>
+									</tr>
+								</thead>
+								<tbody id='tableUsersADM'>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!--User Detail-->
+			<div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-6-desktop">
+				<div class="mdc-card">
+					<h1 class="card-title">User Detail</h1>
+					<div class="mdc-layout-grid__cell--span-12">
+						<div class="mdc-layout-grid__inner">
+							<!--Infor-->
+							<div class="mdc-layout-grid__cell--span-7">
+								<div class="mdc-card">
+									<!--<h6 class="card-title">Detail Information</h6>-->
+									<div class="template-demo">
+										<div class="">
+											<input id="txtidUsers" type="hidden">
+											<div class="mdc-layout-grid__cell--span-6-desktop">
+												<div class="mdc-text-field ">
+													<input class="mdc-text-field__input" style="" id="txtuserName">
+													<div class="mdc-line-ripple"></div>
+													<label for="text-field-hero-input" class="mdc-floating-label">User
+														Name</label>
+												</div>
+											</div>
+											<div class="mdc-layout-grid__cell--span-6-desktop">
+												<div class="mdc-text-field ">
+													<input class="mdc-text-field__input" style="" id="txtfullName">
+													<div class="mdc-line-ripple"></div>
+													<label for="text-field-hero-input" class="mdc-floating-label">Full
+														Name</label>
+												</div>
+											</div>
+											<div class="mdc-layout-grid__cell--span-6-desktop">
+												<div class="mdc-text-field ">
+													<!--<input class="mdc-text-field__input" style="" id="txtuserRole" >-->
+													<select class="form-control" id="txtuserRole">
+														<option value=2>[(#{user.User})]</option>
+														<option value=1>[(#{user.Admin})]</option>
+													</select>
+													<div class="mdc-line-ripple"></div>
+													<label for="text-field-hero-input"
+														class="mdc-floating-label"></label>
+												</div>
+											</div>
+											<div class="mdc-layout-grid__cell--span-6-desktop">
+												<div class="mdc-text-field ">
+													<input class="mdc-text-field__input" id="txtEmail">
+													<div class="mdc-line-ripple"></div>
+													<label for="text-field-hero-input"
+														class="mdc-floating-label">Email</label>
+												</div>
+											</div>
+											<div class="mdc-layout-grid__cell--span-6-desktop">
+												<div
+													class="mdc-text-field mdc-text-field--outlined mdc-text-field--with-trailing-icon">
+													<i class="material-icons mdc-text-field__icon">visibility</i>
+													<input class="mdc-text-field__input" id="txtHashPassWord">
+													<div class="mdc-notched-outline">
+														<div class="mdc-notched-outline__leading"></div>
+														<div class="mdc-notched-outline__notch">
+															<label for="text-field-hero-input"
+																class="mdc-floating-label"
+																type="password">Password</label>
+														</div>
+														<div class="mdc-notched-outline__trailing"></div>
+													</div>
+												</div>
+											</div>
+											<div class="mdc-layout-grid__cell--span-6-desktop">
+												<div class="mdc-text-field ">
+													<select class="form-control" id="cboUsing">
+														<option value=1>[(#{user.using})]</option>
+														<option value=0>[(#{user.notUsing})]</option>
+													</select>
+													<div class="mdc-line-ripple"></div>
+													<label for="text-field-hero-input"
+														class="mdc-floating-label"></label>
+												</div>
+											</div>
+											<div class="mdc-switch mdc-switch--checked" data-mdc-auto-init="MDCSwitch">
+												<div class="mdc-switch__track"></div>
+												<div class="mdc-switch__thumb-underlay">
+													<div class="mdc-switch__thumb">
+														<input aria-hidden="true" id="chkUsing" type="checkbox"
+															class="mdc-switch__native-control" role="switch">
+													</div>
+												</div>
+											</div>
 										</div>
-									  </div>
-				                    </div>
-				                  </div>
-				                </div>
-				              </div>
-				        <!--Img -->
-				              <div class="mdc-layout-grid__cell--span-5">
-				                <div class="mdc-card" style="width: 100%;cursor: pointer">
-				                  <!--<h6 class="card-title">Detail Information</h6>-->
-				                  <div class="template-demo">
-				                    <div class="">
-				                      <img style="width: 100%;" id="userImg"  alt="user" class="user">
-				                    </div>
-				                  </div>
-				                   <input type="file"  name="fileImage" id="fileImage" accept="image/png, image/jpeg">
-				                </div>
-				              </div>
-			            </div>
-			              <div class="mdc-card__supporting-text">
-                      <div class ="template-demo">
-                        <button id="btnCreated" class="mdc-button mdc-button--unelevated mdc-ripple-upgraded" style="--mdc-ripple-fg-size:57px; --mdc-ripple-fg-scale:1.96776; --mdc-ripple-fg-translate-start:42.5px, -7.5px; --mdc-ripple-fg-translate-end:19.3047px, -10.5px;">
-                          Create
-                        </button>
-                        <button id="btnDeleted" class="mdc-button mdc-button--unelevated mdc-ripple-upgraded" style="--mdc-ripple-fg-size:57px; --mdc-ripple-fg-scale:1.96776; --mdc-ripple-fg-translate-start:42.5px, -7.5px; --mdc-ripple-fg-translate-end:19.3047px, -10.5px;" disabled>
-                          Delete
-                        </button>
-                        <button id="btnClear" class="mdc-button mdc-button--unelevated mdc-ripple-upgraded" style="--mdc-ripple-fg-size:57px; --mdc-ripple-fg-scale:1.96776; --mdc-ripple-fg-translate-start:42.5px, -7.5px; --mdc-ripple-fg-translate-end:19.3047px, -10.5px;">
-                          Clear
-                        </button>
-                      </div>
-                    </div>
-						<div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-6-desktop">
-							<div class="mdc-card">
-							<h6 class="card-title">Order statistics</h6>
-							<canvas id="OrderStatistics"></canvas>
+									</div>
+								</div>
+							</div>
+							<!--Img -->
+							<div class="mdc-layout-grid__cell--span-5">
+								<div class="mdc-card" style="width: 100%;cursor: pointer">
+									<!--<h6 class="card-title">Detail Information</h6>-->
+									<div class="template-demo">
+										<div class="">
+											<img style="width: 100%;" id="userImg" alt="user" class="user">
+										</div>
+									</div>
+									<input type="file" name="fileImage" id="fileImage" accept="image/png, image/jpeg">
+								</div>
 							</div>
 						</div>
-			        </div>
-		          <!--</div>-->
-	         </div>
-	        </div>
-            </div>
-            
-   <script type="text/javascript">
-  	$(document).ready(function(){
-  		$('#fileImage').change(function(){
-  			ShownImage(this);
-  		})
-  		
-  	})
-  	function ShownImage(fileInput){
-  		file = fileInput.files[0];
-  		reader = new FileReader();
-  		reader.onload = function(e){
-  			$('#userImg').attr('src', e.target.result);
-  		};
-  		reader.readAsDataURL(file);
-  	}
-  
-  </script>            
-            
-</div>
-<!-- plugins:js -->
-  <script th:src="@{/admin/vendors/js/vendor.bundle.base.js}"></script>
-  <!-- endinject -->
-  <!-- Plugin js for this page-->
-  <script th:src="@{/admin/vendors/chartjs/Chart.min.js}"></script>
-  <script th:src="@{/admin/vendors/jvectormap/jquery-jvectormap.min.js}"></script>
-  <script th:src="@{/admin/vendors/jvectormap/jquery-jvectormap-world-mill-en.js}"></script>
-  <!-- End plugin js for this page-->
-  <!-- inject:js -->
-  <script th:src="@{/admin/js/material.js}"></script>
-  <script th:src="@{/admin/js/misc.js}"></script>
-  <!-- endinject -->
-  <!-- Custom js for this page-->
-  <script th:src="@{/admin/js/dashboard.js}"></script>
-  <!-- End custom js for this page-->
+						<div class="mdc-card__supporting-text">
+							<div class="template-demo">
+								<button id="btnCreated" class="mdc-button mdc-button--unelevated mdc-ripple-upgraded"
+									style="--mdc-ripple-fg-size:57px; --mdc-ripple-fg-scale:1.96776; --mdc-ripple-fg-translate-start:42.5px, -7.5px; --mdc-ripple-fg-translate-end:19.3047px, -10.5px;">
+									Create
+								</button>
+								<button id="btnDeleted" class="mdc-button mdc-button--unelevated mdc-ripple-upgraded"
+									style="--mdc-ripple-fg-size:57px; --mdc-ripple-fg-scale:1.96776; --mdc-ripple-fg-translate-start:42.5px, -7.5px; --mdc-ripple-fg-translate-end:19.3047px, -10.5px;"
+									disabled>
+									Delete
+								</button>
+								<button id="btnClear" class="mdc-button mdc-button--unelevated mdc-ripple-upgraded"
+									style="--mdc-ripple-fg-size:57px; --mdc-ripple-fg-scale:1.96776; --mdc-ripple-fg-translate-start:42.5px, -7.5px; --mdc-ripple-fg-translate-end:19.3047px, -10.5px;">
+									Clear
+								</button>
+							</div>
+						</div>
+						<div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-6-desktop">
+							<div class="mdc-card">
+								<h6 class="card-title">Order statistics</h6>
+								<canvas id="OrderStatistics"></canvas>
+							</div>
+						</div>
+					</div>
+					<!--</div>-->
+				</div>
+			</div>
+		</div>
+
+		<script type="text/javascript">
+			$(document).ready(function () {
+				$('#fileImage').change(function () {
+					ShownImage(this);
+				})
+
+			})
+			function ShownImage(fileInput) {
+				file = fileInput.files[0];
+				reader = new FileReader();
+				reader.onload = function (e) {
+					$('#userImg').attr('src', e.target.result);
+				};
+				reader.readAsDataURL(file);
+			}
+
+		</script>
+
+	</div>
+	<!-- plugins:js -->
+	<script th:src="@{/admin/vendors/js/vendor.bundle.base.js}"></script>
+	<!-- endinject -->
+	<!-- Plugin js for this page-->
+	<script th:src="@{/admin/vendors/chartjs/Chart.min.js}"></script>
+	<script th:src="@{/admin/vendors/jvectormap/jquery-jvectormap.min.js}"></script>
+	<script th:src="@{/admin/vendors/jvectormap/jquery-jvectormap-world-mill-en.js}"></script>
+	<!-- End plugin js for this page-->
+	<!-- inject:js -->
+	<script th:src="@{/admin/js/material.js}"></script>
+	<script th:src="@{/admin/js/misc.js}"></script>
+	<!-- endinject -->
+	<!-- Custom js for this page-->
+	<script th:src="@{/admin/js/dashboard.js}"></script>
+	<!-- End custom js for this page-->
 </body>
+
 </html>

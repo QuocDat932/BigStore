@@ -48,7 +48,7 @@ public class testProduct {
 
 	@GetMapping("/page")
 	public ResponseEntity<?> getExchangePage(@RequestParam Optional<Integer> p) {
-		List<Products> l = ServP.findAll();
+		List<Products> l = ServP.findProductAvai(1);
 		if(p.isPresent() && p.get()==-999) {
 			return ResponseEntity.ok(l.size());
 		}

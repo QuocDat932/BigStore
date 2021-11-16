@@ -50,4 +50,11 @@ public class AccountGGServiceImp implements AccountGGService{
 	}
 
 
+	@Override
+	public AccountGG findByUsers_Id(int Users_Id) {
+		
+		return repo.findByUsers_Id(Users_Id);
+	}
+
+
 }

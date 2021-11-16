@@ -20,7 +20,7 @@ public class usersDto {
 	private String type_account;
 	private String username;
 	private String hashPassword;
-	
+	private int roleId;
 	
 	private roles role;
 	private String description;
