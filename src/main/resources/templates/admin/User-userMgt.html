@@ -41,19 +41,14 @@
 	                    <table class="table table-hoverable" id="tableUsers">
 	                      <thead>
 	                        <tr>
-	                          <th class="text-left">No.</th>
-	                          <th>Name</th>
-	                          <th>Roles</th>
-	                          <th>Using</th>
+	                          <th class="text-left">[(#{user.no})]</th>
+	                          <th>[(#{user.name})]</th>
+	                          <th>[(#{user.role})]</th>
+	                          <th>[(#{user.using})]</th>
+							  <th>[(#{user.type})]</th>
 	                        </tr>
 	                      </thead>
-	                      <tbody>
-	                        <tr th:each="user, state : ${users}" th:attr="onclick='UsersDb(\''+${user.id}+'\')'">
-	                          <td th:text="${state.index + 1}"></td>
-	                          <td th:text="${user.fullname}"></td>
-	                          <td th:text="${user.role.description}"></td>
-	                          <td th:text="${user.isDeleted}"></td>
-	                        </tr>
+	                      <tbody id='tableUsersADM'>
 	                      </tbody>
 	                    </table>
 	                  </div>
@@ -77,7 +72,7 @@
 				                        <div class="mdc-text-field ">
 				                          <input class="mdc-text-field__input" style="" id="txtuserName">
 				                          <div class="mdc-line-ripple"></div>
-				                          <label for="text-field-hero-input" class="mdc-floating-label">Full Name</label>
+				                          <label for="text-field-hero-input" class="mdc-floating-label">User Name</label>
 				                        </div>
 				                      </div>
 				                      <div class="mdc-layout-grid__cell--span-6-desktop">
@@ -89,9 +84,13 @@
 				                      </div>
 				                      <div class="mdc-layout-grid__cell--span-6-desktop">
 				                        <div class="mdc-text-field ">
-				                          <input class="mdc-text-field__input" style="" id="txtuserRole" >
+				                          <!--<input class="mdc-text-field__input" style="" id="txtuserRole" >-->
+										  <select class="form-control" id="txtuserRole">
+											<option value=2>[(#{user.User})]</option>
+											<option value=1>[(#{user.Admin})]</option>
+										  </select>
 				                          <div class="mdc-line-ripple"></div>
-				                          <label for="text-field-hero-input" class="mdc-floating-label">Role</label>
+				                          <label for="text-field-hero-input" class="mdc-floating-label"></label>
 				                        </div>
 				                      </div>
 				                      <div class="mdc-layout-grid__cell--span-6-desktop">
@@ -114,8 +113,16 @@
 				                          </div>
 				                        </div>
 				                      </div>
-				                      <br>
-				                      Using 
+				                      <div class="mdc-layout-grid__cell--span-6-desktop">
+				                        <div class="mdc-text-field ">
+										  <select class="form-control" id="cboUsing">
+											<option value=1>[(#{user.using})]</option>
+											<option value=0>[(#{user.notUsing})]</option>
+										  </select>
+				                          <div class="mdc-line-ripple"></div>
+				                          <label for="text-field-hero-input" class="mdc-floating-label"></label>
+				                        </div>
+				                      </div>
 				                      <div class="mdc-switch mdc-switch--checked" data-mdc-auto-init="MDCSwitch">
 										<div class="mdc-switch__track"></div>
 										<div class="mdc-switch__thumb-underlay">

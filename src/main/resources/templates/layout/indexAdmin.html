@@ -524,6 +524,7 @@
         }
       }
     });
+    
     // }
     ChartOrderstatistics = (data) => {
       jQuery.removeData("#OrderStatistics");
@@ -566,12 +567,8 @@
       });
     };
     setValueToForm = (data) => {
-    	 
-       
-        
-    	
-         $('#txtuserName').focus();
-         
+      console.log(data);
+      $('#txtuserName').focus();
     	if(data.username ==null){
     		$('#txtuserName').val(data.idaccount);
     		$('#txtHashPassWord').focus();
@@ -585,12 +582,12 @@
     	}
     	$('#txtHashPassWord').focus();
       $('#txtfullName').val(data.users.fullname);
-      $('#txtuserRole').val(data.users.role.description);
+      $('#txtuserRole').val(data.users.role.id);
       $('#txtuserRole').focus();
       $('#txtEmail').val(data.users.email);
       $('#txtEmail').focus();
       $('#txtidUsers').val(data.users.id);
-     
+      $('#cboUsing').val(data.users.isDeleted ? 1 : 0);
       $('#txtHashPassWord').val(data.hashPassword);
       
       //$('#chkUsing').attr("style","checked");
@@ -598,7 +595,7 @@
       let pathimg = "/admin/images/faces/" + data.users.imgUrl;
       $('#userImg').attr("src", pathimg);
       $("#txtuserName").prop('disabled', true);
-      $("#txtuserRole").prop('disabled', true);
+      //$("#txtuserRole").prop('disabled', true);
       $('#txtfullName').focus();
     };
 
@@ -618,7 +615,6 @@
         success: (AccountIndex) => {
           //this.ChartUser();
           //this.UserAccount();
-          console.log(AccountIndex);          
           $("tableUsers").unbind();
           $("OrderStatistics").unbind();
           $("#btnDeleted").prop('disabled', false);
@@ -715,7 +711,8 @@
       //searchAllOrder();
       order(null);
       //Users
-      $('#tableUsers').DataTable();
+      reloadDataUserTable();
+      //$('#tableUsers').DataTable();
 
     });
     
@@ -728,6 +725,8 @@
         const hashPassword = $("#txtHashPassWord").val();
         const usersName = $("#txtuserName").val();
         const idProd = $("#txtidUsers").val()|| null ;
+        const roleId   = $("#txtuserRole").val()|| 2 ;
+        const isDeleted= $("#cboUsing").val() == 1 ? true : false ;
         let jsonData = {
           id: idProd,  
           email: Email,
@@ -735,7 +734,10 @@
           hashPassword: hashPassword,
           username: usersName,
           imgUrl: image,  
+          roleId: roleId,
+          isDeleted: isDeleted
         };
+        console.log(jsonData);
         $.ajax({
           type: "POST",
           url: response,
@@ -749,7 +751,9 @@
               timer: 5000,
             }).then(function () {
               loadDataProd();
-            })
+            });
+            reloadDataUserChart();
+            reloadDataUserTable();
           },
           error: function (e) {
             Swal.fire({
@@ -759,8 +763,7 @@
           }
         });
       }
-      function deleteUsers() {
-      
+    function deleteUsers() {
         let response = '/admin/users/userMgt/delete';
         
         const Email = $("#txtEmail").val();
@@ -787,7 +790,9 @@
               text: data.status,
             }).then(function () {
               loadDataProd();
-            })
+            });
+            reloadDataUserChart();
+            reloadDataUserTable();
           },
           error: function (e) {
             Swal.fire({
@@ -797,8 +802,93 @@
           }
         })
       }
-    
-    
+    function reloadDataUserChart() {
+      let response = '/api/admin/userMgt/ReloadDataUserChart'
+      $.ajax({
+          type: "GET",
+          url : response,
+          contentType:"application/json",
+          success: function (data){
+            dataUsarray = data;
+            var totalUser = $("#totalUser").get(0).getContext("2d");
+            var totalUser = new Chart(totalUser, {
+              type: 'doughnut',
+              data: {
+                labels: dataUsarray[0],
+                datasets: [{
+                  data: dataUsarray[1],
+                  backgroundColor: [
+                    'rgba(255, 66, 15, 0.8)',
+                    'rgba(0, 187, 221, 0.8)',
+                    'rgba(255, 193, 7, 0.8)',
+                    'rgba(0, 182, 122, 0.8)',
+                    'rgba(153, 102, 255, 0.8)',
+                    'rgba(255, 159, 64, 0.8)'
+                  ],
+                  borderColor: [
+                    'rgba(255, 66, 15,1)',
+                    'rgba(0, 187, 221, 1)',
+                    'rgba(255, 193, 7, 1)',
+                    'rgba(0, 182, 122, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)'
+                  ],
+                  borderWidth: 3
+                }]
+              },
+              options: {
+                responsive: true,
+                animation: {
+                  animateScale: true,
+                  animateRotate: true
+                }
+              }
+            });
+
+          },
+          error: function (e){
+              Swal.fire({
+                  icon: 'error',
+                  text: "Can't load data !!!",
+              })
+          }
+      })
+    }
+    function reloadDataUserTable() {
+      let response = '/api/admin/userMgt/ReloadDataUserTable';
+      let i = 0;
+      $.ajax({
+          type: "GET",
+          url : response,
+          contentType:"application/json",
+          success: function (data){
+            let tableUser = '';
+            if(data.length > 0){
+              data.forEach((user)=>{
+                background = 'background-color: white;';
+                if(!user.isDeleted) background = 'background-color: #FEF889;'
+                i += 1;
+                tableUser += 
+                  `<tr style='${background}' onclick='UsersDb(${user.id})'>`+
+                  `  <td>${i}</td>`+
+                  `  <td>${user.fullname}</td>`+
+                  `  <td>${user.role.description}</td>`+
+                  `  <td>${user.isDeleted}</td>`+
+                  `  <td>${user.type_account}</td>`+
+                  `</tr>`; 
+              });
+              $('#tableUsersADM').html(tableUser);
+              $('#tableUsers').DataTable();
+            }
+          },
+          error: function (e){
+              Swal.fire({
+                  icon: 'error',
+                  text: "Can't load data !!!",
+              })
+          }
+      })
+    };
     
     /*************************************BEGIN PRODUCT*****************************************/
     function clearDataFormProduct () {
