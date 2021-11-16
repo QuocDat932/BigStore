@@ -21,7 +21,7 @@ public interface ProductsServices {
 	
 	List<Products> findByTypeOfID_id(Integer id);
 	
-	List<Products> findProductAvai(Integer Isdeleted);
+	List<Products> findProductAvai(int Isdeleted);
 	
 	Products findByProductsSlug(String slug);
 	

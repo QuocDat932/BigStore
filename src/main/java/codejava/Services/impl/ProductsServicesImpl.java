@@ -100,10 +100,9 @@ public class ProductsServicesImpl implements ProductsServices{
 	}
 
 	@Override
-	public List<Products> findProductAvai(Integer Isdeleted) {
+	public List<Products> findProductAvai(int Isdeleted) {
 		// TODO Auto-generated method stub
-		return repo.findByIsdeleted(Isdeleted).get();
-
+		return repo.findByIsdeleted(Isdeleted);
 	}
 
 	

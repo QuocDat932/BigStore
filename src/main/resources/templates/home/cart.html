@@ -220,7 +220,6 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 					contentType: "application/json",
 					dataType: "json",
 					success: function (data) {
-						console.log(data)
 						getBodyPaymentMethod(data)
 					},
 					error: function (err) {

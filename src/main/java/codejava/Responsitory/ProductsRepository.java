@@ -26,7 +26,7 @@ public interface ProductsRepository extends JpaRepository<Products, Integer>{
 	
 	Optional<Products> findBySlug(String slug);
 	
-	Optional<List<Products>>  findByIsdeleted(Integer Isdeleted);
+	List<Products>  findByIsdeleted(int Isdeleted);
 //	@Query(value = " SELECT * FROM System.products Where products.isdeleted = 0", nativeQuery = true)
 //	List<Products> findProductAvali();
 	
