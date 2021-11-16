@@ -32,7 +32,10 @@ public class AccountServiceImp implements AccountService{
 		repo.saveAndFlush(account);
 	}
 
-
+	@Override
+	public Account findByUsers_Id(int userId) {
+		return repo.findByUsers_Id(userId);
+	}
 
 
 

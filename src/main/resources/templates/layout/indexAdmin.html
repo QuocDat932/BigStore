@@ -566,19 +566,40 @@
       });
     };
     setValueToForm = (data) => {
-      $('#txtfullName').val(data.fullname);
-      $('#txtuserRole').val(data.role.description);
-      $('#txtEmail').val(data.email);
-      $('#txtidUsers').val(data.id);
+    	 
+       
+        
+    	
+         $('#txtuserName').focus();
+         
+    	if(data.username ==null){
+    		$('#txtuserName').val(data.idaccount);
+    		$('#txtHashPassWord').focus();
+    		$("#txtHashPassWord").prop('disabled', true);
+    		$("#btnCreated").prop('disabled', true);
+    	}
+    	
+    	else{
+    		$('#txtuserName').val(data.username);
+    		$("#btnCreated").prop('disabled', false);
+    	}
+    	$('#txtHashPassWord').focus();
+      $('#txtfullName').val(data.users.fullname);
+      $('#txtuserRole').val(data.users.role.description);
+      $('#txtuserRole').focus();
+      $('#txtEmail').val(data.users.email);
+      $('#txtEmail').focus();
+      $('#txtidUsers').val(data.users.id);
+     
       $('#txtHashPassWord').val(data.hashPassword);
+      
       //$('#chkUsing').attr("style","checked");
       //$('#chkUsing').before();
-      let pathimg = "/admin/images/faces/" + data.imgUrl;
+      let pathimg = "/admin/images/faces/" + data.users.imgUrl;
       $('#userImg').attr("src", pathimg);
-      $('#txtEmail').focus();
-      $('#txtHashPassWord').focus();
-      $('#txtuserRole').focus();
-      $('#txtuserName').focus();
+      $("#txtuserName").prop('disabled', true);
+      $("#txtuserRole").prop('disabled', true);
+      $('#txtfullName').focus();
     };
 
     /*************************************END USER********************************************/
@@ -594,15 +615,16 @@
         contentType: "application/json",
         url: urlCurrent,
         async: false,
-        success: (userindex) => {
+        success: (AccountIndex) => {
           //this.ChartUser();
           //this.UserAccount();
+          console.log(AccountIndex);          
           $("tableUsers").unbind();
           $("OrderStatistics").unbind();
           $("#btnDeleted").prop('disabled', false);
           $('#btnCreated').text('Update');
-          ChartOrderstatisticsById(userindex.id);
-          setValueToForm(userindex);
+          ChartOrderstatisticsById(AccountIndex.users.id);
+          setValueToForm(AccountIndex);
         },
         error: (e) => {
           alert(e)
@@ -629,23 +651,24 @@
 
     $(document).ready(function () {
       loadDataProd();
+      //clearUser
       clearDataForm = () => {
-        $('#txtProdId').val("");
+        $('#txtProdId').val();
         $('#txtuserRole').val("");
         $('#txtuserName').val("");
         $('#txtfullName').val("");
-        $('#cboType').val("1");
+       /*  $('#cboType').val("1"); */
         $('#txtEmail').val("")
         $('#txtHashPassWord').val("");
-        $('#cboUnit').val("1");
+        /* $('#cboUnit').val("1"); */
         $('#txtDescription').val("");
         $('#txtidUsers').val("");
         $('#fileImage').val("");
         $("#btnDeleted").prop('disabled', true);
-      /*   $('#userImg').attr(""); */
-        const img = "3ncGVzn.jpeg";
-        const path = "/home/images/" + img;
-        $('#prodImg').attr("src", path);
+        $("#txtHashPassWord").prop('disabled', false);
+        $("#txtuserName").prop('disabled', false);
+        $("#btnCreated").prop('disabled', false);
+      	$('#userImg').attr("src","");
         $('#btnCreated').text('Create');
       }
   
@@ -696,7 +719,7 @@
 
     });
     
-    /*************************************DUY*****************************************/
+    /*************************************USERS*****************************************/
     function addUsers() {
         let response = '/admin/users/userMgt/insert';
         let image = $('#userImg').attr("src"); 
@@ -705,19 +728,12 @@
         const hashPassword = $("#txtHashPassWord").val();
         const usersName = $("#txtuserName").val();
         const idProd = $("#txtidUsers").val()|| null ;
-        
-       /* const unitProd = $("#cboUnit").val();
-        const descriptionProd = $('#txtDescription').val();
-        const imageProd = image.split("/").pop(); */
         let jsonData = {
           id: idProd,  
           email: Email,
           fullname: fullName,
           hashPassword: hashPassword,
           username: usersName,
-         /*  typeof: typeProd,
-          unitof: unitProd,
-          description: descriptionProd,*/
           imgUrl: image,  
         };
         $.ajax({
@@ -785,6 +801,26 @@
     
     
     /*************************************BEGIN PRODUCT*****************************************/
+    function clearDataFormProduct () {
+        $('#txtProdId').val("");
+        $('#txtSlugProd').val("");
+        $('#txtProdName').val("");
+        $('#txtQuantity').val("");
+        $('#cboType').val("1");
+        $('#cboUnit').val("1");
+        $('#txtPrice').val("")
+        $('#txtDescription').val("");
+        $('#txtidUsers').val("");
+        $('#fileImage').val("");
+        $("#btnDelete").prop('disabled', true);
+        const img = "3ncGVzn.jpeg";
+        const path = "/home/images/" + img;
+        $('#prodImg').attr("src", path);
+        $('#btnCreate').text('Create');
+      }
+    
+    
+    
     function addProduct() {
       let response = '/admin/product/productMgt/insert';
       let image = $('#prodImg').attr("src");
@@ -1152,14 +1188,15 @@
     registerButton = () => {
       $("#btnDelete").prop('disabled', true);
       $("#btnClear").click(function () {
-        clearDataForm();
+    	  clearDataFormProduct();
       });
       $("#btnCreate").click(function () {
         addProduct();
+        
       });
       $('#btnDelete').click(function () {
         deleteProduct();
-        clearDataForm();
+        clearDataFormProduct();
       });
     }
     

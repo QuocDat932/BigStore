@@ -12,5 +12,7 @@ public interface AccountGGService {
 	Users findByEmailAndIdaccount(String email, String idaccount);
 	
 	void addAccount(AccountGG account);
+	
+	AccountGG findByUsers_Id(int Users_Id);
 		
 }

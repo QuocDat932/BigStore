@@ -84,7 +84,7 @@ public class HomeController {
 		if (Top4Prod == null) {
 			session.setAttribute("Top4Prod", new ListproductDto());
 		}
-		List<Products> sp = productsservices.findAll();
+		List<Products> sp = productsservices.findProductAvai(0);
 		List<TypeOfProduct> listType = typrOfProductSrvcs.getListTypeOfProduct();
 		model.addAttribute("listType", listType);
 		model.addAttribute("listProduct", sp);
