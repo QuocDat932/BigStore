@@ -14,7 +14,7 @@ import codejava.Entity.*;
 @Repository								
 public interface ProductsRepository extends JpaRepository<Products, Integer>{
 	//List<Products> findByTypeId(Integer TypeId);
-	@Query(value = " SELECT * FROM products Where isdeleted = 0", nativeQuery = true)
+	@Query(value = " SELECT * FROM System.products Where products.isdeleted = 0", nativeQuery = true)
 	List<Products> findAllAvailable();
 	
 	@Query(value="SELECT * FROM products WHERE typeId = ?1", nativeQuery = true)
@@ -25,6 +25,11 @@ public interface ProductsRepository extends JpaRepository<Products, Integer>{
 	Optional<List<Products>> findTop4BySlug(String slug);
 	
 	Optional<Products> findBySlug(String slug);
+	
+	List<Products>  findByIsdeleted(int Isdeleted);
+//	@Query(value = " SELECT * FROM System.products Where products.isdeleted = 0", nativeQuery = true)
+//	List<Products> findProductAvali();
+	
 	
 	Optional<List<Products>> findByTypeOfProduct(TypeOfProduct slug);
 	

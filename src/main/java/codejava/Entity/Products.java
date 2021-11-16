@@ -50,7 +50,7 @@ public class Products implements Serializable{
 	private String description;
 	
 	@Column(name ="isdeleted")
-	private Double isDeleted;
+	private Integer isdeleted;
 	
 	@Column(name ="slug")
 	private String slug;
