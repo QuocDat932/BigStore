@@ -87,21 +87,22 @@ public class AdminController {
 					accountLogin.getUsername(), accountLogin.getHashPassword());
 			Authentication authentication = authenManager.authenticate(authenInfo);
 			CustomUser customUser = (CustomUser) authentication.getPrincipal();
-
+			
 			Account userAccount = accountServices.findByUsername(accountLogin.getUsername());
-
 			Users userResponse = userAccount.getUsers();
 			roles RoleUserResponse = userAccount.getUsers().getRole();
 
-			if (RoleUserResponse.getDescription().equalsIgnoreCase(RoleConst.ROLE_ADMIN)
+			if ( userAccount.getUsers().getIsDeleted() && RoleUserResponse.getDescription().equalsIgnoreCase(RoleConst.ROLE_ADMIN)
 					|| RoleUserResponse.getDescription().equalsIgnoreCase(RoleConst.ROLE_MANAGER)) {
 				session.setAttribute(SessionConst.CURRENT_ADMIN, userResponse);
 				session.setAttribute(SessionConst.CURRENT_ROLE, RoleUserResponse);
 				return "redirect:/admin/dashboard";
-			} else {
+			}
+			else {
 				model.addAttribute("message", "You are not allow");
 				return "/admin/login";
 			}
+			
 		} catch (Exception e) {
 
 			model.addAttribute("message", "Login failure");
@@ -252,10 +253,7 @@ public class AdminController {
 				}
 			}
 		}
-
-		
 			Users users = new Users();
-			
 			Account account = new Account();
 			if (newUser.getId() != 0) {
 				users.setId(newUser.getId());
@@ -268,7 +266,6 @@ public class AdminController {
 				}
 				account.setHashPassword(bcrypt.encode(newUser.getHashPassword()));
 			}
-
 			Users checkuseremail = userservices.findByEmail(newUser.getEmail());
 			users.setFullname(newUser.getFullname());
 			if (checkuseremail != null) {
@@ -284,8 +281,7 @@ public class AdminController {
 			} else {
 				users.setEmail(newUser.getEmail());
 			}
-			
-			users.setIsDeleted(true);
+			users.setIsDeleted(newUser.getIsDeleted());
 			users.setRole(roleServices.findByID(2));
 			System.out.println("user"+newUser.getImgUrl());
 			if (newUser.getImgUrl() != null) {
@@ -293,7 +289,11 @@ public class AdminController {
 			} else {
 				users.setImgUrl("null" + "." + extension);
 			}
+			users.setRole(roleServices.findByID(newUser.getRoleId()));
+			users.setType_account("SYS");
+			// Create Users
 			userservices.SaveAndUpdate(users);
+			// Create Account
 			account.setUsers(userservices.findByEmail(newUser.getEmail()));
 			if (newUser.getId() == 0) {
 				accountServices.addAccount(account);

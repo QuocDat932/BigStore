@@ -118,23 +118,25 @@ public class HomeController {
 			Authentication authentication = authenManager.authenticate(authenInfo);
 			CustomUser customUser = (CustomUser) authentication.getPrincipal();
 			Account accountResponse = accountService.findByUsername(accountLogin.getUsername());
-			Users usersResponse  = accountResponse.getUsers(); 
 			
-			roles RoleUserResponse = usersResponse.getRole();
-			// tạo Sesstion tại Server
+			if(accountResponse.getUsers().getIsDeleted()) {
+				Users usersResponse  =  accountResponse.getUsers() ;
+				roles RoleUserResponse = usersResponse.getRole();
+				// tạo Sesstion tại Server
+				session.setAttribute(SessionConst.CURRENT_USER, usersResponse);
+				session.setAttribute(SessionConst.CURRENT_ROLE, RoleUserResponse);
+				session.setAttribute(SessionConst.JWT, tokenProvider.generateToken(customUser));
+				System.out.println("user:" + session.getAttribute(SessionConst.CURRENT_USER).toString() );
+				return "redirect:/home";
+			}else {
+				String message = "Error! Missing fail : This Account Had Be Deleted";
+				model.addAttribute("message", message);
+				return "/home/login";
+			}
 			
-			session.setAttribute(SessionConst.CURRENT_USER, usersResponse);
-			session.setAttribute(SessionConst.CURRENT_ROLE, RoleUserResponse);
-			session.setAttribute(SessionConst.JWT, tokenProvider.generateToken(customUser));
-			
-			
-			
-			System.out.println("user:" + session.getAttribute(SessionConst.CURRENT_USER).toString() );
-			
-			return "redirect:/home";
 		} catch (Exception e) {
 			e.printStackTrace();
-			String message = "Error! Missing fail";
+			String message = "Error! Missing fail : Please Try Again";
 			model.addAttribute("message", message);
 			return "/home/login";
 		}

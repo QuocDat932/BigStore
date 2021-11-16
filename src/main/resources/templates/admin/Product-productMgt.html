@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layout/indexAdmin.html}">
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/indexAdmin.html}">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -19,178 +19,177 @@
   <!-- End layout styles -->
   <link rel="shortcut icon" th:href="@{/admin/images/favicon.png}" />
 </head>
+
 <body>
-<div layout:fragment="contentAdmin">
-  <div class="mdc-layout-grid__inner" >
-    <div class="mdc-layout-grid__cell--span-12">
-      <div class="mdc-card">
-        <h6 class="card-title">Title</h6>
-        Products Management
+  <div layout:fragment="contentAdmin">
+    <div class="mdc-layout-grid__inner">
+      <div class="mdc-layout-grid__cell--span-12">
+        <div class="mdc-card">
+          <h6 class="card-title">Title</h6>
+          Products Management
+        </div>
       </div>
-    </div>
-    <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-12-desktop">
-      <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-6-desktop">
-        <div class="mdc-card p-0">
-          <h6 class="card-title card-padding pb-0">Products Table</h6>
-          <div class="table-responsive">
-            <table class="table table-hoverable" id="prodTable">
-              <thead>
-              <tr class="text-center">
-                <th >Id</th>
-                <th >Name</th>
-                <th >Type</th>
-                <th >Quantity</th>
-                <th >Price</th>
-                <th >Unit</th>
-              </tr>
-              </thead>
-              <tbody id="bodyProd">
-              </tbody>
-            </table>
+      <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-12-desktop">
+        <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-6-desktop">
+          <div class="mdc-card p-0">
+            <h6 class="card-title card-padding pb-0">Products Table</h6>
+            <div class="table-responsive">
+              <table class="table table-hoverable" id="prodTable">
+                <thead>
+                  <tr class="text-center">
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Unit</th>
+                  </tr>
+                </thead>
+                <tbody id="bodyProd">
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <!--User Detail-->
-    <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-12-desktop">
-      <div class="mdc-card">
-        <h1 class="card-title">Product Detail</h1>
-        <div class="mdc-layout-grid__cell--span-12">
-          <div class="mdc-layout-grid__inner">
-            <!--Infor-->
-            <div class="mdc-layout-grid__cell--span-7">
-              <div class="mdc-card">
-                <!--<h6 class="card-title">Detail Information</h6>-->
-                <div class="template-demo">
-                  <div class="">
-                    <input class="mdc-text-field__input" id="txtProdId" hidden="true">
-                    <input class="mdc-text-field__input" id="txtSlugProd" hidden="true">
-                    <div class="mdc-layout-grid__cell--span-6-desktop">
-                      <div class="mdc-text-field ">
-                        <input class="mdc-text-field__input" style="" id="txtProdName">
-                        <div class="mdc-line-ripple"></div>
-                        <label for="text-field-hero-input" class="mdc-floating-label">Name</label>
+      <!--User Detail-->
+      <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-12-desktop">
+        <div class="mdc-card">
+          <h1 class="card-title">Product Detail</h1>
+          <div class="mdc-layout-grid__cell--span-12">
+            <div class="mdc-layout-grid__inner">
+              <!--Infor-->
+              <div class="mdc-layout-grid__cell--span-7">
+                <div class="mdc-card">
+                  <!--<h6 class="card-title">Detail Information</h6>-->
+                  <div class="template-demo">
+                    <div class="">
+                      <input class="mdc-text-field__input" id="txtProdId" hidden="true">
+                      <input class="mdc-text-field__input" id="txtSlugProd" hidden="true">
+                      <div class="mdc-layout-grid__cell--span-6-desktop">
+                        <div class="mdc-text-field ">
+                          <input class="mdc-text-field__input" style="" id="txtProdName">
+                          <div class="mdc-line-ripple"></div>
+                          <label for="text-field-hero-input" class="mdc-floating-label">Name</label>
+                        </div>
                       </div>
-                    </div>
-                    <div class="mdc-layout-grid__cell--span-6-desktop">
-                      <div class="mdc-text-field ">
-                        <input type="hidden" class="mdc-text-field__input" >
-                        <i class="mdc-select__dropdown-icon"></i>
-                        <select class="mdc-select__selected-text" id="cboType">
-                          <option th:each="type : ${type}"
-                                  th:value="${type.id}"
-                                  th:utext="${type.description}"/>
-                        </select>
-                        <div class="mdc-line-ripple"></div>
+                      <div class="mdc-layout-grid__cell--span-6-desktop">
+                        <div class="mdc-text-field ">
+                          <input type="hidden" class="mdc-text-field__input">
+                          <i class="mdc-select__dropdown-icon"></i>
+                          <select class="mdc-select__selected-text" id="cboType">
+                            <option th:each="type : ${type}" th:value="${type.id}" th:utext="${type.description}" />
+                          </select>
+                          <div class="mdc-line-ripple"></div>
+                        </div>
                       </div>
-                    </div>
-                    <div class="mdc-layout-grid__cell--span-6-desktop">
-                      <div class="mdc-text-field ">
-                        <input class="mdc-text-field__input" style="" id="txtQuantity">
-                        <div class="mdc-line-ripple"></div>
-                        <label for="text-field-hero-input" class="mdc-floating-label">Quantity</label>
+                      <div class="mdc-layout-grid__cell--span-6-desktop">
+                        <div class="mdc-text-field ">
+                          <input class="mdc-text-field__input" style="" id="txtQuantity">
+                          <div class="mdc-line-ripple"></div>
+                          <label for="text-field-hero-input" class="mdc-floating-label">Quantity</label>
+                        </div>
                       </div>
-                    </div>
-                    <div class="mdc-layout-grid__cell--span-6-desktop">
-                      <div class="mdc-text-field ">
-                        <input class="mdc-text-field__input" style="" id="txtPrice">
-                        <div class="mdc-line-ripple"></div>
-                        <label for="text-field-hero-input" class="mdc-floating-label">Price</label>
+                      <div class="mdc-layout-grid__cell--span-6-desktop">
+                        <div class="mdc-text-field ">
+                          <input class="mdc-text-field__input" style="" id="txtPrice">
+                          <div class="mdc-line-ripple"></div>
+                          <label for="text-field-hero-input" class="mdc-floating-label">Price</label>
+                        </div>
                       </div>
-                    </div>
-                    <div class="mdc-layout-grid__cell--span-6-desktop">
-                      <div class="mdc-text-field ">
-                        <input type="hidden" class="mdc-text-field__input" >
-                        <i class="mdc-select__dropdown-icon"></i>
-                        <select class="mdc-select__selected-text" id="cboUnit">
-                          <option th:each="unit : ${unit}"
-                                  th:value="${unit.id}"
-                                  th:utext="${unit.description}"/>
-                        </select>
-                        <div class="mdc-line-ripple"></div>
+                      <div class="mdc-layout-grid__cell--span-6-desktop">
+                        <div class="mdc-text-field ">
+                          <input type="hidden" class="mdc-text-field__input">
+                          <i class="mdc-select__dropdown-icon"></i>
+                          <select class="mdc-select__selected-text" id="cboUnit">
+                            <option th:each="unit : ${unit}" th:value="${unit.id}" th:utext="${unit.description}" />
+                          </select>
+                          <div class="mdc-line-ripple"></div>
+                        </div>
                       </div>
-                    </div>
-                    <div class="mdc-layout-grid__cell--span-6-desktop">
-                      <div class="mdc-text-field ">
-                        <label for="text-field-hero-input" class="mdc-floating-label">Description</label>
-                        <textarea class="mdc-text-field__input" style="" id="txtDescription" rows="4"></textarea>
-                        <div class="mdc-line-ripple"></div>
+                      <div class="mdc-layout-grid__cell--span-6-desktop">
+                        <div class="mdc-text-field ">
+                          <label for="text-field-hero-input" class="mdc-floating-label">Description</label>
+                          <textarea class="mdc-text-field__input" style="" id="txtDescription" rows="4"></textarea>
+                          <div class="mdc-line-ripple"></div>
+                        </div>
                       </div>
-                    </div>
-                    <div class="mdc-card__supporting-text">
-                      <div class ="template-demo">
-                        <button id="btnCreate" class="mdc-button mdc-button--unelevated mdc-ripple-upgraded" style="--mdc-ripple-fg-size:57px; --mdc-ripple-fg-scale:1.96776; --mdc-ripple-fg-translate-start:42.5px, -7.5px; --mdc-ripple-fg-translate-end:19.3047px, -10.5px;">
-                          Create
-                        </button>
-                        <button id="btnDelete" class="mdc-button mdc-button--unelevated mdc-ripple-upgraded" style="--mdc-ripple-fg-size:57px; --mdc-ripple-fg-scale:1.96776; --mdc-ripple-fg-translate-start:42.5px, -7.5px; --mdc-ripple-fg-translate-end:19.3047px, -10.5px;" disabled>
-                          Delete
-                        </button>
-                        <button id="btnClear" class="mdc-button mdc-button--unelevated mdc-ripple-upgraded" style="--mdc-ripple-fg-size:57px; --mdc-ripple-fg-scale:1.96776; --mdc-ripple-fg-translate-start:42.5px, -7.5px; --mdc-ripple-fg-translate-end:19.3047px, -10.5px;">
-                          Clear
-                        </button>
+                      <div class="mdc-card__supporting-text">
+                        <div class="template-demo">
+                          <button id="btnCreate" class="mdc-button mdc-button--unelevated mdc-ripple-upgraded"
+                            style="--mdc-ripple-fg-size:57px; --mdc-ripple-fg-scale:1.96776; --mdc-ripple-fg-translate-start:42.5px, -7.5px; --mdc-ripple-fg-translate-end:19.3047px, -10.5px;">
+                            Create
+                          </button>
+                          <button id="btnDelete" class="mdc-button mdc-button--unelevated mdc-ripple-upgraded"
+                            style="--mdc-ripple-fg-size:57px; --mdc-ripple-fg-scale:1.96776; --mdc-ripple-fg-translate-start:42.5px, -7.5px; --mdc-ripple-fg-translate-end:19.3047px, -10.5px;"
+                            disabled>
+                            Delete
+                          </button>
+                          <button id="btnClear" class="mdc-button mdc-button--unelevated mdc-ripple-upgraded"
+                            style="--mdc-ripple-fg-size:57px; --mdc-ripple-fg-scale:1.96776; --mdc-ripple-fg-translate-start:42.5px, -7.5px; --mdc-ripple-fg-translate-end:19.3047px, -10.5px;">
+                            Clear
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-            <!--Img -->
-            <div class="mdc-layout-grid__cell--span-5">
-              <div class="mdc-card" style="width: 100%;cursor: pointer">
-                <!--<h6 class="card-title">Detail Information</h6>-->
-                <div class="template-demo">
-                  <div class="">
-                    <img style="width: 100%;" id="prodImg"  alt="product" class="product" src="https://i.imgur.com/3ncGVzn.jpeg">
-                <!--     <div class ="ajax-file-upload" style="position: relative; overflow: hidden; cursor: default;">
+              <!--Img -->
+              <div class="mdc-layout-grid__cell--span-5">
+                <div class="mdc-card" style="width: 100%;cursor: pointer">
+                  <!--<h6 class="card-title">Detail Information</h6>-->
+                  <div class="template-demo">
+                    <div class="">
+                      <img style="width: 100%;" id="prodImg" alt="product" class="product"
+                        src="https://i.imgur.com/3ncGVzn.jpeg">
+                      <!--     <div class ="ajax-file-upload" style="position: relative; overflow: hidden; cursor: default;">
                       Upload
                       <form method="POST" action="YOUR_FILE_UPLOAD_URL" enctype="multipart/form-data" style="margin: 0px; padding: 0px;">
                         <input type="file" id="ajax-upload-id-1633275684198" accept="*" name="myfile[]" multiple style ="position: absolute; cursor: pointer; top: 0px; width: 100%; height: 100%; left: 0px; z-index: 100; opacity: 0;">
                       </form>
                     </div> -->
-                    
-                  <input type="file"  name="fileImage" id="fileImage" accept="image/png, image/jpeg">
+
+                      <input type="file" name="fileImage" id="fileImage" accept="image/png, image/jpeg">
+                    </div>
                   </div>
-                  
-                  
-                  
                 </div>
               </div>
             </div>
-          </div>
-          <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-6-desktop">
-            <div class="mdc-card">
-              <h6 class="card-title">Order statistics</h6>
-              <canvas id="OrderStatistics"></canvas>
+            <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-6-desktop">
+              <div class="mdc-card">
+                <h6 class="card-title">Order statistics</h6>
+                <canvas id="OrderStatistics"></canvas>
+              </div>
             </div>
+
           </div>
-        
+          <!--</div>-->
         </div>
-        <!--</div>-->
       </div>
     </div>
+
+    <script type="text/javascript">
+      $(document).ready(function () {
+        $('#fileImage').change(function () {
+          ShownImage(this);
+        })
+
+      })
+      function ShownImage(fileInput) {
+        file = fileInput.files[0];
+        reader = new FileReader();
+        reader.onload = function (e) {
+          $('#prodImg').attr('src', e.target.result);
+        };
+        reader.readAsDataURL(file);
+      }
+
+    </script>
   </div>
-  
-  <script type="text/javascript">
-  	$(document).ready(function(){
-  		$('#fileImage').change(function(){
-  			ShownImage(this);
-  		})
-  		
-  	})
-  	function ShownImage(fileInput){
-  		file = fileInput.files[0];
-  		reader = new FileReader();
-  		reader.onload = function(e){
-  			$('#prodImg').attr('src', e.target.result);
-  		};
-  		reader.readAsDataURL(file);
-  	}
-  
-  </script> 
-</div>
-<!-- plugins:js -->
+  <!-- plugins:js -->
   <script th:src="@{/admin/vendors/js/vendor.bundle.base.js}"></script>
-  <script th:src='@{/home/js/jquery-1.11.1.min.js}'></script>	
+  <script th:src='@{/home/js/jquery-1.11.1.min.js}'></script>
   <!-- endinject -->
   <!-- Plugin js for this page-->
   <script th:src="@{/admin/vendors/chartjs/Chart.min.js}"></script>
@@ -205,11 +204,12 @@
   <script th:src="@{/admin/js/dashboard.js}"></script>
   <!-- End custom js for this page-->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  
 
-  
-  
-  
-  
+
+
+
+
+
 </body>
+
 </html>
