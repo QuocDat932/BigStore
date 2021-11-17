@@ -535,7 +535,7 @@
         data: {
           labels: data[0],
           datasets: [{
-            label: '# of Votes',
+            label: `[(#{user.totalPriceChart})]`,
             data: data[1],
             backgroundColor: [
               'rgba(255, 66, 15, 0.4)',
@@ -1248,8 +1248,9 @@
         contentType: 'application/json',
       success: function (data) {
             if(data){
+              console.log(data);
               searchOrder();
-              thisItemOrd(data.id);
+              order(data);
             }
         Swal.fire({
           icon: 'success',

@@ -181,7 +181,8 @@ public class HomeController {
 			roles role = rolesservices.findByID(2);
 			newUser.setRole(role);
 			newUser.setEmail(newUser.getEmail());
-			newUser.setIsDeleted(false);
+			newUser.setType_account("SYS");
+			newUser.setIsDeleted(true);
 			userservices.addUser(newUser);
 			
 			newAccount.setUsername(newAccount.getUsername());
