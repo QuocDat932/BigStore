@@ -16,6 +16,6 @@ public interface StatsRepository extends JpaRepository<Orders, Long>{
 	String getTotalPriceById(@Param("month") String month, 
 								@Param("year")  String year,
 								@Param("userid")long userid);*/
-	@Query(value ="SELECT NVL(SUM(o2.price),'0') FROM SYSTEM.orders o1 INNER JOIN SYSTEM.order_details o2 ON o1.id = o2.orderId WHERE to_char(o1.createdDate,'MM') LIKE ?1 AND to_char(o1.createdDate,'YYYY') LIKE ?2 and o1.USERID = ?3", nativeQuery = true)
+	@Query(value ="SELECT NVL(SUM(o2.price),'0') FROM SYSTEM.orders o1 INNER JOIN SYSTEM.order_details o2 ON o1.id = o2.orderId WHERE to_char(o1.createdDate,'MM') LIKE ?1 AND to_char(o1.createdDate,'YYYY') LIKE ?2 and o1.USERID = ?3 AND o1.processid = 4", nativeQuery = true)
 	String getTotalPriceById(String month, String year, int userid );
 }
