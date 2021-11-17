@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import codejava.Constant.publicFuncs;
 import codejava.Entity.OrderDetails;
+import codejava.Entity.Order_Process;
 import codejava.Entity.Orders;
 import codejava.Responsitory.OrderRepo;
 import codejava.Services.OrderDetailServices;
@@ -73,5 +74,10 @@ public class apiAdmOrder {
 												  HttpSession session) throws Exception{
 		Orders result = OrdServs.ApproveOrder(ordId, stepFrm, stepTo, NoteApprove,session);
 		return ResponseEntity.ok(result);
-	}
+	};
+	@GetMapping("/order/stepProcess")
+	public ResponseEntity<?> doGetStepProcess(@RequestParam("ordId") int ordId) throws Exception{
+		List<Order_Process> result = ordPrcssServs.lstOrder_ProcessByOrdId(ordId);
+		return ResponseEntity.ok(result);
+	};
 }

@@ -535,7 +535,7 @@
         data: {
           labels: data[0],
           datasets: [{
-            label: '# of Votes',
+            label: `[(#{user.totalPriceChart})]`,
             data: data[1],
             backgroundColor: [
               'rgba(255, 66, 15, 0.4)',
@@ -1091,12 +1091,14 @@
     };
 
     async function order(currentOrder) {
-      let processFrm = '';
-      let processTo = '';
-      let viewPrcess = '';
+      let processFrm      = '';
+      let processTo       = '';
+      let viewPrcess      = '';
       let viewDetailTable = '';
-      let btnApproveStep = '';
-      let NVLcurrentOrder = { user: { fullname: '' }, createDate: '', address: '' };
+      let btnApproveStep  = '';
+      let viewStepApproved    = '';
+      let viewDetailTableTotal = '';
+      let NVLcurrentOrder = {id: 0 ,user:{fullname: ''}, createDate: '', address:''};
       if (currentOrder != null) {
         NVLcurrentOrder = currentOrder;
         let lsPrcss = ADM_frmProcessToProcess(currentOrder.process.id, 'APPROVED');
@@ -1118,61 +1120,52 @@
           viewPrcess = `<i class="fa fa-check" style="color: green;"></i> <text style="color: green; font-size: 30px;">${processFrm}</text>`;
         }
         let lstOrdDtl = await ADM_getDataOrderDetailByOrderId(currentOrder.id);
+        console.log(lstOrdDtl);
         if (lstOrdDtl.length > 0) {
-          lstOrdDtl.forEach((dtl) => {
-            viewDetailTable +=
-              `                    <div class="row g-0 border-bottom">` +
-              `                      <div class="col-md-4 border-right">` +
-              `                        <div class="p-3 d-flex justify-content-center align-items-center"> <span>${dtl.product.name}</span> </div>` +
-              `                      </div>` +
-              `                      <div class="col-md-2 border-right">` +
-              `						 <img width="40px" height="40px" src="/home/images/${dtl.product.imgUrl}">` +
-              `                        <div class="p-3 d-flex justify-content-center align-items-center"> <span>x${dtl.quantity}</span> </div>` +
-              `                      </div>` +
-              `                      <div class="col-md-3">` +
-              `                        <div class="p-3 d-flex justify-content-center align-items-center"> <span>${dtl.price}` +
+          lstOrdDtl.forEach((dtl)=>{
+            viewDetailTable +=  
+              `                 		<tr>` +
+              `                      <td class="col-md-4 border-right">` +
+              `                        <div style="width: 175px" class="p-3 d-flex justify-content-center align-items-center"> <span>${dtl.product.name}</span> </div>` +
+              `                      </td>` +
+              `                      <td class="col-md-2 border-right">` +
+              `						             <img width="40px" height="40px" src="/home/images/${dtl.product.imgUrl}">` +
+              `                        <div style="width: 155px" class="p-3 d-flex justify-content-center align-items-center"> <span>x${dtl.quantity}</span> </div>` +
+              `                      </td>` +
+              `                      <td class="col-md-3">` +
+              `                        <div style="width: 130px" class="p-3 d-flex justify-content-center align-items-center"> <span>${dtl.price}` +
               `                            VNĐ</span> </div>` +
-              `                      </div>` +
-              `                      <div class="col-md-3">` +
-              `                        <div class="p-3 d-flex justify-content-center align-items-center"> <span>${dtl.price * dtl.quantity}` +
+              `                      </td>` +
+              `                      <td class="col-md-3">` +
+              `                        <div style="width: 130px" class="p-3 d-flex justify-content-center align-items-center"> <span>${dtl.price * dtl.quantity}` +
               `                            VNĐ</span> </div>` +
-              `                      </div>` +
-              `                    </div>`
+              `                      </td>` +
+              `			                </tr>` 
+           });
+           viewDetailTableTotal +=
+        `   <div class="p-3 border-bottom">` +
+        `                      <div class="d-flex justify-content-between align-items-center"> <span><i` +
+        `                            class="fa fa-clock-o text-muted"></i><h4>[(#{order.totalprc})]</h4></span> <span><i` +
+        `                            class="fa fa-refresh text-muted"></i><h4>${NVLcurrentOrder.totalprice} VNĐ</h4></span>`+
+        `                      </div>` +
+        `    </div>` ;
+          }
+        let lstStepApproved = await ADM_GetDataOrderProcess(NVLcurrentOrder.id);
+        if(lstStepApproved.length > 0)  {
+          viewStepApproved += `                        <div class="d-flex flex-column mt-3">`;
+          lstStepApproved.forEach((e)=>{
+            if(e.processStep.id === 1){
+              viewStepApproved +=
+            `                        <small><i class="fa fa-check" style="color: green;"></i> ${e.processStep.description} : ${e.order.orderdescription}</small>`;
+            }else{
+            viewStepApproved +=
+            `                        <small><i class="fa fa-check" style="color: green;"></i> ${e.processStep.description} : ${e.description}</small>`;
+            }
           });
-
-          viewDetailTable +=
-            `                    <div class="row g-0 border-bottom">` +
-            `                      <div class="col-md-6">` +
-            `                        <div class="p-3 d-flex justify-content-center align-items-center"> <span>[(#{order.totalprc})]</span>` +
-            `                        </div>` +
-            `                      </div>` +
-            `                      <div class="col-md-6">` +
-            `                        <div class="p-3 d-flex justify-content-center align-items-center"> <span>${currentOrder.totalprice} VNĐ</span> </div>` +
-            `                      </div>` +
-            `                    </div>` +
-            `                    <div class="row g-0 border-bottom">` +
-            `                      <div class="col-md-6">` +
-            `                        <div class="p-3 d-flex justify-content-center align-items-center"> <span>Processing` +
-            `                            fees</span> </div>` +
-            `                      </div>` +
-            `                      <div class="col-md-6">` +
-            `                        <div class="p-3 d-flex justify-content-center align-items-center"> <span>$1.80</span>` +
-            `                        </div>` +
-            `                      </div>` +
-            `                    </div>` +
-            `                    <div class="row g-0">` +
-            `                      <div class="col-md-6">` +
-            `                        <div class="p-3 d-flex justify-content-center align-items-center"> <span` +
-            `                           class="font-weight-bold">[(#{order.totalprc})]</span> </div>` +
-            `                      </div>` +
-            `                      <div class="col-md-6">` +
-            `                        <div class="p-3 d-flex justify-content-center align-items-center"> <span` +
-            `                            class="font-weight-bold">${currentOrder.totalprice} VNĐ</span> </div>` +
-            `                      </div>` +
-            `                    </div>`
+          viewStepApproved += `                        </div>` ;
         }
       }
-      let body = ''
+      let body = '';      
       body =
         `<div class="container mt-4 mb-4">` +
         `          <div class="row d-flex cart align-items-center justify-content-center">` +
@@ -1180,7 +1173,7 @@
         `              <div class="card">` +
         `                <div class="d-flex justify-content-center border-bottom">` +
         `                  <div class="p-3">` +
-        `                    <h3 class="card-title card-padding pb-0">[(#{order.ordDtl})]</h3>` +
+        `                    <h3 class="card-title card-padding pb-0">[(#{order.ordDtl})] PO${NVLcurrentOrder.id}</h3>` +
         `                    <!--<div class="progresses">` +
         `                      <div class="steps"> <span><i class="fa fa-check"></i></span> </div> <span` +
         `                        class="line"></span>` +
@@ -1205,33 +1198,33 @@
         `                            class="fa fa-clock-o text-muted"></i>[(#{order.orddt})] :${NVLcurrentOrder.createDate.substring(0, 10)}</span> <span><i` +
         `                            class="fa fa-refresh text-muted"></i>[(#{order.ordtm})] :${NVLcurrentOrder.createDate.substring(11, 18)}</span> </div>` +
         `                      <div class="mt-3">` +
-        `                        <h4 class="mb-0">[(#{order.usrNm})] : ${NVLcurrentOrder.user.fullname}</h4>` +
-        `                        <h4 class="mb-0" style="color: red;">[(#{order.address})] : ${NVLcurrentOrder.address}</h4>  <span class="d-block mb-0">Includes:` +
-        `                          Sketch, PSD, PNG, SVG, AI </span> <small>Min: 1 illustraion</small>` +
-        `                        <div class="d-flex flex-column mt-3"> <small><i class="fa fa-check text-muted"></i> Vector` +
-        `                            file</small> <small><i class="fa fa-check text-muted"></i> Sources files</small>` +
-        `                        </div>` +
+        `                        <h4 class="mb-0">[(#{order.usrNm})] : ${NVLcurrentOrder.user.fullname}</h4>`+
+        `                        <h4 class="mb-0" style="color: red;">[(#{order.address})] : ${NVLcurrentOrder.address}</h4> </br><span class="d-block mb-0 font-weight-bold">` +
+        `                          [(#{order.step})] </span> <small>Min: 1 illustraion</small>${viewStepApproved}` +
         `                      </div>` +
         `                    </div>` +
-        `                    <div class="row g-0 border-bottom" >` +
-        `                      <div class="col-md-4 border-right" style="background-color: #97FFFF">` +
-        `                        <div class="p-3 d-flex justify-content-center align-items-center"> <span class="font-weight-bold">[(#{order.name})]</span> </div>` +
-        `                      </div>` +
-        `                      <div class="col-md-2 border-right" style="background-color: #97FFFF">` +
-        `                        <div class="p-3 d-flex justify-content-center align-items-center"> <span class="font-weight-bold">[(#{order.quantity})]</span> </div>` +
-        `                      </div>` +
-        `                      <div class="col-md-3" >` +
-        `                        <div class="p-3 d-flex justify-content-center align-items-center"> <span class="font-weight-bold">[(#{order.price})]` +
-        `                            </span> </div>` +
-        `                      </div>` +
-        `                      <div class="col-md-3" >` +
-        `                        <div class="p-3 d-flex justify-content-center align-items-center"> <span class="font-weight-bold">[(#{order.toPrice})]` +
-        `                            </span> </div>` +
-        `                      </div>` +
-        `                    </div>` +
-        /*View Table Detail*/
-        `${viewDetailTable}` +
-
+        `                    <table id="tableOrderApproved" class="row g-0 border-bottom">` +
+        `		                 <thead>` +
+        `                 		<tr>` +
+          `                      <th class="col-md-4 border-right" style="background-color: #97FFFF;" >` +
+          `                        <div style="width: 160px" class="p-3 d-flex justify-content-center align-items-center"> <span class="font-weight-bold" >[(#{order.name})]</span> </div>` +
+          `                      </th>` +
+          `                      <th class="col-md-2 border-right" style="background-color: #97FFFF">` +
+          `                        <div style="width: 140px" class="p-3 d-flex justify-content-center align-items-center"> <span class="font-weight-bold">[(#{order.quantity})]</span> </div>` +
+          `                      </th>` +
+          `                      <th class="col-md-3" style="background-color: #97FFFF;">` +
+          `                        <div style="width: 130px" class="p-3 d-flex justify-content-center align-items-center"> <span class="font-weight-bold">[(#{order.price})]` +
+          `                            </span> </div>` +
+          `                      </th>` +
+          `                      <th class="col-md-3" style="background-color: #97FFFF;">` +
+          `                        <div style="width: 130px" class="p-3 d-flex justify-content-center align-items-center"> <span class="font-weight-bold">[(#{order.toPrice})]` +
+          `                            </span> </div>` +
+          `                      </th>` +
+        `			                </tr>` +
+        `		                 </thead>` +
+                              /*View Table Detail*/
+                              `${viewDetailTable}`+
+        `                    </table>${viewDetailTableTotal}` +
         `                  </div>` +
         `                </div>` +
         `                <div> </div>` +
@@ -1241,6 +1234,7 @@
         `        </div>`;
 
       $('#tabOrderDetailADM').html(body);
+      $('#tableOrderApproved').DataTable({"lengthMenu": [ [2, 3, 4, -1], [2, 3, 4,  "All"] ]});
     }
     function orderDetail(orderId) {
       ADM_getOrderDetailByOrderId(orderId)
@@ -1252,24 +1246,21 @@
         type: 'GET',
         url: url,
         contentType: 'application/json',
-        success: function (data) {
-          if (data) {
-            searchOrder();
-          }
-          Swal.fire({
-            icon: 'success',
-            text: '[(#{order.nextStep})] ' + '[(#{msg.success})]'
-          })
-        },
-        error: function (e) {
-          Swal.fire({
-            icon: 'error',
-            text: "Can't load data !!!",
-          })
-        }
-      })
-    }
-    /*************************************EMD OPRDER*****************************************/
+      success: function (data) {
+            if(data){
+              console.log(data);
+              searchOrder();
+              order(data);
+            }
+        Swal.fire({
+          icon: 'success',
+          text:	'[(#{order.nextStep})] ' + '[(#{msg.success})]'
+        })    
+          
+      }
+    })
+  }
+    /*************************************END OPRDER*****************************************/
 
     registerButton = () => {
       $("#btnDelete").prop('disabled', true);
@@ -1323,7 +1314,7 @@
 
   <!-- Common Admin Function -->
   <script type="text/javascript" th:src='@{/admin/js/commonFuncs_Admin.js}'></script>
-
+  
 
 </body>
 
