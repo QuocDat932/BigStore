@@ -1,6 +1,7 @@
 package codejava.Entity;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -50,10 +51,16 @@ public class Products implements Serializable{
 	private String description;
 	
 	@Column(name ="isdeleted")
-	private Double isDeleted;
+	private Integer isdeleted;
 	
 	@Column(name ="slug")
 	private String slug;
+	
+	@Column(name ="frmdate")
+	private LocalDateTime frmdate;
+	
+	@Column(name ="todate")
+	private LocalDateTime todate;
 	
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
 	@JoinColumn(name="typeid", referencedColumnName = "id")
@@ -64,7 +71,5 @@ public class Products implements Serializable{
 	@JoinColumn(name="unitid", referencedColumnName = "id")
 	@JsonIgnoreProperties(value = {"applications", "hibernateLazyInitializer"})
 	private UnitType unitType;
-	
-	
 	
 }

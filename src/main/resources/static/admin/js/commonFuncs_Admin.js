@@ -16,6 +16,7 @@
             success: function (data){
                 DataProcess = data;
                 ADM_sortByIdASC(DataProcess);
+                console.log(DataProcess);
             },
             error: function (e){
                 Swal.fire({
@@ -46,12 +47,15 @@
     let result = [];
     if(TYPE === 'APPROVED'){
       if(processId === 1){
+        console.log(DataProcess[0],' == ',DataProcess[1])
         result.push(DataProcess[0], DataProcess[1]);
       }
       else if(processId === 2){
+        console.log(DataProcess[1],' == ',DataProcess[2])
         result.push(DataProcess[1], DataProcess[2]);
       }
       else if(processId === 3){
+        console.log(DataProcess[2],' == ',DataProcess[3])
         result.push(DataProcess[2], DataProcess[3]);
       }
       else if(processId === 4){
@@ -89,4 +93,27 @@
                     })
                 }
             })
+    };
+/******************************************************************************ORDER - ORDER_PROCESS BY ID ****/
+    let lstOrdPrcss = [];
+    ADM_GetDataOrderProcess = async (orderId) =>{
+        await ADM_OrderProcess(orderId);
+        return lstOrdPrcss;
+    }
+    ADM_OrderProcess = async (orderId) =>{
+        let url = '/api/admin/order/stepProcess?ordId='+orderId;
+        await $.ajax({
+            type: "GET",
+            url : url,
+            contentType:"application/json",
+            success: function (data){
+                lstOrdPrcss = data;
+            },
+            error: function (e){
+                Swal.fire({
+                    icon: 'error',
+                    text: "Can't load data !!!",
+                })
+            }
+        });
     }

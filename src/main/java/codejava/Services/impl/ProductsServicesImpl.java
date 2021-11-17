@@ -97,5 +97,16 @@ public class ProductsServicesImpl implements ProductsServices{
 		// TODO Auto-generated method stub
 		repo.saveAndFlush(product);
 		
-	};
+	}
+
+	@Override
+	public List<Products> findProductAvai(int Isdeleted) {
+		// TODO Auto-generated method stub
+		return repo.findByIsdeleted(Isdeleted);
+	}
+
+	
+
+
+	
 }

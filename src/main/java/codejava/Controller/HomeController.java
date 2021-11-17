@@ -84,7 +84,12 @@ public class HomeController {
 		if (Top4Prod == null) {
 			session.setAttribute("Top4Prod", new ListproductDto());
 		}
-		List<Products> sp = productsservices.findAll();
+		List<Products> sp = productsservices.findProductAvai(1);
+		
+		sp.forEach(spp->{
+			System.out.println( spp.getName());
+		});
+		
 		List<TypeOfProduct> listType = typrOfProductSrvcs.getListTypeOfProduct();
 		model.addAttribute("listType", listType);
 		model.addAttribute("listProduct", sp);
@@ -113,23 +118,25 @@ public class HomeController {
 			Authentication authentication = authenManager.authenticate(authenInfo);
 			CustomUser customUser = (CustomUser) authentication.getPrincipal();
 			Account accountResponse = accountService.findByUsername(accountLogin.getUsername());
-			Users usersResponse  = accountResponse.getUsers(); 
 			
-			roles RoleUserResponse = usersResponse.getRole();
-			// tạo Sesstion tại Server
+			if(accountResponse.getUsers().getIsDeleted()) {
+				Users usersResponse  =  accountResponse.getUsers() ;
+				roles RoleUserResponse = usersResponse.getRole();
+				// tạo Sesstion tại Server
+				session.setAttribute(SessionConst.CURRENT_USER, usersResponse);
+				session.setAttribute(SessionConst.CURRENT_ROLE, RoleUserResponse);
+				session.setAttribute(SessionConst.JWT, tokenProvider.generateToken(customUser));
+				System.out.println("user:" + session.getAttribute(SessionConst.CURRENT_USER).toString() );
+				return "redirect:/home";
+			}else {
+				String message = "Error! Missing fail : This Account Had Be Deleted";
+				model.addAttribute("message", message);
+				return "/home/login";
+			}
 			
-			session.setAttribute(SessionConst.CURRENT_USER, usersResponse);
-			session.setAttribute(SessionConst.CURRENT_ROLE, RoleUserResponse);
-			session.setAttribute(SessionConst.JWT, tokenProvider.generateToken(customUser));
-			
-			
-			
-			System.out.println("user:" + session.getAttribute(SessionConst.CURRENT_USER).toString() );
-			
-			return "redirect:/home";
 		} catch (Exception e) {
 			e.printStackTrace();
-			String message = "Error! Missing fail";
+			String message = "Error! Missing fail : Please Try Again";
 			model.addAttribute("message", message);
 			return "/home/login";
 		}
@@ -174,7 +181,8 @@ public class HomeController {
 			roles role = rolesservices.findByID(2);
 			newUser.setRole(role);
 			newUser.setEmail(newUser.getEmail());
-			newUser.setIsDeleted(false);
+			newUser.setType_account("SYS");
+			newUser.setIsDeleted(true);
 			userservices.addUser(newUser);
 			
 			newAccount.setUsername(newAccount.getUsername());

@@ -8,5 +8,5 @@ import codejava.Entity.Users;
 @Repository
 public interface Accountrepo extends JpaRepository<Account, Integer> {
 	Account findByUsername(String username);
-	
+	Account findByUsers_Id(int userId);
 }

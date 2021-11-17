@@ -21,15 +21,21 @@ public class ProcessServicesimpl implements ProcessService{
 @Autowired
 private Processrepo repo;
 	
-	
 	@Override
 	public Process findBySlug(publicConst.Orderprocess slug) {
 		return repo.findBySlug(String.valueOf(slug)).isEmpty()?null:repo.findBySlug(String.valueOf(slug)).get();
-	}
+	};
 
 	@Override
 	public List<Process> findAll() {
 		return repo.findAll();
+	};
+	
+	@Override
+	public Process findById(int id) {
+		Optional<Process> result = repo.findById(id);
+		return result.isPresent() ? result.get() : null;
 	}
+	
 	
 }

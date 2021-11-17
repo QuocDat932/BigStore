@@ -33,7 +33,6 @@ public class StatsServicesImpl implements StatsServices{
 	}
 	@Autowired
 	public String[][] getcountUs(){
-		
 		List<String> roles = new ArrayList<String>();
 		roles.add("admin");
 		roles.add("user");
