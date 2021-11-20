@@ -1,5 +1,7 @@
 package codejava.Dto;
 
+import java.sql.Date;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import codejava.Entity.TypeOfProduct;
@@ -31,4 +33,7 @@ public class productDto {
 	private String summary;//
 	private int typeof;
 	private int unitof;
+	
+	private Date frmUsingDate;
+	private Date toUsingDate;
 }
