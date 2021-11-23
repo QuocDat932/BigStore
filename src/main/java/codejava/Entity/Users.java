@@ -66,6 +66,8 @@ public class Users implements Serializable {
 	@Column(name="phone")
 	private String phone;
 	
+	@Column(name="resetpassword_token")
+	private String resetpassword_token;
 	
 	@Column(name="address")
 	private String address;
