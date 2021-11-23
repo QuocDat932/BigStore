@@ -83,7 +83,7 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 					`</tr>`
 			}
 			$('#bodyOrder').html(body);
-			$('#example').DataTable();
+			$('#example').DataTable({"lengthMenu": [ [4], [4] ],"bLengthChange" : false});
 		};
 		async function OrderProcess(currentOrder) {
 			let clsOrder = '';

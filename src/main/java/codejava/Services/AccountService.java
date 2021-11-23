@@ -9,6 +9,7 @@ public interface AccountService {
 	
 	Account findByUsername(String username);
 	
+	
 	void addAccount(Account account);
 	
 	Account findByUsers_Id(int UserId);

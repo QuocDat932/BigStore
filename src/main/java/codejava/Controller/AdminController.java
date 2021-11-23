@@ -315,7 +315,6 @@ public class AdminController {
 		try {
 			Users users = userservices.findByEmail(newUser.getEmail());
 			userservices.findByEmail(newUser.getEmail());
-			System.out.println("email" + newUser.getEmail());
 			users.setIsDeleted(false);
 			userservices.addUser(users);
 			msg.setStatus("Delete successfully !!!");
