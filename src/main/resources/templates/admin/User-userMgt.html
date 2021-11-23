@@ -7,8 +7,8 @@
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<title>Material Dash</title>
 	<!-- plugins:css -->
-	<link rel="stylesheet" th:href="@{/admin/vendors/mdi/css/materialdesignicons.min.css}">
-	<link rel="stylesheet" th:href="@{/admin/vendors/css/vendor.bundle.base.css}">
+	<!-- <link rel="stylesheet" th:href="@{/admin/vendors/mdi/css/materialdesignicons.min.css}">
+	<link rel="stylesheet" th:href="@{/admin/vendors/css/vendor.bundle.base.css}"> -->
 	<!-- endinject -->
 	<!-- Plugin css for this page -->
 	<link rel="stylesheet" th:href="@{/admin/vendors/flag-icon-css/css/flag-icon.min.css}">
@@ -18,6 +18,13 @@
 	<link rel="stylesheet" th:href="@{/admin/css/demo/style.css}">
 	<!-- End layout styles -->
 	<link rel="shortcut icon" th:href="@{/admin/images/favicon.png}" />
+	<script type="text/javascript" th:src='@{/admin/js/pages/ADM_user.js}'></script>
+	<script type="text/javascript">
+		$(document).ready(function () {
+			ADM_user();
+
+		});
+	</script>
 </head>
 
 <body>
@@ -171,6 +178,19 @@
 						</div>
 					</div>
 					<!--</div>-->
+				</div>
+			</div>
+
+			<div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-6-desktop">
+				<div class="mdc-card">
+					<h6 class="card-title">[(#{user.UserStatisticUsingAccount})]</h6>
+					<canvas id="UserStatisticUsingAccount"></canvas>
+				</div>
+			</div>
+			<div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-6-desktop">
+				<div class="mdc-card">
+					<h6 class="card-title">[(#{user.UserStatisticTypeAccount})]</h6>
+					<canvas id="UserStatisticTypeAccount"></canvas>
 				</div>
 			</div>
 		</div>
