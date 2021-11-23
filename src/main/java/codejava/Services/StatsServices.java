@@ -11,4 +11,7 @@ public interface StatsServices {
 	String[][] getStatisticsOrderInPeriod(Date frmDate, Date toDate);
 	String[][] getStatisticsProductInPeriod(int productId, Date frmDate, Date toDate, int totalMonth);
 	String[][] getStatistiscUnitInPeriod(int productId, Date frmDate, Date toDate, int totalMonth);
+	String[][] getStatisticQuantityOfProductByType();
+	String[][] getcountUsingAccountUser();
+	String[][] getcountAccountTypeUser();
 }
