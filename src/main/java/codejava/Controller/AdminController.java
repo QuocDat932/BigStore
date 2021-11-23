@@ -12,6 +12,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.Normalizer;
 import java.text.Normalizer.Form;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -42,6 +43,7 @@ import org.springframework.web.bind.annotation.*;
 import codejava.Constant.RoleConst;
 import codejava.Constant.SessionConst;
 import codejava.Constant.publicConst;
+import codejava.Constant.publicFuncs;
 import codejava.Jwt.CustomUser;
 import codejava.Constant.publicConst;
 
@@ -387,7 +389,11 @@ public class AdminController {
 			} else {
 				prod.setImgUrl(newProd.getSlug() + "." + extension);
 			}
-
+			// convert Date to Local Time
+			int datex =  newProd.getToUsingDate().getDate();
+		    newProd.getToUsingDate().setDate(datex);
+			prod.setFrmdate(publicFuncs.convertToLocalDateTimeViaMilisecond(newProd.getFrmUsingDate()));
+			prod.setTodate(publicFuncs.convertToLocalDateTimeViaMilisecond(newProd.getToUsingDate()));
 			prodServices.SaveOrUpdate(prod);
 			msg.setStatus("Success");
 		} catch (Exception e) {

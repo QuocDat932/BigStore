@@ -19,75 +19,86 @@
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.13.0/moment.min.js" type="text/javascript"></script>
 
+  <script type="text/javascript" th:src='@{/admin/js/pages/ADM_order.js}'></script>
+
   <!-- End layout styles -->
   <link rel="shortcut icon" th:href="@{/admin/images/favicon.png}" />
   <script type="text/javascript">
-    $(document).ready( function () {
+    $(document).ready(function () {
       setOrderDate();
       reloadDataStatus();
+      getStatisticsOrderInPeriodChart($('#frmOrderChartDt').val(), $('#toOrderChartDt').val());
       //$('#tableOrderADM').DataTable();
     });
     function setOrderDate() {
-			let ToDay = moment().format('YYYY-MM-DD');
+      let ToDay = moment().format('YYYY-MM-DD');
       let sixDayAgo = moment().subtract(6, 'days').format('YYYY-MM-DD');
-			$('#frmOrderDt').val(sixDayAgo);
-			$('#toOrderDt').val(ToDay);
-		};
+      let firstDateOfMonth = moment().startOf('month').format('YYYY-MM-DD');
+      let lastDateOfMonth = moment().endOf('month').format('YYYY-MM-DD');
+      $('#frmOrderDt').val(sixDayAgo);
+      $('#toOrderDt').val(ToDay);
+
+      $('#frmOrderChartDt').val(firstDateOfMonth);
+      $('#toOrderChartDt').val(lastDateOfMonth);
+    };
     async function reloadDataStatus() {
-          url = "/api/order/GetProcess";
-          await $.ajax({
-                type: "GET",
-                url: url,
-                contentType: "application/json",
-                success: function (data) {
-                  // sort by value
-                  ListOrderProcess = data.sort(function (a, b) {
-                    return a.id - b.id;
-                  });;
-                  selectStatus(ListOrderProcess);
-                },
-                error: function (e) {
-                  Swal.fire({
-                    icon: 'error',
-                    text: "Can't load data !!!",
-                  })
-                }
-              });
-              searchOrder();
+      url = "/api/order/GetProcess";
+      await $.ajax({
+        type: "GET",
+        url: url,
+        contentType: "application/json",
+        success: function (data) {
+          // sort by value
+          ListOrderProcess = data.sort(function (a, b) {
+            return a.id - b.id;
+          });;
+          selectStatus(ListOrderProcess);
+        },
+        error: function (e) {
+          Swal.fire({
+            icon: 'error',
+            text: "Can't load data !!!",
+          })
         }
-		function selectStatus(ListOrderProcess) {
-			let option = '';
-			for (let i = 0; i < ListOrderProcess.length; i++) {
-				option += `<option value="${ListOrderProcess[i].id}">${ListOrderProcess[i].description}</option>`
-			};
-			let bodySelect =
-				`<select id="OrderStatus" class="form-control" >` +
-				option +
-				`</select>`;
-			$('#selectStatus').html(bodySelect);
-		};
+      });
+      searchOrder();
+    }
+    function selectStatus(ListOrderProcess) {
+      let option = '';
+      for (let i = 0; i < ListOrderProcess.length; i++) {
+        option += `<option value="${ListOrderProcess[i].id}">${ListOrderProcess[i].description}</option>`
+      };
+      let bodySelect =
+        `<select id="OrderStatus" class="form-control" >` +
+        option +
+        `</select>`;
+      $('#selectStatus').html(bodySelect);
+    };
     let listOrder_DataOrderSearch = [];
-      async function searchOrder(){
-              let orderProcessId = $('#OrderStatus').val();
-              let frmOrderDate = $('#frmOrderDt').val();
-              let toOrderDate = $('#toOrderDt').val();
-              let url = '/api/admin/order/getLstOrderByParam?processId='+orderProcessId+'&frmOrderDate='+frmOrderDate+'&toOrderDate='+toOrderDate;
-              await    $.ajax({
-                        type: "GET",
-                        url: url,
-                        contentType: "application/json",
-                        success: function (data) {
-                          listOrder_DataOrderSearch = data;
-                          CreateTableOrder(listOrder_DataOrderSearch);
-                        },
-                        error: function (e) {
-                          Swal.fire({
-                            icon: 'error',
-                            text: "Can't load data !!!",
-                          })
-                        }
-                      });
-            }
+    async function searchOrder() {
+      let orderProcessId = $('#OrderStatus').val();
+      let frmOrderDate = $('#frmOrderDt').val();
+      let toOrderDate = $('#toOrderDt').val();
+      let url = '/api/admin/order/getLstOrderByParam?processId=' + orderProcessId + '&frmOrderDate=' + frmOrderDate + '&toOrderDate=' + toOrderDate;
+      await $.ajax({
+        type: "GET",
+        url: url,
+        contentType: "application/json",
+        success: function (data) {
+          listOrder_DataOrderSearch = data;
+          CreateTableOrder(listOrder_DataOrderSearch);
+        },
+        error: function (e) {
+          Swal.fire({
+            icon: 'error',
+            text: "Can't load data !!!",
+          })
+        }
+      });
+    }
+    async function searchGetStatisticsOrderInPeriodChart() {
+      getStatisticsOrderInPeriodChart($('#frmOrderChartDt').val(), $('#toOrderChartDt').val());
+    }
   </script>
 </head>
 
@@ -104,26 +115,22 @@
                     <h6 class="card-title card-padding pb-0">[(#{order.titlePage})]</h6>
                     <form>
                       <fieldset>
-                        <!--<div class="form-group form-inline">
-                          <label for="paymentMethod" style="width: 15%;">Payment Method</label>
-                          <div id="selectPaymentMethod"></div>
-                        </div>-->
                         <div class="form-group form-inline">
-                          <label for="status" >[(#{order.process_sts})]</label>
+                          <label for="status">[(#{order.process_sts})]</label>
                           <div id="selectStatus"></div>
                         </div>
-                        <label for="orderDate" >[(#{order.orddt})]</label>
+                        <label for="orderDate">[(#{order.orddt})]</label>
                         <div class="form-group form-inline">
                           <input id="frmOrderDt" type="date" class="form-control">
                           <label for="orderDate"> To </label>
                           <input id="toOrderDt" type="date" class="form-control">
                         </div>
                       </fieldset>
-                      <button type="button" th:attr="onclick='searchOrder()'" class="btn btn-primary">Search</button>
+                      <button type="button" th:attr="onclick='searchOrder()'" class="btn btn-primary">[(#{btn.search})]</button>
                     </form>
-                    <div class="table-responsive" >
+                    <div class="table-responsive">
                       <div id="tableOrder">
-                        
+
                       </div>
                     </div>
                   </div>
@@ -133,6 +140,31 @@
               <div id="tabOrderDetailADM"></div>
               <!--END -->
             </div>
+            <div class="mdc-layout-grid">
+              <div class="mdc-layout-grid__inner">
+                <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-8-desktop">
+                  <div class="mdc-card">
+                    <h6 class="card-title">[(#{order.StatisticsOrderInPeriod})]</h6>
+                    <canvas id="getStatisticsOrderInPeriodChart"></canvas>
+                  </div>
+                </div>
+                <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-4-desktop">
+                  <div class="mdc-card">
+                    <form>
+                      <fieldset>
+                        <label for="orderDate">[(#{order.period})]</label>
+                        <div class="form-group">
+                          <input id="frmOrderChartDt" type="date" class="form-control"> <br>
+                          <input id="toOrderChartDt" type="date" class="form-control"><br>
+                        </div>
+                      </fieldset>
+                      <button type="button" th:attr="onclick='searchGetStatisticsOrderInPeriodChart()'" class="btn btn-primary">[(#{btn.search})]</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+
         </div>
 
         </main>
@@ -160,4 +192,5 @@
 </body>
 <!--- CSS -->
 <link th:href='@{/admin/css/orderprocessADM.css}' rel='stylesheet' type='text/css' />
+
 </html>

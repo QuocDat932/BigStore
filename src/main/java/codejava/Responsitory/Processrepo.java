@@ -12,5 +12,5 @@ import codejava.Entity.Process;
 @Repository
 public interface Processrepo extends JpaRepository<Process, Integer> {
 	Optional<Process> findBySlug(String slug);
-	
+	List<Process> findByIdIsNotNullOrderByIdDesc();
 }
