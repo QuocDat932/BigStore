@@ -15,7 +15,7 @@ import codejava.Entity.roles;
 import codejava.Entity.Users;
 @Repository
 public interface Userrepository extends JpaRepository<Users, Integer>{
-Users findByfullname(String fullname);
+	Users findByfullname(String fullname);
 	
 /* Users findByUsernameAndHashPassword(String username, String hashpassword); */
 	
@@ -23,9 +23,9 @@ Users findByfullname(String fullname);
 	
 	List<Users> findByRoleIn(List<roles> roles);
 	
+	
 	/*@Query(value = "SELECT hashPassword FROM users WHERE username = ?1", nativeQuery = true)
 	Optional<Users> findby(String hashPassword);*/
-//	Optional<Users> findByUsername(String username);
 	
 	
 }

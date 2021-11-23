@@ -86,10 +86,6 @@ public class HomeController {
 		}
 		List<Products> sp = productsservices.findProductAvai(1);
 		
-		sp.forEach(spp->{
-			System.out.println( spp.getName());
-		});
-		
 		List<TypeOfProduct> listType = typrOfProductSrvcs.getListTypeOfProduct();
 		model.addAttribute("listType", listType);
 		model.addAttribute("listProduct", sp);
@@ -269,10 +265,7 @@ public class HomeController {
 
 	}
 
-	@GetMapping("/home/terms")
-	public String doGetTerms() {
-		return "home/terms";
-	}
+
 
 	@GetMapping("/home/faqs")
 	public String doGetFaqs() {
