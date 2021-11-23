@@ -16,7 +16,6 @@
             success: function (data){
                 DataProcess = data;
                 ADM_sortByIdASC(DataProcess);
-                console.log(DataProcess);
             },
             error: function (e){
                 Swal.fire({
@@ -47,15 +46,12 @@
     let result = [];
     if(TYPE === 'APPROVED'){
       if(processId === 1){
-        console.log(DataProcess[0],' == ',DataProcess[1])
         result.push(DataProcess[0], DataProcess[1]);
       }
       else if(processId === 2){
-        console.log(DataProcess[1],' == ',DataProcess[2])
         result.push(DataProcess[1], DataProcess[2]);
       }
       else if(processId === 3){
-        console.log(DataProcess[2],' == ',DataProcess[3])
         result.push(DataProcess[2], DataProcess[3]);
       }
       else if(processId === 4){

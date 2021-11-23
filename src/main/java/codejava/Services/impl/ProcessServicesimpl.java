@@ -28,7 +28,7 @@ private Processrepo repo;
 
 	@Override
 	public List<Process> findAll() {
-		return repo.findAll();
+		return repo.findByIdIsNotNullOrderByIdDesc();
 	};
 	
 	@Override

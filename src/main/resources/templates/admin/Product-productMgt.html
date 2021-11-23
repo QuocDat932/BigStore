@@ -19,7 +19,14 @@
   <!-- End layout styles -->
   <link rel="shortcut icon" th:href="@{/admin/images/favicon.png}" />
 
-  <script type="text/javascript" th:src='@{/admin/js/pages/ADM_product.js}' ></script>
+  <script type="text/javascript" th:src='@{/admin/js/pages/ADM_product.js}'></script>
+  <script type="text/javascript">
+    $(document).ready(function () {
+      ADM_product();
+      $('#frmOrderChartDt').val(moment().subtract(6, 'months').format('YYYY-MM-DD'));
+      $('#toOrderChartDt').val(moment().format('YYYY-MM-DD'));
+    });
+  </script>
 </head>
 
 <body>
@@ -34,22 +41,9 @@
       <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-12-desktop">
         <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-6-desktop">
           <div class="mdc-card p-0">
-            <h6 class="card-title card-padding pb-0">Products Table</h6>
+            <h6 style="font-weight: bold;" class="card-title card-padding pb-0">[(#{product.productTable})]</h6>
             <div class="table-responsive">
-              <table class="table table-hoverable" id="prodTable">
-                <thead>
-                  <tr class="text-center">
-                    <th>Id</th>
-                    <th>Name</th>
-                    <th>Type</th>
-                    <th>Quantity</th>
-                    <th>Price</th>
-                    <th>Unit</th>
-                  </tr>
-                </thead>
-                <tbody id="bodyProd">
-                </tbody>
-              </table>
+              <div id="tableProduct"></div>
             </div>
           </div>
         </div>
@@ -57,7 +51,7 @@
       <!--User Detail-->
       <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-12-desktop">
         <div class="mdc-card">
-          <h1 class="card-title">Product Detail</h1>
+          <h1 style="font-weight: bold;" class="card-title">[(#{product.productDetail})]</h1>
           <div class="mdc-layout-grid__cell--span-12">
             <div class="mdc-layout-grid__inner">
               <!--Infor-->
@@ -70,7 +64,7 @@
                       <input class="mdc-text-field__input" id="txtSlugProd" hidden="true">
                       <div class="mdc-layout-grid__cell--span-6-desktop">
                         <div class="mdc-text-field ">
-                          <input class="mdc-text-field__input" style="" id="txtProdName">
+                          <input class="mdc-text-field__input" style="" id="txtProdName" required>
                           <div class="mdc-line-ripple"></div>
                           <label for="text-field-hero-input" class="mdc-floating-label">Name</label>
                         </div>
@@ -86,6 +80,12 @@
                         </div>
                       </div>
                       <div class="mdc-layout-grid__cell--span-6-desktop">
+                        <br>
+                        <div class="form-group form-inline">
+                          <input id="frmUsingDt" type="date" class="form-control">
+                          <label for="orderDate"> To </label>
+                          <input id="toUsingDt" type="date" class="form-control">
+                        </div>
                         <div class="mdc-text-field ">
                           <input class="mdc-text-field__input" style="" id="txtQuantity">
                           <div class="mdc-line-ripple"></div>
@@ -120,16 +120,16 @@
                         <div class="template-demo">
                           <button id="btnCreate" class="mdc-button mdc-button--unelevated mdc-ripple-upgraded"
                             style="--mdc-ripple-fg-size:57px; --mdc-ripple-fg-scale:1.96776; --mdc-ripple-fg-translate-start:42.5px, -7.5px; --mdc-ripple-fg-translate-end:19.3047px, -10.5px;">
-                            Create
+                            [(#{btn.create})]
                           </button>
                           <button id="btnDelete" class="mdc-button mdc-button--unelevated mdc-ripple-upgraded"
                             style="--mdc-ripple-fg-size:57px; --mdc-ripple-fg-scale:1.96776; --mdc-ripple-fg-translate-start:42.5px, -7.5px; --mdc-ripple-fg-translate-end:19.3047px, -10.5px;"
                             disabled>
-                            Delete
+                            [(#{btn.delete})]
                           </button>
                           <button id="btnClear" class="mdc-button mdc-button--unelevated mdc-ripple-upgraded"
                             style="--mdc-ripple-fg-size:57px; --mdc-ripple-fg-scale:1.96776; --mdc-ripple-fg-translate-start:42.5px, -7.5px; --mdc-ripple-fg-translate-end:19.3047px, -10.5px;">
-                            Clear
+                            [(#{btn.clear})]
                           </button>
                         </div>
                       </div>
@@ -159,56 +159,68 @@
               </div>
             </div>
           </div>
-          <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-6-desktop">
-            <div class="mdc-card">
-              <h6 class="card-title">Order statistics</h6>
-              <canvas id="chrProductOrderStatistics"></canvas>
-            </div>
 
-          </div>
-          <!--</div>-->
         </div>
+        <br>
+        <div class="page-wrapper mdc-toolbar-fixed-adjust">
+          <div class="mdc-layout-grid__inner">
+            <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-12-desktop">
+              <div class="mdc-card">
+                <h6 class="card-title">[(#{order.period})]</h6>
+                <form class="form-inline p3">
+                  <fieldset>
+                    <label for="orderDate"></label>
+                    <div class="form-group">
+                      <input id="frmOrderChartDt" type="date" class="form-control">
+                      <input id="toOrderChartDt" type="date" class="form-control">
+                    </div>
+                  </fieldset>
+                  <button type="button" th:attr="onclick='searchGetStatisticsOrderInPeriodChart()'"
+                    class="btn btn-primary">[(#{btn.search})]</button>
+                </form>
+              </div>
+            </div>
+            <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-6-desktop">
+              <div class="mdc-card">
+                <h6 class="card-title">[(#{product.chrProductOrderStatistics})]</h6>
+                <canvas id="chrProductOrderStatistics"></canvas>
+              </div>
+            </div>
+            <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-6-desktop">
+              <div class="mdc-card">
+                <h6 class="card-title">[(#{product.chrProductUnitStatistics})]</h6>
+                <canvas id="chrProductQuantityStatistics"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
       </div>
+
     </div>
-
-    <script type="text/javascript">
-      $(document).ready(function () {
-        $('#fileImage').change(function () {
-          ShownImage(this);
-        })
-
-      })
-      function ShownImage(fileInput) {
-        file = fileInput.files[0];
-        reader = new FileReader();
-        reader.onload = function (e) {
-          $('#prodImg').attr('src', e.target.result);
-        };
-        reader.readAsDataURL(file);
-      }
-
-    </script>
   </div>
-  
+
   <script type="text/javascript">
-  	$(document).ready(function(){
-  		$('#fileImage').change(function(){
-  			ShownImage(this);
-  		});
-      ADM_product()
-  	})
-  	function ShownImage(fileInput){
-  		file = fileInput.files[0];
-  		reader = new FileReader();
-  		reader.onload = function(e){
-  			$('#prodImg').attr('src', e.target.result);
-  		};
-  		reader.readAsDataURL(file);
-  	}
-  
-  </script> 
-</div>
-<!-- plugins:js -->
+    $(document).ready(function () {
+      $('#fileImage').change(function () {
+        ShownImage(this);
+      })
+    })
+    function ShownImage(fileInput) {
+      file = fileInput.files[0];
+      reader = new FileReader();
+      reader.onload = function (e) {
+        $('#prodImg').attr('src', e.target.result);
+      };
+      reader.readAsDataURL(file);
+    }
+
+  </script>
+  </div>
+  </div>
+  <!-- plugins:js -->
   <script th:src="@{/admin/vendors/js/vendor.bundle.base.js}"></script>
   <script th:src='@{/home/js/jquery-1.11.1.min.js}'></script>
   <!-- endinject -->
