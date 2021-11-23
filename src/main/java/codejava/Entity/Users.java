@@ -63,6 +63,13 @@ public class Users implements Serializable {
 	@Column(name="type_account")
 	private String type_account;
 	
+	@Column(name="phone")
+	private String phone;
+	
+	
+	@Column(name="address")
+	private String address;
+	
 	// Khoa Ngoai
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
 	@JoinColumn(name = "roleid", referencedColumnName = "id")
