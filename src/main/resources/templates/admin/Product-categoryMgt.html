@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layout/indexAdmin.html}">
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/indexAdmin.html}">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -18,19 +18,104 @@
   <link rel="stylesheet" th:href="@{/admin/css/demo/style.css}">
   <!-- End layout styles -->
   <link rel="shortcut icon" th:href="@{/admin/images/favicon.png}" />
+  <script type="text/javascript" th:src='@{/admin/js/pages/ADM_category.js}'></script>
+  <script type="text/javascript">
+    $(document).ready(function () {
+      ADM_category();
+
+    });
+  </script>
 </head>
+
 <body>
-<div layout:fragment="contentAdmin">
-            <div class="mdc-layout-grid__inner">
-              <div class="mdc-layout-grid__cell--span-12">
-                <div class="mdc-card">
-                  <h6 class="card-title">Title</h6>
-                  Category Manegement
-                </div>
-              </div>
+  <div layout:fragment="contentAdmin">
+    <div class="mdc-layout-grid__inner">
+      <div
+        class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-3-desktop mdc-layout-grid__cell--span-4-tablet">
+        <div class="mdc-card info-card info-card--success">
+          <div class="card-inner">
+            <h5 class="card-title">[(#{nav.1})]</h5>
+            <div class="form-inline">
+              <h1 id="Quantity_vegetable" class="font-weight-light pb-2 mb-1 border-bottom"></h1>
+              [(#{menu.products})]
             </div>
-</div>
-<!-- plugins:js -->
+            <p id="PercentQuantity_vegetable" class="tx-12 text-muted">48% target reached</p>
+            <div class="card-icon-wrapper">
+              <i class="fas fa-apple-alt"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-3-desktop mdc-layout-grid__cell--span-4-tablet">
+        <div class="mdc-card info-card info-card--danger">
+          <div class="card-inner">
+            <h5 class="card-title">[(#{nav.2})]</h5>
+            <div class="form-inline">
+              <h1 id="Quantity_fastFood" class="font-weight-light pb-2 mb-1 border-bottom"></h1>
+              [(#{menu.products})]
+            </div>
+            <p id="PercentQuantity_fastFood" class="tx-12 text-muted">55% target reached</p>
+            <div class="card-icon-wrapper">
+              <i class="fas fa-hamburger"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-3-desktop mdc-layout-grid__cell--span-4-tablet">
+        <div class="mdc-card info-card info-card--primary">
+          <div class="card-inner">
+            <h5 class="card-title">[(#{nav.3})]</h5>
+            <div class="form-inline">
+              <h1 id="Quantity_houseWare" class="font-weight-light pb-2 mb-1 border-bottom"></h1>
+              [(#{menu.products})]
+            </div>
+            <p id="PercentQuantity_houseWare" class="tx-12 text-muted">87% target reached</p>
+            <div class="card-icon-wrapper">
+              <i class="fas fa-hammer"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-3-desktop mdc-layout-grid__cell--span-4-tablet">
+        <div class="mdc-card info-card info-card--info">
+          <div class="card-inner">
+            <h5 class="card-title">[(#{nav.4})]</h5>
+            <div class="form-inline">
+              <h1 id="Quantity_boxingPackingItem" class="font-weight-light pb-2 mb-1 border-bottom"></h1>
+              [(#{menu.products})]
+            </div>
+            <p id="PercentQuantity_boxingPackingItem" class="tx-12 text-muted">87% target reached</p>
+            <div class="card-icon-wrapper">
+              <i class="fas fa-cubes"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="mdc-layout-grid__cell--span-12">
+        <div class="mdc-card">
+          <h6 class="card-title">Title</h6>
+          Category Manegement
+        </div>
+      </div>
+      <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-6-desktop">
+        <div class="mdc-card">
+          <h6 class="card-title">[(#{product.getStatisticQuantityOfProductCategory})]</h6>
+          <canvas id="chartStatisticQuantityOfProductByType"></canvas>
+        </div>
+      </div>
+      <br>
+      <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-6-desktop">
+        <div class="mdc-card">
+          <h6 class="card-title">Scatter chart</h6>
+          <canvas id="scatterChart"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- plugins:js -->
   <script th:src="@{/admin/vendors/js/vendor.bundle.base.js}"></script>
   <!-- endinject -->
   <!-- Plugin js for this page-->
@@ -46,4 +131,5 @@
   <script th:src="@{/admin/js/dashboard.js}"></script>
   <!-- End custom js for this page-->
 </body>
+
 </html>

@@ -34,7 +34,7 @@ public class OrderDetailServicesImpl implements OrderDetailServices{
 		System.out.println(" >>>>>>>> số lượng sau khi trừ  :" +  quantity);
 		product.setQuantity(quantity);
 		// nếu xét số lượng có sẵn 
-		if(quantity<=0) {
+		if(quantity<=10) {
 			product.setIsdeleted(0);
 			System.out.println(" >>>>>>>> số lượng <= 0 nên  sản phẩm sẽ được ẩn! ");
 		}

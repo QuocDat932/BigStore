@@ -24,9 +24,23 @@ public class apiADMUserMgt {
 		String[][] dataUs = adminSrvs.getcountUs();
 		return ResponseEntity.ok(dataUs);
 	};
+	
 	@GetMapping("/userMgt/ReloadDataUserTable")
 	public ResponseEntity<?> ReloadDataUserTable(){
 		List<Users> users = userSrvs.findAll();
 		return ResponseEntity.ok(users);
 	};
+	
+	@GetMapping("/userMgt/getUserStatisticUsingAccount")
+	public ResponseEntity<?> doGetUserStatisticUsingAccount(){
+		String[][] dataUsing = adminSrvs.getcountUsingAccountUser();
+		return ResponseEntity.ok(dataUsing);
+	};
+	
+	@GetMapping("/userMgt/getUserStatisticTypeAccount")
+	public ResponseEntity<?> doGetUserStatisticTypeAccount(){
+		String[][] dataAccountType = adminSrvs.getcountAccountTypeUser();
+		return ResponseEntity.ok(dataAccountType);
+	};
+	
 }

@@ -18,14 +18,16 @@ import org.springframework.web.bind.annotation.RestController;
 
 import codejava.Constant.publicFuncs;
 import codejava.Entity.OrderDetails;
+import codejava.Entity.Order_Process;
 import codejava.Entity.Orders;
 import codejava.Responsitory.OrderRepo;
 import codejava.Services.OrderDetailServices;
 import codejava.Services.Order_ProcessServices;
 import codejava.Services.Orderservices;
+import codejava.Services.StatsServices;
 
 @RestController
-@RequestMapping("/api/admin")
+@RequestMapping("/api/admin/")
 public class apiAdmOrder {
 	@Autowired
 	private Orderservices OrdServs;
@@ -35,12 +37,16 @@ public class apiAdmOrder {
 	
 	@Autowired
 	private Order_ProcessServices ordPrcssServs;
-	@GetMapping("/order/getLstOrder")
+	
+	@Autowired
+	private StatsServices statsServs;
+	
+	@GetMapping("order/getLstOrder")
 	public ResponseEntity<?> doGetLstOrder(){
 		List<Orders> result = OrdServs.findAll();
 		return ResponseEntity.ok(result);
 	};
-	@GetMapping("/order/getLstOrderDtl")
+	@GetMapping("order/getLstOrderDtl")
 	public ResponseEntity<?> doGetLstOrderDtl(@RequestParam("ordId") int ordId) throws Exception{
 		List<OrderDetails> result;
 		try {
@@ -51,11 +57,11 @@ public class apiAdmOrder {
 		}
 		return ResponseEntity.ok(result);
 	};
-	@GetMapping("/order/getOrder_Process")
+	@GetMapping("order/getOrder_Process")
 	public ResponseEntity<?> doGetOrder_Process(@RequestParam("ordId") int ordId) throws Exception{
 		return ResponseEntity.ok(ordPrcssServs.lstOrder_ProcessByOrdId(ordId));
 	}
-	@GetMapping("/order/getLstOrderByParam")
+	@GetMapping("order/getLstOrderByParam")
 	public ResponseEntity<?> doGetLstOrderByParam(@RequestParam("processId") int prcssId,
 												  @RequestParam("frmOrderDate") Date frmOrderDate,
 												  @RequestParam("toOrderDate") Date toOrderDate){
@@ -65,13 +71,23 @@ public class apiAdmOrder {
 		LocalDateTime to = publicFuncs.convertToLocalDateTimeViaMilisecond(toOrderDate);
 		return ResponseEntity.ok(OrdServs.findByParams(1, prcssId, fm, to));
 	};
-	@GetMapping("/order/approveNextSetp")
+	@GetMapping("order/approveNextSetp")
 	public ResponseEntity<?> doGetApproveNextSetp(@RequestParam("ordId") int ordId,
 												  @RequestParam("stepFrm") int stepFrm,
 												  @RequestParam("stepTo") int stepTo,
 												  @RequestParam("desc") String NoteApprove,
 												  HttpSession session) throws Exception{
 		Orders result = OrdServs.ApproveOrder(ordId, stepFrm, stepTo, NoteApprove,session);
+		return ResponseEntity.ok(result);
+	};
+	@GetMapping("order/stepProcess")
+	public ResponseEntity<?> doGetStepProcess(@RequestParam("ordId") int ordId) throws Exception{
+		List<Order_Process> result = ordPrcssServs.lstOrder_ProcessByOrdId(ordId);
+		return ResponseEntity.ok(result);
+	};
+	@GetMapping("order/getStatisticsOrderInPeriod")
+	public ResponseEntity<?> doGetStatisticsOrderInPeriod(@RequestParam("frmDt") Date frmDt, @RequestParam("toDt") Date toDt){
+		String[][] result = statsServs.getStatisticsOrderInPeriod(frmDt, toDt);
 		return ResponseEntity.ok(result);
 	}
 }

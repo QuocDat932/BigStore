@@ -39,7 +39,7 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
     integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
     crossorigin="anonymous"></script>
-
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.13.0/moment.min.js" type="text/javascript"></script>
 </head>
 
 <body>
@@ -54,8 +54,8 @@
       </div>
       <div class="mdc-drawer__content">
         <div class="user-info">
-          <p class="name">Clyde Miles</p>
-          <p class="email">clydemiles@elenor.us</p>
+          <p class="name" th:text="${session.currentAdmin.fullname}">Clyde Miles</p>
+          <p class="email" th:text="${session.currentAdmin.email}">clydemiles@elenor.us</p>
         </div>
         <div class="mdc-list-group">
           <nav class="mdc-list mdc-drawer-menu">
@@ -525,17 +525,18 @@
       }
     });
 
-    // }
+    var OrderStatistics1;
     ChartOrderstatistics = (data) => {
-      jQuery.removeData("#OrderStatistics");
-      var OrderStatistics = $("#OrderStatistics").get(0).getContext("2d");
-      //OrderStatistics.removeData();
-      var OrderStatistics = new Chart(OrderStatistics, {
+      if( OrderStatistics1 != undefined ){
+        OrderStatistics1.destroy()
+      }
+      var OrderStatistics2 = $("#OrderStatistics").get(0).getContext("2d");
+      OrderStatistics1 = new Chart(OrderStatistics2, {
         type: 'line',
         data: {
           labels: data[0],
           datasets: [{
-            label: '# of Votes',
+            label: `[(#{user.totalPriceChart})]`,
             data: data[1],
             backgroundColor: [
               'rgba(255, 66, 15, 0.4)',
@@ -567,7 +568,6 @@
       });
     };
     setValueToForm = (data) => {
-      console.log(data);
       $('#txtuserName').focus();
       if (data.username == null) {
         $('#txtuserName').val(data.idaccount);
@@ -678,10 +678,12 @@
         $('#txtPrice').val(data.price);
         $('#cboUnit').val(data.unitType.id);
         $('#txtDescription').val(data.description);
+        $('#frmUsingDt').val(moment(data.frmdate).format("YYYY-MM-DD"));
+        $('#toUsingDt').val(moment(data.todate).format("YYYY-MM-DD"));
         const path = "/home/images/" + data.imgUrl;
         $('#prodImg').attr("src", path);
         $("#btnDelete").prop('disabled', false);
-        $('#btnCreate').text('Update');
+        $('#btnCreate').text('[(#{btn.update})]');
         $('#txtDescription').focus();
         $('#txtUnit').focus();
         $('#txtPrice').focus();
@@ -699,6 +701,7 @@
           async: false,
           success: (prod) => {
             setValueToProdForm(prod);
+            ADM_product();
           },
           error: (e) => {
             alert('bug')
@@ -753,6 +756,7 @@
           });
           reloadDataUserChart();
           reloadDataUserTable();
+          ADM_user();
         },
         error: function (e) {
           Swal.fire({
@@ -854,6 +858,7 @@
       })
     }
     function reloadDataUserTable() {
+      let existDataTableUser;
       let response = '/api/admin/userMgt/ReloadDataUserTable';
       let i = 0;
       $.ajax({
@@ -861,6 +866,21 @@
         url: response,
         contentType: "application/json",
         success: function (data) {
+          let header =
+            '<table class="table table-hoverable" id="tableUsers">'+
+            '  <thead>'+
+            '    <tr>'+
+            '      <th class="text-left">[(#{user.no})]</th>'+
+            '      <th>[(#{user.name})]</th>'+
+            '      <th>[(#{user.role})]</th>'+
+            '      <th>[(#{user.using})]</th>'+
+            '      <th>[(#{user.type})]</th>'+
+            '    </tr>'+
+            '  </thead>'+
+            '  <tbody id="tableUsersADM">'+
+            '  </tbody>'+
+            '</table>';
+          $('#tableMgtUsers').html(header);
           let tableUser = '';
           if (data.length > 0) {
             data.forEach((user) => {
@@ -877,7 +897,10 @@
                 `</tr>`;
             });
             $('#tableUsersADM').html(tableUser);
-            $('#tableUsers').DataTable();
+            if(existDataTableUser != undefined){
+              existDataTableUser.destroy();
+            }   
+            existDataTableUser = $('#tableUsers').DataTable({"lengthMenu": [ 9, 9 ],"bLengthChange" : false});
           }
         },
         error: function (e) {
@@ -905,7 +928,7 @@
       const img = "3ncGVzn.jpeg";
       const path = "/home/images/" + img;
       $('#prodImg').attr("src", path);
-      $('#btnCreate').text('Create');
+      $('#btnCreate').text('[(#{btn.create})]');
     }
     function addProduct() {
       let response = '/admin/product/productMgt/insert';
@@ -919,6 +942,8 @@
       const unitProd = $("#cboUnit").val();
       const descriptionProd = $('#txtDescription').val();
       const imageProd = image.split("/").pop();
+      const frmUsingDate =  $('#frmUsingDt').val();
+      const toUsingDate = $('#toUsingDt').val();
       let jsonData = {
         id: idProd,
         slug: slugProd,
@@ -929,6 +954,8 @@
         unitof: unitProd,
         description: descriptionProd,
         imgUrl: image,
+        frmUsingDate: frmUsingDate,
+        toUsingDate: toUsingDate
       };
       $.ajax({
         type: "POST",
@@ -936,7 +963,7 @@
         data: JSON.stringify(jsonData),
         contentType: "application/json",
         success: function (data) {
-          $('#btnCreate').text('Update');
+          $('#btnCreate').text('[(#{btn.update})]');
           Swal.fire({
             icon: 'success',
             text: data.status,
@@ -948,7 +975,7 @@
         error: function (e) {
           Swal.fire({
             icon: 'error',
-            text: data.status,
+            text: 'hihi'//data.status,
           })
         }
       });
@@ -1015,19 +1042,38 @@
       })
     }
     function reloadTable(newProd) {
-      let body = ''
-      for (let i = 0; i < newProd.length; i++) {
-        body += `<tr onclick='prodItem(${newProd[i].id})' class="text-center">` +
-          `<td>${newProd[i].id}</td>` +
-          `<td >${newProd[i].name}</td>\n` +
-          `<td >${newProd[i].typeOfProduct.description}</td>` +
-          `<td >${newProd[i].quantity}</td>` +
-          `<td >${newProd[i].price}</td>` +
-          `<td >${newProd[i].unitType.description}</td>` +
+      let header =
+        '<table class="table table-hoverable" id="prodTable">'+
+        '  <thead>'+
+        '    <tr class="text-center">'+
+        '      <th>[(#{product.id})]</th>'+
+        '      <th>[(#{product.name})]</th>'+
+        '      <th>[(#{product.type})]</th>'+
+        '      <th>[(#{product.quantity})]</th>'+
+        '      <th>[(#{product.price})]</th>'+
+        '      <th>[(#{product.unit})]</th>'+
+        '    </tr>'+
+        '  </thead>'+
+        '  <tbody id="bodyProd">'+
+        '  </tbody>'+
+        '</table>';
+      $('#tableProduct').html(header);
+      let body = '';
+      if(newProd.length > 0){
+      newProd.forEach((e)=>{
+        body += `<tr onclick='prodItem(${e.id})' class="text-center">` +
+          `<td>${e.id}</td>` +
+          `<td >${e.name}</td>\n` +
+          `<td >${e.typeOfProduct.description}</td>` +
+          `<td >${e.quantity}</td>` +
+          `<td >${e.price}</td>` +
+          `<td >${e.unitType.description}</td>` +
           `</tr>`
-      }
+      });
+        
       $('#bodyProd').html(body);
-      $('#prodTable').DataTable();
+      $('#prodTable').DataTable({"bLengthChange" : false});
+    }
     };
     /*************************************END PRODUCT********************************************/
 
@@ -1091,12 +1137,14 @@
     };
 
     async function order(currentOrder) {
-      let processFrm = '';
-      let processTo = '';
-      let viewPrcess = '';
+      let processFrm      = '';
+      let processTo       = '';
+      let viewPrcess      = '';
       let viewDetailTable = '';
-      let btnApproveStep = '';
-      let NVLcurrentOrder = { user: { fullname: '' }, createDate: '', address: '' };
+      let btnApproveStep  = '';
+      let viewStepApproved    = '';
+      let viewDetailTableTotal = '';
+      let NVLcurrentOrder = {id: 0 ,user:{fullname: ''}, createDate: '', address:''};
       if (currentOrder != null) {
         NVLcurrentOrder = currentOrder;
         let lsPrcss = ADM_frmProcessToProcess(currentOrder.process.id, 'APPROVED');
@@ -1118,61 +1166,52 @@
           viewPrcess = `<i class="fa fa-check" style="color: green;"></i> <text style="color: green; font-size: 30px;">${processFrm}</text>`;
         }
         let lstOrdDtl = await ADM_getDataOrderDetailByOrderId(currentOrder.id);
+        console.log(lstOrdDtl);
         if (lstOrdDtl.length > 0) {
-          lstOrdDtl.forEach((dtl) => {
-            viewDetailTable +=
-              `                    <div class="row g-0 border-bottom">` +
-              `                      <div class="col-md-4 border-right">` +
-              `                        <div class="p-3 d-flex justify-content-center align-items-center"> <span>${dtl.product.name}</span> </div>` +
-              `                      </div>` +
-              `                      <div class="col-md-2 border-right">` +
-              `						 <img width="40px" height="40px" src="/home/images/${dtl.product.imgUrl}">` +
-              `                        <div class="p-3 d-flex justify-content-center align-items-center"> <span>x${dtl.quantity}</span> </div>` +
-              `                      </div>` +
-              `                      <div class="col-md-3">` +
-              `                        <div class="p-3 d-flex justify-content-center align-items-center"> <span>${dtl.price}` +
+          lstOrdDtl.forEach((dtl)=>{
+            viewDetailTable +=  
+              `                 		<tr>` +
+              `                      <td class="col-md-4 border-right">` +
+              `                        <div style="width: 175px" class="p-3 d-flex justify-content-center align-items-center"> <span>${dtl.product.name}</span> </div>` +
+              `                      </td>` +
+              `                      <td class="col-md-2 border-right">` +
+              `						             <img width="40px" height="40px" src="/home/images/${dtl.product.imgUrl}">` +
+              `                        <div style="width: 155px" class="p-3 d-flex justify-content-center align-items-center"> <span>x${dtl.quantity}</span> </div>` +
+              `                      </td>` +
+              `                      <td class="col-md-3">` +
+              `                        <div style="width: 130px" class="p-3 d-flex justify-content-center align-items-center"> <span>${dtl.price}` +
               `                            VNĐ</span> </div>` +
-              `                      </div>` +
-              `                      <div class="col-md-3">` +
-              `                        <div class="p-3 d-flex justify-content-center align-items-center"> <span>${dtl.price * dtl.quantity}` +
+              `                      </td>` +
+              `                      <td class="col-md-3">` +
+              `                        <div style="width: 130px" class="p-3 d-flex justify-content-center align-items-center"> <span>${dtl.price * dtl.quantity}` +
               `                            VNĐ</span> </div>` +
-              `                      </div>` +
-              `                    </div>`
+              `                      </td>` +
+              `			                </tr>` 
+           });
+           viewDetailTableTotal +=
+        `   <div class="p-3 border-bottom">` +
+        `                      <div class="d-flex justify-content-between align-items-center"> <span><i` +
+        `                            class="fa fa-clock-o text-muted"></i><h4>[(#{order.totalprc})]</h4></span> <span><i` +
+        `                            class="fa fa-refresh text-muted"></i><h4>${NVLcurrentOrder.totalprice} VNĐ</h4></span>`+
+        `                      </div>` +
+        `    </div>` ;
+          }
+        let lstStepApproved = await ADM_GetDataOrderProcess(NVLcurrentOrder.id);
+        if(lstStepApproved.length > 0)  {
+          viewStepApproved += `                        <div class="d-flex flex-column mt-3">`;
+          lstStepApproved.forEach((e)=>{
+            if(e.processStep.id === 1){
+              viewStepApproved +=
+            `                        <small><i class="fa fa-check" style="color: green;"></i> ${e.processStep.description} : ${e.order.orderdescription}</small>`;
+            }else{
+            viewStepApproved +=
+            `                        <small><i class="fa fa-check" style="color: green;"></i> ${e.processStep.description} : ${e.description}</small>`;
+            }
           });
-
-          viewDetailTable +=
-            `                    <div class="row g-0 border-bottom">` +
-            `                      <div class="col-md-6">` +
-            `                        <div class="p-3 d-flex justify-content-center align-items-center"> <span>[(#{order.totalprc})]</span>` +
-            `                        </div>` +
-            `                      </div>` +
-            `                      <div class="col-md-6">` +
-            `                        <div class="p-3 d-flex justify-content-center align-items-center"> <span>${currentOrder.totalprice} VNĐ</span> </div>` +
-            `                      </div>` +
-            `                    </div>` +
-            `                    <div class="row g-0 border-bottom">` +
-            `                      <div class="col-md-6">` +
-            `                        <div class="p-3 d-flex justify-content-center align-items-center"> <span>Processing` +
-            `                            fees</span> </div>` +
-            `                      </div>` +
-            `                      <div class="col-md-6">` +
-            `                        <div class="p-3 d-flex justify-content-center align-items-center"> <span>$1.80</span>` +
-            `                        </div>` +
-            `                      </div>` +
-            `                    </div>` +
-            `                    <div class="row g-0">` +
-            `                      <div class="col-md-6">` +
-            `                        <div class="p-3 d-flex justify-content-center align-items-center"> <span` +
-            `                           class="font-weight-bold">[(#{order.totalprc})]</span> </div>` +
-            `                      </div>` +
-            `                      <div class="col-md-6">` +
-            `                        <div class="p-3 d-flex justify-content-center align-items-center"> <span` +
-            `                            class="font-weight-bold">${currentOrder.totalprice} VNĐ</span> </div>` +
-            `                      </div>` +
-            `                    </div>`
+          viewStepApproved += `                        </div>` ;
         }
       }
-      let body = ''
+      let body = '';      
       body =
         `<div class="container mt-4 mb-4">` +
         `          <div class="row d-flex cart align-items-center justify-content-center">` +
@@ -1180,7 +1219,7 @@
         `              <div class="card">` +
         `                <div class="d-flex justify-content-center border-bottom">` +
         `                  <div class="p-3">` +
-        `                    <h3 class="card-title card-padding pb-0">[(#{order.ordDtl})]</h3>` +
+        `                    <h3 class="card-title card-padding pb-0">[(#{order.ordDtl})] PO${NVLcurrentOrder.id}</h3>` +
         `                    <!--<div class="progresses">` +
         `                      <div class="steps"> <span><i class="fa fa-check"></i></span> </div> <span` +
         `                        class="line"></span>` +
@@ -1205,33 +1244,33 @@
         `                            class="fa fa-clock-o text-muted"></i>[(#{order.orddt})] :${NVLcurrentOrder.createDate.substring(0, 10)}</span> <span><i` +
         `                            class="fa fa-refresh text-muted"></i>[(#{order.ordtm})] :${NVLcurrentOrder.createDate.substring(11, 18)}</span> </div>` +
         `                      <div class="mt-3">` +
-        `                        <h4 class="mb-0">[(#{order.usrNm})] : ${NVLcurrentOrder.user.fullname}</h4>` +
-        `                        <h4 class="mb-0" style="color: red;">[(#{order.address})] : ${NVLcurrentOrder.address}</h4>  <span class="d-block mb-0">Includes:` +
-        `                          Sketch, PSD, PNG, SVG, AI </span> <small>Min: 1 illustraion</small>` +
-        `                        <div class="d-flex flex-column mt-3"> <small><i class="fa fa-check text-muted"></i> Vector` +
-        `                            file</small> <small><i class="fa fa-check text-muted"></i> Sources files</small>` +
-        `                        </div>` +
+        `                        <h4 class="mb-0">[(#{order.usrNm})] : ${NVLcurrentOrder.user.fullname}</h4>`+
+        `                        <h4 class="mb-0" style="color: red;">[(#{order.address})] : ${NVLcurrentOrder.address}</h4> </br><span class="d-block mb-0 font-weight-bold">` +
+        `                          [(#{order.step})] </span> <small>Min: 1 illustraion</small>${viewStepApproved}` +
         `                      </div>` +
         `                    </div>` +
-        `                    <div class="row g-0 border-bottom" >` +
-        `                      <div class="col-md-4 border-right" style="background-color: #97FFFF">` +
-        `                        <div class="p-3 d-flex justify-content-center align-items-center"> <span class="font-weight-bold">[(#{order.name})]</span> </div>` +
-        `                      </div>` +
-        `                      <div class="col-md-2 border-right" style="background-color: #97FFFF">` +
-        `                        <div class="p-3 d-flex justify-content-center align-items-center"> <span class="font-weight-bold">[(#{order.quantity})]</span> </div>` +
-        `                      </div>` +
-        `                      <div class="col-md-3" >` +
-        `                        <div class="p-3 d-flex justify-content-center align-items-center"> <span class="font-weight-bold">[(#{order.price})]` +
-        `                            </span> </div>` +
-        `                      </div>` +
-        `                      <div class="col-md-3" >` +
-        `                        <div class="p-3 d-flex justify-content-center align-items-center"> <span class="font-weight-bold">[(#{order.toPrice})]` +
-        `                            </span> </div>` +
-        `                      </div>` +
-        `                    </div>` +
-        /*View Table Detail*/
-        `${viewDetailTable}` +
-
+        `                    <table id="tableOrderApproved" class="row g-0 border-bottom">` +
+        `		                 <thead>` +
+        `                 		<tr>` +
+          `                      <th class="col-md-4 border-right" style="background-color: #97FFFF;" >` +
+          `                        <div style="width: 160px" class="p-3 d-flex justify-content-center align-items-center"> <span class="font-weight-bold" >[(#{order.name})]</span> </div>` +
+          `                      </th>` +
+          `                      <th class="col-md-2 border-right" style="background-color: #97FFFF">` +
+          `                        <div style="width: 140px" class="p-3 d-flex justify-content-center align-items-center"> <span class="font-weight-bold">[(#{order.quantity})]</span> </div>` +
+          `                      </th>` +
+          `                      <th class="col-md-3" style="background-color: #97FFFF;">` +
+          `                        <div style="width: 130px" class="p-3 d-flex justify-content-center align-items-center"> <span class="font-weight-bold">[(#{order.price})]` +
+          `                            </span> </div>` +
+          `                      </th>` +
+          `                      <th class="col-md-3" style="background-color: #97FFFF;">` +
+          `                        <div style="width: 130px" class="p-3 d-flex justify-content-center align-items-center"> <span class="font-weight-bold">[(#{order.toPrice})]` +
+          `                            </span> </div>` +
+          `                      </th>` +
+        `			                </tr>` +
+        `		                 </thead>` +
+                              /*View Table Detail*/
+                              `${viewDetailTable}`+
+        `                    </table>${viewDetailTableTotal}` +
         `                  </div>` +
         `                </div>` +
         `                <div> </div>` +
@@ -1241,6 +1280,7 @@
         `        </div>`;
 
       $('#tabOrderDetailADM').html(body);
+      $('#tableOrderApproved').DataTable({"lengthMenu": [ [2, 3, 4, -1], [2, 3, 4,  "All"] ]});
     }
     function orderDetail(orderId) {
       ADM_getOrderDetailByOrderId(orderId)
@@ -1252,24 +1292,21 @@
         type: 'GET',
         url: url,
         contentType: 'application/json',
-        success: function (data) {
-          if (data) {
-            searchOrder();
-          }
-          Swal.fire({
-            icon: 'success',
-            text: '[(#{order.nextStep})] ' + '[(#{msg.success})]'
-          })
-        },
-        error: function (e) {
-          Swal.fire({
-            icon: 'error',
-            text: "Can't load data !!!",
-          })
-        }
-      })
-    }
-    /*************************************EMD OPRDER*****************************************/
+      success: function (data) {
+            if(data){
+              searchOrder();
+              order(data);
+              searchGetStatisticsOrderInPeriodChart();
+            }
+        Swal.fire({
+          icon: 'success',
+          text:	'[(#{order.nextStep})] ' + '[(#{msg.success})]'
+        })    
+          
+      }
+    })
+  }
+    /*************************************END OPRDER*****************************************/
 
     registerButton = () => {
       $("#btnDelete").prop('disabled', true);
@@ -1323,7 +1360,7 @@
 
   <!-- Common Admin Function -->
   <script type="text/javascript" th:src='@{/admin/js/commonFuncs_Admin.js}'></script>
-
+  
 
 </body>
 

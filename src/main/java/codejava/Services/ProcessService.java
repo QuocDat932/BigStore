@@ -10,4 +10,5 @@ import codejava.Entity.Process;
 public interface ProcessService {
 	Process findBySlug(publicConst.Orderprocess slug);
 	List<Process> findAll();
+	Process findById(int id);
 }

@@ -86,10 +86,6 @@ public class HomeController {
 		}
 		List<Products> sp = productsservices.findProductAvai(1);
 		
-		sp.forEach(spp->{
-			System.out.println( spp.getName());
-		});
-		
 		List<TypeOfProduct> listType = typrOfProductSrvcs.getListTypeOfProduct();
 		model.addAttribute("listType", listType);
 		model.addAttribute("listProduct", sp);
@@ -181,7 +177,8 @@ public class HomeController {
 			roles role = rolesservices.findByID(2);
 			newUser.setRole(role);
 			newUser.setEmail(newUser.getEmail());
-			newUser.setIsDeleted(false);
+			newUser.setType_account("SYS");
+			newUser.setIsDeleted(true);
 			userservices.addUser(newUser);
 			
 			newAccount.setUsername(newAccount.getUsername());
@@ -268,10 +265,7 @@ public class HomeController {
 
 	}
 
-	@GetMapping("/home/terms")
-	public String doGetTerms() {
-		return "home/terms";
-	}
+
 
 	@GetMapping("/home/faqs")
 	public String doGetFaqs() {

@@ -16,7 +16,6 @@
 					<ul class="card">
 						<li><a th:href="@{/home/wishlist}"><i class="fa fa-heart" aria-hidden="true"></i>[(#{submenu.whishlist})]</a>
 						</li>
-						<li><a th:href="@{/home/login}"><i class="fa fa-user" aria-hidden="true"></i>[(#{submenu.login})]</a></li>
 							<li><a th:href="@{/home/login}"><i class="fa fa-user" aria-hidden="true"></i>[(#{submenu.login})]</a></li>
 						<li><a th:href="@{/home/logout}"><i class="fa fa-heart" aria-hidden="true"></i>[(#{submenu.logout})]</a>
 						</li>
@@ -25,6 +24,7 @@
 						<li><a th:href="@{/home/OrderHistory} "><i class="fa fa-file-text-o" aria-hidden="true"></i>[(#{submenu.order_history})]</a></li>
 						<li><a th:href="@{/home/about} "><i class="fa fa-file-text-o" aria-hidden="true"></i>[(#{submenu.about_us})]</a></li>
 						<li><a th:href="@{/home/shipping}"><i class="fa fa-ship" aria-hidden="true"></i>Shipping</a>
+						<li><a th:href="@{/home/account}"><i class="fa fa-ship" aria-hidden="true"></i>Tài Khoản</a>
 						</li>
 						
 					</ul>
@@ -85,12 +85,10 @@
 									<a th:href="@{'/type/'+${type.slug}}" class="dropdown-toggle  hyper" 
 									><span th:text="#{'nav.'+${type.id}}"><b class="caret"></b></span></a>
 								</li>			
-												
 									<ul class="dropdown-menu multi">
 										<div class="row">
 											<div class="col-sm-3">
 												<ul class="multi-column-dropdown">
-
 													<li><a th:href="@{/home/kitchen}"><i class="fa fa-angle-right"
 																aria-hidden="true"></i>Water & Beverages</a></li>
 													<li><a th:href="@{/home/kitchen}"><i class="fa fa-angle-right"
@@ -217,7 +215,7 @@
 					</ul>
 					<div class=" address">
 						<div class="col-md-4 fo-grid1">
-							<p><i class="fa fa-home" aria-hidden="true"></i>756 Bình Thạnh, Tp.HCM.</p>
+							<p><i class="fa fa-home" aria-hidden="true"></i>756 BÃ¬nh Tháº¡nh, Tp.HCM.</p>
 						</div>
 						<div class="col-md-4 fo-grid1">
 							<p><i class="fa fa-phone" aria-hidden="true"></i>+0964192032 , +0972769574</p>
