@@ -14,5 +14,7 @@ public interface AccountGGService {
 	void addAccount(AccountGG account);
 	
 	AccountGG findByUsers_Id(int Users_Id);
+	
+	AccountGG findByEmail(String email);
 		
 }

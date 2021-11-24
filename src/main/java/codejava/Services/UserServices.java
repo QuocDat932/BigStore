@@ -14,13 +14,13 @@ List<Users> findAll();
 	
 	Users findByid(int id);
 	
+	Users findByTokenPassword(String token);
 	
 	Users  findByEmail(String email);
 	
 	void addUser(Users user);
 	
 	List<Users> UserHaveRoles(List<roles> roles);
-	
 	
 	void SaveAndUpdate(Users user); 
 	
