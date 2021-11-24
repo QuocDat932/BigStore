@@ -10,12 +10,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import codejava.Services.StatsServices;
+import codejava.Services.TypeOfProductServices;
 
 @RestController
 @RequestMapping("/api/admin/")
 public class apiAdmProductMgt {
 	@Autowired
 	private StatsServices statsServs;
+	
 	@GetMapping("product/getProductOrderStatistics")
 	public ResponseEntity<?> doGetProductOrderStatistics(@RequestParam("prodId") int prodId,
 														 @RequestParam("frmDate") Date frmDate,
@@ -32,5 +34,10 @@ public class apiAdmProductMgt {
 		String[][] result = statsServs.getStatistiscUnitInPeriod(prodId, frmDate, toDate, totalMonth);
 		return ResponseEntity.ok(result);
 	};
+	@GetMapping("product/getStatisticQuantityOfProductByType")
+	public ResponseEntity<?> doGetStatisticQuantityOfProductByType(){
+		String[][] result = statsServs.getStatisticQuantityOfProductByType();
+		return ResponseEntity.ok(result);
+	}
 	
 }

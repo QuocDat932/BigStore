@@ -38,4 +38,13 @@ public interface StatsRepository extends JpaRepository<Orders, Long> {
 
 	@Query(value = "SELECT NVL(SUM(o2.quantity), '0') FROM SYSTEM.orders o1 INNER JOIN SYSTEM.order_details o2 ON o1.id = o2.orderId LEFT JOIN SYSTEM.products prod ON o2.PRODUCTID = prod.ID WHERE o2.PRODUCTID = ?1 AND to_char(o1.createdDate,'MM') LIKE ?2 AND to_char(o1.createdDate,'YYYY') LIKE ?3", nativeQuery = true)
 	String getStatisticsUnitInPeriod(int prodId, String month, String year);
+	
+	@Query( value ="SELECT COUNT(*) FROM SYSTEM.PRODUCTS WHERE typeid = ?1", nativeQuery = true)
+	String getStatisticQuantityOfProductByType(int typeOfProductId);
+	
+	@Query( value ="SELECT COUNT(*) FROM SYSTEM.USERS WHERE isdeleted = ?1", nativeQuery = true)
+	String getStatisticUsingUser(int isdeleted);
+
+	@Query( value ="SELECT COUNT(*) FROM SYSTEM.USERS WHERE type_account = ?1", nativeQuery = true)
+	String getStatisticTypeAccountUser(String typeAccount);
 }
