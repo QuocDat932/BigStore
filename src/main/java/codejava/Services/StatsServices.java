@@ -14,4 +14,5 @@ public interface StatsServices {
 	String[][] getStatisticQuantityOfProductByType();
 	String[][] getcountUsingAccountUser();
 	String[][] getcountAccountTypeUser();
+	String[][] getStatisticTopUserInPeriod(Date frmDate, Date toDate);
 }
