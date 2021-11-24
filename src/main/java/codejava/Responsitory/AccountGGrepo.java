@@ -12,4 +12,6 @@ public interface AccountGGrepo extends JpaRepository<AccountGG, Integer> {
 	AccountGG findByEmailAndIdaccount(String email,String idaccount);
 	
 	AccountGG findByUsers_Id(int userId);
+	
+	AccountGG findByEmail(String email);
 }

@@ -1,10 +1,13 @@
 package codejava.Controller;
 
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Optional;
 
+import javax.mail.MessagingException;
 import javax.servlet.ServletContext;
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,6 +50,7 @@ import codejava.Services.TypeOfProductServices;
 import codejava.Constant.RoleConst;
 import codejava.Entity.Users;
 import codejava.Services.UserServices;
+import net.bytebuddy.utility.RandomString;
 import codejava.Dto.ListproductDto;
 
 @Controller
@@ -265,8 +269,6 @@ public class HomeController {
 
 	}
 
-
-
 	@GetMapping("/home/faqs")
 	public String doGetFaqs() {
 		return "home/faqs";
@@ -277,4 +279,5 @@ public class HomeController {
 		return "home/offer";
 	}
 
+	
 }
