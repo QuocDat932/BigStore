@@ -53,37 +53,36 @@ public class ForgetPasswordController {
 	public String processResetPassword(HttpServletRequest request, Model model) {
 	    String token = request.getParameter("token");
 	    String password = request.getParameter("password");
-	     
-	    Users customer = userService.findByTokenPassword(token);
-	    Account account = accountService.findByUsers_Id(customer.getId());
+	    Users users = userService.findByTokenPassword(token);
+	    Account account = accountService.findByUsers_Id(users.getId());
 	    model.addAttribute("title", "Reset your password");
-	     
-	    if (customer == null) {
+	    if (users == null) {
 	        model.addAttribute("message", "Invalid Token");
 	        return "message";
 	    } else {           
-	    	updatePassword(account, password);
-	         
+	    	updatePassword(account, users,password);
 	        model.addAttribute("message", "You have successfully changed your password.");
+	        return "redirect:/home";
 	    }
 	     
-	    return "/home/CofrimPassword";
 	}
 	
 	
 	
-    public void updateResetPasswordToken(String token, String email) throws Exception {
+    public boolean updateResetPasswordToken(String token, String email)  {
         Users users = userService.findByEmail(email);
         if (users != null) {
             users.setResetpasswordtoken(token);
             userService.SaveAndUpdate(users);
+            return true;
         } else {
-            throw new Exception("Could not find any users with the email " + email);
+            return false;
+            
         }
+		
     }
     @GetMapping("/home/sendEmail")
     public String showForgotPasswordForm() {
-    	
         return "home/forgetPassword(Email)";
     }
     
@@ -98,11 +97,15 @@ public class ForgetPasswordController {
 	    	 model.addAttribute("error", "Không được Update Tài khoản này");
 	    	 model.addAttribute("message", "We haven't sent a reset password link to your email. Please check.");
 	    	 return "home/forgetPassword(Email)";
-	    	 
 	     }
 	     else {
 	    try {
-	       updateResetPasswordToken(token, email);
+	       if(updateResetPasswordToken(token, email)==false) {
+	    	   model.addAttribute("error", "Don't have account in BigStore");
+	    	   return "home/forgetPassword(Email)";
+	       };
+	       
+	       
 	        String resetPasswordLink = Utility.getSiteURL(request) + "/home/CofrimPassword?token=" + token;
 	        System.out.println("Token:"+ resetPasswordLink);
 	        sendEmail(email, resetPasswordLink);
@@ -113,21 +116,21 @@ public class ForgetPasswordController {
 	         
 		return "home/forgetPassword(Email)";
 	}
-	 public void updatePassword(Account account, String newPassword) {
+	 public void updatePassword(Account account,Users users, String newPassword) {
 	        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 	        String encodedPassword = passwordEncoder.encode(newPassword);
 	        account.setHashPassword(encodedPassword);
 	         
-//	        users.setResetpasswordtoken(null);
+	        users.setResetpasswordtoken(null);
 	        accountService.addAccount(account);
-//	        userService.addUser(users);
+	        userService.addUser(users);
 	    }
 	public void sendEmail(String recipientEmail, String link)
 	        throws MessagingException, UnsupportedEncodingException {
 	    MimeMessage message = mailSender.createMimeMessage();              
 	    MimeMessageHelper helper = new MimeMessageHelper(message);
 	     
-	    helper.setFrom("contact@shopme.com", "Shopme Support");
+	    helper.setFrom("Bigstore@shopme.com", "Big Store Support");
 	    helper.setTo(recipientEmail);
 	     
 	    String subject = "Here's the link to reset your password";

@@ -16,8 +16,8 @@ spring:
     username: 'sys as sysdba '
   mail:
     host: smtp.gmail.com
-    username: kagawa1632@gmail.com
-    password: chicharito1632
+    username: bigstore24112021@gmail.com
+    password: bigstore2022
     port: 587
     properties:
       mail:
