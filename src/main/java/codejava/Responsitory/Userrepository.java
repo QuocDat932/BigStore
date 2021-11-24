@@ -23,7 +23,8 @@ public interface Userrepository extends JpaRepository<Users, Integer>{
 	
 	List<Users> findByRoleIn(List<roles> roles);
 	
-	
+//	Users findByResetpasswordtoken(String token);
+	Users findByResetpasswordtokenAndResetpasswordtokenIsNotNull(String token);
 	/*@Query(value = "SELECT hashPassword FROM users WHERE username = ?1", nativeQuery = true)
 	Optional<Users> findby(String hashPassword);*/
 	

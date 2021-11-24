@@ -72,6 +72,13 @@ public class UserServicesImpl implements UserServices{
 		repo.saveAndFlush(user);
 	}
 
+	@Override
+	public Users findByTokenPassword(String token) {
+		// TODO Auto-generated method stub
+//		return repo.findByResetpasswordtoken(token);
+		return repo.findByResetpasswordtokenAndResetpasswordtokenIsNotNull(token);
+	}
+
 
 
 }

@@ -57,4 +57,13 @@ public class AccountGGServiceImp implements AccountGGService{
 	}
 
 
+	@Override
+	public AccountGG findByEmail(String email) {
+		// TODO Auto-generated method stub
+		return repo.findByEmail(email);
+	}
+
+
+
+
 }
