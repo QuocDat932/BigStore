@@ -2,6 +2,7 @@ package codejava.Controller;
 
 import java.io.UnsupportedEncodingException;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import javax.mail.MessagingException;
@@ -230,10 +231,15 @@ public class HomeController {
 	}
 
 	@GetMapping({ "/type", "/type/{slug}" })
-	public String doGetKitchen(Model model, HttpSession session) {
+	public String doGetKitchen(Model model, HttpSession session, Optional<String> slug) {
 		cartDto currentCart = (cartDto) session.getAttribute("currentCart");
 		ListproductDto Top4Prod = (ListproductDto) session.getAttribute("Top4Prod");
+		
 
+		if(Objects.nonNull(typrOfProductSrvcs.findBySlug(slug.orElse("null"))) ) {
+			return "redirect:/home";
+		}
+		
 		List<TypeOfProduct> listType = typrOfProductSrvcs.getListTypeOfProduct();
 		model.addAttribute("listType", listType);
 		return "home/kitchen";
