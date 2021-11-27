@@ -18,6 +18,7 @@
   <link rel="stylesheet" th:href="@{/admin/css/demo/style.css}">
   <!-- End layout styles -->
   <link rel="shortcut icon" th:href="@{/admin/images/favicon.png}" />
+  <script type="text/javascript" th:src='@{/admin/js/pages/ADM_userTop.js}'></script>
   <!-- Styles -->
   <style>
     #chartdiv {
@@ -34,90 +35,28 @@
   <!-- Chart code -->
   <script>
     am5.ready(function () {
+      $('#frmTopUserChartDt').val(moment().subtract(6, 'months').format('YYYY-MM-DD'));
+      $('#toTopUserChartDt').val(moment().format('YYYY-MM-DD'));
+      ADM_userTop();
+      formatData(dataChart);
+      //chartTotalPriceUser(dataChart);
 
+    }); // end am5.ready()
+    
+    chartTotalPriceUser = (dataChart) => {
       // Create root element
       // https://www.amcharts.com/docs/v5/getting-started/#Root_element
+      // if (root != undefined) {
+      //   root.destroy();
+      // }
       var root = am5.Root.new("chartdiv");
-
       // Set themes
       // https://www.amcharts.com/docs/v5/concepts/themes/
       root.setThemes([
         am5themes_Animated.new(root)
       ]);
 
-      var data = [
-        {
-          name: "Monica",
-          steps: 45688,
-          pictureSettings: {
-            src: "https://www.amcharts.com/wp-content/uploads/2019/04/monica.jpg"
-          }
-        }, 
-        {
-          name: "Joey",
-          steps: 35781,
-          pictureSettings: {
-            src: "https://www.amcharts.com/wp-content/uploads/2019/04/joey.jpg"
-          }
-        }, 
-        {
-          name: "Ross",
-          steps: 25464,
-          pictureSettings: {
-            src: "https://www.amcharts.com/wp-content/uploads/2019/04/ross.jpg"
-          }
-        }, 
-        {
-          name: "Phoebe",
-          steps: 18788,
-          pictureSettings: {
-            src: "https://www.amcharts.com/wp-content/uploads/2019/04/phoebe.jpg"
-          }
-        }, 
-        {
-          name: "Rachel",
-          steps: 15465,
-          pictureSettings: {
-            src: "https://www.amcharts.com/wp-content/uploads/2019/04/rachel.jpg"
-          }
-        }, 
-        {
-          name: "Chandler",
-          steps: 11561,
-          pictureSettings: {
-            src: "https://www.amcharts.com/wp-content/uploads/2019/04/chandler.jpg"
-          }
-        }
-        , 
-        {
-          name: "DatBui",
-          steps: 10000,
-          pictureSettings: {
-            src: "/admin/images/faces/datbq.jpg"
-          }
-        }, 
-        {
-          name: "ThaoLy",
-          steps: 9000,
-          pictureSettings: {
-            src: "/admin/images/faces/lydt.jpg"
-          }
-        }, 
-        {
-          name: "XuanThien",
-          steps: 8000,
-          pictureSettings: {
-            src: "/admin/images/faces/thientx.jpg"
-          }
-        }, 
-        {
-          name: "AnDuy",
-          steps: 7000,
-          pictureSettings: {
-            src: '/admin/images/faces/duyva.jpg'
-          }
-        }
-      ];
+      var data = dataChart;
 
       // Create chart
       // https://www.amcharts.com/docs/v5/charts/xy-chart/
@@ -131,7 +70,6 @@
           paddingTop: 40
         })
       );
-
       // Create axes
       // https://www.amcharts.com/docs/v5/charts/xy-chart/axes/
 
@@ -140,7 +78,7 @@
 
       var xAxis = chart.xAxes.push(
         am5xy.CategoryAxis.new(root, {
-          paddingTop: 40,
+          paddingTop: 500,
           categoryField: "name",
           renderer: xRenderer
         })
@@ -303,8 +241,8 @@
       // https://www.amcharts.com/docs/v5/concepts/animations/
       series.appear();
       chart.appear(1000, 100);
+    }
 
-    }); // end am5.ready()
   </script>
 
 </head>
@@ -312,12 +250,6 @@
 <body>
   <div layout:fragment="contentAdmin">
     <div class="mdc-layout-grid__inner">
-      <div class="mdc-layout-grid__cell--span-12">
-        <div class="mdc-card">
-          <h6 class="card-title">Title</h6>
-          User Vip Management
-        </div>
-      </div>
       <div class="mdc-layout-grid__cell--span-12">
         <div class="mdc-card">
           <h6 class="card-title">Title</h6>

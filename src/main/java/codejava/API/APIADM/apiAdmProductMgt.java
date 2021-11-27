@@ -38,6 +38,6 @@ public class apiAdmProductMgt {
 	public ResponseEntity<?> doGetStatisticQuantityOfProductByType(){
 		String[][] result = statsServs.getStatisticQuantityOfProductByType();
 		return ResponseEntity.ok(result);
-	}
+	};
 	
 }

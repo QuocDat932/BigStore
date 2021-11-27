@@ -53,9 +53,10 @@ public class apiAdm {
 		return ResponseEntity.ok(dataUs);
 	};
 
-	@GetMapping("totalPricebyId")
-	public ResponseEntity<?> doGetTotalPricebyId(@RequestParam("userId") int userId) {
-		String[][] dataPrice = adminSrvs.getTotalPriceByUser(userId);
+	@GetMapping("totalPriceById")
+	public ResponseEntity<?> doGetTotalPricebyId(@RequestParam("userId") int userId,
+												 @RequestParam("totalMonth") int totalMonth) {
+		String[][] dataPrice = adminSrvs.getTotalPriceByUser(userId, totalMonth);
 		return ResponseEntity.ok(dataPrice);
 	};
 	@GetMapping("/indexProd")
