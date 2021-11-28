@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import codejava.Dto.objChartOrderTotal;
+import codejava.Dto.objChart;
 import codejava.Entity.Orders;
 
 @Repository
@@ -47,4 +47,8 @@ public interface StatsRepository extends JpaRepository<Orders, Long> {
 
 	@Query( value ="SELECT COUNT(*) FROM SYSTEM.USERS WHERE type_account = ?1", nativeQuery = true)
 	String getStatisticTypeAccountUser(String typeAccount);
+	
+	@Query(value="SELECT NVL(SUM(TOTALPRICE),0) FROM SYSTEM.ORDERS WHERE USERID = ?1 AND processid = 4", nativeQuery = true)
+	Integer getStatisticTopUserTotalPriceByUserIdInPeriod(int userId);
+	
 }
