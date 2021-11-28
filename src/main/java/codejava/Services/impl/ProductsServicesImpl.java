@@ -103,6 +103,11 @@ public class ProductsServicesImpl implements ProductsServices{
 	public List<Products> findProductAvai(int Isdeleted) {
 		// TODO Auto-generated method stub
 		return repo.findByIsdeleted(Isdeleted);
+	};
+	
+	@Override
+	public List<Products> findByNameLike(String nameProd) {
+		return repo.findBynameContainingIgnoreCase(nameProd);
 	}
 
 	

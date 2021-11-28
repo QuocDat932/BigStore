@@ -42,6 +42,8 @@ public interface ProductsRepository extends JpaRepository<Products, Integer>{
 			+ "WHERE pro.isdeleted = 1 and types.isdeleted = 1 and types.slug = ?1 order by pro.id desc", nativeQuery = true)
 	List<Products> findtop4Bytype(String type);
 	
+	List<Products> findBynameContainingIgnoreCase(String nameProd);
+	
 /*
  * ----------------------------------->1
  @Query(value = " SELECT * FROM product Where isDeleted = 0 ?1 and price = ?2", nativeQuery = true)

@@ -22,5 +22,10 @@ public class APIproduct {
 	public ResponseEntity<?> goGettop4product(@RequestParam("param") String param){
 		List<Products> top4 = productSrvs.findtop4Bytype(param);
 		return ResponseEntity.ok(top4);
-	}
+	};
+	@GetMapping("/searchProductByName")
+	public ResponseEntity<?> doGetSearchProductByName(@RequestParam("nameProd") String nameProd){
+		List<Products> listSearchResult = productSrvs.findByNameLike(nameProd);
+		return ResponseEntity.ok(listSearchResult);
+	};
 }
