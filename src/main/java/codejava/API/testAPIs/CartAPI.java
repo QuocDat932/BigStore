@@ -78,7 +78,7 @@ public class CartAPI {
 	public ResponseEntity<?> doPostSaveCart(HttpSession sess,
 			@RequestParam Optional<String> phone,
 			@RequestParam Optional<String> address,
-			@RequestParam Optional<String> discription,
+			@RequestParam Optional<String> description,
 			@RequestParam Optional<Integer> payment,
 			@RequestParam Optional<String> status
 			) {
@@ -99,7 +99,7 @@ public class CartAPI {
 		Orders o = new Orders();
 		o.setUser(u);
 		o.setPhone(phone.get());
-		o.setOrderdescription(discription.orElse("Nothing"));
+		o.setOrderdescription(description.orElse("Nothing"));
 		o.setAddress(address.get());
 		o.setPaymentmethod(pay);
 		o.setPaymentsts(status.orElse("Reject")=="Reject"?"N":"Y");

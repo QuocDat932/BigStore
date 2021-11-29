@@ -12,7 +12,7 @@ $(document).ready(function() {
 	var steps = $("fieldset").length;
 
 	setProgressBar(current);
-
+	checkCurrentUser();
 	//step 1 : start
 	CallApiProduct = (data) => {
 		let url = '/api/saveCart';
@@ -83,10 +83,10 @@ $(document).ready(function() {
 	async function getDataSubmit() {
 		var phone = $("#phone").val().trim();
 		var address = $("#address").val().trim();
-		var status = $("#statusPP").val().trim()||"Reject";
-		var discription = $("#discription").val().trim();
+		var status = $("#statusPP").val()||"Reject";
+		var description = $("#description").val()||"Nothing";
 		var method = $("#paymentMethod").val();
-		const url = '/api/cart/save?phone=' + phone + '&address=' + address + '&payment=' + method + '&discription=' + discription+ '&status=' + status;
+		const url = '/api/cart/save?phone=' + phone + '&address=' + address + '&payment=' + method + '&description=' + description+ '&status=' + status;
 		await $.ajax({
 			url: url,
 			type: "POST",
@@ -97,7 +97,7 @@ $(document).ready(function() {
 				getDataResult(data)
 			},
 			error: function(err) {
-				reject(err) // Reject the promise and go to catch()
+				console.log(err)
 			}
 		})
 	}
@@ -123,12 +123,15 @@ $(document).ready(function() {
 		var checkUser = await checkCurrentUser();
 		
 		if (checkUser.Status != 'Submitted') {
-			$("#infoUser").html('Bạn chưa đăng nhập! </br> <a href="/home/login">click here to login</a>')
+			//'[(#{cart.table.column.total})]! </br> <a href="/home/login">[(#{mess.cart.notlogin1})]</a>'
+			$("#infoUser").html(checkInfoLogin)
 		} else {
 			var currenUser = checkUser.Items;
 			var body = `<div>Họ và tên : ${currenUser.fullname} </br> ` +
 				`Email : ${currenUser.email} </br></div>`;
 			$("#infoUser").html(body);
+			$("#phone").val(currenUser.fullname);
+			$("#adress").val(currenUser.fullname);
 		}
 	}
 	$(".next").click(async function() {
