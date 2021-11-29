@@ -35,4 +35,6 @@ public interface ProductsServices {
 	List<Products> findtop4Bytype(String type);
 	
 	List<Products> findByTypeOfProduct(TypeOfProduct type);
+	
+	List<Products> findByNameLike(String nameProd);
 }
