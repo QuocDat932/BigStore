@@ -24,11 +24,13 @@ import codejava.Dto.productDto;
 import codejava.Entity.OrderDetails;
 import codejava.Entity.Orders;
 import codejava.Entity.Products;
+import codejava.Entity.TypeOfProduct;
 import codejava.Entity.Users;
 import codejava.Services.OrderDetailServices;
 import codejava.Services.Orderservices;
 import codejava.Services.ProcessService;
 import codejava.Services.ProductsServices;
+import codejava.Services.TypeOfProductServices;
 import codejava.Constant.publicConst;
 
 @Controller
@@ -42,7 +44,8 @@ public class CartController {
 	private ProductsServices ProductS;
 	@Autowired
 	private ProcessService ProcessS;
-	
+	@Autowired
+	private TypeOfProductServices typrOfProductSrvcs;
 	
 	@GetMapping("/wishlist")
 	public String doGetWishlistHttp(HttpSession session) {
@@ -55,6 +58,8 @@ public class CartController {
 	@GetMapping(value = "/cart")
 	public String doPostCart(Model model) {
 		MessageAPI.STATUSPAYPAL = "Reject";
+		List<TypeOfProduct> listType = typrOfProductSrvcs.getListTypeOfProduct();
+		model.addAttribute("listType", listType);
 		return "home/cart";
 	}
 	
