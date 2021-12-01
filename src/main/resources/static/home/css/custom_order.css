@@ -11,7 +11,7 @@ License: custom css
 
 #heading {
     text-transform: uppercase;
-    color: #673AB7;
+    color: green;
     font-weight: normal
 }
 
@@ -60,13 +60,13 @@ License: custom css
     -moz-box-shadow: none !important;
     -webkit-box-shadow: none !important;
     box-shadow: none !important;
-    border: 1px solid #673AB7;
+    border: 1px solid green;
     outline-width: 0
 }
 
 #msform .action-button {
     width: 100px;
-    background: #673AB7;
+    background: green;
     font-weight: bold;
     color: white;
     border: 0 none;
@@ -108,14 +108,14 @@ License: custom css
 
 .fs-title {
     font-size: 25px;
-    color: #673AB7;
+    color: green;
     margin-bottom: 15px;
     font-weight: normal;
     text-align: left
 }
 
 .purple-text {
-    color: #673AB7;
+    color: green;
     font-weight: normal
 }
 
@@ -139,7 +139,7 @@ License: custom css
 }
 
 #progressbar .active {
-    color: #673AB7
+    color: green
 }
 
 #progressbar li {
@@ -197,7 +197,7 @@ License: custom css
 
 #progressbar li.active:before,
 #progressbar li.active:after {
-    background: #673AB7
+    background: green
 }
 
 .progress {
@@ -205,7 +205,7 @@ License: custom css
 }
 
 .progress-bar {
-    background-color: #673AB7
+    background-color: green
 }
 .fit-image-bg{
 	padding-left: 37em;

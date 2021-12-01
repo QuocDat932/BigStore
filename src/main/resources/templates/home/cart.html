@@ -34,6 +34,12 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 				event.preventDefault();
 				$('html,body').animate({scrollTop: $(this.hash).offset().top}, 1000);
 			});
+
+			document.getElementById("name").placeholder = `[(#{cart.table.column.name.des})]`
+			document.getElementById("email").placeholder = `[(#{cart.table.column.email.des})]`
+			document.getElementById("phone").placeholder = `[(#{cart.table.column.phone.des})]`
+			document.getElementById("address").placeholder = `[(#{cart.table.column.address.des})]`
+			document.getElementById("description").placeholder = `[(#{cart.table.column.description.des})]`
 		});
 	</script>
 	<!-- start-smoth-scrolling -->
@@ -44,6 +50,7 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 	<script th:src="@{/home/js/jstarbox.js}"></script>
 	<link rel="stylesheet" th:href="@{/home/css/jstarbox.css}" type="text/css" media="screen" charset="utf-8" />
 	<link th:href='@{/home/css/custom_order.css}' rel='stylesheet' type='text/css' />
+	<link th:href='@{/home/css/custom.css}' rel='stylesheet' type='text/css' />
 	<script th:src="@{/home/js/custom_order.js}"></script>
 	<!---//End-rate-->
 </head>
@@ -56,7 +63,7 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 		<div class="banner-top">
 			<div class="container">
 				<h3>Wishlist </h3>
-				<h4><a href="index.html">Home</a><label>/</label>CART</h4>
+				<h4><a href="index.html">[(#{nav.home})]</a><label>/</label>[(#{cart.header})]</h4>
 				<div class="clearfix"> </div>
 			</div>
 		</div>
@@ -67,16 +74,16 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 				<div class="row justify-content-center ">
 					<div class="form1 col-11 col-sm-9 col-md-7 col-lg-6 col-xl-5 text-center p-0 pt-4 mt-3 mb-2">
 						<div class="card px-0 pt-4 pb-0 mt-3 mb-3">
-							<h2 id="heading">Giỏ Hàng Của Bạn </h2>
+							<h2 id="heading"> [(#{cart.header})] </h2>
 							<!--@ly define muti language chỗ này dùm-->
-							<p>Điền Thông Tin Đi Bạn</p>
+							<p>[(#{cart.header.descriptions})]</p>
 							<form id="msform">
 								<!-- progressbar -->
 								<ul id="progressbar">
-									<li class="active" id="account"><strong>Sản Phẩm</strong></li>
-									<li id="personal"><strong>Thông Tin Giao Hàng</strong></li>
-									<li id="payment"><strong>Phương Thức Thanh Toán</strong></li>
-									<li id="confirm"><strong>Hoàn thành </strong></li>
+									<li class="active" id="account"><strong>[(#{cart.step.one})]</strong></li>
+									<li id="personal"><strong>[(#{cart.step.two})]</strong></li>
+									<li id="payment"><strong>[(#{cart.step.three})]</strong></li>
+									<li id="confirm"><strong>[(#{cart.step.four})]</strong></li>
 								</ul>
 								<div class="progress">
 									<div class="progress-bar progress-bar-striped progress-bar-animated"
@@ -85,79 +92,73 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 								<fieldset>
 									<div class="form-card">
 										<div class="row">
-											<div class="col-md-7">
-												<h2 class="fs-title">Thông tin giỏ hàng:</h2>
+											<div class="col-md-6">
+												<h2 class="fs-title">[(#{cart.table.header1})]:</h2>
 											</div>
 											<div class="col-md-5">
-												<h2 class="steps">Bước 1 - 4</h2>
+												<h2 class="steps">[(#{cart.table.step})] 1 - 4</h2>
 											</div>
 										</div>
 										<table id="crosss" class="table "></table>
-									</div> <input type="button" name="next" class="next action-button s1"
-										value="Next" />
+									</div> <button type="button" name="next"
+										class="next action-button s1">[(#{cart.table.control.next})]</button>
 								</fieldset>
 								<fieldset>
 									<div class="form-card">
 										<div class="row">
-											<div class="col-md-7">
-												<h2 class="fs-title">Personal Information:</h2>
+											<div class="col-md-7 ">
+												<h2 class="fs-titlecol-md-5">[(#{cart.table.header2})]: </h2>
+												
 											</div>
 											<div class="col-md-5">
-												<h2 class="steps">Bước 2 - 4</h2>
+												<h2 class="steps">[(#{cart.table.step})] 2 - 4</h2>
 											</div>
-											<div class="col-md-6">
-												<div class="row">
-													<label class="col-md-4">Phone: * </label>
-													<input class="col-md-8" type="text" id="phone"
-														placeholder="Your Phone Number" />
-													<label class="col-md-4">Address: * </label>
-													<input class="col-md-8" type="text" id="address"
-														placeholder="Your Address" /><br>
-													<label class="col-md-4">Descriptions: *</label>
-													<textarea class="col-md-8" id="discription"
-														placeholder="Your comments" rows="4" cols="50"></textarea>
+											<div class="col-md-6 ">
+												<div class="row ">
+													<label class="col-md-4">[(#{cart.table.column.name})]: * </label>
+													<input class="col-md-8" type="text" id="name">
+													<label class="col-md-4">[(#{cart.table.column.email})]: * </label>
+													<input class="col-md-8" type="text" id="email">
+													<label class="col-md-4">[(#{cart.table.column.phone})]: * </label>
+													<input class="col-md-8" type="number" id="phone">
+													<label class="col-md-4">[(#{cart.table.column.address})]: * </label>
+													<input class="col-md-8" type="text" id="address"><br>
+													<label class="col-md-4">[(#{cart.table.column.description.des})]:
+														*</label>
+													<textarea class="col-md-8" id="description" rows="4"
+														cols="50"></textarea>
 												</div>
 											</div>
-											<div class="row col-md-5">
-												<div id="infoUser" class="col-md-6"></div>
+											<div class="row col-md-5 row">
+
 												<img class="col-md-6" th:src="@{'/home/images/cac.jpg'}">
+												<div class="col-md-6" id="infoUser"></div>
 											</div>
 										</div>
 									</div>
-									<input type="button" name="next" class="next action-button s2" value="Next" />
-									<input type="button" name="previous" class="previous action-button-previous"
-										value="Previous" />
+									<button type="button" name="next"
+										class="next action-button s2">[(#{cart.table.control.next})]</button>
+									<button type="button" name="previous"
+										class="previous action-button-previous">[(#{cart.table.control.previous})]</button>
 								</fieldset>
 								<fieldset>
 									<div class="row">
-										<div class="row col-md-4">
-											<div class="col-md-12">
-												<div id="step2"></div>
+										<div class="row col-md-8 borderCus"  style="height: 50rem;">
+											<div class="col-md-12   "  style="margin-bottom:5rem ;">
+												<div  id="step2"></div>
 											</div>
-											<div class="row col-md-12">
-												<label class="col-sm-6 control-label">Ship Express : <input
-														type="checkbox"></label>`
-												<div class="col-md-6">
-													<a onclick="openPaypal()">Thanh Toans owr day</a>
-
-												</div>
-												<div class="col-md-6" id="checkstatusPaypal1">
-													<a onclick="checkPaypalStatus()">checkstatus</a>
-													<input type="hidden" id="statusPP1"></input>
-													<span id="statusPP"></span>
-												</div>
-
-											</div>
+										
+											<div class=" col-md-12" id="statusStep2"></div>
 										</div>
-										<div class="row col-md-8">
-											<div class=" col-md-6" id="statusStep2"></div>
-											<img class="col-md-6" th:src="@{'/home/images/cac.jpg'}">
+										<div class="row col-md-4">
+											<img  th:src="@{'/home/images/cac.jpg'}">
 										</div>
 									</div>
-									<input id="submitdata" type="button" name="next" class="next action-button s3"
-										value="Submit" />
-									<input type="button" name="previous" class="previous action-button-previous"
-										value="Previous" />
+
+									<button id="submitdata" type="button" name="next"
+										class="next action-button s3">[(#{cart.table.control.submit})]</button>
+									<button type="button" name="previous"
+										class="previous action-button-previous">[(#{cart.table.control.previous})]</button>
 								</fieldset>
 								<fieldset>
 									<div class="form-card">
@@ -166,13 +167,13 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 												<h2 class="fs-title">Finish:</h2>
 											</div>
 											<div class="col-md-5">
-												<h2 class="steps">Bước 4 - 4</h2>
+												<h2 class="steps">[(#{cart.table.step})] 4 - 4</h2>
 											</div>
 										</div> <br><br>
 										<h2 class="purple-text text-center"><strong>SUCCESS !</strong></h2> <br>
 										<div class="row justify-content-center">
 											<div class="col-3 fit-image-bg">
-												<img src="https://i.imgur.com/GwStPmg.png" class="fit-image" /> </div>
+												<img th:src="@{'/home/images/logoSuccesCart.png'}" class="fit-image" /> </div>
 										</div> <br><br>
 										<div class="row justify-content-center">
 											<div class="col-7 text-center">
@@ -202,7 +203,7 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 				var body = `
 				<div class="form-card"> ` +
 					`<div class="form-group">` +
-					`<label class="col-sm-6 control-label">Payment Method </label>` +
+					`<label class="col-sm-6 control-label">[(#{cart.payment.type})] </label>` +
 					`<div class="col-sm-6">` +
 					`<select id="paymentMethod"  onchange="paymentDetals()">`
 					;
@@ -231,21 +232,55 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 			function paymentDetals() {
 				var x = $('#paymentMethod').val()
 				if (x == '1') {
-					//$('#checkstatusPaypal').hide();
-					$('#statusStep2').html(`<h4>Trả Tiền Khi Nhận Hàng !</h4> <img width="200px" src='https://toidentowa.com/wp-content/uploads/2017/12/thanh-toan.png'>`)
+					$('#statusStep2').html(`<h2>Trả Tiền Khi Nhận Hàng !</h2> <img width="200px" src='https://toidentowa.com/wp-content/uploads/2017/12/thanh-toan.png'>`)
 				} else {
-					//$('#checkstatusPaypal').show();
-					$('#statusStep2').html(`<h4>Trả Tiền Trước Qua Momo !</h4> <img width="200px" src='https://upload.wikimedia.org/wikipedia/vi/archive/f/fe/20201011055543%21MoMo_Logo.png'>`)
+					$('#statusStep2').html(`<h2>[(#{cart.title.paypal.titlePay})]</h2> `
+						+ `	<img width="200px" src='https://banner2.cleanpng.com/20190313/wce/kisspng-logo-paypal-x-com-image-brand-5c89a1fc9d8cd6.5075888315525237726453.jpg'>`
+						+ `	</hr><div class="row col-md-12">`
+						+ `			<label class="col-sm-12 control-label">`
+						+ `					 Ship Express : <input type="checkbox"></label>`
+
+
+						+ `	<div class="col-md-6 row">`
+						+ `	`
+						+ `	<div class="col-md-12 button1 " id="checkstatusPaypal1">`
+						+ `	 	<a onclick="openPaypal()">[(#{cart.button.paypal.payHere})]</a>`
+						+ `	</div>`
+
+
+						+ `	<div class="col-md-12 button1 " id="checkstatusPaypal1">`
+						+ `	<a onclick="checkPaypalStatus()">[(#{cart.button.paypal.checkStatus})]</a>`
+						+ `	<input type="hidden" id="statusPP1"></input>`
+						+ `	</div>`
+
+						+ `</div>`
+						+ `	`
+						+ `	`
+						+ `	`
+						+ `	`
+
+						+ `<div class="col-md-6 button2">`
+						+ `	<span id="statusPP">[(#{cart.title.paypal.titleStatus})]</span>`
+						+ `</div>`
+						+ `	</div>`
+					)
+
+
 				}
 			}
-
+/*	 <a onclick="openPaypal()">	<a onclick="openPaypal()">Thanh Toans ở day</a>`
+						+ `	</div>`
+						+ `	<div class="col-md-6 " id="checkstatusPaypal1">`
+						+ `	<a onclick="checkPaypalStatus()">checkstatus</a>`
+						+ `	<input type="hidden" id="statusPP1"></input>`
+						+ `	<span id="statusPP"></span>*/
 			async function openPaypal() {
 				var total = 0;
 				var data = JSON.parse(localStorage.products)
 				dataProduct.forEach((e) => {
-					total += (e.price*e.quantity);
+					total += (e.price * e.quantity);
 				})
-				let url = '/api/pay?price='+total;
+				let url = '/api/pay?price=' + total;
 				var getUrlPaypal;
 				await $.ajax({
 					url: url,
@@ -319,10 +354,10 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 			}
 			var bodyProduct = `<table class="table ">` +
 				` <tr>` +
-				` <th class="t-head head-it ">Products</th>` +
-				` <th class="t-head">Price</th>` +
-				` <th class="t-head">Quantity</th>` +
-				` <th class="t-head">Total</th>` +
+				` <th class="t-head head-it ">[(#{cart.table.column.product})]</th>` +
+				` <th class="t-head">[(#{cart.table.column.price})]</th>` +
+				` <th class="t-head">[(#{cart.table.column.quantity})]</th>` +
+				` <th class="t-head">[(#{cart.table.column.total})]</th>` +
 				` </tr>`;
 			showProduct = (data) => {
 				for (var i = 0; i < data.length; i++) {
@@ -340,11 +375,7 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 						` <td class="t-data">${numberWithCommas(data[i].price * 1)} VND</td>` +
 						` <td class="t-data">` +
 						` <div class="quantity">` +
-						` 	<div class="quantity-select">` +
-						` <div class="entry value-minus">&nbsp;</div>` +
-						` <div class="entry value"><span class="span-1">${data[i].quantity}</span></div>` +
-						` <div class="entry value-plus active">&nbsp;</div>` +
-						` </div>` +
+						` 	<input type="number" min="1" style="width: 70px;" class="my-product-quantity" value="${data[i].quantity}">` +
 						` </div>` +
 						` </td>` +
 						` <td class="t-data">` +
@@ -352,6 +383,16 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 						` </td>` +
 						` </tr>`;
 				};
+				/*$cartTable.append(
+					'<tr title="' + this.summary + '" data-id="' + this.id + '" data-price="' + this.price + '">' +
+					'<td class="text-center" style="width: 30px;"><img width="30px" height="30px" src="/home/' + this.image + '"/></td>' +
+					'<td>' + this.name + '</td>' +
+					'<td title="Unit Price">' + this.price + ' VND</td>' +
+					'<td title="Quantity"><input type="number" min="1" style="width: 70px;" class="' + classProductQuantity + '" value="' + this.quantity + '"/></td>' +
+					'<td title="Total" class="' + classProductTotal + '">' + total + ' VND</td>' +
+					'<td title="Remove from Cart" class="text-center" style="width: 30px;"><a href="javascript:void(0);" class="btn btn-xs btn-danger ' + classProductRemove + '">X</a></td>' +
+					'</tr>'
+				);*/
 				bodyProduct += `</table>`;
 				return bodyProduct;
 			};
@@ -369,63 +410,76 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 			});
 		</script>
 		<!--quantity-->
-	</div>
-	<!-- smooth scrolling -->
-	<script type="text/javascript">
-		$(document).ready(function () {
-			/*
-				var defaults = {
-				containerID: 'toTop', // fading element id
-				containerHoverID: 'toTopHover', // fading element hover id
-				scrollSpeed: 1200,
-				easingType: 'linear' 
-				};
-			*/
-			$().UItoTop({easingType: 'easeOutQuart'});
-		});
-	</script>
-	<a href="#" id="toTop" style="display: block;"> <span id="toTopHover" style="opacity: 1;"> </span></a>
-	<!-- //smooth scrolling -->
-	<!-- for bootstrap working -->
-	<script th:src="@{js/bootstrap.js}"></script>
-	<!-- //for bootstrap working -->
-	<script type='text/javascript' th:src="@{js/jquery.mycart.js}"></script>
-	<script type="text/javascript">
-		$(function () {
-			var goToCartIcon = function ($addTocartBtn) {
-				var $cartIcon = $(".my-cart-icon");
-				var $image = $('<img width="30px" height="30px" src="' + $addTocartBtn.data("image") + '"/>').css({"position": "fixed", "z-index": "999"});
-				$addTocartBtn.prepend($image);
-				var position = $cartIcon.position();
-				$image.animate({
-					top: position.top,
-					left: position.left
-				}, 500, "linear", function () {
-					$image.remove();
-				});
-			}
-			$('.my-cart-btn').myCart({
-				classCartIcon: 'my-cart-icon',
-				classCartBadge: 'my-cart-badge',
-				affixCartIcon: true,
-				checkoutCart: function (products) {
-					$.each(products, function () {
-						console.log(this);
-					});
-				},
-				clickOnAddToCart: function ($addTocart) {
-					goToCartIcon($addTocart);
-				},
-				getDiscountPrice: function (products) {
-					var total = 0;
-					$.each(products, function () {
-						total += this.quantity * this.price;
-					});
-					return total * 1;
-				}
+
+		<!-- smooth scrolling -->
+		<script type="text/javascript">
+			$(document).ready(function () {
+
+				/*
+					var defaults = {
+					containerID: 'toTop', // fading element id
+					containerHoverID: 'toTopHover', // fading element hover id
+					scrollSpeed: 1200,
+					easingType: 'linear' 
+					};
+				*/
+				$().UItoTop({easingType: 'easeOutQuart'});
 			});
-		});
-	</script>
+		</script>
+		<a href="#" id="toTop" style="display: block;"> <span id="toTopHover" style="opacity: 1;"> </span></a>
+		<!-- //smooth scrolling -->
+		<!-- for bootstrap working -->
+		<script th:src="@{js/bootstrap.js}"></script>
+		<!-- //for bootstrap working -->
+		<script type='text/javascript' th:src="@{js/jquery.mycart.js}"></script>
+		<script type="text/javascript">
+			$(function () {
+				var goToCartIcon = function ($addTocartBtn) {
+					var $cartIcon = $(".my-cart-icon");
+					var $image = $('<img width="30px" height="30px" src="' + $addTocartBtn.data("image") + '"/>').css({"position": "fixed", "z-index": "999"});
+					$addTocartBtn.prepend($image);
+					var position = $cartIcon.position();
+					$image.animate({
+						top: position.top,
+						left: position.left
+					}, 500, "linear", function () {
+						$image.remove();
+					});
+				}
+				$('.my-cart-btn').myCart({
+					classCartIcon: 'my-cart-icon',
+					classCartBadge: 'my-cart-badge',
+					affixCartIcon: true,
+					checkoutCart: function (products) {
+						$.each(products, function () {
+							console.log(this);
+						});
+					},
+					clickOnAddToCart: function ($addTocart) {
+						goToCartIcon($addTocart);
+					},
+					getDiscountPrice: function (products) {
+						var total = 0;
+						$.each(products, function () {
+							total += this.quantity * this.price;
+						});
+						return total * 1;
+					}
+				});
+			});
+			
+			var checkInfoLogin = `<div class="borderCus" style="width:30rem;height:30rem;padding:3rem"> <a  href="/home/login"><h4>[(#{mess.cart.notlogin})]</h4></a> <hr style="border:3px solid black"> <h3>[(#{mess.cart.notlogin2})]</h3></div>`;
+			var checkInfoLogin1 = function(n){
+				var name = n;
+				var name1 = `<div class="borderCus" style="width:30rem;height:30rem;padding:3rem">  <h4>[(#{mess.cart.notlogin1_1})] `
+				name1 +=name;
+				name1 +=`</h4> <hr style="border:3px solid black"> <h3>[(#{mess.cart.notlogin1_2})]</h3></div>`;
+				return name1;
+				
+			};
+			
+		</script>
+	</div>
 </body>
 
 </html>
