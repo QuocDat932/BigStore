@@ -101,7 +101,7 @@ public class testProduct {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("current", page);
 		map.put("back", page - 1 < 0 ? page : page - 1);
-		map.put("next", page + numP >= max ? page : page + 1);
+		map.put("next", page + numP >= l.size() ? page : page + 1);
 		map.put("products", l1);
 		return ResponseEntity.ok(map);
 	}

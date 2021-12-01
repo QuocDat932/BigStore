@@ -234,7 +234,7 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 				if (x == '1') {
 					$('#statusStep2').html(`<h2>Trả Tiền Khi Nhận Hàng !</h2> <img width="200px" src='https://toidentowa.com/wp-content/uploads/2017/12/thanh-toan.png'>`)
 				} else {
-					$('#statusStep2').html(`<h2>Trả Tiền Trước Qua Paypal !</h2> `
+					$('#statusStep2').html(`<h2>[(#{cart.title.paypal.titlePay})]</h2> `
 						+ `	<img width="200px" src='https://banner2.cleanpng.com/20190313/wce/kisspng-logo-paypal-x-com-image-brand-5c89a1fc9d8cd6.5075888315525237726453.jpg'>`
 						+ `	</hr><div class="row col-md-12">`
 						+ `			<label class="col-sm-12 control-label">`
@@ -244,12 +244,12 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 						+ `	<div class="col-md-6 row">`
 						+ `	`
 						+ `	<div class="col-md-12 button1 " id="checkstatusPaypal1">`
-						+ `	 	<a onclick="openPaypal()">Thanh Toans ở day</a>`
+						+ `	 	<a onclick="openPaypal()">[(#{cart.button.paypal.payHere})]</a>`
 						+ `	</div>`
 
 
 						+ `	<div class="col-md-12 button1 " id="checkstatusPaypal1">`
-						+ `	<a onclick="checkPaypalStatus()">checkstatus</a>`
+						+ `	<a onclick="checkPaypalStatus()">[(#{cart.button.paypal.checkStatus})]</a>`
 						+ `	<input type="hidden" id="statusPP1"></input>`
 						+ `	</div>`
 
@@ -260,12 +260,8 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 						+ `	`
 
 						+ `<div class="col-md-6 button2">`
-						+ `	<span id="statusPP">Thông tin của Paypal</span>`
+						+ `	<span id="statusPP">[(#{cart.title.paypal.titleStatus})]</span>`
 						+ `</div>`
-
-
-
-
 						+ `	</div>`
 					)
 
