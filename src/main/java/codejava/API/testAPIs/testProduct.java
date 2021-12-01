@@ -82,7 +82,7 @@ public class testProduct {
 		if(p.isPresent() && p.get()==-999) {
 			return ResponseEntity.ok(l.size());
 		}
-		int numP = 8;
+		int numP = 20;
 		int max = l.size() - numP;
 		int page = p.orElse(0) <= 0 ? 0 : p.get();
 		int page1 = page * numP;
@@ -101,7 +101,7 @@ public class testProduct {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("current", page);
 		map.put("back", page - 1 < 0 ? page : page - 1);
-		map.put("next", page + numP >= max ? page : page + 1);
+		map.put("next", page + numP >= l.size() ? page : page + 1);
 		map.put("products", l1);
 		return ResponseEntity.ok(map);
 	}
