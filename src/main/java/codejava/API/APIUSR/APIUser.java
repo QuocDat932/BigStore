@@ -18,12 +18,16 @@ import codejava.Constant.SessionConst;
 import codejava.Entity.Products;
 import codejava.Entity.Users;
 import codejava.Services.ProductsServices;
+import codejava.Services.UserServices;
 
 @RestController
 @RequestMapping("/api/user")
 public class APIUser {
 	@Autowired
 	private ProductsServices productSrvs;
+	@Autowired
+	private UserServices usersSrvs;
+	
 	@GetMapping("/currentUser")
 	public ResponseEntity<?> getCurrentUser(HttpSession sess){
 		try {
@@ -32,9 +36,12 @@ public class APIUser {
 			if(Objects.isNull(session)) {
 				return ResponseEntity.ok(MessageAPI.message(MessageAPI.FAIL, "Session Null", null));
 			}
+			session = usersSrvs.findByid(session.getId());
 			System.out.println(session.getEmail());
 			System.out.println(session.getFullname());
 			System.out.println(session.getRole().getDescription());
+			System.out.println(session.getAddress());
+			System.out.println(session.getPhone());
 			return ResponseEntity.ok(MessageAPI.message(MessageAPI.SUBMIT, "Everything is done ", session));
 		} catch (Exception e) {
 			return ResponseEntity.ok(MessageAPI.message(MessageAPI.FAIL, "Something Wrong ", null));

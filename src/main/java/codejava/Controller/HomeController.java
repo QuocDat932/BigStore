@@ -268,6 +268,7 @@ public class HomeController {
 		 * }
 		 */
 		listP.remove(p.getSlug());
+
 		model.addAttribute("Product", p);
 		model2.addAttribute("lisType", listP);
 

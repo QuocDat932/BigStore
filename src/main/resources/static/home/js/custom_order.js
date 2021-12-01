@@ -63,6 +63,21 @@ $(document).ready(function() {
 		})
 		return result;
 	}
+	function controlUserNull() {
+		$("#infoUser").html(checkInfoLogin);
+	}
+	function controlUserNonNull(currenUser) {
+	
+		//set value fields
+		$("#infoUser").html('');
+		$("#name").val(currenUser.fullname);
+		$("#name").attr('disabled','disabled');
+		$("#email").val(currenUser.email);
+		$("#email").attr('disabled','disabled');
+		$("#phone").val(currenUser.phone);
+		$("#address").val(currenUser.address);
+		$("#infoUser").html(checkInfoLogin1(currenUser.fullname));
+	}
 	function paymentDetals() {
 		var x = $('#paymentMethod').val()
 		if (x == '1') {
@@ -71,7 +86,7 @@ $(document).ready(function() {
 			$('#statusStep2').html(`<h4>Trả Tiền Trước Qua Momo !</h4> <img width="200px" src='https://upload.wikimedia.org/wikipedia/vi/archive/f/fe/20201011055543%21MoMo_Logo.png'>`)
 		}
 	}
-	
+
 	//step 2 : end
 
 
@@ -83,10 +98,10 @@ $(document).ready(function() {
 	async function getDataSubmit() {
 		var phone = $("#phone").val().trim();
 		var address = $("#address").val().trim();
-		var status = $("#statusPP").val()||"Reject";
-		var description = $("#description").val()||"Nothing";
+		var status = $("#statusPP").val() || "Reject";
+		var description = $("#description").val() || "Nothing";
 		var method = $("#paymentMethod").val();
-		const url = '/api/cart/save?phone=' + phone + '&address=' + address + '&payment=' + method + '&description=' + description+ '&status=' + status;
+		const url = '/api/cart/save?phone=' + phone + '&address=' + address + '&payment=' + method + '&description=' + description + '&status=' + status;
 		await $.ajax({
 			url: url,
 			type: "POST",
@@ -121,17 +136,13 @@ $(document).ready(function() {
 	//step3 : end
 	async function getCurrentUser() {
 		var checkUser = await checkCurrentUser();
-		
+
 		if (checkUser.Status != 'Submitted') {
 			//'[(#{cart.table.column.total})]! </br> <a href="/home/login">[(#{mess.cart.notlogin1})]</a>'
-			$("#infoUser").html(checkInfoLogin)
+			controlUserNull()
 		} else {
 			var currenUser = checkUser.Items;
-			var body = `<div>Họ và tên : ${currenUser.fullname} </br> ` +
-				`Email : ${currenUser.email} </br></div>`;
-			$("#infoUser").html(body);
-			$("#phone").val(currenUser.fullname);
-			$("#adress").val(currenUser.fullname);
+			controlUserNonNull(currenUser)
 		}
 	}
 	$(".next").click(async function() {
@@ -141,6 +152,9 @@ $(document).ready(function() {
 		if (c.includes("s1")) {
 			CallApiProduct(localStorage.products);
 			var checkUser = await getCurrentUser();
+			if (localStorage.products.length == 0) {
+					alert("không thể tiếp tục nếu không có sản phẩm")
+				 return false };
 		};
 		if (c.includes("s2")) {
 			var check = await checkPhoneAddress();
@@ -152,6 +166,7 @@ $(document).ready(function() {
 			var chec = await checkStep3();
 			if (!chec) { alert('something wrong !'); return false }
 			window.localStorage.removeItem('products');
+		
 		};
 
 		//Add Class Active

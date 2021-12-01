@@ -3,10 +3,44 @@ Author: Thiencute
 Author URL: fb.com/shinsukik
 License: custom css
 --*/
-.haha{
-	color: red;
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700;800;900&display=swap");
+
+:root {
+  --color-red: #ec1840;
+  --color-purple: #7a18ec;
+  --color-white: #fff;
+  --color-black-1: #111;
+  --color-black-2: #222;
+  --color-black-3: #444;
+  --speed-normal: 0.5s;
+  --speed-fast: 0.8s;
 }
 
-.thumbnail > img, .thumbnail a > img, .carousel-inner > .item > img, .carousel-inner > .item > a > img{
-	max-height: 1em;
+
+.borderCus{ 
+	height:38rem;
+box-shadow:0 8px 8px 0 rgba(103, 151, 255, .11), 0 12px 18px 0 rgba(103, 151, 255, .11);
 }
+.borderCus1{ 
+border-radius: 1rem;
+border: 3px solid black;
+}
+.button1,.button2 {
+  position: relative;
+  width: 280px;
+  height: 60px;
+  margin: 20px;
+  line-height: 60px;
+  letter-spacing: 2px;
+  text-decoration: none;
+  text-transform: uppercase;
+  text-align: center;
+  color: green;
+  trasnition: var(--speed-normal);
+  border: 1px solid green;
+ 
+} 
+.button1:hover {
+    border: 1px solid green transparent;
+    background: green;
+  }
