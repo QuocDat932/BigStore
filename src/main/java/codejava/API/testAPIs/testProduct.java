@@ -82,7 +82,7 @@ public class testProduct {
 		if(p.isPresent() && p.get()==-999) {
 			return ResponseEntity.ok(l.size());
 		}
-		int numP = 20;
+		int numP = 8;
 		int max = l.size() - numP;
 		int page = p.orElse(0) <= 0 ? 0 : p.get();
 		int page1 = page * numP;
