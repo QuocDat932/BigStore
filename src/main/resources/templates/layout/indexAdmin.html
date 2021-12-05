@@ -48,7 +48,7 @@
     <!-- Sidebar -->
     <aside class="mdc-drawer mdc-drawer--dismissible mdc-drawer--open">
       <div class="mdc-drawer__header">
-        <a th:href="@{/admin/home}" class="brand-logo">
+        <a th:href="@{/admin/dashboard}" class="brand-logo">
           <img th:src="@{/admin/images/logo.svg}" alt="logo">
         </a>
       </div>
@@ -59,7 +59,7 @@
         </div>
         <div class="mdc-list-group">
           <nav class="mdc-list mdc-drawer-menu">
-            <div class="mdc-list-item mdc-drawer-item">
+            <!-- <div class="mdc-list-item mdc-drawer-item">
               <a class="mdc-drawer-link" th:href="@{/admin/dashboard}">
                 <i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true">home</i>
                 [(#{menu.dashboash})]
@@ -71,7 +71,7 @@
                   aria-hidden="true">track_changes</i>
                 [(#{menu.forms})]
               </a>
-            </div>
+            </div> -->
             <div class="mdc-list-item mdc-drawer-item">
               <a class="mdc-expansion-panel-link" href="#" data-toggle="expansionPanel" data-target="ui-sub-menu">
                 <!--<i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true">dashboard</i>
@@ -117,7 +117,7 @@
                   <div class="mdc-list-item mdc-drawer-item">
                     <a class="mdc-drawer-link" th:href="@{/admin/user/user-userVipMgt}">
                       <i class='fas fa-users mdc-drawer-item-icon' style='font-size:15px'></i>
-                      User Top
+                      [(#{user.UserTop})]
                     </a>
                   </div>
                 </nav>
@@ -130,14 +130,14 @@
                 [(#{menu.List_Order})]
               </a>
             </div>
-            <div class="mdc-list-item mdc-drawer-item">
+            <!-- <div class="mdc-list-item mdc-drawer-item">
               <a class="mdc-drawer-link" th:href="@{/admin/ChartOrder}">
                 <i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon"
                   aria-hidden="true">pie_chart_outlined</i>
                 [(#{menu.Charts})]
               </a>
-            </div>
-            <div class="mdc-list-item mdc-drawer-item">
+            </div> -->
+            <!-- <div class="mdc-list-item mdc-drawer-item">
               <a class="mdc-expansion-panel-link" href="#" data-toggle="expansionPanel"
                 data-target="sample-page-submenu">
                 <i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true">pages</i>
@@ -183,16 +183,8 @@
                   </div>
                 </nav>
               </div>
-            </div>
-            <div class="mdc-list-item mdc-drawer-item">
-              <a class="mdc-drawer-link"
-                th:href="@{https://www.bootstrapdash.com/demo/material-admin-free/jquery/documentation/documentation.html}"
-                target="_blank">
-                <i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon"
-                  aria-hidden="true">description</i>
-                Documentation
-              </a>
-            </div>
+            </div> -->
+            <!-- Material Dash -->
           </nav>
         </div>
         <div class="profile-actions">
@@ -206,12 +198,12 @@
               <i class="mdi mdi-shield-outline"></i>
             </div>
             <div>
-              <p class="mt-0 mb-1 ml-2 font-weight-bold tx-12">Material Dash</p>
-              <p class="mt-0 mb-0 ml-2 tx-10">Pro available</p>
+              <p class="mt-0 mb-1 ml-2 font-weight-bold tx-12">DashBoard</p>
+              <p class="mt-0 mb-0 ml-2 tx-10">Admin Management</p>
             </div>
           </div>
-          <p class="tx-8 mt-3 mb-1">More elements. More Pages.</p>
-          <p class="tx-8 mb-3">Starting from $25.</p>
+          <p class="tx-8 mt-3 mb-1">BigStore Fresh Food</p>
+          <p class="tx-8 mb-3">Good Luck</p>
           <a th:href="@{https://www.bootstrapdash.com/product/material-design-admin-template/}" target="_blank">
             <span class="mdc-button mdc-button--raised mdc-button--white">Upgrade to Pro</span>
           </a>
