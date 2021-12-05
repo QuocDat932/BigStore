@@ -16,8 +16,10 @@ import org.springframework.web.bind.annotation.RestController;
 import codejava.Constant.MessageAPI;
 import codejava.Constant.SessionConst;
 import codejava.Entity.Products;
+import codejava.Entity.TypeOfProduct;
 import codejava.Entity.Users;
 import codejava.Services.ProductsServices;
+import codejava.Services.TypeOfProductServices;
 import codejava.Services.UserServices;
 
 @RestController
@@ -26,8 +28,9 @@ public class APIUser {
 	@Autowired
 	private ProductsServices productSrvs;
 	@Autowired
+	private TypeOfProductServices typrOfProductSrvcs;
+	@Autowired
 	private UserServices usersSrvs;
-	
 	@GetMapping("/currentUser")
 	public ResponseEntity<?> getCurrentUser(HttpSession sess){
 		try {
@@ -46,5 +49,10 @@ public class APIUser {
 		} catch (Exception e) {
 			return ResponseEntity.ok(MessageAPI.message(MessageAPI.FAIL, "Something Wrong ", null));
 		}
+	}
+	
+	@GetMapping("/getSubmenu")
+	public ResponseEntity<?> getSubmenu(){
+		return ResponseEntity.ok(typrOfProductSrvcs.getListTypeOfProduct()); 
 	}
 }
