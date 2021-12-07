@@ -29,7 +29,6 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 	<script type="text/javascript" th:src='@{/home/js/move-top.js}'></script>
 	<script type="text/javascript" th:src='@{/home/js/easing.js}'></script>
 
-	<script type='text/javascript' th:src="@{/home/js/validationForm.js}"></script>
 	<script type="text/javascript">
 		jQuery(document).ready(function ($) {
 			$(".scroll").click(function (event) {
@@ -68,14 +67,12 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 		});
 	</script>
 	<!---//End-rate---->
-	<script type='text/javascript' th:src="@{/home/js/validationForm.js}"></script>
 	<script type="text/javascript" th:src='@{/admin/js/pages/ADM_category.js}'></script>
 </head>
 
 <body>
 	<div layout:fragment="content">
 
-		<script type='text/javascript' th:src="@{/home/js/validationForm.js}"></script>
 		<!--banner-->
 		<div class="banner-top">
 			<div class="container">
@@ -129,7 +126,7 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 								onfocus="this.value = '';" required="">
 							<div class="clearfix"></div>
 						</div>
-						<input onclick="checkForm()" type="text" value="Submit" >
+						<input onclick="checkForm()" type="button" value="Submit" >
 					</form>
 				</div>
 
@@ -139,11 +136,14 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 			$(document).ready(function () {
 				checkForm = async () => {
 					var total = await checkDB() || checkNull() || !checkConfirmPass() || ve($("#email").val());
-					console.log( checkDB() +` - ` + checkNull()  +` - ` + !checkConfirmPass()  +` - ` + ve($("#email").val()))
 					if (!total) {
 						document.getElementById("form").submit()
+					}else{
+						if(ve($("#email").val())){
+						alert('Email phai theo mau')
+					}
 					};
-
+					
 				}
 				// trùng pass = true
 				checkConfirmPass = () => {
@@ -160,9 +160,7 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 					var ps1 = $("#pwss1").val() == undefined || $("#pwss1").val().trim().length == 0;
 					var ps2 = $("#pwss2").val() == undefined || $("#pwss2").val().trim().length == 0;
 					var result = username || fullname || email || ps1 || ps2;
-					if(result){
-						alert('Không được đê trống')
-					}
+					
 					return result;
 				}
 				//tồn tại trong DB = true;
