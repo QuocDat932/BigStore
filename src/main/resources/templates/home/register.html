@@ -160,7 +160,9 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 					var ps1 = $("#pwss1").val() == undefined || $("#pwss1").val().trim().length == 0;
 					var ps2 = $("#pwss2").val() == undefined || $("#pwss2").val().trim().length == 0;
 					var result = username || fullname || email || ps1 || ps2;
-					
+					if(result){
+						alert("Vui lòng nhập hết fields");
+					}
 					return result;
 				}
 				//tồn tại trong DB = true;
