@@ -129,7 +129,7 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 								onfocus="this.value = '';" required="">
 							<div class="clearfix"></div>
 						</div>
-						<input onclick="checkForm()" type="text" value="Submit">
+						<input onclick="checkForm()" type="text" value="Submit" >
 					</form>
 				</div>
 
@@ -159,7 +159,11 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 					var email = $("#email").val() == undefined || $("#email").val().trim().length == 0;
 					var ps1 = $("#pwss1").val() == undefined || $("#pwss1").val().trim().length == 0;
 					var ps2 = $("#pwss2").val() == undefined || $("#pwss2").val().trim().length == 0;
-					return username || fullname || email || ps1 || ps2;
+					var result = username || fullname || email || ps1 || ps2;
+					if(result){
+						alert('Không được đê trống')
+					}
+					return result;
 				}
 				//tồn tại trong DB = true;
 				checkDB = async () => {
