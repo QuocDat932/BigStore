@@ -97,7 +97,7 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 						<ul class="contact-list">
 							<li> <i class="fa fa-map-marker" aria-hidden="true"></i> </li>
 							<li><i class="fa fa-envelope" aria-hidden="true"></i><a
-									href="mailto:datbqps12154@fpt.edu.vn">datbqps12154@fpt.edu.vn</a></li>
+									href="mailto:datbqps12154@fpt.edu.vn">bigstore24112021@gmail.com</a></li>
 							<li> <i class="fa fa-phone" aria-hidden="true"></i>0964192032</li>
 						</ul>
 						<div id="container">
@@ -110,24 +110,16 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 								</ul>
 								<div class="resp-tabs-container hor_1">
 									<div>
-										<form action="#" method="post">
-											<input type="text" value="Tên của bạn" name="Tên của bạn"
+										<form th:action="@{/home/sendEmailUsers}" method="post">
+											<input type="text" value="Tên của bạn" name="username"
 												onfocus="this.value = '';"
-												onblur="if (this.value == '') {this.value = 'Tên của bạn';}"
-												required="">
-											<input type="email" value="Email của bạn" name="Email của bạn"
-												onfocus="this.value = '';"
-												onblur="if (this.value == '') {this.value = 'Email của bạn';}"
-												required="">
+												onblur="if (this.value == '') {this.value = 'Tên của bạn';}" required="">
+										
 											<input type="text" value="Số điện thoại của bạn"
-												name="Số điện thoại của bạn" onfocus="this.value = '';"
+												name="phone" onfocus="this.value = '';"
 												onblur="if (this.value == '') {this.value = 'Số điện thoại của bạn';}"
 												required="">
-											<input type="email" value="Tiêu đề" name="Tiêu đề"
-												onfocus="this.value = '';"
-												onblur="if (this.value == '') {this.value = 'Tiêu đề';}" required="">
-
-											<textarea name="Viết bình luận..." onfocus="this.value = '';"
+											<textarea name="content" onfocus="this.value = '';"
 												onblur="if (this.value == '') {this.value = 'Viết bình luận...';}"
 												required="">Viết bình luận...</textarea>
 											<input type="submit" value="Gửi liên hệ">
