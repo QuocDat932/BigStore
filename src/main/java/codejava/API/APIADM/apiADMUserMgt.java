@@ -1,13 +1,18 @@
 package codejava.API.APIADM;
 
+import java.sql.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import codejava.Constant.publicFuncs;
+import codejava.Dto.objChart;
 import codejava.Entity.Users;
 import codejava.Services.StatsServices;
 import codejava.Services.UserServices;
@@ -40,6 +45,12 @@ public class apiADMUserMgt {
 	@GetMapping("/userMgt/getUserStatisticTypeAccount")
 	public ResponseEntity<?> doGetUserStatisticTypeAccount(){
 		String[][] dataAccountType = adminSrvs.getcountAccountTypeUser();
+		return ResponseEntity.ok(dataAccountType);
+	};
+	
+	@GetMapping("/userMgt/getStatisticTopUserTotalPriceByUserIdInPeriod")
+	public ResponseEntity<?> doGetStatisticTopUserTotalPriceByUserIdInPeriod(){
+		List<objChart> dataAccountType = adminSrvs.getStatisticTopUserTotalPriceByUserIdInPeriod();
 		return ResponseEntity.ok(dataAccountType);
 	};
 	

@@ -147,11 +147,11 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 							`                        <div class="p-3 d-flex justify-content-center align-items-center"> <span>x${dtl.quantity}</span> </div>` +
 							`                      </td>` +
 							`                      <td class="col-md-3">` +
-							`                        <div class="p-3 d-flex justify-content-center align-items-center"> <span>${dtl.price}` +
+							`                        <div class="p-3 d-flex justify-content-center align-items-center"> <span>${numberWithCommas(dtl.price)}` +
 							`                            VNĐ</span> </div>` +
 							`                      </td>` +
 							`                      <td class="col-md-3">` +
-							`                        <div class="p-3 d-flex justify-content-center align-items-center"> <span>${dtl.price * dtl.quantity}` +
+							`                        <div class="p-3 d-flex justify-content-center align-items-center"> <span>${numberWithCommas(dtl.price * dtl.quantity)}` +
 							`                            VNĐ</span> </div>` +
 							`                      </td>` +
 							`                    </tr>`
@@ -200,7 +200,7 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 									`		</div>` +
 									`		<label for="" class="col-sm-5 control-label">[(#{order.totalprc})]</label>` +
 									`		<div class="col-sm-7">` +
-									`			<text>${currentOrder.totalprice} VNĐ</text>` +
+									`			<text>${numberWithCommas(currentOrder.totalprice)} VNĐ</text>` +
 									`		</div>` +
 									`	</div>` +
 									`	<!--Table Detail-->` +

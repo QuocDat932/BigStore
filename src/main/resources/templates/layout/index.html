@@ -3,71 +3,143 @@
 
 <script type='text/javascript' th:src="@{/home/js/validationForm.js}"></script>
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
+<script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css">
+
+<script>
+	$(document).ready(function () {
+		console.log(123);
+		getSubMenu();
+	});
+	getSubMenu = async () => {
+		let response = '/api/user/getSubmenu';
+		await $.ajax({
+			type: "GET",
+			url: response,
+			contentType: "application/json",
+			success: function (data) {
+				createSubmenu(data);
+			},
+			error: function (e) {
+				Swal.fire({
+					icon: 'error',
+					text: "Can't load data !!!",
+				})
+			}
+		})
+	};
+	dataTypeOfProduct = [
+		{
+			deleted: true,
+			descriptionVI: "Rau Củ Quả",
+			descriptionEN: "Vegetable",
+			id: 1,
+			slug: "RAU"
+		},
+		{
+			deleted: true,
+			descriptionVI: "Đồ Ăn Nhanh",
+			descriptionEN: "Fastfood",
+			id: 2,
+			slug: "Do-an-nhanh"
+		},
+		{
+			deleted: true,
+			descriptionVI: "Gia dụng",
+			descriptionEN: "Houseware",
+			id: 3,
+			slug: "Gia-dung"
+		},
+		{
+			deleted: true,
+			descriptionVI: "Đồ Hộp - Đóng Gói",
+			descriptionEN: "Boxed - Packaging",
+			id: 4,
+			slug: "Do-hop-dong-goi"
+		},
+	]
+	createSubmenu = (data) => {
+		let elementSub = '';
+		if (data && data.length > 0) {
+			console.log(data);
+			elementSub = `<ul class="nav navbar-nav ">
+									<li><a href="/home" class="hyper"><span>[(#{nav.home})]</span></a>
+									</li>`;
+			data.forEach((e) => {
+				let nameSubMenu = '[(#{nav.' + e.id + '})]';
+				dataTypeOfProduct.forEach((et) => {
+					if (e.id === et.id) {
+						elementSub += `<li><a href="/type/${e.slug}" class="hyper"><span>${nameSubMenu.substring(8, 10) == 'vi' ? et.descriptionVI : et.descriptionEN}</span></a>` +
+							`</li>`;
+					}
+				});
+			});
+			elementSub += `<li><a href="/home/contact" class="hyper"><span>[(#{submenu.about_us})]</span></a>
+							</li>
+						</ul >`;
+		};
+		$('#submenu').html(elementSub)
+	}
+</script>
+
 <body>
 	<header>
 		<a th:href="@{/home/offer}"><img th:src="@{/home/images/download.png}" class="img-head" alt=""></a>
 		<div class="header">
-
 			<div class="container">
-
 				<div class="logo">
 					<h1><a th:href="@{/home}"><b>T<br>H<br>E</b>Big Store<span>The Best Supermarket</span></a></h1>
 				</div>
 				<div class="head-t">
 					<ul class="card">
-						<li><a th:href="@{/home/wishlist}"><i class="fa fa-heart" aria-hidden="true"></i>[(#{submenu.whishlist})]</a>
+						<li><a th:href="@{/home/wishlist}"><i class="fa fa-heart"
+									aria-hidden="true"></i>[(#{submenu.whishlist})]</a>
 						</li>
-							<li><a th:href="@{/home/login}"><i class="fa fa-user" aria-hidden="true"></i>[(#{submenu.login})]</a></li>
-						<li><a th:href="@{/home/logout}"><i class="fa fa-heart" aria-hidden="true"></i>[(#{submenu.logout})]</a>
+						<li><a th:href="@{/home/login}"><i class="fa fa-user"
+									aria-hidden="true"></i>[(#{submenu.login})]</a></li>
+						<li><a th:href="@{/home/logout}"><i class="fa fa-sign-out"
+									aria-hidden="true"></i>[(#{submenu.logout})]</a>
 						</li>
 						<li><a th:href="@{/home/register}"><i class="fa fa-arrow-right"
 									aria-hidden="true"></i>[(#{submenu.register})]</a></li>
-						<li><a th:href="@{/home/OrderHistory} "><i class="fa fa-file-text-o" aria-hidden="true"></i>[(#{submenu.order_history})]</a></li>
-						<li><a th:href="@{/home/about} "><i class="fa fa-file-text-o" aria-hidden="true"></i>[(#{submenu.about_us})]</a></li>
-						<li><a th:href="@{/home/shipping}"><i class="fa fa-ship" aria-hidden="true"></i>Shipping</a>
+						<li><a th:href="@{/home/OrderHistory} "><i class="fa fa-file-text-o"
+									aria-hidden="true"></i>[(#{submenu.order_history})]</a></li>
+						<li><a th:href="@{/home/contact} "><i class="fa fa-file-text-o"
+									aria-hidden="true"></i>[(#{submenu.about_us})]</a></li>
 						<li><a th:href="@{/home/account}"><i class="fa fa-ship" aria-hidden="true"></i>Tài Khoản</a>
 						</li>
-						
+
 					</ul>
 				</div>
 
 
 				<div class="header-ri">
 					<ul class="social-top">
-						<li><a th:href="@{/oauth2/authorization/google}"  class="icon pinterest"><i class="fa fa-google"
-									aria-hidden="true"></i><span></span></a></li>
-						<li><a th:href="@{/oauth2/authorization/facebook}" class="icon twitter"><i class="fa fa-twitter"
-									aria-hidden="true"></i><span></span></a></li>
-						<li><a href="#" class="icon pinterest"><i class="fa fa-pinterest-p"
-									aria-hidden="true"></i><span></span></a></li>
-						<li><a href="#" class="icon dribbble"><i class="fa fa-dribbble"
-									aria-hidden="true"></i><span></span></a></li>
-									
-									<div class="header-ri">
-									 <li class="nav-item">
-                                <a class="nav-link" th:href="@{?lang=vi}">
-                                    <!--  <img src="/home/images/vn_flag.jpg"/> -->
-                                    <img width="30px" height="30px" th:src="@{/admin/vendors/flag-icon-css/flags/4x3/vn.svg}">VI</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" th:href="@{?lang=en}">
-                                    <img width="30px" height="30px" th:src="@{/admin/vendors/flag-icon-css/flags/4x3/us.svg}">EN
-                                </a>
-                            </li>
-                    <!--     <ul class="social-top">
-                            languge
+						<li><a th:href="@{/oauth2/authorization/google}" class="icon pinterest"><i class="fa fa-google"
+									aria-hidden="true"></i><span></span></a>
+						</li>
 
-                           
-
-                        </ul> -->
-                    </div>	
+						<div class="header-ri">
+							<li class="nav-item">
+								<a class="nav-link" th:href="@{?lang=vi}">
+									<!--  <img src="/home/images/vn_flag.jpg"/> -->
+									<img width="30px" height="30px"
+										th:src="@{/admin/vendors/flag-icon-css/flags/4x3/vn.svg}">VI
+								</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" th:href="@{?lang=en}">
+									<img width="30px" height="30px"
+										th:src="@{/admin/vendors/flag-icon-css/flags/4x3/us.svg}">EN
+								</a>
+							</li>
+						</div>
 					</ul>
 				</div>
-
-
 				<div class="nav-top">
 					<nav class="navbar navbar-default">
-
 						<div class="navbar-header nav_2">
 							<button type="button" class="navbar-toggle collapsed navbar-toggle1" data-toggle="collapse"
 								data-target="#bs-megadropdown-tabs">
@@ -78,86 +150,17 @@
 							</button>
 						</div>
 						<div class="collapse navbar-collapse" id="bs-megadropdown-tabs">
-							<ul class="nav navbar-nav ">
-								<li><a th:href="@{/home}" class="hyper " th:text="#{nav.home}"><span >Home</span></a></li>
-
-				<!-- th:onclick="@{'change(\'' + ${type.slug} + '\')'}" -->
-								<li  class="dropdown" th:each="type, state : ${listType}" >
-									<a th:href="@{'/type/'+${type.slug}}" class="dropdown-toggle  hyper" 
-									><span th:text="#{'nav.'+${type.id}}"><b class="caret"></b></span></a>
-								</li>			
-									<ul class="dropdown-menu multi">
-										<div class="row">
-											<div class="col-sm-3">
-												<ul class="multi-column-dropdown">
-													<li><a th:href="@{/home/kitchen}"><i class="fa fa-angle-right"
-																aria-hidden="true"></i>Water & Beverages</a></li>
-													<li><a th:href="@{/home/kitchen}"><i class="fa fa-angle-right"
-																aria-hidden="true"></i>Fruits & Vegetables</a></li>
-													<li><a th:href="@{/home/kitchen}"> <i class="fa fa-angle-right"
-																aria-hidden="true"></i>Staples</a></li>
-													<li><a th:href="@{/home/kitchen}"><i class="fa fa-angle-right"
-																aria-hidden="true"></i>Branded Food</a></li>
-
-												</ul>
-
-											</div>
-											<div class="col-sm-3">
-
-												<ul class="multi-column-dropdown">
-													<li><a th:href="@{/home/kitchen}"><i class="fa fa-angle-right"
-																aria-hidden="true"></i>Breakfast &amp; Cereal</a></li>
-													<li><a th:href="@{/home/kitchen}"><i class="fa fa-angle-right"
-																aria-hidden="true"></i>Snacks</a></li>
-													<li><a th:href="@{/home/kitchen}"><i class="fa fa-angle-right"
-																aria-hidden="true"></i>Spices</a></li>
-													<li><a th:href="@{/home/kitchen}"><i class="fa fa-angle-right"
-																aria-hidden="true"></i>Biscuit &amp; Cookie</a></li>
-													<li><a th:href="@{/home/kitchen}"><i class="fa fa-angle-right"
-																aria-hidden="true"></i>Sweets</a></li>
-
-												</ul>
-
-											</div>
-											<div class="col-sm-3">
-
-												<ul class="multi-column-dropdown">
-													<li><a th:href="@{/home/kitchen}"><i class="fa fa-angle-right"
-																aria-hidden="true"></i>Pickle & Condiment</a></li>
-													<li><a th:href="@{/home/kitchen}"><i class="fa fa-angle-right"
-																aria-hidden="true"></i>Instant Food</a></li>
-													<li><a th:href="@{/home/kitchen}"><i class="fa fa-angle-right"
-																aria-hidden="true"></i>Dry Fruit</a></li>
-													<li><a th:href="@{/home/kitchen}"><i class="fa fa-angle-right"
-																aria-hidden="true"></i>Tea &amp; Coffee</a></li>
-
-												</ul>
-											</div>
-											<div class="col-sm-3 w3l">
-												<a th:href="@{/home/kitchen}"><img th:src="@{/home/images/me.png}"
-														class="img-responsive" alt=""></a>
-											</div>
-											<div class="clearfix"></div>
-										</div>
-									</ul>
-								</li>
-								<li><a th:href="@{/home/codes}" class="hyper"> <span>Codes</span></a></li>
-								<li><a th:href="@{/home/contact}" class="hyper"><span>Contact Us</span></a></li>
-								
-							</ul>							
-						</div>						
+							<div id="submenu"></div>
+						</div>
 					</nav>
 					<div class="cart">
 						<span class="fa fa-shopping-cart my-cart-icon"><span
-								class="badge badge-notify my-cart-badge"></span></span>						
-					</div>						
-								
-					
-            				
-					<div class="clearfix"></div>					
+								class="badge badge-notify my-cart-badge"></span></span>
+					</div>
+					<div class="clearfix"></div>
 				</div>
 			</div>
-			
+
 		</div>
 	</header>
 	<!--Main Content-->
@@ -177,20 +180,21 @@
 						<li><a th:href="@{/home}" th:text="#{nav.home}">Home</a></li>
 						<li><a th:href="@{/home/kitchen}">[(#{nav.home})]</a></li>
 						<li th:each="type, state : ${listType}">
-                            <a th:href="@{'/type/'+${type.slug}}"><span th:text="#{'nav.'+${type.id}}" ><b class="caret"></b></span></a>
-                        </li>
-						<li><a th:href="@{/home/contact}"  th:text="#{nav.about}">Contact</a></li>
+							<a th:href="@{'/type/'+${type.slug}}"><span th:text="#{'nav.'+${type.id}}"><b
+										class="caret"></b></span></a>
+						</li>
+						<li><a th:href="@{/home/contact}" th:text="#{nav.about}">Contact</a></li>
 					</ul>
 				</div>
 				<div class="col-md-3 footer-grid ">
 					<h3>Customer Services</h3>
-                    <ul>
-                        <li><a th:href="@{/home/shipping}">Shipping</a></li>
-                        <li><a th:href="@{/home/terms}">Terms & Conditions</a></li>
-                        <li><a th:href="@{/home/faqs}">Faqs</a></li>
-                        <li><a th:href="@{/home/contact}">Contact</a></li>
-                        <li><a th:href="@{/home/offer}">Online Shopping</a></li>
-                    </ul>
+					<ul>
+						<li><a th:href="@{/home/shipping}">Shipping</a></li>
+						<li><a th:href="@{/home/terms}">Terms & Conditions</a></li>
+						<li><a th:href="@{/home/faqs}">Faqs</a></li>
+						<li><a th:href="@{/home/contact}">Contact</a></li>
+						<li><a th:href="@{/home/offer}">Online Shopping</a></li>
+					</ul>
 
 				</div>
 				<div class="col-md-3 footer-grid">
@@ -233,46 +237,41 @@
 					<p> &copy; 2016 Big store. All Rights Reserved .</p>
 				</div>
 			</div>
-
 			<script>
-			
-			
-			
-			function numberWithCommas(x) {
-			    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-			}
+				function numberWithCommas(x) {
+					return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+				}
 				getProduct = (data) => {
 					var body = "";
-					
-					for(var i = 0; i < data.length;i++){
+					for (var i = 0; i < data.length; i++) {
 						/* data[i].price = numberWithCommas(data[i].price); */
-						body+=`  <div class=" con-w3l">   `+
-				`  	<div class="col-md-3 pro-1"">  `+
-					`  	<div class="col-m">  `+
-							`  <!-- #myModal17 -->  `+
-							`  <a href="#" data-toggle="modal" data-target="#${data[i].slug}" class="offer-img">  `+
-								`  <img src="/home/images/${data[i].imgUrl}" class="img-responsive" alt="">  `+
-							`  </a>  `+
-							`  <div class="mid-1">  `+
-								`  <div class="women">  `+
-								`  	<h6><a href="/home/${data[i].slug} ">${data[i].name}</a></h6>  `+
-								`  </div>  `+
-								`  <div class="mid-2">  `+
-								`  	<p><label>$7.00</label><em class="item_price" >${numberWithCommas(data[i].price)} VND</em></p>  `+
-								`  	<div class="block">  `+
-										`  <div class="starbox small ghosting"> </div>  `+
-									`  </div>  `+
-									`  <div class="clearfix"></div>  `+
-								`  </div>  `+
-								`  <div class="add add-2">  `+
-								`  	<button class="btn btn-danger my-cart-btn my-cart-b" data-id="${data[i].id}"  `+
-										`  data-name="${data[i].name}" data-summary="summary 1" data-price="${data[i].price}"  `+
-										`  data-quantity="${1}" data-image="images/${data[i].imgUrl}">[(#{button.add_to_Cart})]</button>  `+
-								`  </div>  `+
-							`  </div>  `+
-						`  </div>  `+
-					`  </div>  `  ;
-					
+						body += `  <div class=" con-w3l">   ` +
+							`  	<div class="col-md-3 pro-1"">  ` +
+							`  	<div class="col-m">  ` +
+							`  <!-- #myModal17 -->  ` +
+							`  <a href="#" data-toggle="modal" data-target="#${data[i].slug}" class="offer-img">  ` +
+							`  <img src="/home/images/${data[i].imgUrl}" class="img-responsive" alt="">  ` +
+							`  </a>  ` +
+							`  <div class="mid-1">  ` +
+							`  <div class="women">  ` +
+							`  	<h6><a href="/home/${data[i].slug} ">${data[i].name}</a></h6>  ` +
+							`  </div>  ` +
+							`  <div class="mid-2">  ` +
+							`  	<p><label>$7.00</label><em class="item_price" >${numberWithCommas(data[i].price)} VND</em></p>  ` +
+							`  	<div class="block">  ` +
+							`  <div class="starbox small ghosting"> </div>  ` +
+							`  </div>  ` +
+							`  <div class="clearfix"></div>  ` +
+							`  </div>  ` +
+							`  <div class="add add-2">  ` +
+							`  	<button class="btn btn-danger my-cart-btn my-cart-b" data-id="${data[i].id}"  ` +
+							`  data-name="${data[i].name}" data-summary="summary 1" data-price="${data[i].price}"  ` +
+							`  data-quantity="${1}" data-image="images/${data[i].imgUrl}">[(#{button.add_to_Cart})]</button>  ` +
+							`  </div>  ` +
+							`  </div>  ` +
+							`  </div>  ` +
+							`  </div>  `;
+
 					}
 					$("#products").html(body);
 				}
@@ -304,59 +303,59 @@
 							alert(e)
 						}
 					});
-					reloadFunctions(); 	
+					reloadFunctions();
 				};
 				ProductPage(0);
 			</script>
-			
+
 			<script>
-		
-			
+
+
 				function numberWithCommas(x) {
-					    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-					}
+					return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+				}
 				getProductType = (data) => {
 					var body = "";
-					for(var i = 0; i < data.length;i++){
+					for (var i = 0; i < data.length; i++) {
 						/* data[i].price = numberWithCommas(data[i].price); */
-						body+=`  <div class=" con-w3l">   `+
-				`  	<div class="col-md-3 pro-1"">  `+
-					`  	<div class="col-m">  `+
-							`  <!-- #myModal17 -->  `+
-							`  <a href="#" data-toggle="modal" data-target="#${data[i].slug}" class="offer-img">  `+
-								`  <img src="/home/images/${data[i].imgUrl}" class="img-responsive" alt="">  `+
-							`  </a>  `+
-							`  <div class="mid-1">  `+
-								`  <div class="women">  `+
-								`  	<h6><a href="/home/${data[i].slug} ">${data[i].name}</a></h6>  `+
-								`  </div>  `+
-								`  <div class="mid-2">  `+
-								`  	<p><label>$7.00</label><em class="item_price" >${numberWithCommas(data[i].price)} VND</em></p>  `+
-								`  	<div class="block">  `+
-										`  <div class="starbox small ghosting"> </div>  `+
-									`  </div>  `+
-									`  <div class="clearfix"></div>  `+
-								`  </div>  `+
-								`  <div class="add add-2">  `+
-								`  	<button class="btn btn-danger my-cart-btn my-cart-b" data-id="${data[i].id}"  `+
-										`  data-name="${data[i].name}" data-summary="summary 1" data-price="${data[i].price}"  `+
-										`  data-quantity="${1}" data-image="images/${data[i].imgUrl}">Add to Cart</button>  `+
-								`  </div>  `+
-							`  </div>  `+
-						`  </div>  `+
-					`  </div>  `  ;
-					}					
+						body += `  <div class=" con-w3l">   ` +
+							`  	<div class="col-md-3 pro-1"">  ` +
+							`  	<div class="col-m">  ` +
+							`  <!-- #myModal17 -->  ` +
+							`  <a href="#" data-toggle="modal" data-target="#${data[i].slug}" class="offer-img">  ` +
+							`  <img src="/home/images/${data[i].imgUrl}" class="img-responsive" alt="">  ` +
+							`  </a>  ` +
+							`  <div class="mid-1">  ` +
+							`  <div class="women">  ` +
+							`  	<h6><a href="/home/${data[i].slug} ">${data[i].name}</a></h6>  ` +
+							`  </div>  ` +
+							`  <div class="mid-2">  ` +
+							`  	<p><label>$7.00</label><em class="item_price" >${numberWithCommas(data[i].price)} VND</em></p>  ` +
+							`  	<div class="block">  ` +
+							`  <div class="starbox small ghosting"> </div>  ` +
+							`  </div>  ` +
+							`  <div class="clearfix"></div>  ` +
+							`  </div>  ` +
+							`  <div class="add add-2">  ` +
+							`  	<button class="btn btn-danger my-cart-btn my-cart-b" data-id="${data[i].id}"  ` +
+							`  data-name="${data[i].name}" data-summary="summary 1" data-price="${data[i].price}"  ` +
+							`  data-quantity="${1}" data-image="images/${data[i].imgUrl}">Add to Cart</button>  ` +
+							`  </div>  ` +
+							`  </div>  ` +
+							`  </div>  ` +
+							`  </div>  `;
+					}
 					$("#products1").html(body);
 				}
 				ProductPageType = (pageNum, Type) => {
-					let urlCurrent = '/api/type?p=' + pageNum + '&slug='+Type;
+					let urlCurrent = '/api/type?p=' + pageNum + '&slug=' + Type;
 					$.ajax({
 						type: "GET",
 						contentType: "application/json",
 						url: urlCurrent,
 						async: false,
 						success: (data) => {
-							
+
 							$("#Back").unbind();
 							$("#Next").unbind();
 
@@ -367,20 +366,87 @@
 								ProductPageType(data.next, Type);
 							});
 							getProductType(data.products);
-							$("#Current").html(data.current);		
-							reloadFunctions();	
+							$("#Current").html(data.current);
+							reloadFunctions();
 						},
 						error: (e) => {
 							alert(e)
 						}
 					});
 				};
-				if(typeof change == "function"){
+				if (typeof change == "function") {
 					change()
-				} 
+				}
 			</script>
-
-
-
 		</div>
 	</footer>
+	<script>
+		// Configs
+		let liveChatBaseUrl = document.location.protocol + '//' + 'livechat.fpt.ai/v36/src'
+		let LiveChatSocketUrl = 'livechat.fpt.ai:443'
+		let FptAppCode = 'c2bec18a44a4c3bfc81fd86e12f5e7b5'
+		let FptAppName = 'Live support'
+		// Define custom styles
+		let CustomStyles = {
+			// header
+			headerBackground: 'linear-gradient(86.7deg, #151516FF 0.85%, #31b7b7ff 98.94%)',
+			headerTextColor: '#ffffffff',
+			headerLogoEnable: false,
+			headerLogoLink: 'https://chatbot-tools.fpt.ai/livechat-builder/img/Icon-fpt-ai.png',
+			headerText: 'Live support',
+			// main
+			primaryColor: '#6d9ccbff',
+			secondaryColor: '#ecececff',
+			primaryTextColor: '#ffffffff',
+			secondaryTextColor: '#000000DE',
+			buttonColor: '#b4b4b4ff',
+			buttonTextColor: '#ffffffff',
+			bodyBackgroundEnable: false,
+			bodyBackgroundLink: '',
+			avatarBot: 'https://chatbot-tools.fpt.ai/livechat-builder/img/bot.png',
+			sendMessagePlaceholder: 'Enter your message here',
+			// float button
+			floatButtonLogo: 'https://chatbot-tools.fpt.ai/livechat-builder/img/Icon-fpt-ai.png',
+			floatButtonTooltip: 'Can I help you?',
+			floatButtonTooltipEnable: true,
+			// start screen
+			customerLogo: 'https://chatbot-tools.fpt.ai/livechat-builder/img/bot.png',
+			customerWelcomeText: 'Please input your name',
+			customerButtonText: 'Start',
+			prefixEnable: false,
+			prefixType: 'radio',
+			prefixOptions: ["Anh", "Chị"],
+			prefixPlaceholder: 'Danh xưng',
+			// custom css
+			css: ''
+		}
+		// Get bot code from url if FptAppCode is empty
+		if (!FptAppCode) {
+			let appCodeFromHash = window.location.hash.substr(1)
+			if (appCodeFromHash.length === 32) {
+				FptAppCode = appCodeFromHash
+			}
+		}
+		// Set Configs
+		let FptLiveChatConfigs = {
+			appName: FptAppName,
+			appCode: FptAppCode,
+			themes: '',
+			styles: CustomStyles
+		}
+		// Append Script
+		let FptLiveChatScript = document.createElement('script')
+		FptLiveChatScript.id = 'fpt_ai_livechat_script'
+		FptLiveChatScript.src = liveChatBaseUrl + '/static/fptai-livechat.js'
+		document.body.appendChild(FptLiveChatScript)
+		// Append Stylesheet
+		let FptLiveChatStyles = document.createElement('link')
+		FptLiveChatStyles.id = 'fpt_ai_livechat_script'
+		FptLiveChatStyles.rel = 'stylesheet'
+		FptLiveChatStyles.href = liveChatBaseUrl + '/static/fptai-livechat.css'
+		document.body.appendChild(FptLiveChatStyles)
+		// Init
+		FptLiveChatScript.onload = function () {
+			fpt_ai_render_chatbox(FptLiveChatConfigs, liveChatBaseUrl, LiveChatSocketUrl)
+		}
+	</script>

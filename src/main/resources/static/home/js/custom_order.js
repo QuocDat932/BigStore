@@ -131,7 +131,6 @@ $(document).ready(function() {
 		if (dataResult.Status == "Submited") {
 			return true;
 		} else {
-			console.log(dataResult.Message)
 			alert(dataResult.Message);
 			return false;
 		}

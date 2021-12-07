@@ -21,29 +21,29 @@
 	<script type="text/javascript" th:src='@{/admin/js/pages/ADM_user.js}'></script>
 	<script type="text/javascript">
 		$(document).ready(function () {
+			$('#frmTotalPriceUserChartDt').val(moment().subtract(6, 'months').format('YYYY-MM-DD'));
+			$('#toTotalPriceUserChartDt').val(moment().format('YYYY-MM-DD'));
 			ADM_user();
 
 		});
+		function getChartOrderStatisticsById() {
+			userId = $('#txtidUsers').val();
+			ChartOrderstatisticsById(userId);
+		}
 	</script>
 </head>
 
 <body>
 	<div layout:fragment="contentAdmin">
 		<div class="mdc-layout-grid__inner">
-			<div class="mdc-layout-grid__cell--span-12">
-				<div class="mdc-card">
-					<h6 class="card-title">Title</h6>
-					User Management
-				</div>
-			</div>
 			<div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-6-desktop">
-				<div class="mdc-card">
+				<!-- <div class="mdc-card">
 					<h6 class="card-title">[(#{user.UserRoleAccount})]</h6>
 					<canvas id="totalUser"></canvas>
 				</div>
-				</br>
+				</br> -->
 				<div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-6-desktop">
-					<div class="mdc-card p-0">
+					<div class="mdc-card p-3">
 						<h6 class="card-title card-padding pb-0">[(#{user.UserTable})]</h6>
 						<div class="table-responsive">
 							<div id="tableMgtUsers"></div>
@@ -170,17 +170,32 @@
 								</button>
 							</div>
 						</div>
-						<div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-6-desktop">
-							<div class="mdc-card">
-								<h6 class="card-title">[(#{user.StatisticsUserOrder})]</h6>
-								<canvas id="OrderStatistics"></canvas>
-							</div>
-						</div>
 					</div>
 					<!--</div>-->
 				</div>
 			</div>
 
+			<div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-8-desktop">
+				<div class="mdc-card">
+					<h6 class="card-title">[(#{user.StatisticsUserOrder})]</h6>
+					<canvas id="OrderStatistics"></canvas>
+				</div>
+			</div>
+			<div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-4-desktop">
+				<div class="mdc-card">
+					<form>
+						<fieldset>
+							<label for="orderDate">[(#{order.period})]</label>
+							<div class="form-group">
+								<input id="frmTotalPriceUserChartDt" type="date" class="form-control"> <br>
+								<input id="toTotalPriceUserChartDt" type="date" class="form-control"><br>
+							</div>
+						</fieldset>
+						<button type="button" th:attr="onclick='getChartOrderStatisticsById()'"
+							class="btn btn-primary">[(#{btn.search})]</button>
+					</form>
+				</div>
+			</div>
 			<div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-6-desktop">
 				<div class="mdc-card">
 					<h6 class="card-title">[(#{user.UserStatisticUsingAccount})]</h6>

@@ -48,7 +48,7 @@
     <!-- Sidebar -->
     <aside class="mdc-drawer mdc-drawer--dismissible mdc-drawer--open">
       <div class="mdc-drawer__header">
-        <a th:href="@{/admin/home}" class="brand-logo">
+        <a th:href="@{/admin/dashboard}" class="brand-logo">
           <img th:src="@{/admin/images/logo.svg}" alt="logo">
         </a>
       </div>
@@ -59,7 +59,7 @@
         </div>
         <div class="mdc-list-group">
           <nav class="mdc-list mdc-drawer-menu">
-            <div class="mdc-list-item mdc-drawer-item">
+            <!-- <div class="mdc-list-item mdc-drawer-item">
               <a class="mdc-drawer-link" th:href="@{/admin/dashboard}">
                 <i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true">home</i>
                 [(#{menu.dashboash})]
@@ -71,7 +71,7 @@
                   aria-hidden="true">track_changes</i>
                 [(#{menu.forms})]
               </a>
-            </div>
+            </div> -->
             <div class="mdc-list-item mdc-drawer-item">
               <a class="mdc-expansion-panel-link" href="#" data-toggle="expansionPanel" data-target="ui-sub-menu">
                 <!--<i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true">dashboard</i>
@@ -117,7 +117,7 @@
                   <div class="mdc-list-item mdc-drawer-item">
                     <a class="mdc-drawer-link" th:href="@{/admin/user/user-userVipMgt}">
                       <i class='fas fa-users mdc-drawer-item-icon' style='font-size:15px'></i>
-                      User Top
+                      [(#{user.UserTop})]
                     </a>
                   </div>
                 </nav>
@@ -130,14 +130,14 @@
                 [(#{menu.List_Order})]
               </a>
             </div>
-            <div class="mdc-list-item mdc-drawer-item">
+            <!-- <div class="mdc-list-item mdc-drawer-item">
               <a class="mdc-drawer-link" th:href="@{/admin/ChartOrder}">
                 <i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon"
                   aria-hidden="true">pie_chart_outlined</i>
                 [(#{menu.Charts})]
               </a>
-            </div>
-            <div class="mdc-list-item mdc-drawer-item">
+            </div> -->
+            <!-- <div class="mdc-list-item mdc-drawer-item">
               <a class="mdc-expansion-panel-link" href="#" data-toggle="expansionPanel"
                 data-target="sample-page-submenu">
                 <i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon" aria-hidden="true">pages</i>
@@ -183,16 +183,8 @@
                   </div>
                 </nav>
               </div>
-            </div>
-            <div class="mdc-list-item mdc-drawer-item">
-              <a class="mdc-drawer-link"
-                th:href="@{https://www.bootstrapdash.com/demo/material-admin-free/jquery/documentation/documentation.html}"
-                target="_blank">
-                <i class="material-icons mdc-list-item__start-detail mdc-drawer-item-icon"
-                  aria-hidden="true">description</i>
-                Documentation
-              </a>
-            </div>
+            </div> -->
+            <!-- Material Dash -->
           </nav>
         </div>
         <div class="profile-actions">
@@ -206,12 +198,12 @@
               <i class="mdi mdi-shield-outline"></i>
             </div>
             <div>
-              <p class="mt-0 mb-1 ml-2 font-weight-bold tx-12">Material Dash</p>
-              <p class="mt-0 mb-0 ml-2 tx-10">Pro available</p>
+              <p class="mt-0 mb-1 ml-2 font-weight-bold tx-12">DashBoard</p>
+              <p class="mt-0 mb-0 ml-2 tx-10">Admin Management</p>
             </div>
           </div>
-          <p class="tx-8 mt-3 mb-1">More elements. More Pages.</p>
-          <p class="tx-8 mb-3">Starting from $25.</p>
+          <p class="tx-8 mt-3 mb-1">BigStore Fresh Food</p>
+          <p class="tx-8 mb-3">Good Luck</p>
           <a th:href="@{https://www.bootstrapdash.com/product/material-design-admin-template/}" target="_blank">
             <span class="mdc-button mdc-button--raised mdc-button--white">Upgrade to Pro</span>
           </a>
@@ -490,7 +482,7 @@
     /*<![CDATA[*/
     var dataUsarray = /*[[${dataUs}]]*/ 'default';
     /*]]>*/
-    var totalUser = $("#totalUser").get(0).getContext("2d");
+    /*var totalUser = $("#totalUser").get(0).getContext("2d");
     var totalUser = new Chart(totalUser, {
       type: 'doughnut',
       data: {
@@ -524,49 +516,8 @@
         }
       }
     });
-
-    var OrderStatistics1;
-    ChartOrderstatistics = (data) => {
-      if( OrderStatistics1 != undefined ){
-        OrderStatistics1.destroy()
-      }
-      var OrderStatistics2 = $("#OrderStatistics").get(0).getContext("2d");
-      OrderStatistics1 = new Chart(OrderStatistics2, {
-        type: 'line',
-        data: {
-          labels: data[0],
-          datasets: [{
-            label: `[(#{user.totalPriceChart})]`,
-            data: data[1],
-            backgroundColor: [
-              'rgba(255, 66, 15, 0.4)',
-              'rgba(0, 187, 221, 0.4)',
-              'rgba(255, 193, 7, 0.4)',
-              'rgba(0, 182, 122, 0.4)',
-              'rgba(153, 102, 255, 0.4)',
-              'rgba(255, 159, 64, 0.4)'
-            ],
-            borderColor: [
-              'rgba(255, 66, 15,1)',
-              'rgba(0, 187, 221, 1)',
-              'rgba(255, 193, 7, 1)',
-              'rgba(0, 182, 122, 1)',
-              'rgba(153, 102, 255, 1)',
-              'rgba(255, 159, 64, 1)'
-            ],
-            borderWidth: 1,
-            fill: true, // 3: no fill
-          }]
-        },
-        options: {
-          plugins: {
-            filler: {
-              propagate: true
-            }
-          }
-        }
-      });
-    };
+    */
+    
     setValueToForm = (data) => {
       $('#txtuserName').focus();
       if (data.username == null) {
@@ -599,6 +550,9 @@
       $('#txtfullName').focus();
     };
 
+    numberWithCommas = (x) => {
+				return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+			}
     /*************************************END USER********************************************/
   </script>
   <!--Event - Data -->
@@ -626,21 +580,6 @@
           alert(e)
         }
       });
-    };
-    ChartOrderstatisticsById = (userId) => {
-      let url = "/api/admin/totalPricebyId?userId=" + userId;
-      $.ajax({
-        type: "GET",
-        contentType: "application/json",
-        url: url,
-        async: false,
-        success: (Data) => {
-          ChartOrderstatistics(Data);
-        },
-        error: (e) => {
-          alert(e);
-        }
-      })
     };
 
     // 
@@ -716,7 +655,6 @@
       //Users
       reloadDataUserTable();
       //$('#tableUsers').DataTable();
-
     });
 
     /*************************************USERS*****************************************/
@@ -754,7 +692,6 @@
           }).then(function () {
             loadDataProd();
           });
-          reloadDataUserChart();
           reloadDataUserTable();
           ADM_user();
         },
@@ -794,7 +731,6 @@
           }).then(function () {
             loadDataProd();
           });
-          reloadDataUserChart();
           reloadDataUserTable();
         },
         error: function (e) {
@@ -805,58 +741,7 @@
         }
       })
     }
-    function reloadDataUserChart() {
-      let response = '/api/admin/userMgt/ReloadDataUserChart'
-      $.ajax({
-        type: "GET",
-        url: response,
-        contentType: "application/json",
-        success: function (data) {
-          dataUsarray = data;
-          var totalUser = $("#totalUser").get(0).getContext("2d");
-          var totalUser = new Chart(totalUser, {
-            type: 'doughnut',
-            data: {
-              labels: dataUsarray[0],
-              datasets: [{
-                data: dataUsarray[1],
-                backgroundColor: [
-                  'rgba(255, 66, 15, 0.8)',
-                  'rgba(0, 187, 221, 0.8)',
-                  'rgba(255, 193, 7, 0.8)',
-                  'rgba(0, 182, 122, 0.8)',
-                  'rgba(153, 102, 255, 0.8)',
-                  'rgba(255, 159, 64, 0.8)'
-                ],
-                borderColor: [
-                  'rgba(255, 66, 15,1)',
-                  'rgba(0, 187, 221, 1)',
-                  'rgba(255, 193, 7, 1)',
-                  'rgba(0, 182, 122, 1)',
-                  'rgba(153, 102, 255, 1)',
-                  'rgba(255, 159, 64, 1)'
-                ],
-                borderWidth: 3
-              }]
-            },
-            options: {
-              responsive: true,
-              animation: {
-                animateScale: true,
-                animateRotate: true
-              }
-            }
-          });
-
-        },
-        error: function (e) {
-          Swal.fire({
-            icon: 'error',
-            text: "Can't load data !!!",
-          })
-        }
-      })
-    }
+    
     function reloadDataUserTable() {
       let existDataTableUser;
       let response = '/api/admin/userMgt/ReloadDataUserTable';
@@ -1119,7 +1004,7 @@
           `<td >${"PO" + data[i].id}</td>\n` +
           `<td >${data[i].createDate.substring(0, 10)}</td>\n` +
           `<td >${data[i].createDate.substring(11, 19)}</td>\n` +
-          `<td >${data[i].totalprice}</td>\n` +
+          `<td >${numberWithCommas(data[i].totalprice)} VNĐ</td>\n` +
           `<td >${data[i].process.description}</td>` +
           `<td >${data[i].user.fullname}</td>` +
           `<td >${data[i].paymentmethod.methodname}</td>` +
@@ -1179,11 +1064,11 @@
               `                        <div style="width: 155px" class="p-3 d-flex justify-content-center align-items-center"> <span>x${dtl.quantity}</span> </div>` +
               `                      </td>` +
               `                      <td class="col-md-3">` +
-              `                        <div style="width: 130px" class="p-3 d-flex justify-content-center align-items-center"> <span>${dtl.price}` +
+              `                        <div style="width: 130px" class="p-3 d-flex justify-content-center align-items-center"> <span>${numberWithCommas(dtl.price)}` +
               `                            VNĐ</span> </div>` +
               `                      </td>` +
               `                      <td class="col-md-3">` +
-              `                        <div style="width: 130px" class="p-3 d-flex justify-content-center align-items-center"> <span>${dtl.price * dtl.quantity}` +
+              `                        <div style="width: 130px" class="p-3 d-flex justify-content-center align-items-center"> <span>${numberWithCommas(dtl.price * dtl.quantity)}` +
               `                            VNĐ</span> </div>` +
               `                      </td>` +
               `			                </tr>` 
@@ -1192,7 +1077,7 @@
         `   <div class="p-3 border-bottom">` +
         `                      <div class="d-flex justify-content-between align-items-center"> <span><i` +
         `                            class="fa fa-clock-o text-muted"></i><h4>[(#{order.totalprc})]</h4></span> <span><i` +
-        `                            class="fa fa-refresh text-muted"></i><h4>${NVLcurrentOrder.totalprice} VNĐ</h4></span>`+
+        `                            class="fa fa-refresh text-muted"></i><h4>${numberWithCommas(NVLcurrentOrder.totalprice)} VNĐ</h4></span>`+
         `                      </div>` +
         `    </div>` ;
           }
@@ -1280,7 +1165,7 @@
         `        </div>`;
 
       $('#tabOrderDetailADM').html(body);
-      $('#tableOrderApproved').DataTable({"lengthMenu": [ [2, 3, 4, -1], [2, 3, 4,  "All"] ]});
+      $('#tableOrderApproved').DataTable({"lengthMenu": [ [2], [2] ], "bLengthChange" : false, "searching": false});
     }
     function orderDetail(orderId) {
       ADM_getOrderDetailByOrderId(orderId)

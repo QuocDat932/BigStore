@@ -23,22 +23,22 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 	<!-- Custom Theme files -->
 	<link th:href='@{/home/css/style.css}' rel='stylesheet' type='text/css' />
 	<!-- js -->
-	<script th:src='@{/home/js/jquery-1.11.1.min.js}'></script>	
+	<script th:src='@{/home/js/jquery-1.11.1.min.js}'></script>
 	<!-- //js -->
 	<!-- start-smoth-scrolling -->
 	<script type="text/javascript" th:src="@{/home/js/move-top.js}"></script>
 	<script type="text/javascript" th:src="@{/home/js/easing.js}"></script>
 	<!-- React -->
-    <script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
-    <!-- ReactDOM -->
-    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
-    <!-- babel -->
-    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+	<script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
+	<!-- ReactDOM -->
+	<script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
+	<!-- babel -->
+	<script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
 	<script type="text/javascript">
 		jQuery(document).ready(function ($) {
 			$(".scroll").click(function (event) {
 				event.preventDefault();
-				$('html,body').animate({scrollTop: $(this.hash).offset().top}, 1000);
+				$('html,body').animate({ scrollTop: $(this.hash).offset().top }, 1000);
 			});
 		});
 	</script>
@@ -49,6 +49,26 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 	<!--- start-rate-->
 	<script th:src="@{/home/js/jstarbox.js}"></script>
 	<link rel="stylesheet" th:href="@{/home/css/jstarbox.css}" type="text/css" media="screen" charset="utf-8" />
+	<link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
+	<script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+	<link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css">
+	<style>
+		#result {
+			position: absolute;
+			width: 80%;
+			max-width: 550px;
+			max-height: 280px;
+			cursor: pointer;
+			overflow-y: auto;
+			box-sizing: border-box;
+			z-index: 1001;
+			margin-left: 35px;
+			opacity: 0.95;
+		}
+		.link-class:hover {
+			background-color: chartreuse;
+		}
+	</style>
 	<script type="text/javascript">
 		jQuery(function () {
 			jQuery('.starbox').each(function () {
@@ -69,6 +89,40 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 				})
 			});
 		});
+		$(document).ready(function () {
+			$('#search').keyup(function () {
+				$('#result').html('');
+				var searchField = $('#search').val();
+				if (searchField.length > 0) {
+					$.ajax({
+						url: '/api/user/searchProductByName?nameProd=' + searchField,
+						type: "GET",
+						contentType: "application/json",
+						async: 'false'
+					}).done(function (productData) {
+						var expression = new RegExp(searchField, "i");
+						//var viewDetailTable = '';
+						productData.forEach((item, index) => {
+							if (item.name.search(expression) != -1 || item.description.search(expression) != -1) {
+								$('#result').append('<li class="list-group-item"><img src="/home/images/'
+									+ item.imgUrl + '" height="60" width="60"'
+									+ 'class="img-responsive" alt="">'
+									+ '<a href="/home/' + item.slug + '">' + item.name + '</a>'
+									+ ' | <span class="text-muted">' + numberWithCommas(item.price) + ' VNĐ/' +item.unitType.description+'</span>'
+									+ ' | ' + item.description
+									+ '</li>'
+								);
+							};
+						})
+					}).fail(function (error) {
+						$('#result').html('');
+					})
+				}
+			})
+		})
+		function numberWithCommas(x) {
+			return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+		}
 	</script>
 	<!---//End-rate-->
 </head>
@@ -79,13 +133,14 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 		<div th:data-vide-bg="@{/home/video/video.gif}">
 			<div class="container">
 				<div class="banner-info">
-					<h3>It is a long established fact that a reader will be distracted by
-						the readable </h3>
+					<h3> [(#{mess.search.welcome1})] <br>
+						[(#{mess.search.welcome2})] <br>
+						[(#{mess.search.welcome3})]
+					</h3>
 					<div class="search-form">
-						<form action="#" method="post">
-							<input type="text" placeholder="Search..." name="Search...">
-							<input type="submit" value=" ">
-						</form>
+						<input type="text" style="font-weight: bold; color: black;" id="search" placeholder="Search Product Name"
+							name="Search...">
+						<ul class="list-group" id="result">
 					</div>
 				</div>
 			</div>
@@ -110,18 +165,19 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 						<ul class="nav tabs ">
 							<li th:each="type, state : ${listType}" class=""
 								th:attr="onclick='top4prod(\''+${type.slug}+'\')'">
-								<a class="tabProd" th:href="@{'#tab'+ ${state.index + 1}}" data-toggle="tab"
-									>[(#{'nav.'+${type.id}})]</a>
+								<a class="tabProd" th:href="@{'#tab'+ ${state.index + 1}}"
+									data-toggle="tab">[(#{'nav.'+${type.id}})]</a>
 							</li>
 						</ul>
 					</nav>
-					
+
 					<div class=" tab-content tab-content-t ">
 						<div class="tab-pane active text-style" id="tab1">
 							<div id="viewTop4prod" class=" con-w3l">
 								<div th:each="prod, state : ${session.Top4Prod.listTop4}" class="col-md-3 m-wthree">
 									<div class="col-m">
-										<a href="#" data-toggle="modal" th:data-target="@{'#' + ${prod.slug}}" class="offer-img">
+										<a href="#" data-toggle="modal" th:data-target="@{'#' + ${prod.slug}}"
+											class="offer-img">
 											<img th:src="@{'/home/images/' + ${prod.imgUrl}}" class="img-responsive"
 												alt="">
 											<div class="offer">
@@ -130,12 +186,13 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 										</a>
 										<div class="mid-1">
 											<div class="women">
-											
-												<h6><a th:href="@{'/home/'+${prod.slug}}" th:text="${prod.name}"> </a></h6>
+
+												<h6><a th:href="@{'/home/'+${prod.slug}}" th:text="${prod.name}"> </a>
+												</h6>
 											</div>
 											<div class="mid-2">
-												<p><label>$4.00</label><em class="item_price"
-														th:text="${prod.price}"></em></p>
+												<p><label></label><em class="item_price" th:text="${prod.price}"></em>
+												</p>
 												<div class="block">
 													<div class="starbox small ghosting"> </div>
 												</div>
@@ -149,65 +206,65 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 						</div>
 					</div>
 
-			</div>
-		
-	</div>
-	</div>
-	
+				</div>
 
-<!--content-->
-<div class="content-mid">
-	<div class="container">
-		
-		<div class="col-md-4 m-w3ls">
-			<div class="col-md1 ">
-				<a th:href="@{/type/Do-an-nhanh}">
-					<img th:src="@{/home/images/co1.jpg}" class="img-responsive img" alt="">
-					<div class="big-sa">
-						<h6>New Collections</h6>
-						<h3>House<span>ware </span></h3>
-						<p>Small household items such as kitchen utensils, tableware, and decorative objects</p>
-					</div>
-				</a>
 			</div>
 		</div>
-		<div class="col-md-4 m-w3ls1">
-			<div class="col-md ">
-				<a th:href="@{/type/Gia-dung}">
-					<img th:src="@{/home/images/co.jpg}"  class="img-responsive img" alt="">
-					<div class="big-sale">
-						<div class="big-sale1">
-							<h3>Fast <span>food</span></h3>
-							<p>food that can be prepared quickly and easily  </p>
-						</div>
+
+
+		<!--content-->
+		<div class="content-mid">
+			<div class="container">
+
+				<div class="col-md-4 m-w3ls">
+					<div class="col-md1 ">
+						<a th:href="@{/type/Do-an-nhanh}">
+							<img th:src="@{/home/images/co1.jpg}" class="img-responsive img" alt="">
+							<div class="big-sa">
+								<h6>New Collections</h6>
+								<h3>House<span>ware </span></h3>
+								<p>Small household items such as kitchen utensils, tableware, and decorative objects</p>
+							</div>
+						</a>
 					</div>
-				</a>
+				</div>
+				<div class="col-md-4 m-w3ls1">
+					<div class="col-md ">
+						<a th:href="@{/type/Gia-dung}">
+							<img th:src="@{/home/images/co.jpg}" class="img-responsive img" alt="">
+							<div class="big-sale">
+								<div class="big-sale1">
+									<h3>Fast <span>food</span></h3>
+									<p>food that can be prepared quickly and easily </p>
+								</div>
+							</div>
+						</a>
+					</div>
+				</div>
+				<div class="col-md-4 m-w3ls">
+					<div class="col-md2 ">
+						<a th:href="@{/type/Dau-thuc-vat}">
+							<img th:src="@{/home/images/co2.jpg}" class="img-responsive img1" alt="">
+							<div class="big-sale2">
+								<h3>Cooking <span>Oil</span></h3>
+								<p>It is a long established fact that a reader </p>
+							</div>
+						</a>
+					</div>
+					<div class="col-md3 ">
+						<a th:href="@{/type/RAU}">
+							<img th:src="@{/home/images/co3.jpg}" class="img-responsive img1" alt="">
+							<div class="big-sale3">
+								<h3>Vegeta<span>bles</span></h3>
+								<p>It is a long established fact that a reader </p>
+							</div>
+						</a>
+					</div>
+				</div>
+				<div class="clearfix"></div>
 			</div>
+			<!---728x90--->
 		</div>
-		<div class="col-md-4 m-w3ls">
-			<div class="col-md2 ">
-				<a th:href="@{/type/Dau-thuc-vat}">
-					<img th:src="@{/home/images/co2.jpg}"  class="img-responsive img1" alt="">
-					<div class="big-sale2">
-						<h3>Cooking <span>Oil</span></h3>
-						<p>It is a long established fact that a reader </p>		
-					</div>
-				</a>
-			</div>
-			<div class="col-md3 ">
-				<a th:href="@{/type/RAU}">
-					<img th:src="@{/home/images/co3.jpg}"  class="img-responsive img1" alt="">
-					<div class="big-sale3">
-						<h3>Vegeta<span>bles</span></h3>
-						<p>It is a long established fact that a reader </p>
-					</div>
-				</a>
-			</div>
-		</div>
-		<div class="clearfix"></div>
-	</div>
-	<!---728x90--->
-</div>
 		<!--content-->
 		<!-- Carousel
     ================================================== -->
@@ -234,8 +291,8 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 							alt="Third slide"></a>
 
 				</div>
-				
-				
+
+
 			</div>
 
 		</div><!-- /.carousel -->
@@ -258,10 +315,10 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 						<li><a aria-label="Next" id="testNext"><span>»</span></a></li>
 					</ul>
 				</div>
-					<div id="products"></div>
+				<div id="products"></div>
 			</div>
-	
-			
+
+
 		</div>
 		<!--footer-->
 
@@ -270,7 +327,7 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 		<!-- smooth scrolling -->
 		<script type="text/javascript">
 			$(document).ready(function () {
-				$().UItoTop({easingType: 'easeOutQuart'});
+				$().UItoTop({ easingType: 'easeOutQuart' });
 			});
 		</script>
 		<a href="#" id="toTop" style="display: block;"> <span id="toTopHover" style="opacity: 1;"> </span></a>
@@ -311,7 +368,8 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 							<h3 th:text="${product.name}"></h3>
 							<p class="in-para" th:text="${product.description}"> </p>
 							<div class="price_single">
-								<span class="reducedfrom " th:text="${product.price}"></span>
+								<span class="reducedfrom ">[[${product.price}]]</span>
+								<!-- th:text="${}" numberWithCommas -->
 								<div class="clearfix"></div>
 							</div>
 							<h4 class="quick">Quick Overview:</h4>
@@ -332,46 +390,46 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 		<!-- product -->
 		<script>
 			reloadFunctions = function () {
-					var goToCartIcon = function ($addTocartBtn) {
-						var $cartIcon = $(".my-cart-icon");
-						var $image = $('<img width="30px" height="30px" src="/home/' + $addTocartBtn.data("image") + '"/>').css({"position": "fixed", "z-index": "999"});
-						$addTocartBtn.prepend($image);
-						var position = $cartIcon.position();
-						$image.animate({
-							top: position.top,
-							left: position.left
-						}, 500, "linear", function () {
-							$image.remove();
-						});
-					}
-					$('.my-cart-btn').myCart({
-						classCartIcon: 'my-cart-icon',
-						classCartBadge: 'my-cart-badge',
-						affixCartIcon: true,
-						checkoutCart: function (products) {
-							$.each(products, function () {
-								console.log(this);
-							});
-						},
-						clickOnAddToCart: function ($addTocart) {
-							goToCartIcon($addTocart);
-						},
-						getDiscountPrice: function (products) {
-							var total = 0;
-							$.each(products, function () {
-								total += this.quantity * this.price;
-							});	
-							return total * 1;
-						}
+				var goToCartIcon = function ($addTocartBtn) {
+					var $cartIcon = $(".my-cart-icon");
+					var $image = $('<img width="30px" height="30px" src="/home/' + $addTocartBtn.data("image") + '"/>').css({ "position": "fixed", "z-index": "999" });
+					$addTocartBtn.prepend($image);
+					var position = $cartIcon.position();
+					$image.animate({
+						top: position.top,
+						left: position.left
+					}, 500, "linear", function () {
+						$image.remove();
 					});
 				}
+				$('.my-cart-btn').myCart({
+					classCartIcon: 'my-cart-icon',
+					classCartBadge: 'my-cart-badge',
+					affixCartIcon: true,
+					checkoutCart: function (products) {
+						$.each(products, function () {
+							console.log(this);
+						});
+					},
+					clickOnAddToCart: function ($addTocart) {
+						goToCartIcon($addTocart);
+					},
+					getDiscountPrice: function (products) {
+						var total = 0;
+						$.each(products, function () {
+							total += this.quantity * this.price;
+						});
+						return total * 1;
+					}
+				});
+			}
 			$(document).ready(function () {
-					/*$(".tabProd").click(function () {
-						reloadFunctions();
-					});*/ 
-					top4prod('Do-an-nhanh');
-					ProductPage(0);
-					//reloadFunctions();
+				/*$(".tabProd").click(function () {
+					reloadFunctions();
+				});*/
+				top4prod('Do-an-nhanh');
+				ProductPage(0);
+				//reloadFunctions();
 			});
 		</script>
 	</div>

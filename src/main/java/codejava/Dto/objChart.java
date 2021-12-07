@@ -11,11 +11,13 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class objChartOrderTotal implements Serializable {
+public class objChart implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	
-	private String description;
+	private String String1;
+	private String String2;
+	
 	private Integer total;
 	
 }
