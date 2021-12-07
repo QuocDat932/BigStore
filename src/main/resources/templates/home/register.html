@@ -129,7 +129,7 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 								onfocus="this.value = '';" required="">
 							<div class="clearfix"></div>
 						</div>
-						<input onclick="checkForm()"  type="submit" value="Submit">
+						<input onclick="checkForm()" type="text" value="Submit">
 					</form>
 				</div>
 
@@ -138,17 +138,18 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 		<script>
 			$(document).ready(function () {
 				checkForm = async () => {
-					alert('start')
-					var total = await checkDB()||  checkNull()|| checkConfirmPass();
-					if(!total) {
-						$("#form").submit(()=>{alert("submit ne")})};	
-						
+					var total = await checkDB() || checkNull() || !checkConfirmPass() || ve($("#email").val());
+					console.log( checkDB() +` - ` + checkNull()  +` - ` + !checkConfirmPass()  +` - ` + ve($("#email").val()))
+					if (!total) {
+						document.getElementById("form").submit()
+					};
+
 				}
 				// trùng pass = true
 				checkConfirmPass = () => {
 					var ps1 = $("#pwss1").val();
 					var ps2 = $("#pwss2").val();
-					return (ps1==ps2);
+					return (ps1 == ps2);
 
 				}
 				//null = true
@@ -171,6 +172,15 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 					return username || username;
 
 				}
+				//khong dung pattern = true
+				 ve = (email) => {
+					return String(email)
+						.toLowerCase()
+						.match(
+							/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+						) ==null;
+						
+				};
 				checkUsername = async (input) => {
 					var result = true;
 					var data = await checkUsernameFromDB();
@@ -227,7 +237,6 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 				}
 			})
 			changeStatusUsername = (input) => {
-				console.log("us" + input)
 				if (!input) {
 					document.getElementById('usernameStatus').innerHTML = ''
 				} else {
@@ -235,7 +244,6 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 				}
 			}
 			changeStatusEmail = (input) => {
-					console.log("em" + input)
 				if (!input) {
 					document.getElementById('emailStatus').innerHTML = ''
 				} else {
