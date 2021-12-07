@@ -6,196 +6,321 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 -->
 <!DOCTYPE html>
 <html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/index.html}">
+
 <head>
-<title>Big store a Ecommerce Online Shopping Category Flat Bootstrap Responsive Website Template | Register :: w3layouts</title>
-<!-- for-mobile-apps -->
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta property="og:title" content="Vide" />
-<meta name="keywords" content="Big store Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template, 
+	<title>Big store a Ecommerce Online Shopping Category Flat Bootstrap Responsive Website Template | Register ::
+		w3layouts</title>
+	<!-- for-mobile-apps -->
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta property="og:title" content="Vide" />
+	<meta name="keywords" content="Big store Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template, 
 Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
-<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false);
+	<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false);
 function hideURLbar(){ window.scrollTo(0,1); } </script>
-<!-- //for-mobile-apps -->
-<link th:href='@{/home/css/bootstrap.css}' rel='stylesheet' type='text/css' />
-<!-- Custom Theme files -->
-<link th:href='@{/home/css/style.css}' rel='stylesheet' type='text/css' />
-<!-- js -->
-   <script th:src='@{/home/js/jquery-1.11.1.min.js}'></script>
-<!-- //js -->
-<!-- start-smoth-scrolling -->
-<script type="text/javascript" th:src='@{/home/js/move-top.js}'></script>
-<script type="text/javascript" th:src='@{/home/js/easing.js}'></script>
-<script type="text/javascript">
-	jQuery(document).ready(function($) {
-		$(".scroll").click(function(event){		
-			event.preventDefault();
-			$('html,body').animate({scrollTop:$(this.hash).offset().top},1000);
+	<!-- //for-mobile-apps -->
+	<link th:href='@{/home/css/bootstrap.css}' rel='stylesheet' type='text/css' />
+	<!-- Custom Theme files -->
+	<link th:href='@{/home/css/style.css}' rel='stylesheet' type='text/css' />
+	<!-- js -->
+	<script th:src='@{/home/js/jquery-1.11.1.min.js}'></script>
+	<!-- //js -->
+	<!-- start-smoth-scrolling -->
+	<script type="text/javascript" th:src='@{/home/js/move-top.js}'></script>
+	<script type="text/javascript" th:src='@{/home/js/easing.js}'></script>
+
+	<script type='text/javascript' th:src="@{/home/js/validationForm.js}"></script>
+	<script type="text/javascript">
+		jQuery(document).ready(function ($) {
+			$(".scroll").click(function (event) {
+				event.preventDefault();
+				$('html,body').animate({scrollTop: $(this.hash).offset().top}, 1000);
+			});
+
 		});
-	});
-</script>
-<!-- start-smoth-scrolling -->
-<link th:href='@{/home/css/font-awesome.css}' rel="stylesheet"> 
-<link th:href='@{http://fonts.googleapis.com/css?family=Montserrat:400,700}' rel='stylesheet' type='text/css'>
-<link th:href='@{http://fonts.googleapis.com/css?family=Noto+Sans:400,700}' rel='stylesheet' type='text/css'>
-<!--- start-rate---->
-<script th:src="@{/home/js/jstarbox.js}"></script>
+	</script>
+	<!-- start-smoth-scrolling -->
+	<link th:href='@{/home/css/font-awesome.css}' rel="stylesheet">
+	<link th:href='@{http://fonts.googleapis.com/css?family=Montserrat:400,700}' rel='stylesheet' type='text/css'>
+	<link th:href='@{http://fonts.googleapis.com/css?family=Noto+Sans:400,700}' rel='stylesheet' type='text/css'>
+	<!--- start-rate---->
+	<script th:src="@{/home/js/jstarbox.js}"></script>
 	<link rel="stylesheet" th:href="@{/home/css/jstarbox.css}" type="text/css" media="screen" charset="utf-8" />
-		<script type="text/javascript">
-			jQuery(function() {
-			jQuery('.starbox').each(function() {
+	<script type="text/javascript">
+		jQuery(function () {
+			jQuery('.starbox').each(function () {
 				var starbox = jQuery(this);
-					starbox.starbox({
+				starbox.starbox({
 					average: starbox.attr('data-start-value'),
 					changeable: starbox.hasClass('unchangeable') ? false : starbox.hasClass('clickonce') ? 'once' : true,
 					ghosting: starbox.hasClass('ghosting'),
 					autoUpdateAverage: starbox.hasClass('autoupdate'),
 					buttons: starbox.hasClass('smooth') ? false : starbox.attr('data-button-count') || 5,
 					stars: starbox.attr('data-star-count') || 5
-					}).bind('starbox-value-changed', function(event, value) {
-					if(starbox.hasClass('random')) {
-					var val = Math.random();
-					starbox.next().text(' '+val);
-					return val;
-					} 
+				}).bind('starbox-value-changed', function (event, value) {
+					if (starbox.hasClass('random')) {
+						var val = Math.random();
+						starbox.next().text(' ' + val);
+						return val;
+					}
 				})
 			});
 		});
-		</script>
-<!---//End-rate---->
-
+	</script>
+	<!---//End-rate---->
+	<script type='text/javascript' th:src="@{/home/js/validationForm.js}"></script>
+	<script type="text/javascript" th:src='@{/admin/js/pages/ADM_category.js}'></script>
 </head>
+
 <body>
 	<div layout:fragment="content">
-     <!--banner-->
-<div class="banner-top">
-	<div class="container">
-		<h3 >Register</h3>
-		<h4><a th:href="@{/home}">Home</a><label>/</label>Register</h4>
-		<div class="clearfix"> </div>
-	</div>
-</div>
 
-<!--login-->
-
-	<div class="login">
-		<div class="main-agileits">
-				<div class="form-w3agile form1">
-					<h3>Register</h3>
-					<form th:action="@{/register}"  method="POST">
-					
-					
-						<h5 style = "padding-bottom: 10px">User Name:</h5>
-						<div class="key" th:object="${newAccount}">
-							<i class="fa fa-user" aria-hidden="true"></i>
-							<input  type="text" name="Username" onfocus="this.value = '';"  required="" th:field="*{username}">
-							<div class="clearfix"></div>
-						</div>
-						<h5 style = "padding-bottom: 10px">Full Name:</h5>
-						<div class="key" th:object="${newUser}" >
-							<i class="fa fa-address-card" aria-hidden="true"></i>
-							<input  type="text" value="Full Name" name="Fullname" onfocus="this.value = '';"  required="" th:field="*{fullname}">
-							<div class="clearfix"></div>
-						</div>
-						<h5 style = "padding-bottom: 10px">Email:</h5>
-						<div class="key"th:object="${newUser}">
-							<i class="fa  fa-envelope" aria-hidden="true"></i>
-							<input  type="text" value="Email" name="Email" onfocus="this.value = '';"  required="" th:field="*{email}">
-							<div class="clearfix"></div>
-						</div>
-						<h5 style = "padding-bottom: 10px">Password:</h5>
-						<div class="key"th:object="${newAccount}">
-							<i class="fa fa-lock" aria-hidden="true"></i>
-							<input id="pwss1" type="password" value="Password" name="Password" onfocus="this.value = '';"  required="" th:field="*{hashPassword}">
-							<div class="clearfix"></div>
-						</div>
-						<h5 style = "padding-bottom: 10px">Confirm Password:</h5>
-						<div class="key">
-							<i class="fa fa-lock" aria-hidden="true"></i>
-							<input id="pwss2" type="password" value="Confirm Password" name="Confirm Password" onfocus="this.value = '';" required="">
-							<div class="clearfix"></div>
-						</div>
-						 <input id="submit" type="submit" value="Submit">
-					</form>
-				</div>
-				
+		<script type='text/javascript' th:src="@{/home/js/validationForm.js}"></script>
+		<!--banner-->
+		<div class="banner-top">
+			<div class="container">
+				<h3>Register</h3>
+				<h4><a th:href="@{/home}">Home</a><label onclick="ThienCute()">/</label>Register</h4>
+				<div class="clearfix"> </div>
 			</div>
 		</div>
-</div>
-<!-- smooth scrolling -->
+
+		<!--login-->
+
+		<div class="login">
+			<div class="main-agileits">
+				<div class="form-w3agile form1">
+					<h3>Register</h3>
+					<form id="form" th:action="@{/register}" method="POST">
+
+
+						<h5 style="padding-bottom: 10px">User Name: <span id="usernameStatus">a</span></h5>
+						<div class="key" th:object="${newAccount}">
+							<i class="fa fa-user" aria-hidden="true"></i>
+							<input th:onchange="checkDB()" id="username" type="text" name="Username"
+								onfocus="this.value = '';" required="" th:field="*{username}">
+							<div class="clearfix"></div>
+						</div>
+						<h5 style="padding-bottom: 10px">Full Name:</h5>
+						<div class="key" th:object="${newUser}">
+							<i class="fa fa-address-card" aria-hidden="true"></i>
+							<input type="text" id="fullname" value="Full Name" name="Fullname"
+								onfocus="this.value = '';" required="" th:field="*{fullname}">
+							<div class="clearfix"></div>
+						</div>
+						<h5 style="padding-bottom: 10px">Email: <span id="emailStatus"></span></h5>
+						<div class="key" th:object="${newUser}">
+							<i class="fa  fa-envelope" aria-hidden="true"></i>
+							<input onchange="checkDB()" id="email" type="text" value="Email" name="Email"
+								onfocus="this.value = '';" required="" th:field="*{email}">
+							<div class="clearfix"></div>
+						</div>
+						<h5 style="padding-bottom: 10px">Password:</h5>
+						<div class="key" th:object="${newAccount}">
+							<i class="fa fa-lock" aria-hidden="true"></i>
+							<input id="pwss1" type="password" value="Password" name="Password"
+								onfocus="this.value = '';" required="" th:field="*{hashPassword}">
+							<div class="clearfix"></div>
+						</div>
+						<h5 style="padding-bottom: 10px">Confirm Password:</h5>
+						<div class="key">
+							<i class="fa fa-lock" aria-hidden="true"></i>
+							<input id="pwss2" type="password" value="Confirm Password" name="Confirm Password"
+								onfocus="this.value = '';" required="">
+							<div class="clearfix"></div>
+						</div>
+						<input onclick="checkForm()"  type="submit" value="Submit">
+					</form>
+				</div>
+
+			</div>
+		</div>
+		<script>
+			$(document).ready(function () {
+				checkForm = async () => {
+					alert('start')
+					var total = await checkDB()||  checkNull()|| checkConfirmPass();
+					if(!total) {
+						$("#form").submit(()=>{alert("submit ne")})};	
+						
+				}
+				// trùng pass = true
+				checkConfirmPass = () => {
+					var ps1 = $("#pwss1").val();
+					var ps2 = $("#pwss2").val();
+					return (ps1==ps2);
+
+				}
+				//null = true
+				checkNull = () => {
+					var username = $("#username").val() == undefined || $("#username").val().trim().length == 0;
+					var fullname = $("#fullname").val() == undefined || $("#fullname").val().trim().length == 0;
+					var email = $("#email").val() == undefined || $("#email").val().trim().length == 0;
+					var ps1 = $("#pwss1").val() == undefined || $("#pwss1").val().trim().length == 0;
+					var ps2 = $("#pwss2").val() == undefined || $("#pwss2").val().trim().length == 0;
+					return username || fullname || email || ps1 || ps2;
+				}
+				//tồn tại trong DB = true;
+				checkDB = async () => {
+					var username = $("#username").val();
+					var email = $("#email").val();
+					await checkUsername(username.trim()).then(res => username = res)
+					await checkEmail(email.trim()).then(res => email = res)
+					changeStatusUsername(username)
+					changeStatusEmail(email)
+					return username || username;
+
+				}
+				checkUsername = async (input) => {
+					var result = true;
+					var data = await checkUsernameFromDB();
+					for (var i = 0; i < data.length; i++) {
+						result = (data[i] == input);
+						if (result) break;
+					}
+					return result;
+				}
+
+				checkEmail = async (input) => {
+					var result = true;
+					var data = await checkEmailFromDB();
+					for (var i = 0; i < data.length; i++) {
+						result = (data[i] == input);
+						if (result) break;
+					}
+					return result;
+				}
+				checkUsernameFromDB = async () => {
+					var url = "/api/val/username"
+					var dataResult = '';
+					await $.ajax({
+						type: "GET",
+						contentType: "application/json",
+						url: url,
+						async: false,
+						success: (data) => {
+							dataResult = data.Items;
+						},
+						error: (e) => {
+							alert(e)
+
+						}
+					});
+					return dataResult;
+				}
+				checkEmailFromDB = async () => {
+					var url = "/api/val/email"
+					var dataResult = '';
+					await $.ajax({
+						type: "GET",
+						contentType: "application/json",
+						url: url,
+						async: false,
+						success: (data) => {
+							dataResult = data.Items;
+						},
+						error: (e) => {
+							alert(e)
+						}
+					});
+					return dataResult;
+				}
+			})
+			changeStatusUsername = (input) => {
+				console.log("us" + input)
+				if (!input) {
+					document.getElementById('usernameStatus').innerHTML = ''
+				} else {
+					document.getElementById('usernameStatus').innerHTML = 'Tài khoản đã tồn tại'
+				}
+			}
+			changeStatusEmail = (input) => {
+					console.log("em" + input)
+				if (!input) {
+					document.getElementById('emailStatus').innerHTML = ''
+				} else {
+					document.getElementById('emailStatus').innerHTML = 'Email đã tồn tại'
+				}
+			}
+		</script>
+
+
+	</div>
+	<!-- smooth scrolling -->
 	<script type="text/javascript">
-		$(document).ready(function() {
-		/*
-			var defaults = {
-			containerID: 'toTop', // fading element id
-			containerHoverID: 'toTopHover', // fading element hover id
-			scrollSpeed: 1200,
-			easingType: 'linear' 
-			};
-		*/								
-		$().UItoTop({ easingType: 'easeOutQuart' });
+		$(document).ready(function () {
+			/*
+				var defaults = {
+				containerID: 'toTop', // fading element id
+				containerHoverID: 'toTopHover', // fading element hover id
+				scrollSpeed: 1200,
+				easingType: 'linear' 
+				};
+			*/
+			$().UItoTop({easingType: 'easeOutQuart'});
 		});
 	</script>
 	<a href="#" id="toTop" style="display: block;"> <span id="toTopHover" style="opacity: 1;"> </span></a>
-<!-- //smooth scrolling -->
-<!-- for bootstrap working -->
-		<script th:src="@{js/bootstrap.js}"></script>
-<!-- //for bootstrap working -->
-<script type='text/javascript' th:src="@{js/jquery.mycart.js}"></script>
-  <script type="text/javascript">
-  $(function () {
+	<!-- //smooth scrolling -->
+	<!-- for bootstrap working -->
+	<script th:src="@{js/bootstrap.js}"></script>
+	<!-- //for bootstrap working -->
+	<script type='text/javascript' th:src="@{js/jquery.mycart.js}"></script>
+	<script type="text/javascript">
+		$(function () {
 
-    var goToCartIcon = function($addTocartBtn){
-      var $cartIcon = $(".my-cart-icon");
-      var $image = $('<img width="30px" height="30px" src="' + $addTocartBtn.data("image") + '"/>').css({"position": "fixed", "z-index": "999"});
-      $addTocartBtn.prepend($image);
-      var position = $cartIcon.position();
-      $image.animate({
-        top: position.top,
-        left: position.left
-      }, 500 , "linear", function() {
-        $image.remove();
-      });
-    }
+			var goToCartIcon = function ($addTocartBtn) {
+				var $cartIcon = $(".my-cart-icon");
+				var $image = $('<img width="30px" height="30px" src="' + $addTocartBtn.data("image") + '"/>').css({"position": "fixed", "z-index": "999"});
+				$addTocartBtn.prepend($image);
+				var position = $cartIcon.position();
+				$image.animate({
+					top: position.top,
+					left: position.left
+				}, 500, "linear", function () {
+					$image.remove();
+				});
+			}
 
-    $('.my-cart-btn').myCart({
-      classCartIcon: 'my-cart-icon',
-      classCartBadge: 'my-cart-badge',
-      affixCartIcon: true,
-      checkoutCart: function(products) {
-        $.each(products, function(){
-          console.log(this);
-        });
-      },
-      clickOnAddToCart: function($addTocart){
-        goToCartIcon($addTocart);
-      },
-      getDiscountPrice: function(products) {
-        var total = 0;
-        $.each(products, function(){
-          total += this.quantity * this.price;
-        });
-        return total * 1;
-      }
-    });
+			$('.my-cart-btn').myCart({
+				classCartIcon: 'my-cart-icon',
+				classCartBadge: 'my-cart-badge',
+				affixCartIcon: true,
+				checkoutCart: function (products) {
+					$.each(products, function () {
+						console.log(this);
+					});
+				},
+				clickOnAddToCart: function ($addTocart) {
+					goToCartIcon($addTocart);
+				},
+				getDiscountPrice: function (products) {
+					var total = 0;
+					$.each(products, function () {
+						total += this.quantity * this.price;
+					});
+					return total * 1;
+				}
+			});
 
-  });
-  </script>
+		});
+	</script>
 
-<script >
+	<script>
 		const pssw1 = document.querySelector('#pwss1');
 		const pssw2 = document.querySelector('#pwss2');
-	$("#submit").oncick = function(){
-		if(pssw1.value != pssw2.value){
-			alert("Loi pass");
-			console.log("ololo");
-		}else {
-			alert("dung pass");
-			console.log("ololo123");
+		$("#submit").oncick = function () {
+			if (pssw1.value != pssw2.value) {
+				alert("Loi pass");
+				console.log("ololo");
+			} else {
+				alert("dung pass");
+				console.log("ololo123");
+			}
 		}
-	}
 
-</script>
+	</script>
 
 </body>
+
 </html>
