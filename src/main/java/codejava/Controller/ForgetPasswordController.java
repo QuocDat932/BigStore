@@ -91,8 +91,6 @@ public class ForgetPasswordController {
 	public String doGetEmail(HttpServletRequest request, Model model) throws Exception {
 		String email = request.getParameter("email");
 	    String token = RandomString.make(30);
-	    System.out.println("email " +email);
-	    
 	     if(accountGGService.findByEmail(email) != null) {
 	    	 model.addAttribute("error", "Không được Update Tài khoản này");
 	    	 model.addAttribute("message", "We haven't sent a reset password link to your email. Please check.");
@@ -104,16 +102,12 @@ public class ForgetPasswordController {
 	    	   model.addAttribute("error", "Don't have account in BigStore");
 	    	   return "home/forgetPassword(Email)";
 	       };
-	       
-	       
 	        String resetPasswordLink = Utility.getSiteURL(request) + "/home/CofrimPassword?token=" + token;
-	        System.out.println("Token:"+ resetPasswordLink);
 	        sendEmail(email, resetPasswordLink);
 	        model.addAttribute("message", "We have sent a reset password link to your email. Please check.");
 	    } catch (UnsupportedEncodingException | MessagingException e) {
 	        model.addAttribute("error", "Error while sending email");
 	    }}
-	         
 		return "home/forgetPassword(Email)";
 	}
 	 public void updatePassword(Account account,Users users, String newPassword) {
