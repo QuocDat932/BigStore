@@ -285,6 +285,8 @@ public class AdminController {
 			}
 			users.setIsDeleted(newUser.getIsDeleted());
 			users.setRole(roleServices.findByID(2));
+			users.setPhone(newUser.getPhone());
+			users.setAddress(newUser.getAddress());
 			System.out.println("user"+newUser.getImgUrl());
 			if (newUser.getImgUrl() != null) {
 				users.setImgUrl(slug.toLowerCase(Locale.ENGLISH) + "." + extension);
