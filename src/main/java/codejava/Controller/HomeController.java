@@ -164,54 +164,6 @@ public class HomeController {
 		return "home/codes";
 	}
 
-	@GetMapping("/home/register")
-	public String doGetRegister(Model model, Model model2) {
-		// Users user = new
-		// Users(0,"Fullname","Username","hashPassword","email","ImgUrl",null,null);
-		model.addAttribute("newAccount", new Account());
-		model2.addAttribute("newUser", new Users());
-		return "home/register";
-	}
-
-	@PostMapping("register")
-	public String doPostRegistration(Model model, @ModelAttribute("newAccount") @Validated Account newAccount,
-			@ModelAttribute("newUser") @Validated Users newUser) {
-
-		try {
-			newUser.setImgUrl("");
-			roles role = rolesservices.findByID(2);
-			newUser.setRole(role);
-			newUser.setEmail(newUser.getEmail());
-			newUser.setType_account("SYS");
-			newUser.setIsDeleted(true);
-			userservices.addUser(newUser);
-			
-			newAccount.setUsername(newAccount.getUsername());
-			newAccount.setHashPassword(bcrypt.encode(newAccount.getHashPassword())); 
-			newAccount.setUsers(userservices.findByEmail(newUser.getEmail()));
-//			sendVerificationEmail(newUser);
-			accountService.addAccount(newAccount);
-			
-			
-			return "redirect:/home";
-		} catch (Exception e) {
-			e.printStackTrace();
-			// return "redirect:/home/register";
-			return "12344";
-		}
-
-	}
-
-	private void sendVerificationEmail(Users newUser) {
-//		String subject = "Please verify your account" + newUser.getUsername();
-//		String note = "Please check and Verify";
-//		SimpleMailMessage msg = new SimpleMailMessage();
-//		msg.setTo(newUser.getEmail());
-//		msg.setSubject(subject);
-//		msg.setText(note);
-//		mailSend.send(msg);
-	}
-
 	@GetMapping("/home/about")
 	public String doGetAbout() {
 		return "home/about";
@@ -248,11 +200,6 @@ public class HomeController {
 	@GetMapping("/home/care")
 	public String doCare() {
 		return "home/care";
-	}
-
-	@GetMapping("/home/contact")
-	public String doGetContact() {
-		return "home/contact";
 	}
 
 	@GetMapping("/home/{slug}")
