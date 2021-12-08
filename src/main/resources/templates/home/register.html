@@ -91,35 +91,35 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 					<form id="form" th:action="@{/register}" method="POST">
 
 
-						<h5 style="padding-bottom: 10px">User Name: <span id="usernameStatus"></span></h5>
+						<h5 style="padding-bottom: 10px">User Name: <span id="usernameStatus" style="color: red;"></span></h5>
 						<div class="key" th:object="${newAccount}">
 							<i class="fa fa-user" aria-hidden="true"></i>
 							<input th:onchange="checkDB()" id="username" type="text" name="Username"
 								onfocus="this.value = '';" required="" th:field="*{username}">
 							<div class="clearfix"></div>
 						</div>
-						<h5 style="padding-bottom: 10px">Full Name: <span id="fullnameStatus"></span></h5>
+						<h5 style="padding-bottom: 10px">Full Name: <span id="fullnameStatus" style="color: red;"></span></h5>
 						<div class="key" th:object="${newUser}">
 							<i class="fa fa-address-card" aria-hidden="true"></i>
 							<input type="text" id="fullname" value="Full Name" name="Fullname"
 								onfocus="this.value = '';" required="" th:field="*{fullname}">
 							<div class="clearfix"></div>
 						</div>
-						<h5 style="padding-bottom: 10px">Email: <span id="emailStatus"></span></h5>
+						<h5 style="padding-bottom: 10px">Email: <span id="emailStatus" style="color: red;"></span></h5>
 						<div class="key" th:object="${newUser}">
 							<i class="fa  fa-envelope" aria-hidden="true"></i>
 							<input onchange="checkDB()" id="email" type="text" value="Email" name="Email"
 								onfocus="this.value = '';" required="" th:field="*{email}">
 							<div class="clearfix"></div>
 						</div>
-						<h5 style="padding-bottom: 10px">Password: <span id="passStatus"></span></h5>
+						<h5 style="padding-bottom: 10px">Password: <span id="passStatus" style="color: red;"></span></h5>
 						<div class="key" th:object="${newAccount}">
 							<i class="fa fa-lock" aria-hidden="true"></i>
 							<input id="pwss1" type="password" value="Password" name="Password"
 								onfocus="this.value = '';" required="" th:field="*{hashPassword}">
 							<div class="clearfix"></div>
 						</div>
-						<h5 style="padding-bottom: 10px">Confirm Password: <span id="confPassStatus"></span></h5>
+						<h5 style="padding-bottom: 10px">Confirm Password: <span id="confPassStatus" style="color: red;"></span></h5>
 						<div class="key">
 							<i class="fa fa-lock" aria-hidden="true"></i>
 							<input id="pwss2" type="password" value="Confirm Password" name="Confirm Password"
@@ -135,8 +135,12 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 		<script>
 			$(document).ready(function () {
 				checkForm = async () => {
+					var db = await checkDB();
+					var nu = await checkNull();
 					var x = ve($("#email").val());
-					var total = checkNull() || x || !checkConfirmPass() || await checkDB();
+					var conf = !checkConfirmPass();
+					
+					var total = nu || x || conf || db;
 					if (!total) {
 						document.getElementById("form").submit()
 					} else {
@@ -144,17 +148,11 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 						console.log(x)
 						if (x) {
 							document.getElementById('emailStatus').innerHTML = 'Email phải theo mẫu'
+
 						}
 					};
 				}
-				<!--$('#email').on('keypress', function (event) {
-					var regex = new RegExp("/^[^\s@]+@[^\s@]+\.[^\s@]+$/");
-					var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
-					if (!regex.test(key)) {
-						event.preventDefault();
-						return false;
-					}
-				});-->
+				
 
 				// trùng pass = true
 				checkConfirmPass = () => {
@@ -172,11 +170,18 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 
 				}
 				//null = true
-				checkNull = () => {
+				checkNull = async () => {
 					var username = $("#username").val() == undefined || $("#username").val().trim().length == 0;
 					if (username) {
 						document.getElementById('usernameStatus').innerHTML = 'Xin Nhập Tài Khoản'
-					} else {document.getElementById('usernameStatus').innerHTML = ''}
+					} else {
+						var x = await checkDB();
+						if(x){
+							document.getElementById('usernameStatus').innerHTML = 'Tài khoản đã tồn tại'
+						}else{
+							document.getElementById('usernameStatus').innerHTML = ''
+						}
+					}
 					var fullname = $("#fullname").val() == undefined || $("#fullname").val().trim().length == 0;
 					if (fullname) {
 						document.getElementById('fullnameStatus').innerHTML = 'Xin Nhập Tên Đầy Đủ'
