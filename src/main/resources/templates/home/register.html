@@ -91,38 +91,38 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 					<form id="form" th:action="@{/register}" method="POST">
 
 
-						<h5 style="padding-bottom: 10px">User Name: <span id="usernameStatus" style="color: red;"></span></h5>
+						<h5 style="padding-bottom: 10px">[(#{vali.form.name})]: <span id="usernameStatus" style="color: red;"></span></h5>
 						<div class="key" th:object="${newAccount}">
 							<i class="fa fa-user" aria-hidden="true"></i>
 							<input th:onchange="checkDB()" id="username" type="text" name="Username"
 								onfocus="this.value = '';" required="" th:field="*{username}">
 							<div class="clearfix"></div>
 						</div>
-						<h5 style="padding-bottom: 10px">Full Name: <span id="fullnameStatus" style="color: red;"></span></h5>
+						<h5 style="padding-bottom: 10px">[(#{cart.table.column.name})]: <span id="fullnameStatus" style="color: red;"></span></h5>
 						<div class="key" th:object="${newUser}">
 							<i class="fa fa-address-card" aria-hidden="true"></i>
 							<input type="text" id="fullname" value="Full Name" name="Fullname"
 								onfocus="this.value = '';" required="" th:field="*{fullname}">
 							<div class="clearfix"></div>
 						</div>
-						<h5 style="padding-bottom: 10px">Email: <span id="emailStatus" style="color: red;"></span></h5>
+						<h5 style="padding-bottom: 10px">[(#{cart.table.column.email})]: <span id="emailStatus" style="color: red;"></span></h5>
 						<div class="key" th:object="${newUser}">
 							<i class="fa  fa-envelope" aria-hidden="true"></i>
 							<input onchange="checkDB()" id="email" type="text" value="Email" name="Email"
 								onfocus="this.value = '';" required="" th:field="*{email}">
 							<div class="clearfix"></div>
 						</div>
-						<h5 style="padding-bottom: 10px">Password: <span id="passStatus" style="color: red;"></span></h5>
+						<h5 style="padding-bottom: 10px">[(#{vali.form.pass})]: <span id="passStatus" style="color: red;"></span></h5>
 						<div class="key" th:object="${newAccount}">
 							<i class="fa fa-lock" aria-hidden="true"></i>
 							<input id="pwss1" type="password" value="Password" name="Password"
 								onfocus="this.value = '';" required="" th:field="*{hashPassword}">
 							<div class="clearfix"></div>
 						</div>
-						<h5 style="padding-bottom: 10px">Confirm Password: <span id="confPassStatus" style="color: red;"></span></h5>
+						<h5 style="padding-bottom: 10px">[(#{vali.form.confpass})]: <span id="confPassStatus" style="color: red;"></span></h5>
 						<div class="key">
 							<i class="fa fa-lock" aria-hidden="true"></i>
-							<input id="pwss2" type="password" value="Confirm Password" name="Confirm Password"
+							<input id="pwss2" type="password" name="Confirm Password"
 								onfocus="this.value = '';" required="">
 							<div class="clearfix"></div>
 						</div>
@@ -138,19 +138,15 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 					var db = await checkDB();
 					var nu = await checkNull();
 					var x = ve($("#email").val());
-					var conf = !checkConfirmPass();
+					var conf = checkConfirmPass();
 					
-					var total = nu || x || conf || db;
-					if (!total) {
-						document.getElementById("form").submit()
-					} else {
-						var x = ve($("#email").val());
-						console.log(x)
-						if (x) {
-							document.getElementById('emailStatus').innerHTML = 'Email phải theo mẫu'
-
-						}
-					};
+					var total = true;
+					if(nu){console.log(`>>>>>>>>>>>nu`);return false};
+					if(conf){console.log(`>>>>>>>>>>>conf`);return false}
+					if(x){console.log(`>>>>>>>>>>>x`);document.getElementById('emailStatus').innerHTML = '[(#{vali.Emailpattern})]';return false}
+					if(!db){console.log(`>>>>>>>>>>>db`);return false}
+					document.getElementById("form").submit()
+					//alert(`submit`)
 				}
 				
 
@@ -158,50 +154,59 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 				checkConfirmPass = () => {
 					var ps1 = $("#pwss1").val();
 					var ps2 = $("#pwss2").val();
-					if (ps1.trim() > 2 && ps1.trim() < 22) {
-						document.getElementById('passStatus').innerHTML = 'Mật khẩu thuộc khoản từ 3 đến 21'
-						return false;
+					if(ps1.trim().length==0){
+						return true;
 					}
-					if (ps1 == ps2) {
-						document.getElementById('confPassStatus').innerHTML = 'Mật khẩu phải trùng'
-						return false
+					if (ps1.trim().length <3 || ps1.trim().length >21) {
+						document.getElementById('passStatus').innerHTML = `[(#{vali.pass2})]`
+						return true;
+					}else{
+						document.getElementById('passStatus').innerHTML = ``;
 					}
-					return true;
+					if (ps1 !== ps2) {
+						console.log(ps1 +` - `+ps2 +  `   : `+(ps1 === ps2))
+						document.getElementById('confPassStatus').innerHTML = '[(#{vali.vali.pass1})]'
+						return true;
+					}else{
+						document.getElementById('confPassStatus').innerHTML = ``;
+					}
+					return false;
 
 				}
 				//null = true
 				checkNull = async () => {
 					var username = $("#username").val() == undefined || $("#username").val().trim().length == 0;
 					if (username) {
-						document.getElementById('usernameStatus').innerHTML = 'Xin Nhập Tài Khoản'
+						document.getElementById('usernameStatus').innerHTML = '[(#{vali.name})]'
 					} else {
 						var x = await checkDB();
-						if(x){
-							document.getElementById('usernameStatus').innerHTML = 'Tài khoản đã tồn tại'
+						if(!x){
+							document.getElementById('usernameStatus').innerHTML = '[(#{vali.error.name})]'
 						}else{
 							document.getElementById('usernameStatus').innerHTML = ''
 						}
 					}
 					var fullname = $("#fullname").val() == undefined || $("#fullname").val().trim().length == 0;
 					if (fullname) {
-						document.getElementById('fullnameStatus').innerHTML = 'Xin Nhập Tên Đầy Đủ'
+						document.getElementById('fullnameStatus').innerHTML = '[(#{vali.fullname})]'
 					} else {document.getElementById('fullnameStatus').innerHTML = ''}
 					var email1 = $("#email").val() == undefined || $("#email").val().trim().length == 0;
 					if (email1) {
-						document.getElementById('emailStatus').innerHTML = 'Xin Nhập email'
+						document.getElementById('emailStatus').innerHTML = '[(#{vali.Email})]'
 					} else {document.getElementById('emailStatus').innerHTML = ''}
 					var ps1 = $("#pwss1").val() == undefined || $("#pwss1").val().trim().length == 0;
 					if (ps1) {
-						document.getElementById('passStatus').innerHTML = 'Xin Nhập Mật Khẩu'
+						document.getElementById('passStatus').innerHTML = '[(#{vali.pass})]'
 					} else {document.getElementById('passStatus').innerHTML = ''}
 					var ps2 = $("#pwss2").val() == undefined || $("#pwss2").val().trim().length == 0;
 					if (ps2) {
-						document.getElementById('confPassStatus').innerHTML = 'Xin Nhập Xác Nhập Mật Khẩu'
+						document.getElementById('confPassStatus').innerHTML = '[(#{vali.confpass})]'
 					} else {document.getElementById('confPassStatus').innerHTML = ''}
-					var result = username || fullname || email || ps1 || ps2;
+					var result = username || fullname || email1 || ps1 || ps2;
+					
 					return result;
 				}
-				//tồn tại trong DB = true;
+				//tồn tại trong DB = false;
 				checkDB = async () => {
 					var username = $("#username").val();
 					var email = $("#email").val();
@@ -209,16 +214,27 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 					await checkEmail(email.trim()).then(res => email = res)
 					changeStatusUsername(username)
 					changeStatusEmail(email)
-					return username || username;
+					if(username){
+						console.log(`DB : false`)
+						return false;
+					}
+						if(email){
+						console.log(`DB : false`)
+						return false;
+				}
+					console.log(`DB : true` )
+					return true;
 
 				}
-				//khong dung pattern = true
+				//khong dung pattern = false
 				ve = (email) => {
-					return String(email)
+					var x = (String(email)
 						.toLowerCase()
 						.match(
 							/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-						) == null;
+						) == null);
+						console.log(`ve : `+ x)
+					return x;
 
 				};
 				checkUsername = async (input) => {
@@ -277,17 +293,18 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 				}
 			})
 			changeStatusUsername = (input) => {
+				console.log(`us input:`+input)
 				if (!input) {
 					document.getElementById('usernameStatus').innerHTML = ''
 				} else {
-					document.getElementById('usernameStatus').innerHTML = 'Tài khoản đã tồn tại'
+					document.getElementById('usernameStatus').innerHTML = '[(#{vali.error.name})]'
 				}
 			}
 			changeStatusEmail = (input) => {
 				if (!input) {
 					document.getElementById('emailStatus').innerHTML = ''
 				} else {
-					document.getElementById('emailStatus').innerHTML = 'Email đã tồn tại'
+					document.getElementById('emailStatus').innerHTML = '[(#{vali.error.email})]'
 				}
 			}
 		</script>
