@@ -147,14 +147,14 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 						}
 					};
 				}
-				$('#email').on('keypress', function (event) {
+				<!--$('#email').on('keypress', function (event) {
 					var regex = new RegExp("/^[^\s@]+@[^\s@]+\.[^\s@]+$/");
 					var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
 					if (!regex.test(key)) {
 						event.preventDefault();
 						return false;
 					}
-				});
+				});-->
 
 				// trùng pass = true
 				checkConfirmPass = () => {
