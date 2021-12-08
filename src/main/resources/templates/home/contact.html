@@ -90,12 +90,9 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 
 					</div>
 					<div class="col-md-7 contact-left">
-						<h4>Liên hệ với chúng tôi</h4>
-						<p> Nếu bạn có thắc mắc gì, có thể gửi yêu cầu cho chúng tôi, và chúng tôi sẽ liên lạc lại với
-							bạn
-							sớm nhất có thể.</p>
+						<h4>[(#{contact.us})]</h4>
+						<p> [(#{contact.ctent})]</p>
 						<ul class="contact-list">
-							<li> <i class="fa fa-map-marker" aria-hidden="true"></i> </li>
 							<li><i class="fa fa-envelope" aria-hidden="true"></i><a
 									href="mailto:datbqps12154@fpt.edu.vn">bigstore24112021@gmail.com</a></li>
 							<li> <i class="fa fa-phone" aria-hidden="true"></i>0964192032</li>
@@ -122,12 +119,12 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 											<textarea name="content" onfocus="this.value = '';"
 												onblur="if (this.value == '') {this.value = 'Viết bình luận...';}"
 												required="">Viết bình luận...</textarea>
-											<input type="submit" value="Gửi liên hệ">
+											<input type="submit" value="Send" >
 										</form>
 									</div>
 									<div>
 										<div class="map-grid">
-											<h5>Các chi nhánh</h5>
+											<h5>[(#{contact.add})]</h5>
 											<ul>
 												<li><i class="fa fa-arrow-right" aria-hidden="true"></i>756 Bình Thạnh,
 													Tp.HCM.</li>
@@ -144,12 +141,12 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 									</div>
 									<div>
 										<div class="map-grid">
-											<h5>Liên hệ với tôi qua</h5>
+											<h5>[(#{contact.phon})]</h5>
 											<ul>
-												<li>Mobile No : 0964192032</li>
-												<li>Office No : 0947412445</li>
-												<li>Home No : 0972769574</li>
-												<li>Fax No : 086 456 7890</li>
+												<li>[(#{contact.stro1})] : 0964192032</li>
+												<li>[(#{contact.stro2})] : 0947412445</li>
+												<li>[(#{contact.stro3})] : 0972769574</li>
+												<li>[(#{contact.stro4})] : 086 456 7890</li>
 											</ul>
 										</div>
 									</div>
