@@ -95,35 +95,35 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 						<div class="key" th:object="${newAccount}">
 							<i class="fa fa-user" aria-hidden="true"></i>
 							<input th:onchange="checkDB()" id="username" type="text" name="Username"
-								onfocus="this.value = '';" required="" th:field="*{username}">
+								 required="" th:field="*{username}">
 							<div class="clearfix"></div>
 						</div>
 						<h5 style="padding-bottom: 10px">[(#{cart.table.column.name})]: <span id="fullnameStatus" style="color: red;"></span></h5>
 						<div class="key" th:object="${newUser}">
 							<i class="fa fa-address-card" aria-hidden="true"></i>
 							<input type="text" id="fullname" value="Full Name" name="Fullname"
-								onfocus="this.value = '';" required="" th:field="*{fullname}">
+								 required="" th:field="*{fullname}">
 							<div class="clearfix"></div>
 						</div>
 						<h5 style="padding-bottom: 10px">[(#{cart.table.column.email})]: <span id="emailStatus" style="color: red;"></span></h5>
 						<div class="key" th:object="${newUser}">
 							<i class="fa  fa-envelope" aria-hidden="true"></i>
 							<input onchange="checkDB()" id="email" type="text" value="Email" name="Email"
-								onfocus="this.value = '';" required="" th:field="*{email}">
+								 required="" th:field="*{email}">
 							<div class="clearfix"></div>
 						</div>
 						<h5 style="padding-bottom: 10px">[(#{vali.form.pass})]: <span id="passStatus" style="color: red;"></span></h5>
 						<div class="key" th:object="${newAccount}">
 							<i class="fa fa-lock" aria-hidden="true"></i>
 							<input id="pwss1" type="password" value="Password" name="Password"
-								onfocus="this.value = '';" required="" th:field="*{hashPassword}">
+								 required="" th:field="*{hashPassword}">
 							<div class="clearfix"></div>
 						</div>
 						<h5 style="padding-bottom: 10px">[(#{vali.form.confpass})]: <span id="confPassStatus" style="color: red;"></span></h5>
 						<div class="key">
 							<i class="fa fa-lock" aria-hidden="true"></i>
 							<input id="pwss2" type="password" name="Confirm Password"
-								onfocus="this.value = '';" required="">
+								 required="">
 							<div class="clearfix"></div>
 						</div>
 						<input onclick="checkForm()" type="button" value="Submit">
@@ -165,7 +165,7 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 					}
 					if (ps1 !== ps2) {
 						console.log(ps1 +` - `+ps2 +  `   : `+(ps1 === ps2))
-						document.getElementById('confPassStatus').innerHTML = '[(#{vali.vali.pass1})]'
+						document.getElementById('confPassStatus').innerHTML = '[(#{vali.pass1})]'
 						return true;
 					}else{
 						document.getElementById('confPassStatus').innerHTML = ``;
