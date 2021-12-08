@@ -481,43 +481,7 @@
     //ChartUser = (dataUsarray) =>{
     /*<![CDATA[*/
     var dataUsarray = /*[[${dataUs}]]*/ 'default';
-    /*]]>*/
-    /*var totalUser = $("#totalUser").get(0).getContext("2d");
-    var totalUser = new Chart(totalUser, {
-      type: 'doughnut',
-      data: {
-        labels: dataUsarray[0],
-        datasets: [{
-          data: dataUsarray[1],
-          backgroundColor: [
-            'rgba(255, 66, 15, 0.8)',
-            'rgba(0, 187, 221, 0.8)',
-            'rgba(255, 193, 7, 0.8)',
-            'rgba(0, 182, 122, 0.8)',
-            'rgba(153, 102, 255, 0.8)',
-            'rgba(255, 159, 64, 0.8)'
-          ],
-          borderColor: [
-            'rgba(255, 66, 15,1)',
-            'rgba(0, 187, 221, 1)',
-            'rgba(255, 193, 7, 1)',
-            'rgba(0, 182, 122, 1)',
-            'rgba(153, 102, 255, 1)',
-            'rgba(255, 159, 64, 1)'
-          ],
-          borderWidth: 3
-        }]
-      },
-      options: {
-        responsive: true,
-        animation: {
-          animateScale: true,
-          animateRotate: true
-        }
-      }
-    });
-    */
-    
+    /*]]>*/    
     setValueToForm = (data) => {
       $('#txtuserName').focus();
       if (data.username == null) {
@@ -530,9 +494,8 @@
       else {
         $('#txtuserName').val(data.username);
         $("#btnCreated").prop('disabled', false);
-      }
-      $('#txtHashPassWord').focus();
-      $('#txtfullName').val(data.users.fullname);
+      }  
+      
       $('#txtuserRole').val(data.users.role.id);
       $('#txtuserRole').focus();
       $('#txtEmail').val(data.users.email);
@@ -540,13 +503,15 @@
       $('#txtidUsers').val(data.users.id);
       $('#cboUsing').val(data.users.isDeleted ? 1 : 0);
       $('#txtHashPassWord').val(data.hashPassword);
-
-      //$('#chkUsing').attr("style","checked");
-      //$('#chkUsing').before();
+      $('#txtHashPassWord').focus();
+      $('#txtAddress').val(data.users.address);
+      $('#txtAddress').focus();
+      $('#txtPhoneNumber').val(data.users.phone);
+      $('#txtPhoneNumber').focus();
       let pathimg = "/admin/images/faces/" + data.users.imgUrl;
       $('#userImg').attr("src", pathimg);
       $("#txtuserName").prop('disabled', true);
-      //$("#txtuserRole").prop('disabled', true);
+      $('#txtfullName').val(data.users.fullname);
       $('#txtfullName').focus();
     };
 
@@ -668,6 +633,8 @@
       const idProd = $("#txtidUsers").val() || null;
       const roleId = $("#txtuserRole").val() || 2;
       const isDeleted = $("#cboUsing").val() == 1 ? true : false;
+      const address = $("#txtAddress").val();
+      const phone = $("#txtPhoneNumber").val();
       let jsonData = {
         id: idProd,
         email: Email,
@@ -676,8 +643,11 @@
         username: usersName,
         imgUrl: image,
         roleId: roleId,
-        isDeleted: isDeleted
+        isDeleted: isDeleted,
+        address: address,
+        phone: phone
       };
+      console.log(jsonData)
       $.ajax({
         type: "POST",
         url: response,
@@ -785,7 +755,7 @@
             if(existDataTableUser != undefined){
               existDataTableUser.destroy();
             }   
-            existDataTableUser = $('#tableUsers').DataTable({"lengthMenu": [ 9, 9 ],"bLengthChange" : false});
+            existDataTableUser = $('#tableUsers').DataTable({"lengthMenu": [ 11, 11 ],"bLengthChange" : false});
           }
         },
         error: function (e) {

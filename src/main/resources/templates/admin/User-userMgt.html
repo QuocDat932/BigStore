@@ -44,7 +44,9 @@
 				</br> -->
 				<div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-6-desktop">
 					<div class="mdc-card p-3">
-						<h6 class="card-title card-padding pb-0">[(#{user.UserTable})]</h6>
+						<div style="width: 100%; height: 100px;">
+							<h6 class="card-title card-padding pb-0">[(#{user.UserTable})]</h6>
+						</div>
 						<div class="table-responsive">
 							<div id="tableMgtUsers"></div>
 						</div>
@@ -68,16 +70,69 @@
 												<div class="mdc-text-field ">
 													<input class="mdc-text-field__input" style="" id="txtuserName">
 													<div class="mdc-line-ripple"></div>
-													<label for="text-field-hero-input" class="mdc-floating-label">User
-														Name</label>
+													<label for="text-field-hero-input"
+														class="mdc-floating-label">[(#{user.User})]</label>
 												</div>
 											</div>
 											<div class="mdc-layout-grid__cell--span-6-desktop">
 												<div class="mdc-text-field ">
 													<input class="mdc-text-field__input" style="" id="txtfullName">
 													<div class="mdc-line-ripple"></div>
-													<label for="text-field-hero-input" class="mdc-floating-label">Full
-														Name</label>
+													<label for="text-field-hero-input"
+														class="mdc-floating-label">[(#{cart.table.column.name})]</label>
+												</div>
+											</div>
+											<div class="mdc-layout-grid__cell--span-6-desktop">
+												<div class="mdc-text-field ">
+													<input class="mdc-text-field__input" id="txtEmail">
+													<div class="mdc-line-ripple"></div>
+													<label for="text-field-hero-input"
+														class="mdc-floating-label">Email</label>
+												</div>
+											</div>
+											<div class="mdc-layout-grid__cell--span-6-desktop">
+												<div
+													class="mdc-text-field mdc-text-field--outlined mdc-text-field--with-trailing-icon">
+													<input class="mdc-text-field__input" id="txtHashPassWord">
+													<div class="mdc-notched-outline">
+														<div class="mdc-notched-outline__leading"></div>
+														<div class="mdc-notched-outline__notch">
+															<label for="text-field-hero-input"
+																class="mdc-floating-label"
+																type="password">hashPassword</label>
+														</div>
+														<div class="mdc-notched-outline__trailing"></div>
+													</div>
+												</div>
+											</div>
+											<div class="mdc-layout-grid__cell--span-6-desktop">
+												<div
+													class="mdc-text-field mdc-text-field--outlined mdc-text-field--with-trailing-icon">
+													<input class="mdc-text-field__input" id="txtAddress">
+													<div class="mdc-notched-outline">
+														<div class="mdc-notched-outline__leading"></div>
+														<div class="mdc-notched-outline__notch">
+															<label for="text-field-hero-input"
+																class="mdc-floating-label"
+																type="password">[(#{cart.table.column.address})]</label>
+														</div>
+														<div class="mdc-notched-outline__trailing"></div>
+													</div>
+												</div>
+											</div>
+											<div class="mdc-layout-grid__cell--span-6-desktop">
+												<div
+													class="mdc-text-field mdc-text-field--outlined mdc-text-field--with-trailing-icon">
+													<input class="mdc-text-field__input" id="txtPhoneNumber">
+													<div class="mdc-notched-outline">
+														<div class="mdc-notched-outline__leading"></div>
+														<div class="mdc-notched-outline__notch">
+															<label for="text-field-hero-input"
+																class="mdc-floating-label"
+																type="password">[(#{cart.table.column.phone})]</label>
+														</div>
+														<div class="mdc-notched-outline__trailing"></div>
+													</div>
 												</div>
 											</div>
 											<div class="mdc-layout-grid__cell--span-6-desktop">
@@ -94,30 +149,6 @@
 											</div>
 											<div class="mdc-layout-grid__cell--span-6-desktop">
 												<div class="mdc-text-field ">
-													<input class="mdc-text-field__input" id="txtEmail">
-													<div class="mdc-line-ripple"></div>
-													<label for="text-field-hero-input"
-														class="mdc-floating-label">Email</label>
-												</div>
-											</div>
-											<div class="mdc-layout-grid__cell--span-6-desktop">
-												<div
-													class="mdc-text-field mdc-text-field--outlined mdc-text-field--with-trailing-icon">
-													<i class="material-icons mdc-text-field__icon">visibility</i>
-													<input class="mdc-text-field__input" id="txtHashPassWord">
-													<div class="mdc-notched-outline">
-														<div class="mdc-notched-outline__leading"></div>
-														<div class="mdc-notched-outline__notch">
-															<label for="text-field-hero-input"
-																class="mdc-floating-label"
-																type="password">Password</label>
-														</div>
-														<div class="mdc-notched-outline__trailing"></div>
-													</div>
-												</div>
-											</div>
-											<div class="mdc-layout-grid__cell--span-6-desktop">
-												<div class="mdc-text-field ">
 													<select class="form-control" id="cboUsing">
 														<option value=1>[(#{user.using})]</option>
 														<option value=0>[(#{user.notUsing})]</option>
@@ -125,15 +156,6 @@
 													<div class="mdc-line-ripple"></div>
 													<label for="text-field-hero-input"
 														class="mdc-floating-label"></label>
-												</div>
-											</div>
-											<div class="mdc-switch mdc-switch--checked" data-mdc-auto-init="MDCSwitch">
-												<div class="mdc-switch__track"></div>
-												<div class="mdc-switch__thumb-underlay">
-													<div class="mdc-switch__thumb">
-														<input aria-hidden="true" id="chkUsing" type="checkbox"
-															class="mdc-switch__native-control" role="switch">
-													</div>
 												</div>
 											</div>
 										</div>
