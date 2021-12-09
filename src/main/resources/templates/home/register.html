@@ -89,41 +89,41 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 				<div class="form-w3agile form1">
 					<h3>Register</h3>
 					<form id="form" th:action="@{/register}" method="POST">
-
-
-						<h5 style="padding-bottom: 10px">[(#{vali.form.name})]: <span id="usernameStatus" style="color: red;"></span></h5>
+						<h5 style="padding-bottom: 10px">[(#{vali.form.name})]: <span id="usernameStatus"
+								style="color: red;"></span></h5>
 						<div class="key" th:object="${newAccount}">
 							<i class="fa fa-user" aria-hidden="true"></i>
-							<input th:onchange="checkDB()" id="username" type="text" name="Username"
-								 required="" th:field="*{username}">
+							<input id="username" type="text" name="Username" required="" th:field="*{username}">
 							<div class="clearfix"></div>
 						</div>
-						<h5 style="padding-bottom: 10px">[(#{cart.table.column.name})]: <span id="fullnameStatus" style="color: red;"></span></h5>
+						<h5 style="padding-bottom: 10px">[(#{cart.table.column.name})]: <span id="fullnameStatus"
+								style="color: red;"></span></h5>
 						<div class="key" th:object="${newUser}">
 							<i class="fa fa-address-card" aria-hidden="true"></i>
-							<input type="text" id="fullname" value="Full Name" name="Fullname"
-								 required="" th:field="*{fullname}">
+							<input type="text" id="fullname" value="Full Name" name="Fullname" required=""
+								th:field="*{fullname}">
 							<div class="clearfix"></div>
 						</div>
-						<h5 style="padding-bottom: 10px">[(#{cart.table.column.email})]: <span id="emailStatus" style="color: red;"></span></h5>
+						<h5 style="padding-bottom: 10px">[(#{cart.table.column.email})]: <span id="emailStatus"
+								style="color: red;"></span></h5>
 						<div class="key" th:object="${newUser}">
 							<i class="fa  fa-envelope" aria-hidden="true"></i>
-							<input onchange="checkDB()" id="email" type="text" value="Email" name="Email"
-								 required="" th:field="*{email}">
+							<input id="email" type="text" value="Email" name="Email" required="" th:field="*{email}">
 							<div class="clearfix"></div>
 						</div>
-						<h5 style="padding-bottom: 10px">[(#{vali.form.pass})]: <span id="passStatus" style="color: red;"></span></h5>
+						<h5 style="padding-bottom: 10px">[(#{vali.form.pass})]: <span id="passStatus"
+								style="color: red;"></span></h5>
 						<div class="key" th:object="${newAccount}">
 							<i class="fa fa-lock" aria-hidden="true"></i>
-							<input id="pwss1" type="password" value="Password" name="Password"
-								 required="" th:field="*{hashPassword}">
+							<input id="pwss1" type="password" value="Password" name="Password" required=""
+								th:field="*{hashPassword}">
 							<div class="clearfix"></div>
 						</div>
-						<h5 style="padding-bottom: 10px">[(#{vali.form.confpass})]: <span id="confPassStatus" style="color: red;"></span></h5>
+						<h5 style="padding-bottom: 10px">[(#{vali.form.confpass})]: <span id="confPassStatus"
+								style="color: red;"></span></h5>
 						<div class="key">
 							<i class="fa fa-lock" aria-hidden="true"></i>
-							<input id="pwss2" type="password" name="Confirm Password"
-								 required="">
+							<input id="pwss2" type="password" name="Confirm Password" required="">
 							<div class="clearfix"></div>
 						</div>
 						<input onclick="checkForm()" type="button" value="Submit">
@@ -139,35 +139,35 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 					var nu = await checkNull();
 					var x = ve($("#email").val());
 					var conf = checkConfirmPass();
-					
+
 					var total = true;
-					if(nu){console.log(`>>>>>>>>>>>nu`);return false};
-					if(conf){console.log(`>>>>>>>>>>>conf`);return false}
-					if(x){console.log(`>>>>>>>>>>>x`);document.getElementById('emailStatus').innerHTML = '[(#{vali.Emailpattern})]';return false}
-					if(!db){console.log(`>>>>>>>>>>>db`);return false}
+					if (nu) {console.log(`>>>>>>>>>>>nu`); return false};
+					if (conf) {console.log(`>>>>>>>>>>>conf`); return false}
+					if (x) {console.log(`>>>>>>>>>>>x`); document.getElementById('emailStatus').innerHTML = '[(#{vali.Emailpattern})]'; returnalse}
+					if (!db) {console.log(`>>>>>>>>>>>db`); return false}
 					document.getElementById("form").submit()
 					//alert(`submit`)
 				}
-				
+
 
 				// trùng pass = true
 				checkConfirmPass = () => {
 					var ps1 = $("#pwss1").val();
 					var ps2 = $("#pwss2").val();
-					if(ps1.trim().length==0){
+					if (ps1.trim().length == 0) {
 						return true;
 					}
-					if (ps1.trim().length <3 || ps1.trim().length >21) {
+					if (ps1.trim().length < 3 || ps1.trim().length > 21) {
 						document.getElementById('passStatus').innerHTML = `[(#{vali.pass2})]`
 						return true;
-					}else{
+					} else {
 						document.getElementById('passStatus').innerHTML = ``;
 					}
 					if (ps1 !== ps2) {
-						console.log(ps1 +` - `+ps2 +  `   : `+(ps1 === ps2))
+						console.log(ps1 + ` - ` + ps2 + `   : ` + (ps1 === ps2))
 						document.getElementById('confPassStatus').innerHTML = '[(#{vali.pass1})]'
 						return true;
-					}else{
+					} else {
 						document.getElementById('confPassStatus').innerHTML = ``;
 					}
 					return false;
@@ -180,9 +180,9 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 						document.getElementById('usernameStatus').innerHTML = '[(#{vali.name})]'
 					} else {
 						var x = await checkDB();
-						if(!x){
-							document.getElementById('usernameStatus').innerHTML = '[(#{vali.error.name})]'
-						}else{
+						if (!x) {
+							document.getElementById('usernameStatus').innerHTML = '[(#{vali.error.name})]'//
+						} else {
 							document.getElementById('usernameStatus').innerHTML = ''
 						}
 					}
@@ -203,7 +203,7 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 						document.getElementById('confPassStatus').innerHTML = '[(#{vali.confpass})]'
 					} else {document.getElementById('confPassStatus').innerHTML = ''}
 					var result = username || fullname || email1 || ps1 || ps2;
-					
+
 					return result;
 				}
 				//tồn tại trong DB = false;
@@ -214,15 +214,15 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 					await checkEmail(email.trim()).then(res => email = res)
 					changeStatusUsername(username)
 					changeStatusEmail(email)
-					if(username){
+					if (username) {
 						console.log(`DB : false`)
 						return false;
 					}
-						if(email){
+					if (email) {
 						console.log(`DB : false`)
 						return false;
-				}
-					console.log(`DB : true` )
+					}
+					console.log(`DB : true`)
 					return true;
 
 				}
@@ -233,7 +233,7 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 						.match(
 							/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 						) == null);
-						console.log(`ve : `+ x)
+					console.log(`ve : ` + x)
 					return x;
 
 				};
@@ -293,18 +293,19 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 				}
 			})
 			changeStatusUsername = (input) => {
-				console.log(`us input:`+input)
+				console.log(`us input:` + input)
 				if (!input) {
 					document.getElementById('usernameStatus').innerHTML = ''
 				} else {
-					document.getElementById('usernameStatus').innerHTML = '[(#{vali.error.name})]'
+					document.getElementById('usernameStatus').innerHTML = '[(#{vali.name})]'
 				}
 			}
 			changeStatusEmail = (input) => {
 				if (!input) {
 					document.getElementById('emailStatus').innerHTML = ''
 				} else {
-					document.getElementById('emailStatus').innerHTML = '[(#{vali.error.email})]'
+					var x =
+						document.getElementById('emailStatus').innerHTML = '[(#{vali.error.email})]'
 				}
 			}
 		</script>
