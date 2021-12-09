@@ -126,7 +126,8 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 							<input id="pwss2" type="password" name="Confirm Password" required="">
 							<div class="clearfix"></div>
 						</div>
-						<input onclick="checkForm()" type="button" value="Submit">
+						<input onclick="checkForm()" type="button" value="Submit"
+							style="border: none; display: block; text-align: center; cursor: pointer; text-transform: uppercase; outline: none; overflow: hidden; position: relative; color: #fff; font-weight: 700; font-size: 15px; background-color: #222; padding: 17px 60px; margin: 0 auto; box-shadow: 0 5px 15px rgba(0,0,0,0.20);">
 					</form>
 				</div>
 
@@ -134,17 +135,27 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 		</div>
 		<script>
 			$(document).ready(function () {
+				$('#username').on('keypress', function (event) {
+					var regex = new RegExp("^[a-zA-Z0-9]+$");
+					var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+					if (!regex.test(key)) {
+						event.preventDefault();
+						return false;
+					}
+				});
 				checkForm = async () => {
-					var db = await checkDB();
-					var nu = await checkNull();
+
 					var x = ve($("#email").val());
+					var nu = await checkNull();
+					var db = await checkDB();
 					var conf = checkConfirmPass();
 
 					var total = true;
-					if (nu) {console.log(`>>>>>>>>>>>nu`); return false};
-					if (conf) {console.log(`>>>>>>>>>>>conf`); return false}
-					if (x) {console.log(`>>>>>>>>>>>x`); document.getElementById('emailStatus').innerHTML = '[(#{vali.Emailpattern})]'; returnalse}
-					if (!db) {console.log(`>>>>>>>>>>>db`); return false}
+					if (!db) {console.log(`>>>>>>>>>>>db`); await checkDB(); return false}
+					if (nu) {console.log(`>>>>>>>>>>>nu`); await checkNull(); return false};
+					if (x) {console.log(`>>>>>>>>>>>x`); ve($("#email").val()); document.getElementById('emailStatus').innerHTML = '[(#{vali.Emailpattern})]'; return false}
+
+					if (conf) {console.log(`>>>>>>>>>>>conf`); checkConfirmPass(); return false}
 					document.getElementById("form").submit()
 					//alert(`submit`)
 				}
@@ -178,13 +189,19 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 					var username = $("#username").val() == undefined || $("#username").val().trim().length == 0;
 					if (username) {
 						document.getElementById('usernameStatus').innerHTML = '[(#{vali.name})]'
+						//
 					} else {
-						var x = await checkDB();
-						if (!x) {
-							document.getElementById('usernameStatus').innerHTML = '[(#{vali.error.name})]'//
+						if ($("#username").val().trim().length < 3) {
+							document.getElementById('usernameStatus').innerHTML = '[(#{vali.error.usname})]'
 						} else {
 							document.getElementById('usernameStatus').innerHTML = ''
 						}
+						var x = await checkDB();
+						//if (!x) {
+						//	document.getElementById('usernameStatus').innerHTML = '[(#{vali.error.name})]'//
+						//} else {
+
+						//}
 					}
 					var fullname = $("#fullname").val() == undefined || $("#fullname").val().trim().length == 0;
 					if (fullname) {
@@ -203,7 +220,6 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 						document.getElementById('confPassStatus').innerHTML = '[(#{vali.confpass})]'
 					} else {document.getElementById('confPassStatus').innerHTML = ''}
 					var result = username || fullname || email1 || ps1 || ps2;
-
 					return result;
 				}
 				//tồn tại trong DB = false;
@@ -212,19 +228,27 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 					var email = $("#email").val();
 					await checkUsername(username.trim()).then(res => username = res)
 					await checkEmail(email.trim()).then(res => email = res)
-					changeStatusUsername(username)
-					changeStatusEmail(email)
-					if (username) {
-						console.log(`DB : false`)
-						return false;
+
+					if (!username) {
+						document.getElementById('usernameStatus').innerHTML = ''
+					} else {
+						document.getElementById('usernameStatus').innerHTML = '[(#{vali.error.name})]'
 					}
 					if (email) {
-						console.log(`DB : false`)
-						return false;
+						document.getElementById('emailStatus').innerHTML = '[(#{vali.error.email})]'
+					} else {
+						document.getElementById('emailStatus').innerHTML = ''
 					}
-					console.log(`DB : true`)
-					return true;
-
+					var result = true
+					if (username) {
+						console.log(`DB u : false ` + username)
+						result = false;
+					}
+					if (email) {
+						console.log(`DB  e : false ` + email)
+						result = false;
+					}
+					return result;
 				}
 				//khong dung pattern = false
 				ve = (email) => {
@@ -246,7 +270,6 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 					}
 					return result;
 				}
-
 				checkEmail = async (input) => {
 					var result = true;
 					var data = await checkEmailFromDB();
@@ -269,7 +292,6 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 						},
 						error: (e) => {
 							alert(e)
-
 						}
 					});
 					return dataResult;
@@ -292,25 +314,7 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 					return dataResult;
 				}
 			})
-			changeStatusUsername = (input) => {
-				console.log(`us input:` + input)
-				if (!input) {
-					document.getElementById('usernameStatus').innerHTML = ''
-				} else {
-					document.getElementById('usernameStatus').innerHTML = '[(#{vali.name})]'
-				}
-			}
-			changeStatusEmail = (input) => {
-				if (!input) {
-					document.getElementById('emailStatus').innerHTML = ''
-				} else {
-					var x =
-						document.getElementById('emailStatus').innerHTML = '[(#{vali.error.email})]'
-				}
-			}
 		</script>
-
-
 	</div>
 	<!-- smooth scrolling -->
 	<script type="text/javascript">
