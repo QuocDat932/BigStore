@@ -78,7 +78,6 @@ public class HomeController {
 	@Autowired
 	private JwtTokenProvider tokenProvider;
 
-
 	@GetMapping({ "/home", "/" })
 	public String doGetController(Model model, HttpSession session, @RequestParam("p") Optional<Integer> p) {
 		cartDto currentCart = (cartDto) session.getAttribute("currentCart");
@@ -90,7 +89,7 @@ public class HomeController {
 			session.setAttribute("Top4Prod", new ListproductDto());
 		}
 		List<Products> sp = productsservices.findProductAvai(1);
-		
+
 		List<TypeOfProduct> listType = typrOfProductSrvcs.getListTypeOfProduct();
 		model.addAttribute("listType", listType);
 		model.addAttribute("listProduct", sp);
@@ -102,12 +101,7 @@ public class HomeController {
 		List<TypeOfProduct> listType = typrOfProductSrvcs.getListTypeOfProduct();
 		model.addAttribute("listType", listType);
 		model.addAttribute("user", new Account());
-		
-		
-		
-		
-		
-		
+
 		return "home/login";
 	};
 
@@ -115,7 +109,7 @@ public class HomeController {
 	public String doGetLogi1(Model model) {
 		return "redirect:/home";
 	};
-	
+
 	@PostMapping("/home/login")
 	public String doPostLogin(Model model, @ModelAttribute("user") @Validated Account accountLogin,
 			HttpSession session) {
@@ -127,22 +121,22 @@ public class HomeController {
 			Authentication authentication = authenManager.authenticate(authenInfo);
 			CustomUser customUser = (CustomUser) authentication.getPrincipal();
 			Account accountResponse = accountService.findByUsername(accountLogin.getUsername());
-			
-			if(accountResponse.getUsers().getIsDeleted()) {
-				Users usersResponse  =  accountResponse.getUsers() ;
+
+			if (accountResponse.getUsers().getIsDeleted()) {
+				Users usersResponse = accountResponse.getUsers();
 				roles RoleUserResponse = usersResponse.getRole();
 				// tạo Sesstion tại Server
 				session.setAttribute(SessionConst.CURRENT_USER, usersResponse);
 				session.setAttribute(SessionConst.CURRENT_ROLE, RoleUserResponse);
 				session.setAttribute(SessionConst.JWT, tokenProvider.generateToken(customUser));
-				System.out.println("user:" + session.getAttribute(SessionConst.CURRENT_USER).toString() );
+				System.out.println("user:" + session.getAttribute(SessionConst.CURRENT_USER).toString());
 				return "redirect:/home";
-			}else {
+			} else {
 				String message = "Error! Missing fail : This Account Had Be Deleted";
 				model.addAttribute("message", message);
 				return "/home/login";
 			}
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			String message = "Error! Missing fail : Please Try Again";
@@ -194,12 +188,11 @@ public class HomeController {
 	public String doGetKitchen(Model model, HttpSession session, Optional<String> slug) {
 		cartDto currentCart = (cartDto) session.getAttribute("currentCart");
 		ListproductDto Top4Prod = (ListproductDto) session.getAttribute("Top4Prod");
-		
 
-		if(Objects.nonNull(typrOfProductSrvcs.findBySlug(slug.orElse("null"))) ) {
+		if (Objects.nonNull(typrOfProductSrvcs.findBySlug(slug.orElse("null")))) {
 			return "redirect:/home";
 		}
-		
+
 		List<TypeOfProduct> listType = typrOfProductSrvcs.getListTypeOfProduct();
 		model.addAttribute("listType", listType);
 		return "home/kitchen";
@@ -241,5 +234,4 @@ public class HomeController {
 		return "home/offer";
 	}
 
-	
 }

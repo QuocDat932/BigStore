@@ -60,6 +60,7 @@ public class Oauth2LoginSuccess extends SavedRequestAwareAuthenticationSuccessHa
 			users.setEmail(a.getEmail());
 			users.setIsDeleted(true);
 			users.setRole(role.findByID(2));
+			users.setType_account("GG");
 			userSerive.addUser(users);
 			
 			AccountGG accountGG = new AccountGG() ;
