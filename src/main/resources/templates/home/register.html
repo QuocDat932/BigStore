@@ -108,7 +108,16 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 								style="color: red;"></span></h5>
 						<div class="key" th:object="${newUser}">
 							<i class="fa  fa-envelope" aria-hidden="true"></i>
-							<input id="email" type="text" value="Email" name="Email" required="" th:field="*{email}">
+							<div class="row">
+								<div class="col-md-6"> <input id="email" type="text" value="Email" name="Email"
+										required="" th:field="*{email}"> </div>
+								<div class="col-md-1">
+									<select id="titleEmail" style="height: 43px;padding-left: 10px;">
+										<option>@gmail.com</option>
+										<option>@gmail.com.vn</option>
+									</select>
+								</div>
+							</div>
 							<div class="clearfix"></div>
 						</div>
 						<h5 style="padding-bottom: 10px">[(#{vali.form.pass})]: <span id="passStatus"
@@ -143,39 +152,103 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 						return false;
 					}
 				});
+				$('#email').on('keypress', function (event) {
+					var regex = new RegExp("^[a-zA-Z0-9]+$");
+					var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+					if (!regex.test(key)) {
+						event.preventDefault();
+						return false;
+					}
+				});
 				checkForm = async () => {
-
-					var x = ve($("#email").val());
-					var nu = await checkNull();
-					var db = await checkDB();
-					var conf = checkConfirmPass();
-
-					var total = true;
-					if (!db) {console.log(`>>>>>>>>>>>db`); await checkDB(); return false}
-					if (nu) {console.log(`>>>>>>>>>>>nu`); await checkNull(); return false};
-					if (x) {console.log(`>>>>>>>>>>>x`); ve($("#email").val()); document.getElementById('emailStatus').innerHTML = '[(#{vali.Emailpattern})]'; return false}
-
-					if (conf) {console.log(`>>>>>>>>>>>conf`); checkConfirmPass(); return false}
-					document.getElementById("form").submit()
-					//alert(`submit`)
+					var total = false;
+					if (await validUsername() == true) {console.log("u"); total = true};
+					if (validConfirmPass()== true) {console.log("cp"); total = true};
+					if (validFullname()== true) {console.log("fn"); total = true};
+					if (await validEmail()== true) {console.log("e"); total = true};
+					if (validPass()== true) {console.log("p"); total = true};
+					if(total ==false){document.getElementById("form").submit()}
 				}
-
-
-				// trùng pass = true
-				checkConfirmPass = () => {
-					var ps1 = $("#pwss1").val();
-					var ps2 = $("#pwss2").val();
-					if (ps1.trim().length == 0) {
+				validUsername = async () => {
+					//xét null
+					var username = $("#username").val() == undefined || $("#username").val().trim().length == 0;
+					if (username) {
+						document.getElementById('usernameStatus').innerHTML = '[(#{vali.name})]'
+						return true
+					} else {
+						document.getElementById('usernameStatus').innerHTML = ''
+					}
+					if ($("#username").val().trim().length <= 3 || $("#username").val().trim().length >= 24) {
+						document.getElementById('usernameStatus').innerHTML = '[(#{vali.error.usname})]'
 						return true;
 					}
-					if (ps1.trim().length < 3 || ps1.trim().length > 21) {
-						document.getElementById('passStatus').innerHTML = `[(#{vali.pass2})]`
+					//xét db
+					var username = $("#username").val();
+					await checkUsername(username.trim()).then(res => username = res)
+					if (!username) {
+						document.getElementById('usernameStatus').innerHTML = ''
+					} else {
+						document.getElementById('usernameStatus').innerHTML = '[(#{vali.error.name})]'
+						return true;
+					}
+					return false;
+				}
+				validFullname = () => {
+					var fullname = $("#fullname").val() == undefined || $("#fullname").val().trim().length == 0;
+					if (fullname) {
+						document.getElementById('fullnameStatus').innerHTML = '[(#{vali.fullname})]'; return true;
+					} else {document.getElementById('fullnameStatus').innerHTML = ''}
+					return false;
+				}
+				validEmail = async () => {
+					var email1 = $("#email").val() == undefined || $("#email").val().trim().length == 0;
+					if (email1) {
+						document.getElementById('emailStatus').innerHTML = '[(#{vali.Email})]'; return true
+					} else {document.getElementById('emailStatus').innerHTML = ''}
+					
+					var x = ve($("#email").val().trim()+$("#titleEmail").val());
+					if (!x) {
+						document.getElementById('emailStatus').innerHTML = '[(#{vali.Emailpattern})]'
 						return true;
 					} else {
-						document.getElementById('passStatus').innerHTML = ``;
+						document.getElementById('emailStatus').innerHTML = ''
 					}
+					//xét db
+					var email = $("#email").val().trim() +  $("#titleEmail").val();
+					
+					await checkEmail(email.trim()).then(res => email = res)
+					if (!email) {
+						document.getElementById('emailStatus').innerHTML = ''
+					} else {
+						document.getElementById('emailStatus').innerHTML = '[(#{vali.error.email})]'
+						return true;
+					}
+
+					return false;
+				}
+				validPass = () => {
+					var ps1 = $("#pwss1").val() == undefined || $("#pwss1").val().trim().length == 0;
+					if (ps1) {
+						document.getElementById('passStatus').innerHTML = '[(#{vali.pass})]'; return true
+					} else {document.getElementById('passStatus').innerHTML = ''}
+					ps1 = $("#pwss1").val().trim().length < 3 || $("#pwss1").val().trim().length > 21
+					if (ps1) {
+						document.getElementById('passStatus').innerHTML = '[(#{vali.pass2})]'; return true
+					} else {document.getElementById('passStatus').innerHTML = ''}
+					return false;
+				}
+				// trùng pass = false
+				validConfirmPass = () => {
+					var ps1 = $("#pwss1").val();
+					var ps2 = $("#pwss2").val();
+					if (ps2.trim().length == 0) {
+						document.getElementById('confPassStatus').innerHTML = `[(#{vali.confpass})]`
+						return true;
+					} else {
+						document.getElementById('confPassStatus').innerHTML = ``;
+					}
+
 					if (ps1 !== ps2) {
-						console.log(ps1 + ` - ` + ps2 + `   : ` + (ps1 === ps2))
 						document.getElementById('confPassStatus').innerHTML = '[(#{vali.pass1})]'
 						return true;
 					} else {
@@ -184,83 +257,16 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 					return false;
 
 				}
-				//null = true
-				checkNull = async () => {
-					var username = $("#username").val() == undefined || $("#username").val().trim().length == 0;
-					if (username) {
-						document.getElementById('usernameStatus').innerHTML = '[(#{vali.name})]'
-						//
-					} else {
-						if ($("#username").val().trim().length < 3) {
-							document.getElementById('usernameStatus').innerHTML = '[(#{vali.error.usname})]'
-						} else {
-							document.getElementById('usernameStatus').innerHTML = ''
-						}
-						var x = await checkDB();
-						//if (!x) {
-						//	document.getElementById('usernameStatus').innerHTML = '[(#{vali.error.name})]'//
-						//} else {
 
-						//}
-					}
-					var fullname = $("#fullname").val() == undefined || $("#fullname").val().trim().length == 0;
-					if (fullname) {
-						document.getElementById('fullnameStatus').innerHTML = '[(#{vali.fullname})]'
-					} else {document.getElementById('fullnameStatus').innerHTML = ''}
-					var email1 = $("#email").val() == undefined || $("#email").val().trim().length == 0;
-					if (email1) {
-						document.getElementById('emailStatus').innerHTML = '[(#{vali.Email})]'
-					} else {document.getElementById('emailStatus').innerHTML = ''}
-					var ps1 = $("#pwss1").val() == undefined || $("#pwss1").val().trim().length == 0;
-					if (ps1) {
-						document.getElementById('passStatus').innerHTML = '[(#{vali.pass})]'
-					} else {document.getElementById('passStatus').innerHTML = ''}
-					var ps2 = $("#pwss2").val() == undefined || $("#pwss2").val().trim().length == 0;
-					if (ps2) {
-						document.getElementById('confPassStatus').innerHTML = '[(#{vali.confpass})]'
-					} else {document.getElementById('confPassStatus').innerHTML = ''}
-					var result = username || fullname || email1 || ps1 || ps2;
-					return result;
-				}
-				//tồn tại trong DB = false;
-				checkDB = async () => {
-					var username = $("#username").val();
-					var email = $("#email").val();
-					await checkUsername(username.trim()).then(res => username = res)
-					await checkEmail(email.trim()).then(res => email = res)
-
-					if (!username) {
-						document.getElementById('usernameStatus').innerHTML = ''
-					} else {
-						document.getElementById('usernameStatus').innerHTML = '[(#{vali.error.name})]'
-					}
-					if (email) {
-						document.getElementById('emailStatus').innerHTML = '[(#{vali.error.email})]'
-					} else {
-						document.getElementById('emailStatus').innerHTML = ''
-					}
-					var result = true
-					if (username) {
-						console.log(`DB u : false ` + username)
-						result = false;
-					}
-					if (email) {
-						console.log(`DB  e : false ` + email)
-						result = false;
-					}
-					return result;
-				}
 				//khong dung pattern = false
 				ve = (email) => {
-					var x = (String(email)
+					return (String(email)
 						.toLowerCase()
 						.match(
 							/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-						) == null);
-					console.log(`ve : ` + x)
-					return x;
-
+						) != null);
 				};
+
 				checkUsername = async (input) => {
 					var result = true;
 					var data = await checkUsernameFromDB();
