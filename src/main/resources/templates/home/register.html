@@ -112,9 +112,9 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 								<div class="col-md-6"> <input id="email" type="text" value="Email" name="Email"
 										required="" th:field="*{email}"> </div>
 								<div class="col-md-1">
-									<select id="titleEmail" style="height: 43px;padding-left: 10px;">
-										<option>@gmail.com</option>
-										<option>@gmail.com.vn</option>
+									<select id="titleEmail" style="height: 45px;padding-left: 10px;">
+										<option value="@gmail.com">@gmail.com</option>
+										<option value="@gmail.com.vn">@gmail.com.vn</option>
 									</select>
 								</div>
 							</div>
@@ -167,7 +167,9 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 					if (validFullname()== true) {console.log("fn"); total = true};
 					if (await validEmail()== true) {console.log("e"); total = true};
 					if (validPass()== true) {console.log("p"); total = true};
-					if(total ==false){document.getElementById("form").submit()}
+					if(total ==false){
+						$("#email").val($("#email").val()+$("#titleEmail").val())
+						document.getElementById("form").submit()}
 				}
 				validUsername = async () => {
 					//xét null
