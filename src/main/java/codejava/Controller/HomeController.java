@@ -99,7 +99,15 @@ public class HomeController {
 
 	@GetMapping("/home/login")
 	public String doGetLogin(Model model) {
+		List<TypeOfProduct> listType = typrOfProductSrvcs.getListTypeOfProduct();
+		model.addAttribute("listType", listType);
 		model.addAttribute("user", new Account());
+		
+		
+		
+		
+		
+		
 		return "home/login";
 	};
 
