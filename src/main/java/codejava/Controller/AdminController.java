@@ -34,6 +34,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -98,10 +99,12 @@ public class AdminController {
 					|| RoleUserResponse.getDescription().equalsIgnoreCase(RoleConst.ROLE_MANAGER)) {
 				session.setAttribute(SessionConst.CURRENT_ADMIN, userResponse);
 				session.setAttribute(SessionConst.CURRENT_ROLE, RoleUserResponse);
+				SecurityContextHolder.getContext().setAuthentication(authentication);
 				return "redirect:/admin/dashboard";
 			}
 			else {
 				model.addAttribute("message", "You are not allow");
+				SecurityContextHolder.getContext().setAuthentication(authentication);
 				return "/admin/login";
 			}
 			
