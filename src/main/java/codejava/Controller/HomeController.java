@@ -1,6 +1,7 @@
 package codejava.Controller;
 
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -92,8 +93,11 @@ public class HomeController {
 		List<Products> sp = productsservices.findProductAvai(1);
 		
 		List<TypeOfProduct> listType = typrOfProductSrvcs.getListTypeOfProduct();
+		
+	
 		model.addAttribute("listType", listType);
 		model.addAttribute("listProduct", sp);
+		
 		return "home/index";
 	};
 
@@ -104,7 +108,7 @@ public class HomeController {
 	};
 
 	@GetMapping("/login")
-	public String doGetLogi1(Model model) {
+	public String doGetLogi1(Model model,HttpSession session) {
 		return "redirect:/home";
 	};
 	
@@ -118,7 +122,9 @@ public class HomeController {
 
 			Authentication authentication = authenManager.authenticate(authenInfo);
 			CustomUser customUser = (CustomUser) authentication.getPrincipal();
+			
 			Account accountResponse = accountService.findByUsername(accountLogin.getUsername());
+			
 			
 			if(accountResponse.getUsers().getIsDeleted()) {
 				Users usersResponse  =  accountResponse.getUsers() ;
@@ -127,7 +133,7 @@ public class HomeController {
 				session.setAttribute(SessionConst.CURRENT_USER, usersResponse);
 				session.setAttribute(SessionConst.CURRENT_ROLE, RoleUserResponse);
 				session.setAttribute(SessionConst.JWT, tokenProvider.generateToken(customUser));
-				System.out.println("user:" + session.getAttribute(SessionConst.CURRENT_USER).toString() );
+				
 				return "redirect:/home";
 			}else {
 				String message = "Error! Missing fail : This Account Had Be Deleted";

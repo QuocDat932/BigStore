@@ -10,6 +10,7 @@
 	$(document).ready(function () {
 		console.log(123);
 		getSubMenu();
+		getCurrentUser();
 	});
 	getSubMenu = async () => {
 		let response = '/api/user/getSubmenu';
@@ -81,7 +82,7 @@
 		$('#submenu').html(elementSub)
 	}
 </script>
-
+<link th:href='@{/home/css/userprofile.css}' rel='stylesheet' type='text/css' />
 <body>
 	<header>
 		<a th:href="@{/home/offer}"><img th:src="@{/home/images/download.png}" class="img-head" alt=""></a>
@@ -92,21 +93,41 @@
 				</div>
 				<div class="head-t">
 					<ul class="card">
-						<li><a th:href="@{/home/wishlist}"><i class="fa fa-heart"
+						<!-- <li><a th:href="@{/home/wishlist}"><i class="fa fa-heart"
 									aria-hidden="true"></i>[(#{submenu.whishlist})]</a>
-						</li>
-						<li><a th:href="@{/home/login}"><i class="fa fa-user"
-									aria-hidden="true"></i>[(#{submenu.login})]</a></li>
-						<li><a th:href="@{/home/logout}"><i class="fa fa-sign-out"
+						</li> -->
+				 		<li><a th:href="@{/home/login}"><i class="fa fa-user"
+									aria-hidden="true"></i>[(#{submenu.login})]</a></li> 
+					<!-- 	<li><a th:href="@{/home/logout}"><i class="fa fa-sign-out"
 									aria-hidden="true"></i>[(#{submenu.logout})]</a>
-						</li>
+						</li> -->
 						<li><a th:href="@{/home/register}"><i class="fa fa-arrow-right"
 									aria-hidden="true"></i>[(#{submenu.register})]</a></li>
-						<li><a th:href="@{/home/OrderHistory} "><i class="fa fa-file-text-o"
-									aria-hidden="true"></i>[(#{submenu.order_history})]</a></li>
+				<li><a th:href="@{/home/OrderHistory} "><i class="fa fa-file-text-o"
+									aria-hidden="true"></i>[(#{submenu.order_history})]</a></li> 
 						<li><a th:href="@{/home/contact} "><i class="fa fa-file-text-o"
 									aria-hidden="true"></i>[(#{submenu.about_us})]</a></li>
-						<li><a th:href="@{/home/account}"><i class="fa fa-ship" aria-hidden="true"></i>Tài Khoản</a>
+						<li>
+						
+						<div class="userprofile">
+    					<div class="dropdown">
+        					<div class="profile"> <img class="dropbtn" id="userImge" >
+        					<a ><div id="userAccount"></div></a>
+            			<div class="dropdown-content">
+                <ul>
+                     <li ><a th:href="@{/home/account}"><i class='bx bx-cog1'></i><span id="user1" style="color:black;font-size:12px;">[(#{submenu.account})]</span></a></li>  
+                    <li><a th:href="@{/home/OrderHistory} "><i class='bx bx-cog1'></i><span style="color:black;font-size:12px;">[(#{submenu.order_history})]</span></a></li>
+                    <li><a th:href="@{/home/sendEmail}"><i class='bx bx-cog1'></i><span style="color:black;font-size:12px;">[(#{submenu.changepss})]</span></a></li>
+                    <li><a th:href="@{/home/logout}"><i class='bx bx-cog1'></i><span style="color:black;font-size:12px;">[(#{submenu.logout})]</span></a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+						
+						
+						
+			<!-- 			<a th:href="@{/home/account}"><i class="fa fa-ship" aria-hidden="true"></i>Tài Khoản</a> -->
 						</li>
 
 					</ul>
@@ -308,7 +329,6 @@
 
 			<script>
 
-
 				function numberWithCommas(x) {
 					return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 				}
@@ -448,3 +468,46 @@
 			fpt_ai_render_chatbox(FptLiveChatConfigs, liveChatBaseUrl, LiveChatSocketUrl)
 		}
 	</script>
+	<script>
+	async function checkCurrentUser() {
+		var result = 'NO';
+		const url = "/api/user/currentUser";
+		await $.ajax({
+			url: url,
+			type: "GET",
+			contentType: "application/json",
+			success: function(data) {
+				result = data;
+			},
+			error: function(err) {
+				console.warn(err) // Reject the promise and go to catch()
+			}
+		})
+		return result;
+	}
+	function controlUserNonNull(currenUser) {
+		
+		//set value fields
+		$("#userAccount").html(currenUser.fullname);
+	    const path = "/admin/images/faces/" + currenUser.imgUrl;
+	    $('#userImge').attr("src", path);
+	    $("#user1").html("[(#{submenu.account})]");
+	}
+	async function getCurrentUser() {
+		var checkUser = await checkCurrentUser();
+
+		if (checkUser.Status != 'Submitted') {
+			controlUserNull()
+		} else {
+			var currenUser = checkUser.Items;
+			controlUserNonNull(currenUser)
+		}
+	}
+	function controlUserNull() {
+		$("#userAccount").html("[(#{submenu.islogin})]");
+		$("#user1").html("[(#{submenu.login})]");
+		$('#userImge').attr("src", "/admin/images/faces/userdefault.png");
+	}
+	controlUserNull();
+	</script>	
+	
