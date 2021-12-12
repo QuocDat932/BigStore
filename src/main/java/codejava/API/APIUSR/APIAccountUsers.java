@@ -59,9 +59,6 @@ public class APIAccountUsers {
 		String slug = NONLATIN.matcher(normalized).replaceAll("");
 		String EMAIL_PATTERN = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
 				+ "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
-
-		
-		System.out.println("hinh:" + newUser.getImgUrl());
 		// tạo base64
 		String extension = "jpg";
 		if (newUser.getImgUrl() != null) {
@@ -70,7 +67,6 @@ public class APIAccountUsers {
 
 			// convert base64 string to binary data
 			Path path1 = Paths.get("src/main/resources/static/admin/images/faces/");
-			System.out.println("string:" + strings.length);
 			if (strings.length > 1) {
 
 				switch (strings[0]) {// check image's extension
@@ -105,26 +101,31 @@ public class APIAccountUsers {
 				}
 			}
 		}
+		
+		
+		String pattern = "\\d{10}|(?:\\d{3}-){2}\\d{4}|\\(\\d{3}\\)\\d{3}-?\\d{4}";
+		
 		Users users = userservices.findByid(newUser.getId());
-		userservices.findByid(newUser.getId());
+		
 		users.setFullname(newUser.getFullname());
-		users.setPhone(newUser.getPhone());
+		
+		if(newUser.getPhone().matches(pattern)) {
+			users.setPhone(newUser.getPhone());
+		}else {
+			System.out.println("sdt ");
+			return ResponseEntity.ok(MessageAPI.message(MessageAPI.FAIL, "Something Wrong ", null));
+		}
 		users.setAddress(newUser.getAddress());
-		System.out.println("emai" + newUser.getEmail());
-		
-		
-//		System.out.println(""+checkuseremail.getEmail());
 		if (userservices.findByEmail(newUser.getEmail()) != null) {
 			if (!newUser.getEmail().equalsIgnoreCase(userservices.findByEmail(newUser.getEmail()).getEmail()) ) {
 				msg.setStatus("Has Email");
-				System.out.println("email da co ");
-				return ResponseEntity.ok(MessageAPI.message(MessageAPI.FAIL, "Something Wrong ", null));
+				return ResponseEntity.ok(msg);
 			}
 		}
 		
 		if (!newUser.getEmail().matches(EMAIL_PATTERN)) {
 			msg.setStatus("Wrong Format Email");
-			return ResponseEntity.ok(MessageAPI.message(MessageAPI.FAIL, "Something Wrong ", null));
+			return ResponseEntity.ok(MessageAPI.message(MessageAPI.FAIL, "Something Wrong ", "Something Wrong "));
 
 		} else {
 			users.setEmail(newUser.getEmail());
@@ -137,12 +138,13 @@ public class APIAccountUsers {
 		userservices.SaveAndUpdate(users);
 			msg.setStatus("Successfully !!!");
 			System.out.println("success'");
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 			msg.setStatus("Failure !!!");
 			System.out.println("fail'");
 		}
-		return ResponseEntity.ok(MessageAPI.message(MessageAPI.FAIL, "Something Wrong ", null));
+		return ResponseEntity.ok(msg);
 	}
 	
 	

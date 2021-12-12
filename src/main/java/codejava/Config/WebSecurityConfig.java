@@ -67,13 +67,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		     cac user thong thuong duoc goi api admin va truy cap trang admin
 		 http.authorizeRequests().antMatchers("/admin/**").hasAuthority(RoleConst.ROLE_ADMIN);
 		 */
-		http.authorizeRequests().antMatchers("/admin/**").hasAuthority(RoleConst.ROLE_ADMIN);
+		http.authorizeRequests().antMatchers("/admin/**","/api/admin/**").hasAuthority(RoleConst.ROLE_ADMIN);
 		http.authorizeRequests().and().rememberMe()
 					.tokenRepository(this.persistentTokenRepository())
 					.tokenValiditySeconds(30*60);
 		
 		/*login Google, FaceBook*/
-		http.oauth2Login().loginPage("/login").userInfoEndpoint().userService(customoauthserv)
+		http.oauth2Login().loginPage("/admin/login").userInfoEndpoint().userService(customoauthserv)
 		.and().successHandler(Oauth2LoginSuccessHandler).and().logout().
 		logoutSuccessHandler(new LogoutSuccessHandler() {
 			
@@ -90,7 +90,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	
 		http.cors()
 				.and().authorizeRequests()
-				.antMatchers("/admin/**","/", "/home","/index", "/sanpham/**", "/replace/**","/api/**","/cart/**", "/register","/home/login","/type/**","/home/cart/**").permitAll() // Cho phep tat ca truy cap link nay
+				.antMatchers("/admin/**","/", "/home","/index", "/sanpham/**", "/replace/**","/cart/**", "/api/**","/register","/home/login","/type/**","/home/cart/**").permitAll() // Cho phep tat ca truy cap link nay
 				.anyRequest().authenticated(); // Cac link con lai thi phai xac thuc
 	
 		http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);

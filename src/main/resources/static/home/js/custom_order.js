@@ -5,6 +5,7 @@ License: custom css
 --*/
 
 $(document).ready(function() {
+	
 
 	var current_fs, next_fs, previous_fs; //fieldsets
 	var opacity;
@@ -14,6 +15,10 @@ $(document).ready(function() {
 	setProgressBar(current);
 	checkCurrentUser();
 	//step 1 : start
+	
+	a = () =>{
+		console.log('abc');	
+	}
 	CallApiProduct = (data) => {
 		let url = '/api/saveCart';
 		$.ajax({
