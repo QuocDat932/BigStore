@@ -147,8 +147,10 @@ function hideURLbar(){ window.scrollTo(0,1); }
 								<div class="form-group">
 
 									<div class="col-xs-6">
+									
 										<label>
-											<h4 style=" margin-top : 10px ;">[(#{user.email})]</h4>
+											<h4 style=" margin-top : 10px ;">[(#{user.email})]</h4> 
+											
 										</label> <input type="email" class="form-control" name="phone" id="txtEmail"
 											title="enter your phone number if any." style=" margin-top : 3px;">
 									</div>
@@ -172,11 +174,7 @@ function hideURLbar(){ window.scrollTo(0,1); }
 								<div class="form-group">
 									<div class="col-xs-12">
 										<br>
-										<!-- 		<button id="btnCreated" class="mdc-button mdc-button--unelevated mdc-ripple-upgraded"
-									style="--mdc-ripple-fg-size:57px; --mdc-ripple-fg-scale:1.96776; --mdc-ripple-fg-translate-start:42.5px, -7.5px; --mdc-ripple-fg-translate-end:19.3047px, -10.5px;">
-									Create
-								</button> -->
-										<button class="btn btn-lg btn-success" id="btnCreated">
+										<button class="btn btn-lg btn-success" id="btnCreated" type="button">
 											<i class="glyphicon glyphicon-ok-sign"></i> [(#{user.updat})]
 										</button>
 										<button class="btn btn-lg" type="reset">
@@ -271,7 +269,7 @@ function hideURLbar(){ window.scrollTo(0,1); }
 						$("#txtuserName").prop('disabled', true);
 					};
 
-					function loadDataProd() {
+					function loadDataProd()  {
 						let response = '/api/account/users/loadAccount'
 						$.ajax({
 							type: "GET",
@@ -385,13 +383,13 @@ function hideURLbar(){ window.scrollTo(0,1); }
 						})
 
 					};
-
-			
 				</script>
 				
 				<script type="text/javascript">
 					$("#btnCreated").click(function () {
-						phonenumber();	
+				/* 		if(validEmail() == true){
+							return false;
+						} */
 						addUsers();
 						setValueToForm(users);
 					});
@@ -410,15 +408,6 @@ function hideURLbar(){ window.scrollTo(0,1); }
 							$('#userImg').attr('src', e.target.result);
 						};
 						reader.readAsDataURL(file);
-					}
-					
-					
-					function phonenumber(txtPhone){
-					  var phoneno = /^\+?([0-9]{2})\)?[-. ]?([0-9]{4})[-. ]?([0-9]{4})$/;
-					  if((txtPhone.value.match(phoneno))){
-						  alert("message");
-						  return false;
-					  }
 					}
 				</script>
 			</div>
