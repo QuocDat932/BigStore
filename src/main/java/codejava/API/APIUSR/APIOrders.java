@@ -14,8 +14,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import codejava.Entity.OrderDetails;
 import codejava.Entity.Orders;
 import codejava.Entity.Users;
+import codejava.Services.OrderDetailServices;
 import codejava.Services.Orderservices;
 import codejava.Services.PaymentMethodServices;
 import codejava.Services.ProcessService;
@@ -25,6 +27,8 @@ import codejava.Services.ProcessService;
 public class APIOrders {
 	@Autowired 
 	private Orderservices orderServ;
+	@Autowired
+	private OrderDetailServices ordDtlServs;
 	@Autowired
 	private PaymentMethodServices paymntMthdServ;
 	@Autowired
@@ -73,4 +77,15 @@ public class APIOrders {
 		return ResponseEntity.ok(result);
 	}
 	
+	@GetMapping("/getLstOrderDtl")
+	public ResponseEntity<?> doGetLstOrderDtl(@RequestParam("ordId") int ordId) throws Exception{
+		List<OrderDetails> result;
+		try {
+			result = ordDtlServs.listOrdDtlById(ordId);
+		} catch (Exception e) {
+			e.printStackTrace();
+			result = null;
+		}
+		return ResponseEntity.ok(result);
+	};
 }

@@ -166,3 +166,7 @@ html, body {
 `	</div>`+
 `</div>`;
 */
+
+.btn {
+  width: 50%;
+}

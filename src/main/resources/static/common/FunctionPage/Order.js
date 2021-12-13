@@ -65,7 +65,7 @@ PgOrd_getDataOrderDetailByOrderId = async (ordId) =>{
     return lstOrdDtl;
 }
 PgOrd_getOrderDetailByOrderId = async (orderId) =>{
-    let url = '/api/admin/order/getLstOrderDtl?ordId='+orderId;
+    let url = '/api/order/getLstOrderDtl?ordId='+orderId;
     await $.ajax({
             type: "GET",
             url : url,
