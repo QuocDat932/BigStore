@@ -71,9 +71,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		http.authorizeRequests().and().rememberMe()
 					.tokenRepository(this.persistentTokenRepository())
 					.tokenValiditySeconds(30*60);
-		
 		/*login Google, FaceBook*/
-		http.oauth2Login().loginPage("/admin/login").userInfoEndpoint().userService(customoauthserv)
+		http.oauth2Login().loginPage("/login").userInfoEndpoint().userService(customoauthserv)
 		.and().successHandler(Oauth2LoginSuccessHandler).and().logout().
 		logoutSuccessHandler(new LogoutSuccessHandler() {
 			

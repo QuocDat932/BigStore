@@ -95,14 +95,14 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 						<div class="key">
 							<i class="fa fa-user-secret" aria-hidden="true"></i>
 							<input height="15" th:field="*{username}" placeholder="User" type="text" value="username"
-								name="username" onfocus="this.value = '';"
+								name="username" 
 								onblur="if (this.value == '') {this.value = 'username';}" required="">
 							<div class="clearfix"></div>
 						</div>
 						<div class="key">
 							<i class="fa fa-lock" aria-hidden="true"></i>
 							<input height="15" th:field="*{hashPassword}" placeholder="Password" type="Password"
-								value="hashPassword" name="hashPassword" onfocus="this.value = '';"
+								value="hashPassword" name="hashPassword"
 								onblur="if (this.value == '') {this.value = 'hashPassword';}" required="">
 							<div class="clearfix"></div>
 						</div>
