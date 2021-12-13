@@ -233,10 +233,12 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 									//--------------------------------------------------	
 									`<h1 style="text-align: center;"> [(#{order.reject})] PO${currentOrder.id}</h1>` +
 									`<textarea id="resionReject" class="form-control" rows="3" required="true"></textarea>`+	
-									`<button class="button" onclick="PgOrd_RejectOrder(${currentOrder.id})" id="btnRejectOrd" style="font-size: 30px">[(#{order.code})]</button>`+
 									`<label class="checkbox-inline">`+
 									`	<input type="checkbox" id="confirmReject" value="Y"> Make Sure to Reject`+
 									`</label>`+
+									`<button onclick="PgOrd_RejectOrder(${currentOrder.id})" id="btnRejectOrd" style="width: 30%; background-color: #fff;color: #47BDFF;">[(#{order.code})]</button>`+
+									`</br>`+
+									`</br>`+
 									`<a class="button" href="#popupDtl" id="btnOpenPopupDtl" style="font-size: 30px">[(#{order.code})] PO${currentOrder.id} </a>`+
 									//--------------------------------------------------
 						`			</div>`+
@@ -249,7 +251,7 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 			}
 			//let bodyDtl = ''
 			$('#tabOrderProcess').html(body);
-			$('#tableDetailOrder').DataTable({"lengthMenu": [ [2, 3, 4, -1], [2, 3, 4,  "All"] ]});
+			$('#tableDetailOrder').DataTable({"lengthMenu": [ 2 , 2],"bLengthChange" : false});
 		}
 		thisItem = (orderId) => {
 			let currentOrder = ListOrder.filter((x) => x.id == orderId);
@@ -333,7 +335,7 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 				<div class="advantages">
 					
 					<div class="col-md-8 advantages-left ">
-						<h3>Order History</h3>
+						<h3>[(#{submenu.order_history})]</h3>
 						<div class="main-wrapper mdc-drawer-app-content">
 							<div class="page-wrapper mdc-toolbar-fixed-adjust">
 								<main class="content-wrapper">
@@ -368,7 +370,7 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 						</div>
 					</div>
 					<div class="col-md-4 advantages-left about-agi">
-						<h3>Order Process</h3>
+						<h3>[(#{order.ordDtl})]</h3>
 						<div id="tabOrderProcess"></div>
 						
 					</div>

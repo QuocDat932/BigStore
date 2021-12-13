@@ -43,13 +43,20 @@ public class AccountController {
 	
 	
 	@GetMapping("/home/account")
-	public String doGetAccount(Model model,HttpSession sess) {
+	public String doGetAccount(Model model,HttpSession session) {
+		if(session.getAttribute(SessionConst.CURRENT_USER) == null) {
+//			Users user = new Users();
+//			user.setFullname("Tài Khoản");
+//			user.setImgUrl(null);
+//			model.addAttribute("Users", user);
+			return "redirect:/home/login";
+		}else {
 //		Users u = (Users) sess.getAttribute(SessionConst.CURRENT_USER);
 //		Users users = userServ.findByid(u.getId());
 //		Account account = accountServ.findByUsers_Id(u.getId());
 //		model.addAttribute("Users", users);
 //		model.addAttribute("Account", account);
-		return "home/profile";
+		return "home/profile";}
 	}
 	
 }

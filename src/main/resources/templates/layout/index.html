@@ -1,17 +1,22 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
 <script type='text/javascript' th:src="@{/home/js/validationForm.js}"></script>
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
-<link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
-<script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
-<link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css">
+<link rel="stylesheet"
+	href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
+<script
+	src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+<link rel="stylesheet"
+	href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css">
 
 <script>
 	$(document).ready(function () {
 		console.log(123);
 		getSubMenu();
+		getCurrentUser();
 	});
 	getSubMenu = async () => {
 		let response = '/api/user/getSubmenu';
@@ -83,39 +88,84 @@
 		$('#submenu').html(elementSub)
 	}
 </script>
-
+<link th:href='@{/home/css/userprofile.css}' rel='stylesheet'
+	type='text/css' />
 <body>
 	<header>
-		<a th:href="@{/home/offer}"><img th:src="@{/home/images/download.png}" class="img-head" alt=""></a>
+		<a th:href="@{/home/offer}"><img
+			th:src="@{/home/images/download.png}" class="img-head" alt=""></a>
 		<div class="header">
 			<div class="container">
 				<div class="logo">
-					<h1><a th:href="@{/home}"><b>T<br>H<br>E</b>Big Store<span>The Best Supermarket</span></a></h1>
+					<h1>
+						<a th:href="@{/home}"><b>T<br>H<br>E
+						</b>Big Store<span>The Best Supermarket</span></a>
+					</h1>
 				</div>
 				<div class="head-t">
 					<ul class="card">
-						<li><a th:href="@{/home/wishlist}"><i class="fa fa-heart"
+						<!-- <li><a th:href="@{/home/wishlist}"><i class="fa fa-heart"
 									aria-hidden="true"></i>[(#{submenu.whishlist})]</a>
+						</li> -->
+						<li style ="margin-left: 600px">
+							<!-- 	<a th:href="@{/home/login}"><i class="fa fa-user"
+									aria-hidden="true"></i>[(#{submenu.login})]</a> --> <a
+							class="nav-link" th:href="@{?lang=vi}"> <!--  <img src="/home/images/vn_flag.jpg"/> -->
+								<img width="30px" height="30px"
+								th:src="@{/admin/vendors/flag-icon-css/flags/4x3/vn.svg}">VI
+						</a>
 						</li>
-						<li><a th:href="@{/home/login}"><i class="fa fa-user"
-									aria-hidden="true"></i>[(#{submenu.login})]</a></li>
-						<li><a th:href="@{/home/logout}"><i class="fa fa-sign-out"
+						<li>
+							<!-- 	<a th:href="@{/home/login}"><i class="fa fa-user"
+									aria-hidden="true"></i>[(#{submenu.login})]</a> --> <a
+							class="nav-link" th:href="@{?lang=en}"> <img width="30px"
+								height="30px"
+								th:src="@{/admin/vendors/flag-icon-css/flags/4x3/us.svg}">EN
+						</a>
+						</li>
+						<!-- 	<li><a th:href="@{/home/logout}"><i class="fa fa-sign-out"
 									aria-hidden="true"></i>[(#{submenu.logout})]</a>
-						</li>
-						<li><a th:href="@{/home/register}"><i class="fa fa-arrow-right"
-									aria-hidden="true"></i>[(#{submenu.register})]</a></li>
-						<li><a th:href="@{/home/OrderHistory} "><i class="fa fa-file-text-o"
-									aria-hidden="true"></i>[(#{submenu.order_history})]</a></li>
-						<li><a th:href="@{/home/contact} "><i class="fa fa-file-text-o"
-									aria-hidden="true"></i>[(#{submenu.about_us})]</a></li>
-						<li><a th:href="@{/home/account}"><i class="fa fa-ship" aria-hidden="true"></i>Tài Khoản</a>
+						</li> -->
+
+						<!-- 	<li ><a th:href="@{/home/register}" ><i class="fa fa-arrow-right"
+									aria-hidden="true"></i>[(#{submenu.register})]</a></li> -->
+						<!-- <li><a th:href="@{/home/OrderHistory} "><i class="fa fa-file-text-o"
+									aria-hidden="true"></i>[(#{submenu.order_history})]</a></li>  -->
+						<!-- <li><a th:href="@{/home/contact} "><i
+								class="fa fa-file-text-o" aria-hidden="true"></i>[(#{submenu.about_us})]</a></li> -->
+						<li>
+
+							<div class="userprofile">
+								<div class="dropdown">
+									<div class="profile">
+										<img class="dropbtn" id="userImge"> <a><div
+												id="userAccount"></div></a>
+										<div class="dropdown-content">
+											<ul id ="users2">
+												<li><a th:href="@{/home/account}"><i
+														class='bx bx-cog1'></i><span id="user1"
+														style="color: black; font-size: 12px;">[(#{submenu.account})]</span></a></li>
+												<li><a th:href="@{/home/OrderHistory} "><i
+														class='bx bx-cog1'></i><span id="user2"
+														style="color: black; font-size: 12px;">[(#{submenu.order_history})]</span></a></li>
+												<li><a th:href="@{/home/sendEmail}"><i
+														class='bx bx-cog1'></i><span
+														style="color: black; font-size: 12px;">[(#{submenu.changepss})]</span></a></li>
+												<li ><a th:href="@{/home/logout}"><i
+														class='bx bx-cog1'></i><span
+														style="color: black; font-size: 12px;">[(#{submenu.logout})]</span></a></li>
+											</ul>
+										</div>
+									</div>
+								</div>
+							</div> <!-- 			<a th:href="@{/home/account}"><i class="fa fa-ship" aria-hidden="true"></i>Tài Khoản</a> -->
 						</li>
 
 					</ul>
 				</div>
 
 
-				<div class="header-ri">
+				<!-- 	<div class="header-ri">
 					<ul class="social-top">
 						<li><a th:href="@{/oauth2/authorization/google}" class="icon pinterest"><i class="fa fa-google"
 									aria-hidden="true"></i><span></span></a>
@@ -124,7 +174,7 @@
 						<div class="header-ri">
 							<li class="nav-item">
 								<a class="nav-link" th:href="@{?lang=vi}">
-									<!--  <img src="/home/images/vn_flag.jpg"/> -->
+									 <img src="/home/images/vn_flag.jpg"/>
 									<img width="30px" height="30px"
 										th:src="@{/admin/vendors/flag-icon-css/flags/4x3/vn.svg}">VI
 								</a>
@@ -137,26 +187,31 @@
 							</li>
 						</div>
 					</ul>
-				</div>
+				</div> -->
 				<div class="nav-top">
 					<nav class="navbar navbar-default">
 						<div class="navbar-header nav_2">
-							<button type="button" class="navbar-toggle collapsed navbar-toggle1" data-toggle="collapse"
-								data-target="#bs-megadropdown-tabs">
-								<span class="sr-only">Toggle navigation</span>
-								<span class="icon-bar"></span>
-								<span class="icon-bar"></span>
-								<span class="icon-bar"></span>
+							<button type="button"
+								class="navbar-toggle collapsed navbar-toggle1"
+								data-toggle="collapse" data-target="#bs-megadropdown-tabs">
+								<span class="sr-only">Toggle navigation</span> <span
+									class="icon-bar"></span> <span class="icon-bar"></span> <span
+									class="icon-bar"></span>
 							</button>
+
+
 						</div>
 						<div class="collapse navbar-collapse" id="bs-megadropdown-tabs">
 							<div id="submenu"></div>
+
 						</div>
 					</nav>
 					<div class="cart">
 						<span class="fa fa-shopping-cart my-cart-icon"><span
-								class="badge badge-notify my-cart-badge"></span></span>
+							class="badge badge-notify my-cart-badge"></span> </span>
+
 					</div>
+
 					<div class="clearfix"></div>
 				</div>
 			</div>
@@ -164,8 +219,7 @@
 		</div>
 	</header>
 	<!--Main Content-->
-	<div layout:fragment="content">
-	</div>
+	<div layout:fragment="content"></div>
 
 	<footer>
 		<div class="footer">
@@ -179,10 +233,9 @@
 					<ul>
 						<li><a th:href="@{/home}" th:text="#{nav.home}">Home</a></li>
 						<li><a th:href="@{/home/kitchen}">[(#{nav.home})]</a></li>
-						<li th:each="type, state : ${listType}">
-							<a th:href="@{'/type/'+${type.slug}}"><span th:text="#{'nav.'+${type.id}}"><b
-										class="caret"></b></span></a>
-						</li>
+						<li th:each="type, state : ${listType}"><a
+							th:href="@{'/type/'+${type.slug}}"><span
+								th:text="#{'nav.'+${type.id}}"><b class="caret"></b></span></a></li>
 						<li><a th:href="@{/home/contact}" th:text="#{nav.about}">Contact</a></li>
 					</ul>
 				</div>
@@ -208,33 +261,49 @@
 				<div class="clearfix"></div>
 				<a th:onclick="@{}"> </a>
 				<div class="footer-bottom">
-					<h2><a th:href="@{/home}"><b>T<br>H<br>E</b>Big Store<span>The Best Supermarket</span></a></h2>
-					<p class="fo-para">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-						incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-						ullamco laboris</p>
+					<h2>
+						<a th:href="@{/home}"><b>T<br>H<br>E
+						</b>Big Store<span>The Best Supermarket</span></a>
+					</h2>
+					<p class="fo-para">Lorem ipsum dolor sit amet, consectetur
+						adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+						dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+						exercitation ullamco laboris</p>
 					<ul class="social-fo">
-						<li><a href="#" class=" face"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
-						<li><a href="#" class=" twi"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
-						<li><a href="#" class=" pin"><i class="fa fa-pinterest-p" aria-hidden="true"></i></a></li>
-						<li><a href="#" class=" dri"><i class="fa fa-dribbble" aria-hidden="true"></i></a></li>
+						<li><a href="#" class=" face"><i class="fa fa-facebook"
+								aria-hidden="true"></i></a></li>
+						<li><a href="#" class=" twi"><i class="fa fa-twitter"
+								aria-hidden="true"></i></a></li>
+						<li><a href="#" class=" pin"><i class="fa fa-pinterest-p"
+								aria-hidden="true"></i></a></li>
+						<li><a href="#" class=" dri"><i class="fa fa-dribbble"
+								aria-hidden="true"></i></a></li>
 					</ul>
 					<div class=" address">
 						<div class="col-md-4 fo-grid1">
-							<p><i class="fa fa-home" aria-hidden="true"></i>756 BÃ¬nh Tháº¡nh, Tp.HCM.</p>
+							<p>
+								<i class="fa fa-home" aria-hidden="true"></i>756 BÃ¬nh Tháº¡nh,
+								Tp.HCM.
+							</p>
 						</div>
 						<div class="col-md-4 fo-grid1">
-							<p><i class="fa fa-phone" aria-hidden="true"></i>+0964192032 , +0972769574</p>
+							<p>
+								<i class="fa fa-phone" aria-hidden="true"></i>+0964192032 ,
+								+0972769574
+							</p>
 						</div>
 						<div class="col-md-4 fo-grid1">
-							<p><a href="mailto:info@example.com"><i class="fa fa-envelope-o"
-										aria-hidden="true"></i>info@example1.com</a></p>
+							<p>
+								<a href="mailto:info@example.com"><i
+									class="fa fa-envelope-o" aria-hidden="true"></i>info@example1.com</a>
+							</p>
 						</div>
 						<div class="clearfix"></div>
 
 					</div>
 				</div>
 				<div class="copy-right">
-					<p> &copy; 2016 Big store. All Rights Reserved .</p>
+					<p>&copy; 2016 Big store. All Rights Reserved .</p>
 				</div>
 			</div>
 			<script>
@@ -257,7 +326,7 @@
 							`  	<h6><a href="/home/${data[i].slug} ">${data[i].name}</a></h6>  ` +
 							`  </div>  ` +
 							`  <div class="mid-2">  ` +
-							`  	<p><label>$7.00</label><em class="item_price" >${numberWithCommas(data[i].price)} VND</em></p>  ` +
+							`  	<p><em class="item_price" >${numberWithCommas(data[i].price)} VND</em></p>  ` +
 							`  	<div class="block">  ` +
 							`  <div class="starbox small ghosting"> </div>  ` +
 							`  </div>  ` +
@@ -310,7 +379,6 @@
 
 			<script>
 
-
 				function numberWithCommas(x) {
 					return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 				}
@@ -330,7 +398,7 @@
 							`  	<h6><a href="/home/${data[i].slug} ">${data[i].name}</a></h6>  ` +
 							`  </div>  ` +
 							`  <div class="mid-2">  ` +
-							`  	<p><label>$7.00</label><em class="item_price" >${numberWithCommas(data[i].price)} VND</em></p>  ` +
+							`  	<p><em class="item_price" >${numberWithCommas(data[i].price)} VND</em></p>  ` +
 							`  	<div class="block">  ` +
 							`  <div class="starbox small ghosting"> </div>  ` +
 							`  </div>  ` +
@@ -449,4 +517,50 @@
 		FptLiveChatScript.onload = function () {
 			fpt_ai_render_chatbox(FptLiveChatConfigs, liveChatBaseUrl, LiveChatSocketUrl)
 		}
+	</script>
+	<script>
+	async function checkCurrentUser() {
+		var result = 'NO';
+		const url = "/api/user/currentUser";
+		await $.ajax({
+			url: url,
+			type: "GET",
+			contentType: "application/json",
+			success: function(data) {
+				result = data;
+			},
+			error: function(err) {
+				console.warn(err) // Reject the promise and go to catch()
+			}
+		})
+		return result;
+	}
+	function controlUserNonNull(currenUser) {
+		
+		//set value fields
+		$("#userAccount").html(currenUser.fullname);
+	    const path = "/admin/images/faces/" + currenUser.imgUrl;
+	    $('#userImge').attr("src", path);
+	    $("#user1").html("[(#{submenu.account})]");
+	    $("#user2").html("[(#{submenu.order_history})]");
+	    document.getElementById("users2").children[3].style.display = "block"
+	}
+	async function getCurrentUser() {
+		var checkUser = await checkCurrentUser();
+
+		if (checkUser.Status != 'Submitted') {
+			controlUserNull()
+		} else {
+			var currenUser = checkUser.Items;
+			controlUserNonNull(currenUser)
+		}
+	}
+	function controlUserNull() {
+		$("#userAccount").html("[(#{submenu.islogin})]");
+		$("#user1").html("[(#{submenu.login})]");
+		$("#user2").html("[(#{submenu.register})]");
+		$('#userImge').attr("src", "/admin/images/faces/userdefault.png");
+		document.getElementById("users2").children[3].style.display = "none"
+	}
+	controlUserNull();
 	</script>

@@ -40,11 +40,6 @@ public class APIUser {
 				return ResponseEntity.ok(MessageAPI.message(MessageAPI.FAIL, "Session Null", null));
 			}
 			session = usersSrvs.findByid(session.getId());
-			System.out.println(session.getEmail());
-			System.out.println(session.getFullname());
-			System.out.println(session.getRole().getDescription());
-			System.out.println(session.getAddress());
-			System.out.println(session.getPhone());
 			return ResponseEntity.ok(MessageAPI.message(MessageAPI.SUBMIT, "Everything is done ", session));
 		} catch (Exception e) {
 			return ResponseEntity.ok(MessageAPI.message(MessageAPI.FAIL, "Something Wrong ", null));
