@@ -178,11 +178,15 @@ public class HomeController {
 	}
 
 	@GetMapping("/home/OrderHistory")
-	public String doGetOrderHistory() {
+	public String doGetOrderHistory(HttpSession session) {
 		// List<Orders> result = orderServices.findByParam(4 ,"UserIdAndPaymentMethod",
 		// 2, null);
 
-		return "home/orderHist";
+		if(session.getAttribute(SessionConst.CURRENT_USER) == null) {
+			return "redirect:/home/register";
+		}else {
+		
+		return "home/orderHist";}
 	}
 
 	@GetMapping("/home/shipping")

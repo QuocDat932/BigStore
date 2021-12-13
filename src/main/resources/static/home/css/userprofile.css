@@ -39,9 +39,9 @@
 }
 
 .profile ul {
-    background-color:  #f0ad4e;
+    background-color: #eee;
     width: 200px;
-    height: 190px;
+    height: auto;
     border-radius: 10px;
     right: 25px;
     top: 5px;
@@ -71,7 +71,7 @@
 }
 
 .profile ul li:hover {
-    background-color: #eee
+    background-color:   #f0ad4e
 }
 
 .profile ul li i {
