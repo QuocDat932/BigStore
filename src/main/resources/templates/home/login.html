@@ -28,6 +28,8 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 	<!-- start-smoth-scrolling -->
 	<script type="text/javascript" th:src='@{/home/js/move-top.js}'></script>
 	<script type="text/javascript" th:src='@{/home/js/easing.js}'></script>
+	<link th:href='@{/home/css/buttonGG.css}' rel='stylesheet'
+	type='text/css' />
 	<script type="text/javascript">
 		jQuery(document).ready(function ($) {
 			$(".scroll").click(function (event) {
@@ -105,10 +107,24 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 							<div class="clearfix"></div>
 						</div>
 						<input type="submit" value="Login" onclick=" return validateForm()" >
+						<div class="g-recaptcha" th:data-sitekey="${@environment.getProperty('recaptcha.key')}">
+				 </div>
+						  
+					    <div class="or-container">
+                                <div class="line-separator"></div>
+                                <div class="or-label">or</div>
+                                <div class="line-separator"></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12"> <a class="btn btn-lg btn-google btn-block text-uppercase btn-outline" th:href="@{/oauth2/authorization/google}"><img src="https://img.icons8.com/color/16/000000/google-logo.png"> Signup Using Google</a> </div>
+                            </div> <br>
+                            
+                            
 					</form>
 				</div>
-				<div class="g-recaptcha" th:data-sitekey="${@environment.getProperty('recaptcha.key')}">
-				 </div>
+				
+				
+				
 				<br>	
 				<div class="forg">
 					<a  th:href="@{/home/sendEmail}" class="forg-left">Forgot Password</a>
