@@ -28,13 +28,12 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 	<!-- start-smoth-scrolling -->
 	<script type="text/javascript" th:src='@{/home/js/move-top.js}'></script>
 	<script type="text/javascript" th:src='@{/home/js/easing.js}'></script>
-	<link th:href='@{/home/css/buttonGG.css}' rel='stylesheet'
-	type='text/css' />
+	<link th:href='@{/home/css/buttonGG.css}' rel='stylesheet' type='text/css' />
 	<script type="text/javascript">
 		jQuery(document).ready(function ($) {
 			$(".scroll").click(function (event) {
 				event.preventDefault();
-				$('html,body').animate({scrollTop: $(this.hash).offset().top}, 1000);
+				$('html,body').animate({ scrollTop: $(this.hash).offset().top }, 1000);
 			});
 		});
 	</script>
@@ -85,7 +84,7 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 
 		<div class="login">
 
-		<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+			<script src="https://www.google.com/recaptcha/api.js" async defer></script>
 
 			<div class="main-agileits">
 				<div class="form-w3agile">
@@ -94,40 +93,42 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 					<form th:action="@{/home/login}" method="POST" th:object="${user}">
 						<div class="key">
 							<i class="fa fa-user-secret" aria-hidden="true"></i>
-							<input height="15" th:field="*{username}" placeholder="User" type="text" value="username"
-								name="username" 
-								onblur="if (this.value == '') {this.value = 'username';}" required="">
+							<input height="15" th:field="*{username}" placeholder="UserName" type="text" name="username"
+								id="username" required="">
 							<div class="clearfix"></div>
 						</div>
 						<div class="key">
 							<i class="fa fa-lock" aria-hidden="true"></i>
 							<input height="15" th:field="*{hashPassword}" placeholder="Password" type="Password"
-								value="hashPassword" name="hashPassword"
-								onblur="if (this.value == '') {this.value = 'hashPassword';}" required="">
+								name="hashPassword" id="hashPassword" required="">
 							<div class="clearfix"></div>
 						</div>
-						<input type="submit" value="Login" onclick=" return validateForm()" >
+						<input type="submit" value="Login" onclick="return validateForm()">
 						<div class="g-recaptcha" th:data-sitekey="${@environment.getProperty('recaptcha.key')}">
-				 </div>
-						  
-					    <div class="or-container">
-                                <div class="line-separator"></div>
-                                <div class="or-label">or</div>
-                                <div class="line-separator"></div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12"> <a class="btn btn-lg btn-google btn-block text-uppercase btn-outline" th:href="@{/oauth2/authorization/google}"><img src="https://img.icons8.com/color/16/000000/google-logo.png"> Signup Using Google</a> </div>
-                            </div> <br>
-                            
-                            
+						</div>
+
+						<div class="or-container">
+							<div class="line-separator"></div>
+							<div class="or-label">or</div>
+							<div class="line-separator"></div>
+						</div>
+						<div class="row">
+							<div class="col-md-12"> <a
+									class="btn btn-lg btn-google btn-block text-uppercase btn-outline"
+									th:href="@{/oauth2/authorization/google}"><img
+										src="https://img.icons8.com/color/16/000000/google-logo.png"> Signup Using
+									Google</a> </div>
+						</div> <br>
+
+
 					</form>
 				</div>
-				
-				
-				
-				<br>	
+
+
+
+				<br>
 				<div class="forg">
-					<a  th:href="@{/home/sendEmail}" class="forg-left">Forgot Password</a>
+					<a th:href="@{/home/sendEmail}" class="forg-left">Forgot Password</a>
 					<a th:href="@{/home/register}" class="forg-right">Register</a>
 					<div class="clearfix"></div>
 				</div>
@@ -145,15 +146,36 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 					easingType: 'linear' 
 					};
 				*/
-				$().UItoTop({easingType: 'easeOutQuart'});
+				$().UItoTop({ easingType: 'easeOutQuart' });
 			});
-			function validateForm(){
-				if( grecaptcha.getResponse()){
-					return true;
-				}else{
-					alert("Please check robot");
+			function validateForm() {
+				let username = $('#username').val();
+				let hashPass = $('#hashPassword').val();
+				if (!username || username === undefined) {
+					Swal.fire({
+						icon: 'warning',
+						text: "Please Fill Username",
+					});
+					$('#username').focus()
 					return false;
-				}
+				};
+				if (!hashPass || hashPass === undefined) {
+					Swal.fire({
+						icon: 'warning',
+						text: "Please Fill Password",
+					});
+					$('#hashPassword').focus()
+					return false;
+				};
+				if (grecaptcha.getResponse()) {
+					return true;
+				} else {
+					Swal.fire({
+						icon: 'warning',
+						text: "Please Check robot",
+					});
+					return false;
+				};
 			} 
 		</script>
 		<a href="#" id="toTop" style="display: block;"> <span id="toTopHover" style="opacity: 1;"> </span></a>
@@ -167,7 +189,7 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 
 				var goToCartIcon = function ($addTocartBtn) {
 					var $cartIcon = $(".my-cart-icon");
-					var $image = $('<img width="30px" height="30px" src="' + $addTocartBtn.data("image") + '"/>').css({"position": "fixed", "z-index": "999"});
+					var $image = $('<img width="30px" height="30px" src="' + $addTocartBtn.data("image") + '"/>').css({ "position": "fixed", "z-index": "999" });
 					$addTocartBtn.prepend($image);
 					var position = $cartIcon.position();
 					$image.animate({
