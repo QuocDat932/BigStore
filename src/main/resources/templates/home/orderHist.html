@@ -57,6 +57,21 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 		function CreateTableOrder(data) {
 			let body = ''
 			let backgroundColor = '';
+			let header =
+				`<table id="example" class="table table-hoverable">`+
+				`	<thead>`+
+				`		<tr>`+
+				`			<th class="text-left">[(#{order.stt})]</th>`+
+				`			<th>[(#{order.code})]</th>`+
+				`			<th>[(#{order.orddt})]</th>`+
+				`			<th>[(#{order.ordtm})]</th>`+
+				`			<th>[(#{order.totalprc})]</th>`+
+				`			<th>[(#{order.process_sts})]</th>`+
+				`		</tr>`+
+				`	</thead>`+
+				`	<tbody id="bodyOrder">`+
+				`</table>`;
+			$('#headerOrder').html(header);
 			for (let i = 0; i < data.length; i++) {
 				if (data[i].process.id == 1) {
 					backgroundColor = "background-color: #CAE5E8;"
@@ -86,6 +101,7 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 			$('#example').DataTable({"lengthMenu": [ [4], [4] ],"bLengthChange" : false});
 		};
 		async function OrderProcess(currentOrder) {
+			console.log(currentOrder);
 			let clsOrder = '';
 			let clsConfirm = '';
 			let clsShip = '';
@@ -234,7 +250,7 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 									`<h1 style="text-align: center;"> [(#{order.reject})] PO${currentOrder.id}</h1>` +
 									`<textarea id="resionReject" class="form-control" rows="3" required="true"></textarea>`+	
 									`<label class="checkbox-inline">`+
-									`	<input type="checkbox" id="confirmReject" value="Y"> Make Sure to Reject`+
+									`	<input type="checkbox" id="confirmReject" value="Y"> [(#{mess.confirmReject})]`+
 									`</label>`+
 									`<button onclick="PgOrd_RejectOrder(${currentOrder.id})" id="btnRejectOrd" style="width: 30%; background-color: #fff;color: #47BDFF;">[(#{order.code})]</button>`+
 									`</br>`+
@@ -347,7 +363,7 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 													<div class="table-responsive">
 														<br>
 														<br>
-														<table id="example" class="table table-hoverable">
+														<!-- <table id="example" class="table table-hoverable">
 															<thead>
 																<tr>
 																	<th class="text-left">[(#{order.stt})]</th>
@@ -359,7 +375,8 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 																</tr>
 															</thead>
 															<tbody id="bodyOrder">
-														</table>
+														</table> -->
+														<div id="headerOrder"></div>
 													</div>
 												</div>
 											</div>
