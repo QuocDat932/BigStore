@@ -106,16 +106,16 @@ public class OrderServicesimpl implements Orderservices {
 				Process nextStep = prcssRepo.findById(stepTo);
 				// Order Process
 				Order_Process orderProcess = new Order_Process();
-				Users UserApproved = (Users) session.getAttribute("currentAdmin");
+				Users UserApproved = (stepTo == 5) ? (Users) session.getAttribute("currentUser") : (Users) session.getAttribute("currentAdmin");
 				orderProcess.setOrder(OrdrApproved);
 				orderProcess.setProcessStep(nextStep);
 				orderProcess.setUserProcess(UserApproved);
 				orderProcess.setProcessdate(publicConst.CurrentTimestampDtSQL());
 				orderProcess.setDescription(NoteApprove);
-				
+				OrdrApproved.setProcess(nextStep);
 				ordPrcssRepo.Save(orderProcess);
 			}
-		}
+		};
 		return OrdrApproved;
 	}
 }
