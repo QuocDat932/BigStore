@@ -91,12 +91,14 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 					<h3>Login</h3>
 					<h6 th:text="${message}"></h6>
 					<form th:action="@{/home/login}" method="POST" th:object="${user}">
+						<span>[(#{user.users})]</span>
 						<div class="key">
 							<i class="fa fa-user-secret" aria-hidden="true"></i>
-							<input height="15" th:field="*{username}" placeholder="UserName" type="text" name="username"
+							<input height="15" th:field="*{username}" type="text" name="username"
 								id="username" required="">
 							<div class="clearfix"></div>
 						</div>
+						<span>[(#{user.passw})]</span>
 						<div class="key">
 							<i class="fa fa-lock" aria-hidden="true"></i>
 							<input height="15" th:field="*{hashPassword}" placeholder="Password" type="Password"
@@ -152,19 +154,19 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 				let username = $('#username').val();
 				let hashPass = $('#hashPassword').val();
 				if (!username || username === undefined) {
+					$('#username').focus();
 					Swal.fire({
 						icon: 'warning',
-						text: "Please Fill Username",
+						text: "[(#{vali.name})]",
 					});
-					$('#username').focus()
 					return false;
 				};
 				if (!hashPass || hashPass === undefined) {
+					$('#hashPassword').focus();
 					Swal.fire({
 						icon: 'warning',
-						text: "Please Fill Password",
+						text: "[(#{vali.pass})]",
 					});
-					$('#hashPassword').focus()
 					return false;
 				};
 				if (grecaptcha.getResponse()) {
@@ -172,7 +174,7 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 				} else {
 					Swal.fire({
 						icon: 'warning',
-						text: "Please Check robot",
+						text: "[(#{vali.form.captcha})]",
 					});
 					return false;
 				};
