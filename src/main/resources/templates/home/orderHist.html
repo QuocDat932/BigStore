@@ -66,6 +66,7 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 				`			<th>[(#{order.orddt})]</th>`+
 				`			<th>[(#{order.ordtm})]</th>`+
 				`			<th>[(#{order.totalprc})]</th>`+
+				`			<th>[(#{order.paymentMethod_Nm})]</th>`+
 				`			<th>[(#{order.process_sts})]</th>`+
 				`		</tr>`+
 				`	</thead>`+
@@ -94,6 +95,7 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 					`<td >${data[i].createDate.substring(0, 10)}</td>\n` +
 					`<td >${data[i].createDate.substring(11, 19)}</td>\n` +
 					`<td >${numberWithCommas(data[i].totalprice)}</td>\n` +
+					`<td >${data[i].paymentmethod.methodname}</td>\n` +
 					`<td >${data[i].process.description}</td>` +
 					`</tr>`
 			}
@@ -148,7 +150,8 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 			if (currentOrder !== null) {
 				NVLcurrentOrder = currentOrder;
 				let orderDetail = await PgOrd_getDataOrderDetailByOrderId(currentOrder.id);
-				if(currentOrder.process.id === 1){
+				console.log(currentOrder);
+				if(currentOrder.process.id === 1 && currentOrder.paymentmethod.id != 2){
 					linkReject = `	<a class="button" href="#deteleOrder" id="btnOpenPopupDtl" style="font-size: 30px">[(#{order.reject})] PO${currentOrder.id} </a>`;
 				}
 				if (orderDetail.length > 0) {
@@ -213,6 +216,10 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 									`		<label for="" class="col-sm-5 control-label">[(#{order.ordtm})]</label>` +
 									`		<div class="col-sm-7">` +
 									`			<text>${currentOrder.createDate.substring(11, 19)}</text>` +
+									`		</div>` +
+									`		<label for="" class="col-sm-5 control-label">[(#{order.paymentMethod_Nm})]</label>` +
+									`		<div class="col-sm-7">` +
+									`			<text>${currentOrder.paymentmethod.methodname}</text>` +
 									`		</div>` +
 									`		<label for="" class="col-sm-5 control-label">[(#{order.totalprc})]</label>` +
 									`		<div class="col-sm-7">` +

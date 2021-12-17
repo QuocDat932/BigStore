@@ -71,8 +71,8 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
  <!--banner-->
 <div class="banner-top">
 	<div class="container">
-		<h3 >Lorem</h3>
-		<h4><a href="index.html">Home</a><label>/</label>Lorem</h4>
+		<h3>[(#{product.productDetail})]</h3>
+		<h4><a th:href="@{/home}">[(#{nav.home})]</a><label>/</label>[(#{product.productDetail})]</h4>
 		<div class="clearfix"> </div>
 	</div>
 </div>
