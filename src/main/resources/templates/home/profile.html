@@ -177,7 +177,7 @@ function hideURLbar(){ window.scrollTo(0,1); }
 										<button class="btn btn-lg btn-success" id="btnCreated" type="button">
 											<i class="glyphicon glyphicon-ok-sign"></i> [(#{user.updat})]
 										</button>
-										<button class="btn btn-lg" type="reset">
+										<button class="btn btn-lg" type="reset" id="btnUpdatePass">
 											<a  th:href="@{/home/sendEmail}"><i class="glyphicon glyphicon-repeat" ></i> [(#{user.chang})]</a>
 										</button>
 									</div>
@@ -251,6 +251,7 @@ function hideURLbar(){ window.scrollTo(0,1); }
 							$("#txtPassword").prop('disabled', true);
 							$("#txtfullName").prop('disabled', true);
 							$("#txtEmail").prop('disabled', true);
+							$("#btnUpdatePass").prop('disabled', true);
 						}
 
 						else {
@@ -286,7 +287,6 @@ function hideURLbar(){ window.scrollTo(0,1); }
 							}
 						})
 					}
-
 
 					function addUsers() {
 						let response = '/api/account/users/update';
@@ -392,6 +392,7 @@ function hideURLbar(){ window.scrollTo(0,1); }
 						} */
 						addUsers();
 						setValueToForm(users);
+						
 					});
 
 					$(document).ready(function () {
@@ -416,7 +417,6 @@ function hideURLbar(){ window.scrollTo(0,1); }
 			<!-- smooth scrolling -->
 			<script type="text/javascript">
 				$(document).ready(function () {
-
 					$().UItoTop({
 						easingType: 'easeOutQuart'
 					});
