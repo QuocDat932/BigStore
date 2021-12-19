@@ -212,12 +212,12 @@
 				var total = numberWithCommas(this.quantity * this.price* 1);
 				$cartTable.append(
 					'<tr title="' + this.summary + '" data-id="' + this.id + '" data-price="' + this.price + '">' +
-					'<td class="text-center" style="width: 30px;"><img width="30px" height="30px" src="/home/' + this.image + '"/></td>' +
-					'<td>' + this.name + '</td>' +
-					'<td title="Unit Price">' + this.price + ' VND</td>' +
-					'<td title="Quantity"><input type="number" min="1" style="width: 70px;" class="' + classProductQuantity + '" value="' + this.quantity + '"/></td>' +
-					'<td title="Total" class="' + classProductTotal + '">' + total + ' VND</td>' +
-					'<td title="Remove from Cart" class="text-center" style="width: 30px;"><a href="javascript:void(0);" class="btn btn-xs btn-danger ' + classProductRemove + '">X</a></td>' +
+					'<td class="text-center" style="width: 50px;"><img width="50px" height="50px" src="/home/' + this.image + '"/></td>' +
+					'<td style="font-size: 16px;">' + this.name + '</td>' +
+					'<td style="font-size: 15px;" title="Unit Price">' + this.price + ' VND</td>' +
+					'<td style="font-size: 15px;" title="Quantity"><input type="number" min="1" style="width: 70px;" class="' + classProductQuantity + '" value="' + this.quantity + '"/></td>' +
+					'<td style="font-size: 15px;" title="Total" class="' + classProductTotal + '">' + total + ' VND</td>' +
+					'<td style="font-size: 15px;" title="Remove from Cart" class="text-center" style="width: 30px;"><a href="javascript:void(0);" class="btn btn-xs btn-danger ' + classProductRemove + '">X</a></td>' +
 					'</tr>'
 				);
 			});
@@ -225,17 +225,17 @@
 			$cartTable.append(products.length ?
 				'<tr>' +
 				'<td></td>' +
-				'<td><strong>Total</strong></td>' +
+				'<td style="font-size: 16px;"><strong>Total</strong></td>' +
 				'<td></td>' +
 				'<td></td>' +
-				'<td><strong id="' + idGrandTotal + '">VNĐ</strong></td>' +
+				'<td style="font-size: 16px;"><strong id="' + idGrandTotal + '">VNĐ</strong></td>' +
 				'<td></td>' +
 				'</tr>'
-				: '<div class="alert alert-danger" role="alert" id="' + idEmptyCartMessage + '">Your cart is empty</div>'
+				: '<div style="font-size: 16px;" class="alert alert-danger" role="alert" id="' + idEmptyCartMessage + '">Your cart is empty</div>'
 			);
 
 			var discountPrice = options.getDiscountPrice(products, ProductManager.getTotalPrice(), ProductManager.getTotalQuantity());
-			if (products.length && discountPrice !== null) {
+			/*if (products.length && discountPrice !== null) {
 				$cartTable.append(
 					'<tr style="color: red">' +
 					'<td></td>' +
@@ -246,7 +246,7 @@
 					'<td></td>' +
 					'</tr>'
 				);
-			}
+			}*/
 
 			showGrandTotal();
 			showDiscountPrice();

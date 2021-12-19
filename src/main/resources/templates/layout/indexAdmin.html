@@ -647,7 +647,6 @@
         address: address,
         phone: phone
       };
-      console.log(jsonData)
       $.ajax({
         type: "POST",
         url: response,
@@ -1021,7 +1020,6 @@
           viewPrcess = `<i class="fa fa-check" style="color: green;"></i> <text style="color: green; font-size: 30px;">${processFrm}</text>`;
         }
         let lstOrdDtl = await ADM_getDataOrderDetailByOrderId(currentOrder.id);
-        console.log(lstOrdDtl);
         if (lstOrdDtl.length > 0) {
           lstOrdDtl.forEach((dtl)=>{
             viewDetailTable +=  

@@ -177,7 +177,7 @@ img.img-head {
 }
 .logo h1{
    font-family: 'Montserrat', sans-serif;
-    font-size: 3em;
+    font-size: 5em;
     color: #000;
 	display: inline-block;
 	position:relative;
@@ -187,7 +187,7 @@ img.img-head {
     color: #000;
 }
 .logo h1 span {
-    font-size: 12px;
+    font-size: 17px;
     display: block;
     letter-spacing: 4px;
     text-transform: uppercase;
