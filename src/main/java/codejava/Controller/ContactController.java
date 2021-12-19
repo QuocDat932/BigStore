@@ -56,7 +56,7 @@ public class ContactController {
 	    System.out.println(""+username);
 	    
 	    sendEmail( email,  username,  subject,phone,content );
-	    msg.setStatus("Đã Gửi Mail Cho Big S !!!");
+	    msg.setStatus("Đã Gửi Mail Cho Big Store !!!");
 		return ResponseEntity.ok(msg);
 	}
 	

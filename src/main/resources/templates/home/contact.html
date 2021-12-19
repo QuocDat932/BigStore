@@ -261,7 +261,9 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 							text: data.status,
 							timer: 5000,
 						}).then(function () {
-
+							  $('#content').val("");
+						      $('#username').val("");
+						      $('#phone').val("");
 						});
 					},
 					error: function (e) {
@@ -307,6 +309,14 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 					})
 					return false;
 				}
+				if (/^(\-(\d*))$/.test(phone)) {
+					console.log(phone.length)
+					Swal.fire({
+						icon: 'error',
+						text: `Phải Đúng Định Dạng`
+					})
+					return false;
+				}
 				if (content.length == 0) {
 					Swal.fire({
 						icon: 'error',
@@ -321,6 +331,7 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 		<script type="text/javascript">
 			$("#SendEmail").click(function () {
 				if (checkForm()) addUsers();
+				
 			});
 
 
