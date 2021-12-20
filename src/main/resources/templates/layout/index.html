@@ -518,6 +518,7 @@
 		})
 		return result;
 	}
+	
 	function controlUserNonNull(currenUser) {
 		
 		//set value fields
@@ -528,6 +529,7 @@
 	    $("#user2").html("[(#{submenu.order_history})]");
 	    document.getElementById("users2").children[3].style.display = "block"
 	}
+	
 	async function getCurrentUser() {
 		var checkUser = await checkCurrentUser();
 
@@ -538,6 +540,7 @@
 			controlUserNonNull(currenUser)
 		}
 	}
+	
 	function controlUserNull() {
 		$("#userAccount").html("[(#{submenu.islogin})]");
 		$("#user1").html("[(#{submenu.login})]");

@@ -163,7 +163,6 @@ public class HomeController {
 		session.removeAttribute(SessionConst.CURRENT_CART);
 		session.removeAttribute(SessionConst.CURRENT_ROLE);
 		session.removeAttribute(SessionConst.CURRENT_USER);
-
 		return "redirect:/home";
 	};
 

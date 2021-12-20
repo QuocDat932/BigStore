@@ -2,235 +2,276 @@
 <html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/indexAdmin.html}">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Material Dash</title>
-  <!-- plugins:css -->
-  <link rel="stylesheet" th:href="@{/admin/vendors/mdi/css/materialdesignicons.min.css}">
-  <link rel="stylesheet" th:href="@{/admin/vendors/css/vendor.bundle.base.css}">
-  <!-- endinject -->
-  <!-- Plugin css for this page -->
-  <link rel="stylesheet" th:href="@{/admin/vendors/flag-icon-css/css/flag-icon.min.css}">
-  <link rel="stylesheet" th:href="@{/admin/vendors/jvectormap/jquery-jvectormap.css}">
-  <!-- End plugin css for this page -->
-  <!-- Layout styles -->
-  <link rel="stylesheet" th:href="@{/admin/css/demo/style.css}">
-  <!-- End layout styles -->
-  <link rel="shortcut icon" th:href="@{/admin/images/favicon.png}" />
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Material Dash</title>
+	<!-- plugins:css -->
+	<link rel="stylesheet" th:href="@{/admin/vendors/mdi/css/materialdesignicons.min.css}">
+	<link rel="stylesheet" th:href="@{/admin/vendors/css/vendor.bundle.base.css}">
+	<!-- endinject -->
+	<!-- Plugin css for this page -->
+	<link rel="stylesheet" th:href="@{/admin/vendors/flag-icon-css/css/flag-icon.min.css}">
+	<link rel="stylesheet" th:href="@{/admin/vendors/jvectormap/jquery-jvectormap.css}">
+	<!-- End plugin css for this page -->
+	<!-- Layout styles -->
+	<link rel="stylesheet" th:href="@{/admin/css/demo/style.css}">
+	<!-- End layout styles -->
+	<link rel="shortcut icon" th:href="@{/admin/images/favicon.png}" />
 
-  <script type="text/javascript" th:src='@{/admin/js/pages/ADM_product.js}'></script>
-  <script type="text/javascript">
-    $(document).ready(function () {
-      ADM_product();
-      $('#frmOrderChartDt').val(moment().subtract(6, 'months').format('YYYY-MM-DD'));
-      $('#toOrderChartDt').val(moment().format('YYYY-MM-DD'));
-    });
-  </script>
+	<script type="text/javascript" th:src='@{/admin/js/pages/ADM_product.js}'></script>
+	<script type="text/javascript">
+		$(document).ready(function () {
+			ADM_product();
+			$('#frmOrderChartDt').val(moment().subtract(6, 'months').format('YYYY-MM-DD'));
+			$('#toOrderChartDt').val(moment().format('YYYY-MM-DD'));
+		});
+	</script>
 </head>
 
 <body>
-  <div layout:fragment="contentAdmin">
-    <div class="mdc-layout-grid__inner">
-      <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-12-desktop">
-        <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-6-desktop">
-          <div class="mdc-card p-0">
-            <h6 style="font-weight: bold;" class="card-title card-padding pb-0">[(#{product.productTable})]</h6>
-            <div class="table-responsive">
-              <div id="tableProduct"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!--User Detail-->
-      <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-12-desktop">
-        <div class="mdc-card">
-          <h1 style="font-weight: bold;" class="card-title">[(#{product.productDetail})]</h1>
-          <div class="mdc-layout-grid__cell--span-12">
-            <div class="mdc-layout-grid__inner">
-              <!--Infor-->
-              <div class="mdc-layout-grid__cell--span-7">
-                <div class="mdc-card">
-                  <!--<h6 class="card-title">Detail Information</h6>-->
-                  <div class="template-demo">
-                    <div class="">
-                      <input class="mdc-text-field__input" id="txtProdId" hidden="true">
-                      <input class="mdc-text-field__input" id="txtSlugProd" hidden="true">
-                      <div class="mdc-layout-grid__cell--span-6-desktop">
-                        <div class="mdc-text-field ">
-                          <input class="mdc-text-field__input" style="" id="txtProdName" required>
-                          <div class="mdc-line-ripple"></div>
-                          <label for="text-field-hero-input" class="mdc-floating-label">Name</label>
-                        </div>
-                      </div>
-                      <div class="mdc-layout-grid__cell--span-6-desktop">
-                        <div class="mdc-text-field ">
-                          <input type="hidden" class="mdc-text-field__input">
-                          <i class="mdc-select__dropdown-icon"></i>
-                          <select class="mdc-select__selected-text" id="cboType">
-                            <option th:each="type : ${type}" th:value="${type.id}" th:utext="${type.description}" />
-                          </select>
-                          <div class="mdc-line-ripple"></div>
-                        </div>
-                      </div>
-                      <div class="mdc-layout-grid__cell--span-6-desktop">
-                        <br>
-                        <div class="form-group form-inline">
-                          <input id="frmUsingDt" type="date" class="form-control">
-                          <label for="orderDate"> To </label>
-                          <input id="toUsingDt" type="date" class="form-control">
-                        </div>
-                        <div class="mdc-text-field ">
-                          <input class="mdc-text-field__input" style="" id="txtQuantity">
-                          <div class="mdc-line-ripple"></div>
-                          <label for="text-field-hero-input" class="mdc-floating-label">Quantity</label>
-                        </div>
-                      </div>
-                      <div class="mdc-layout-grid__cell--span-6-desktop">
-                        <div class="mdc-text-field ">
-                          <input class="mdc-text-field__input" style="" id="txtPrice">
-                          <div class="mdc-line-ripple"></div>
-                          <label for="text-field-hero-input" class="mdc-floating-label">Price</label>
-                        </div>
-                      </div>
-                      <div class="mdc-layout-grid__cell--span-6-desktop">
-                        <div class="mdc-text-field ">
-                          <input type="hidden" class="mdc-text-field__input">
-                          <i class="mdc-select__dropdown-icon"></i>
-                          <select class="mdc-select__selected-text" id="cboUnit">
-                            <option th:each="unit : ${unit}" th:value="${unit.id}" th:utext="${unit.description}" />
-                          </select>
-                          <div class="mdc-line-ripple"></div>
-                        </div>
-                      </div>
-                      <div class="mdc-layout-grid__cell--span-6-desktop">
-                        <div class="mdc-text-field ">
-                          <label for="text-field-hero-input" class="mdc-floating-label">Description</label>
-                          <textarea class="mdc-text-field__input" style="" id="txtDescription" rows="4"></textarea>
-                          <div class="mdc-line-ripple"></div>
-                        </div>
-                      </div>
-                      <div class="mdc-card__supporting-text">
-                        <div class="template-demo">
-                          <button id="btnCreate" class="mdc-button mdc-button--unelevated mdc-ripple-upgraded"
-                            style="--mdc-ripple-fg-size:57px; --mdc-ripple-fg-scale:1.96776; --mdc-ripple-fg-translate-start:42.5px, -7.5px; --mdc-ripple-fg-translate-end:19.3047px, -10.5px;">
-                            [(#{btn.create})]
-                          </button>
-                          <button id="btnDelete" class="mdc-button mdc-button--unelevated mdc-ripple-upgraded"
-                            style="--mdc-ripple-fg-size:57px; --mdc-ripple-fg-scale:1.96776; --mdc-ripple-fg-translate-start:42.5px, -7.5px; --mdc-ripple-fg-translate-end:19.3047px, -10.5px;"
-                            disabled>
-                            [(#{btn.delete})]
-                          </button>
-                          <button id="btnClear" class="mdc-button mdc-button--unelevated mdc-ripple-upgraded"
-                            style="--mdc-ripple-fg-size:57px; --mdc-ripple-fg-scale:1.96776; --mdc-ripple-fg-translate-start:42.5px, -7.5px; --mdc-ripple-fg-translate-end:19.3047px, -10.5px;">
-                            [(#{btn.clear})]
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <!--Img -->
-              <div class="mdc-layout-grid__cell--span-5">
-                <div class="mdc-card" style="width: 100%;cursor: pointer">
-                  <!--<h6 class="card-title">Detail Information</h6>-->
-                  <div class="template-demo">
-                    <div class="">
-                      <img style="width: 100%;" id="prodImg" alt="product" class="product"
-                        src="https://i.imgur.com/3ncGVzn.jpeg">
-                      <!--     <div class ="ajax-file-upload" style="position: relative; overflow: hidden; cursor: default;">
+	<div layout:fragment="contentAdmin">
+		<div class="mdc-layout-grid__inner">
+			<div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-12-desktop">
+				<div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-6-desktop">
+					<div class="mdc-card p-0">
+						<h6 style="font-weight: bold;" class="card-title card-padding pb-0">[(#{product.productTable})]
+						</h6>
+						<div class="table-responsive">
+							<div id="tableProduct"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!--User Detail-->
+			<div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-12-desktop">
+				<div class="mdc-card">
+					<h1 style="font-weight: bold;" class="card-title">[(#{product.productDetail})]</h1>
+					<div class="mdc-layout-grid__cell--span-12">
+						<div class="mdc-layout-grid__inner">
+							<!--Infor-->
+							<div class="mdc-layout-grid__cell--span-7">
+								<div class="mdc-card">
+									<!--<h6 class="card-title">Detail Information</h6>-->
+									<div class="template-demo">
+										<div class="">
+											<input class="mdc-text-field__input" id="txtProdId" hidden="true">
+											<input class="mdc-text-field__input" id="txtSlugProd" hidden="true">
+											<div class="mdc-layout-grid__cell--span-6-desktop">
+												<div class="mdc-text-field ">
+													<input class="mdc-text-field__input" style="" id="txtProdName"
+														required>
+													<div class="mdc-line-ripple"></div>
+													<label for="text-field-hero-input"
+														class="mdc-floating-label">Name</label>
+												</div>
+											</div>
+											<div class="mdc-layout-grid__cell--span-6-desktop">
+												<div class="mdc-text-field ">
+													<input type="hidden" class="mdc-text-field__input">
+													<i class="mdc-select__dropdown-icon"></i>
+													<select class="mdc-select__selected-text" id="cboType">
+														<option th:each="type : ${type}" th:value="${type.id}"
+															th:utext="${type.description}" />
+													</select>
+													<div class="mdc-line-ripple"></div>
+												</div>
+											</div>
+											<div class="mdc-layout-grid__cell--span-6-desktop">
+												<br>
+												<div class="form-group form-inline">
+													<input id="frmUsingDt" type="date" class="form-control">
+													<label for="orderDate"> To </label>
+													<input id="toUsingDt" type="date" class="form-control">
+												</div>
+												<div class="mdc-text-field ">
+													<input class="mdc-text-field__input" style="" id="txtQuantity">
+													<div class="mdc-line-ripple"></div>
+													<label for="text-field-hero-input"
+														class="mdc-floating-label">Quantity</label>
+												</div>
+											</div>
+											<div class="mdc-layout-grid__cell--span-6-desktop">
+												<div class="mdc-text-field ">
+													<input class="mdc-text-field__input" style="" id="txtPrice">
+													<div class="mdc-line-ripple"></div>
+													<label for="text-field-hero-input"
+														class="mdc-floating-label">Price</label>
+												</div>
+											</div>
+											<div class="mdc-layout-grid__cell--span-6-desktop">
+												<div class="mdc-text-field ">
+													<input type="hidden" class="mdc-text-field__input">
+													<i class="mdc-select__dropdown-icon"></i>
+													<select class="mdc-select__selected-text" id="cboUnit">
+														<option th:each="unit : ${unit}" th:value="${unit.id}"
+															th:utext="${unit.description}" />
+													</select>
+													<div class="mdc-line-ripple"></div>
+												</div>
+											</div>
+											<div class="mdc-layout-grid__cell--span-6-desktop">
+												<div class="mdc-text-field ">
+													<label for="text-field-hero-input"
+														class="mdc-floating-label">Description</label>
+													<textarea class="mdc-text-field__input" style="" id="txtDescription"
+														rows="4"></textarea>
+													<div class="mdc-line-ripple"></div>
+												</div>
+											</div>
+											<div class="mdc-card__supporting-text">
+												<div class="template-demo">
+													<button id="btnCreate"
+														class="mdc-button mdc-button--unelevated mdc-ripple-upgraded"
+														style="--mdc-ripple-fg-size:57px; --mdc-ripple-fg-scale:1.96776; --mdc-ripple-fg-translate-start:42.5px, -7.5px; --mdc-ripple-fg-translate-end:19.3047px, -10.5px;">
+														[(#{btn.create})]
+													</button>
+													<button id="btnDelete"
+														class="mdc-button mdc-button--unelevated mdc-ripple-upgraded"
+														style="--mdc-ripple-fg-size:57px; --mdc-ripple-fg-scale:1.96776; --mdc-ripple-fg-translate-start:42.5px, -7.5px; --mdc-ripple-fg-translate-end:19.3047px, -10.5px;"
+														disabled>
+														[(#{btn.delete})]
+													</button>
+													<button id="btnClear"
+														class="mdc-button mdc-button--unelevated mdc-ripple-upgraded"
+														style="--mdc-ripple-fg-size:57px; --mdc-ripple-fg-scale:1.96776; --mdc-ripple-fg-translate-start:42.5px, -7.5px; --mdc-ripple-fg-translate-end:19.3047px, -10.5px;">
+														[(#{btn.clear})]
+													</button>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<!--Img -->
+							<div class="mdc-layout-grid__cell--span-5">
+								<div class="mdc-card" style="width: 100%;cursor: pointer">
+									<!--<h6 class="card-title">Detail Information</h6>-->
+									<div class="template-demo">
+										<div class="">
+											<img style="width: 100%;" id="prodImg" alt="product" class="product"
+												src="https://i.imgur.com/3ncGVzn.jpeg">
+											<!--     <div class ="ajax-file-upload" style="position: relative; overflow: hidden; cursor: default;">
                       Upload
                       <form method="POST" action="YOUR_FILE_UPLOAD_URL" enctype="multipart/form-data" style="margin: 0px; padding: 0px;">
                         <input type="file" id="ajax-upload-id-1633275684198" accept="*" name="myfile[]" multiple style ="position: absolute; cursor: pointer; top: 0px; width: 100%; height: 100%; left: 0px; z-index: 100; opacity: 0;">
                       </form>
                     </div> -->
+											<input type="file" name="fileImage" id="fileImage"
+												accept="image/png, image/jpeg">
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<br>
+				<div class="page-wrapper mdc-toolbar-fixed-adjust">
+					<div class="mdc-layout-grid__inner">
+						<div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-12-desktop">
+							<div class="mdc-card">
+								<h6 class="card-title">[(#{order.period})]</h6>
+								<form class="form-inline p3">
+									<fieldset>
+										<label for="orderDate"></label>
+										<div class="form-group">
+											<input id="frmOrderChartDt" type="date" class="form-control">
+											<input id="toOrderChartDt" type="date" class="form-control">
+										</div>
+									</fieldset>
+									<button type="button" th:attr="onclick='searchGetStatisticsOrderInPeriodChart()'"
+										class="btn btn-primary">[(#{btn.search})]</button>
+								</form>
+							</div>
+						</div>
+						<div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-6-desktop">
+							<div class="mdc-card">
+								<h6 class="card-title">[(#{product.chrProductOrderStatistics})]</h6>
+								<canvas id="chrProductOrderStatistics"></canvas>
+							</div>
+						</div>
+						<div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-6-desktop">
+							<div class="mdc-card">
+								<h6 class="card-title">[(#{product.chrProductUnitStatistics})]</h6>
+								<canvas id="chrProductQuantityStatistics"></canvas>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<script type="text/javascript">
+				$(document).ready(function () {
+					$('#fileImage').change(function () {
+						ShownImage(this);
+					})
+				})
+				function ShownImage(fileInput) {
+					file = fileInput.files[0];
+					reader = new FileReader();
+					reader.onload = function (e) {
+						$('#prodImg').attr('src', e.target.result);
+					};
+					reader.readAsDataURL(file);
+				}
+				$(document).ready(function () {
+					ShowErrorMess = (mess) => {
+						Swal.fire({
+							icon: 'error',
+							text: mess
+						})
+						return false;
+					}
+					validFormProduct = () => {
+						// check empty
+						const prodName = $("#txtProdName").val(); 
+						if (prodName.trim().length == 0) return ShowErrorMess(`xin nhập tên sản phẩm`);
+						const quantityProd = $("#txtQuantity").val();
+						if (quantityProd.trim().length == 0) return ShowErrorMess(`xin nhập số lượng`);
+						if (quantityProd.trim().length < 0) return ShowErrorMess(`Số lượng không thể âm`);
+						const priceProd = $("#txtPrice").val();
+						if (priceProd.trim().length == 0) return ShowErrorMess(`xin nhập giá`);
+						if (priceProd.trim().length < 0) return ShowErrorMess(`Giá không thể âm`);
+						const descriptionProd = $('#txtDescription').val();
+						if (descriptionProd.trim().length == 0) return ShowErrorMess(`xin nhập mô tả`);
+						const frmUsingDate = $('#frmUsingDt').val();
+						const toUsingDate = $('#toUsingDt').val();
+						//check date 
+						if (frmUsingDate < toUsingDate) {
+							
+						} else {
+							return ShowErrorMess(` Ngày phải đúng cú pháp `)
+						}
 
-                      <input type="file" name="fileImage" id="fileImage" accept="image/png, image/jpeg">
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-        </div>
-        <br>
-        <div class="page-wrapper mdc-toolbar-fixed-adjust">
-          <div class="mdc-layout-grid__inner">
-            <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-12-desktop">
-              <div class="mdc-card">
-                <h6 class="card-title">[(#{order.period})]</h6>
-                <form class="form-inline p3">
-                  <fieldset>
-                    <label for="orderDate"></label>
-                    <div class="form-group">
-                      <input id="frmOrderChartDt" type="date" class="form-control">
-                      <input id="toOrderChartDt" type="date" class="form-control">
-                    </div>
-                  </fieldset>
-                  <button type="button" th:attr="onclick='searchGetStatisticsOrderInPeriodChart()'"
-                    class="btn btn-primary">[(#{btn.search})]</button>
-                </form>
-              </div>
-            </div>
-            <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-6-desktop">
-              <div class="mdc-card">
-                <h6 class="card-title">[(#{product.chrProductOrderStatistics})]</h6>
-                <canvas id="chrProductOrderStatistics"></canvas>
-              </div>
-            </div>
-            <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-6-desktop">
-              <div class="mdc-card">
-                <h6 class="card-title">[(#{product.chrProductUnitStatistics})]</h6>
-                <canvas id="chrProductQuantityStatistics"></canvas>
-              </div>
-            </div>
-          </div>
-        </div>
+						return true;
+					}
+				})
 
 
-
-      </div>
-  <script type="text/javascript">
-    $(document).ready(function () {
-      $('#fileImage').change(function () {
-        ShownImage(this);
-      })
-    })
-    function ShownImage(fileInput) {
-      file = fileInput.files[0];
-      reader = new FileReader();
-      reader.onload = function (e) {
-        $('#prodImg').attr('src', e.target.result);
-      };
-      reader.readAsDataURL(file);
-    }
-
-  </script>
-    </div>
-  </div>
+			</script>
+		</div>
+	</div>
 
 
-  </div>
-  </div>
-  <!-- plugins:js -->
-  <script th:src="@{/admin/vendors/js/vendor.bundle.base.js}"></script>
-  <script th:src='@{/home/js/jquery-1.11.1.min.js}'></script>
-  <!-- endinject -->
-  <!-- Plugin js for this page-->
-  <script th:src="@{/admin/vendors/chartjs/Chart.min.js}"></script>
-  <script th:src="@{/admin/vendors/jvectormap/jquery-jvectormap.min.js}"></script>
-  <script th:src="@{/admin/vendors/jvectormap/jquery-jvectormap-world-mill-en.js}"></script>
-  <!-- End plugin js for this page-->
-  <!-- inject:js -->
-  <script th:src="@{/admin/js/material.js}"></script>
-  <script th:src="@{/admin/js/misc.js}"></script>
-  <!-- endinject -->
-  <!-- Custom js for this page-->
-  <script th:src="@{/admin/js/dashboard.js}"></script>
-  <!-- End custom js for this page-->
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	</div>
+	</div>
+	<!-- plugins:js -->
+	<script th:src="@{/admin/vendors/js/vendor.bundle.base.js}"></script>
+	<script th:src='@{/home/js/jquery-1.11.1.min.js}'></script>
+	<!-- endinject -->
+	<!-- Plugin js for this page-->
+	<script th:src="@{/admin/vendors/chartjs/Chart.min.js}"></script>
+	<script th:src="@{/admin/vendors/jvectormap/jquery-jvectormap.min.js}"></script>
+	<script th:src="@{/admin/vendors/jvectormap/jquery-jvectormap-world-mill-en.js}"></script>
+	<!-- End plugin js for this page-->
+	<!-- inject:js -->
+	<script th:src="@{/admin/js/material.js}"></script>
+	<script th:src="@{/admin/js/misc.js}"></script>
+	<!-- endinject -->
+	<!-- Custom js for this page-->
+	<script th:src="@{/admin/js/dashboard.js}"></script>
+	<!-- End custom js for this page-->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </body>
 
 </html>

@@ -7,13 +7,17 @@ import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import codejava.Dto.Message;
+import codejava.Dto.usersDto;
 import codejava.Entity.Users;
 
 
@@ -29,14 +33,31 @@ public class ContactController {
 	}
 	
 	@PostMapping("/home/sendEmailUsers")
-	public String SendEmailUsers(HttpServletRequest request )throws Exception{
+	ResponseEntity<?>  SendEmailUsers(HttpServletRequest request, @RequestBody usersDto newUser )throws Exception{
+		Message msg = new Message();
 	    String subject = "Feedback của khách hàng"; 
-	    String email = "bigstoreFeedback@gmail.com";		
-	    String username = request.getParameter("username");	
-	    String phone = request.getParameter("phone");	
-	    String content = request.getParameter("content");	
+	    String email = "bigstoreFeedback@gmail.com";	
+		String pattern = "\\d{10}|(?:\\d{3}-){2}\\d{4}|\\(\\d{3}\\)\\d{3}-?\\d{4}";
+	    
+//	    String username = request.getParameter("username");	
+//	    String phone = request.getParameter("phone");	
+//	    String content = request.getParameter("content");	
+//	    if(newUser.getUsername() ==null || newUser.getContent()==null) {
+//	    	msg.setStatus("Hãy Điền Đủ Thông Tin")s;
+//	    	return ResponseEntity.ok(msg);
+//	    }
+//		if(!newUser.getPhone().matches(pattern)) {
+//			msg.setStatus("Sai Định Dạng Phone");
+//	    	return ResponseEntity.ok(msg);
+//		}
+	    String username = newUser.getUsername();	
+	    String phone = newUser.getPhone();	
+	    String content = newUser.getContent();	
+	    System.out.println(""+username);
+	    
 	    sendEmail( email,  username,  subject,phone,content );
-		return "home/contact";
+	    msg.setStatus("Đã Gửi Mail Cho Big Store !!!");
+		return ResponseEntity.ok(msg);
 	}
 	
 	public void sendEmail(String email, String username, String subject,String phone,String contact) 

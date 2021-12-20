@@ -196,7 +196,6 @@
 					<!--</div>-->
 				</div>
 			</div>
-
 			<div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-8-desktop">
 				<div class="mdc-card">
 					<h6 class="card-title">[(#{user.StatisticsUserOrder})]</h6>
@@ -231,13 +230,11 @@
 				</div>
 			</div>
 		</div>
-
 		<script type="text/javascript">
 			$(document).ready(function () {
 				$('#fileImage').change(function () {
 					ShownImage(this);
 				})
-
 			})
 			function ShownImage(fileInput) {
 				file = fileInput.files[0];
@@ -247,9 +244,7 @@
 				};
 				reader.readAsDataURL(file);
 			}
-
 		</script>
-
 	</div>
 	<!-- plugins:js -->
 	<script th:src="@{/admin/vendors/js/vendor.bundle.base.js}"></script>

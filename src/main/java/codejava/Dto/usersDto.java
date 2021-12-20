@@ -23,7 +23,7 @@ public class usersDto {
 	private String phone;
 	private String address;
 	private int roleId;
-	
+	private String content;
 	private roles role;
 	private String description;
 }
