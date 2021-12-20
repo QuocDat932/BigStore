@@ -655,8 +655,8 @@
         success: function (data) {
           $('#btnCreated').text('Update');
           Swal.fire({
-            icon: 'success',
-            text: data.status,
+            icon: data.status == 'Failure !!!' ? 'error': 'success',
+            text: '123',
             timer: 5000,
           }).then(function () {
             loadDataProd();
@@ -695,7 +695,7 @@
         contentType: "application/json",
         success: function (data) {
           Swal.fire({
-            icon: 'success',
+            icon: data.status == 'Failure !!!' ? 'error': 'success',
             text: data.status,
           }).then(function () {
             loadDataProd();
@@ -819,7 +819,7 @@
         success: function (data) {
           $('#btnCreate').text('[(#{btn.update})]');
           Swal.fire({
-            icon: 'success',
+            icon: data.status == 'Failure !!!' ? 'error': 'success',
             text: data.status,
             timer: 5000,
           }).then(function () {
@@ -864,7 +864,7 @@
         contentType: "application/json",
         success: function (data) {
           Swal.fire({
-            icon: 'success',
+            icon: data.status == 'Failure !!!' ? 'error': 'success',
             text: data.status,
           }).then(function () {
             loadDataProd();

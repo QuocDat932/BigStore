@@ -38,14 +38,29 @@ $(document).ready(function() {
 	async function checkPhoneAddress() {
 		var phone = $("#phone").val().trim();
 		var addr = $("#address").val().trim();
-		if (phone.length == 0 || addr.length == 0) {
-			alert("Xin hãy nhập thông tin để tiếp tục");
+		if (phone.length == 0) {
+			$('#phone').focus();
+			Swal.fire({
+                icon: 'warning',
+                text: "Xin hãy nhập thông tin để tiếp tục",
+            })
+			return false;
+		}
+		if(addr.length == 0){
+			$('#address').focus();
+			Swal.fire({
+                icon: 'warning',
+                text: "Xin hãy nhập thông tin để tiếp tục",
+            })
 			return false;
 		}
 
 		var checkUser = await checkCurrentUser();
 		if (checkUser.Status != 'Submitted') {
-			alert("Xin hãy đăng nhập để tiếp tục !");
+			Swal.fire({
+                icon: 'warning',
+                text: "Xin hãy đăng nhập để tiếp tục !",
+            })
 			location.href = "/home/login";
 			return false;
 		}
