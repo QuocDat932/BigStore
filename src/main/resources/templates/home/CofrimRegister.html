@@ -74,8 +74,8 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 		<!--banner-->
 		<div class="banner-top">
 			<div class="container">
-				<h3>Confirm Register </h3>
-				<h4><a th:href="@{/home}">Home</a><label>/</label>Confirm Register</h4>
+				<h3>[(#{form.ConfirmRegister})]</h3>
+				<h4><a th:href="@{/home}">[(#{nav.home})]</a><label onclick="ThienCute()">/</label>[(#{form.ConfirmRegister})]</h4>
 				<div class="clearfix"> </div>
 			</div>
 		</div>
@@ -87,7 +87,7 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 
 			<div class="main-agileits"  >
 				<div>
-					<h3>Click Here To Finish Register !!!</h3>
+					<h3>[(#{mess.form.ConfirmRegister})]</h3>
 				</div>
 						 
 				<form th:action="@{/home/CofrimRegister}" method="post" style="max-width: 350px; margin: 0 auto;">

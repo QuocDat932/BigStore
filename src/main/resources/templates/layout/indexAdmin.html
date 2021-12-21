@@ -656,7 +656,7 @@
           $('#btnCreated').text('Update');
           Swal.fire({
             icon: data.status == 'Failure !!!' ? 'error': 'success',
-            text: '123',
+            text: data.status,
             timer: 5000,
           }).then(function () {
             loadDataProd();

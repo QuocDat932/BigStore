@@ -311,48 +311,50 @@ $(function () {
 
   var scatterChartData = {
     datasets: [{
-      label: 'First Dataset',
+      label: 'First Data',
       data: [{
-        x: -10,
-        y: 0
+        x: 1,
+        y: 1
       },
       {
-        x: 0,
-        y: 3
+        x: 2,
+        y: 2
       },
       {
-        x: -25,
+        x: 3,
         y: 5
       },
       {
-        x: 40,
+        x: 4,
         y: 5
       }
       ],
       backgroundColor: [
-        'rgba(255, 66, 15, 0.7)'
+        'rgba(255, 66, 15, 0.7)',
+        'rgba(255, 66, 15,1)'
       ],
       borderColor: [
+        'rgba(255, 66, 15,1)',
         'rgba(255, 66, 15,1)'
       ],
       borderWidth: 1
     },
     {
-      label: 'Second Dataset',
+      label: 'Second Data',
       data: [{
-        x: 10,
+        x: 1,
         y: 5
       },
       {
-        x: 20,
+        x: 2,
         y: -30
       },
       {
-        x: -25,
+        x: 3,
         y: 15
       },
       {
-        x: -10,
+        x: '01/2021',
         y: 5
       }
       ],

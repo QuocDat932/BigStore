@@ -76,8 +76,8 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 		<!--banner-->
 		<div class="banner-top">
 			<div class="container">
-				<h3>Register</h3>
-				<h4><a th:href="@{/home}">Home</a><label onclick="ThienCute()">/</label>Register</h4>
+				<h3>[(#{submenu.register})]</h3>
+				<h4><a th:href="@{/home}">[(#{nav.home})]</a><label onclick="ThienCute()">/</label>[(#{submenu.register})]</h4>
 				<div class="clearfix"> </div>
 			</div>
 		</div>
@@ -87,7 +87,7 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 		<div class="login">
 			<div class="main-agileits">
 				<div class="form-w3agile form1">
-					<h3>Register</h3>
+					<h3>[(#{submenu.register})]</h3>
 					<form id="form" th:action="@{/register}" method="POST">
 						<h5 style="padding-bottom: 10px">[(#{vali.form.name})]: <span id="usernameStatus"
 								style="color: red;"></span></h5>
@@ -112,9 +112,8 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 								<div class="col-md-6"> <input id="email" type="text" value="Email" name="Email"
 										required="" th:field="*{email}"> </div>
 								<div class="col-md-1">
-									<select id="titleEmail" style="height: 45px;padding-left: 10px;">
+									<select id="titleEmail" style="height: 45px;padding-left: 10px; border-width: 0px;">
 										<option value="@gmail.com">@gmail.com</option>
-										<option value="@gmail.com.vn">@gmail.com.vn</option>
 									</select>
 								</div>
 							</div>

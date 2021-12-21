@@ -6,6 +6,7 @@
 let totalQuantityOfProduct = 0;
 ADM_category = async () => {
     await getStatisticQuantityOfProductByType();
+    getBalanceFluctuationsOverTime();
 };
 
 getStatisticQuantityOfProductByType = async () => {
@@ -52,8 +53,8 @@ setHeaderInformation = (data) => {
 let totalUser1;
 getStatisticQuantityOfProductByTypeChart = (data) => {
     let percentageProduct = [];
-    data[1].forEach((e)=>{
-        percentageProduct.push(Math.round(e*100/totalQuantityOfProduct));
+    data[1].forEach((e) => {
+        percentageProduct.push(Math.round(e * 100 / totalQuantityOfProduct));
     });
 
     if (totalUser1 != undefined) {
@@ -69,17 +70,17 @@ getStatisticQuantityOfProductByTypeChart = (data) => {
                 backgroundColor: [
                     'rgba(0, 182, 122, 0.8)',
                     'rgba(255, 66, 15, 0.8)',
-                    
+
                     'rgba(255, 193, 7, 0.8)',
                     '#483D8B',
-                    
+
                     'rgba(153, 102, 255, 0.8)',
                     'rgba(255, 159, 64, 0.8)'
                 ],
                 borderColor: [
                     'rgba(0, 182, 122, 1)',
                     'rgba(255, 66, 15,1)',
-                    
+
                     'rgba(255, 193, 7, 1)',
                     '#483D8B',
 
@@ -98,4 +99,46 @@ getStatisticQuantityOfProductByTypeChart = (data) => {
         }
     });
 };
+
+let BalanceFluctuationsOverTime1;
+getBalanceFluctuationsOverTime = () => {
+    if (BalanceFluctuationsOverTime1 != undefined) {
+        BalanceFluctuationsOverTime1.destroy();
+    }
+    BalanceFluctuationsOverTime2 = $("#BalanceFluctuationsOverTime").get(0).getContext("2d");
+    BalanceFluctuationsOverTime1 = new Chart(BalanceFluctuationsOverTime2, {
+        type: 'line',
+        data: {
+            labels: ["January", "February", "March", "March", "April", "May", "June", "August", "September", "September", "September", "September"],
+            datasets: [
+                {
+                    label: 'Actual Quantity',
+                    data: [150, 200, 500, 350, 450, 120, 250, 244, 250, 263, 158, 620],
+                    fill: false,
+                    borderColor: '#CDC9C9',
+                    backgroundColor: '#FFFF00',
+                },
+                {
+                    label: 'Estimate Quantity',
+                    data: [220, 500, 250, 450, 400, 320, 650, 344, 350, 63, 358, 520],
+                    fill: false,
+                    borderColor: '#97FFFF',
+                    backgroundColor: '#FF0000',
+                }
+            ]
+        },
+        options: {
+            interaction: {
+                intersect: false,
+                mode: 'index',
+            },
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                    }
+                }
+            }
+        }
+    });
+}
 
