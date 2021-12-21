@@ -67,10 +67,8 @@ function hideURLbar(){ window.scrollTo(0,1); }
 		<!--banner-->
 		<div class="banner-top">
 			<div class="container">
-				<h3>Terms</h3>
-				<h4>
-					Hello Terms
-				</h4>
+				<h3>[(#{submenu.account})]</h3>
+				<h4><a th:href="@{/home}">[(#{nav.home})]</a><label>/</label>[(#{submenu.account})]</h4>
 				<div class="clearfix"></div>
 			</div>
 		</div>
@@ -191,7 +189,7 @@ function hideURLbar(){ window.scrollTo(0,1); }
 
 						<div class="tab-pane" id="messages">
 
-							<h3>Order History</h3>
+							<h3>[(#{submenu.order_history})]</h3>
 							<div class="main-wrapper mdc-drawer-app-content">
 								<div class="page-wrapper mdc-toolbar-fixed-adjust">
 									<main class="content-wrapper">
